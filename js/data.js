@@ -1,185 +1,187 @@
-// js/ruta.js
+function convertirLinkDriveAImagen(url) {
+  if (!url) return "";
 
-const STUDENTS_CSV =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1568040734&single=true&output=csv";
+  const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
 
-const COURSES_CSV =
+  if (!match) return "";
+
+  const fileId = match[1];
+
+  return `https://lh3.googleusercontent.com/d/${fileId}`;
+}
+
+/* =========================================
+   CSV PARSER
+========================================= */
+
+function parseCSVLine(line) {
+  return (
+    line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)?.map(v =>
+      v.replace(/^"|"$/g, "").trim()
+    ) || []
+  );
+}
+
+/* =========================================
+   BIOFABRICAS
+========================================= */
+
+const SHEET_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSugZplAvcSBZjGPZikP3jhTaKA6DtMwZpOZc0_ophORRVGjemhu3Z5JEY3EnsZMUayuhviSia3Gf58/pub?gid=0&single=true&output=csv";
+
+async function fetchBiofabricas() {
+  const response = await fetch(SHEET_CSV_URL);
+
+  const csvText = await response.text();
+
+  const rows = csvText.trim().split("\n");
+
+  return rows.slice(1).map(row => {
+    const values = parseCSVLine(row);
+
+    return {
+      id: values[0]?.trim(),
+      name: values[1]?.trim(),
+      lat: parseFloat(values[2]),
+      lng: parseFloat(values[3]),
+      region: values[4]?.trim(),
+      estado: values[5]?.trim(),
+      descripcion: values[6]?.trim(),
+      imagen: convertirLinkDriveAImagen(values[7]),
+      tags: values[8]
+        ? values[8].split(";").map(t => t.trim())
+        : []
+    };
+  });
+}
+
+/* =========================================
+   KPIs
+========================================= */
+
+const SHEET_CSV_KPI_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSugZplAvcSBZjGPZikP3jhTaKA6DtMwZpOZc0_ophORRVGjemhu3Z5JEY3EnsZMUayuhviSia3Gf58/pub?gid=1232917699&single=true&output=csv";
+
+async function fetchKPIs() {
+  const response = await fetch(SHEET_CSV_KPI_URL);
+
+  const csvText = await response.text();
+
+  const rows = csvText.trim().split("\n");
+
+  return rows.slice(1).map(row => {
+    const values = parseCSVLine(row);
+
+    return {
+      nombre: values[0]?.trim(),
+      valor: values[1]?.trim()
+    };
+  });
+}
+
+/* =========================================
+   RECURSOS
+========================================= */
+
+const SHEET_CSV_RECURSOS_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSugZplAvcSBZjGPZikP3jhTaKA6DtMwZpOZc0_ophORRVGjemhu3Z5JEY3EnsZMUayuhviSia3Gf58/pub?gid=1587744224&single=true&output=csv";
+
+async function fetchRecursos() {
+  const response = await fetch(SHEET_CSV_RECURSOS_URL);
+
+  const csvText = await response.text();
+
+  const rows = csvText.trim().split("\n");
+
+  return rows.slice(1).map(row => {
+    const values = parseCSVLine(row);
+
+    return {
+      nombre: values[0]?.trim(),
+      tipo: values[1]?.trim(),
+      categoria: values[2]?.trim(),
+      enlace: values[3]?.trim()
+    };
+  });
+}
+
+/* =========================================
+   CURSOS
+========================================= */
+
+const SHEET_CURSOS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=0&single=true&output=csv";
 
-const EVENTS_CSV =
+async function fetchCursos() {
+  const response = await fetch(SHEET_CURSOS_URL);
+
+  const csvText = await response.text();
+
+  const rows = csvText.trim().split("\n");
+
+  return rows.slice(1).map(row => {
+    const values = parseCSVLine(row);
+
+    return {
+      id: values[0]?.trim(),
+      nombre: values[1]?.trim(),
+      ruta: values[2]?.trim(),
+      requisito1: values[3]?.trim(),
+      requisito2: values[4]?.trim(),
+      cursoFinal: values[5]?.trim(),
+      etapa: values[6]?.trim()
+    };
+  });
+}
+
+/* =========================================
+   ESTUDIANTES
+========================================= */
+
+const SHEET_ESTUDIANTES_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1568040734&single=true&output=csv";
+
+async function fetchEstudiantes() {
+  const response = await fetch(SHEET_ESTUDIANTES_URL);
+
+  const csvText = await response.text();
+
+  const rows = csvText.trim().split("\n");
+
+  return rows.slice(1).map(row => {
+    const values = parseCSVLine(row);
+
+    return {
+      cedula: values[0]?.trim(),
+      nombre: values[1]?.trim(),
+      correo: values[2]?.trim(),
+      ruta: values[3]?.trim()
+    };
+  });
+}
+
+/* =========================================
+   EVENTOS / HISTORIAL
+========================================= */
+
+const SHEET_EVENTOS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1589233834&single=true&output=csv";
 
+async function fetchEventos() {
+  const response = await fetch(SHEET_EVENTOS_URL);
 
-function csvToArray(csv) {
-  const rows = csv.trim().split("\n");
-  return rows.map(row => row.split(","));
-}
+  const csvText = await response.text();
 
+  const rows = csvText.trim().split("\n");
 
-async function fetchStudents() {
-  const res = await fetch(STUDENTS_CSV);
-  const text = await res.text();
+  return rows.slice(1).map(row => {
+    const values = parseCSVLine(row);
 
-  const rows = csvToArray(text);
-
-  return rows.slice(1).map(r => ({
-    cedula: r[0]?.trim(),
-    nombre: r[1]?.trim(),
-    correo: r[2]?.trim(),
-    ruta: r[3]?.trim()
-  }));
-}
-
-
-async function fetchCourses() {
-  const res = await fetch(COURSES_CSV);
-  const text = await res.text();
-
-  const rows = csvToArray(text);
-
-  return rows.slice(1).map(r => ({
-    id: r[0]?.trim(),
-    nombre: r[1]?.trim(),
-    ruta: r[2]?.trim(),
-    requisito1: r[3]?.trim(),
-    requisito2: r[4]?.trim(),
-    cursoFinal: r[5]?.trim(),
-    etapa: r[6]?.trim()
-  }));
-}
-
-
-async function fetchEvents() {
-  const res = await fetch(EVENTS_CSV);
-  const text = await res.text();
-
-  const rows = csvToArray(text);
-
-  return rows.slice(1).map(r => ({
-    cedula: r[0]?.trim(),
-    curso: r[1]?.trim(),
-    fecha: r[2]?.trim(),
-    estado: r[3]?.trim()
-  }));
-}
-
-
-function initials(name) {
-  return name
-    .split(" ")
-    .map(n => n[0])
-    .slice(0,2)
-    .join("")
-    .toUpperCase();
-}
-
-
-function renderStudent(student, courses, events) {
-
-  document.getElementById("studentName").textContent =
-    student.nombre;
-
-  document.getElementById("studentRoute").textContent =
-    student.ruta;
-
-  document.getElementById("profileAvatar").textContent =
-    initials(student.nombre);
-
-  const approved = events
-    .filter(e =>
-      e.cedula === student.cedula &&
-      e.estado.toLowerCase() === "completado"
-    )
-    .map(e => e.curso);
-
-  const routeCourses = courses.filter(c =>
-    c.ruta === student.ruta
-  );
-
-  const completedCount = routeCourses.filter(c =>
-    approved.includes(c.id)
-  ).length;
-
-  document.getElementById("progressText").textContent =
-    `${completedCount}/${routeCourses.length}`;
-
-  const progress =
-    (completedCount / routeCourses.length) * 100;
-
-  document.getElementById("progressFill").style.width =
-    `${progress}%`;
-
-  const grid = document.getElementById("coursesGrid");
-
-  grid.innerHTML = "";
-
-  routeCourses.forEach(course => {
-
-    let status = "locked";
-    let label = "Bloqueado";
-
-    const completed =
-      approved.includes(course.id);
-
-    const req1ok =
-      !course.requisito1 ||
-      approved.includes(course.requisito1);
-
-    const req2ok =
-      !course.requisito2 ||
-      approved.includes(course.requisito2);
-
-    if (completed) {
-      status = "completed";
-      label = "Completado";
-    }
-    else if (req1ok && req2ok) {
-      status = "available";
-      label = "Disponible";
-    }
-
-    grid.innerHTML += `
-      <div class="course-card ${status}">
-        <h4>${course.nombre}</h4>
-        <span>${label}</span>
-      </div>
-    `;
+    return {
+      cedula: values[0]?.trim(),
+      idCurso: values[1]?.trim(),
+      fecha: values[2]?.trim(),
+      estado: values[3]?.trim().toLowerCase()
+    };
   });
-
 }
-
-
-async function consultarRuta() {
-
-  const cedula =
-    document.getElementById("cedulaInput")
-    .value
-    .trim();
-
-  if (!cedula) return;
-
-  const [students, courses, events] =
-    await Promise.all([
-      fetchStudents(),
-      fetchCourses(),
-      fetchEvents()
-    ]);
-
-  const student =
-    students.find(s => s.cedula === cedula);
-
-  if (!student) {
-
-    alert("No se encontró el estudiante.");
-
-    return;
-  }
-
-  renderStudent(student, courses, events);
-
-}
-
-
-document
-  .getElementById("consultarBtn")
-  .addEventListener("click", consultarRuta);
