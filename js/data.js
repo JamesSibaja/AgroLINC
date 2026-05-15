@@ -105,8 +105,12 @@ async function consultarRuta() {
     const cursos = await fetchCursos();
     const eventos = await fetchEventos();
 
+    console.log("ESTUDIANTES", estudiantes);
+    console.log("CURSOS", cursos);
+    console.log("EVENTOS", eventos);
+
     const estudiante = estudiantes.find(
-      e => e.cedula.trim() === cedula
+      e => String(e.cedula).trim() === cedula
     );
 
     if (!estudiante) {
@@ -114,9 +118,7 @@ async function consultarRuta() {
       return;
     }
 
-    /* =====================================
-       PERFIL
-    ===================================== */
+    /* PERFIL */
 
     document.getElementById("studentName").textContent =
       estudiante.nombre;
@@ -133,50 +135,61 @@ async function consultarRuta() {
     document.getElementById("profileAvatar").textContent =
       iniciales;
 
-    /* =====================================
-       EVENTOS COMPLETADOS
-    ===================================== */
+    /* EVENTOS COMPLETADOS */
 
-    const completados = eventos.filter(ev =>
-      ev.cedula.trim() === cedula &&
-      (
-        ev.estado === "completado" ||
-        ev.estado === "aprobado" ||
-        ev.estado === "finalizado"
-      )
-    );
+    const eventosCompletados = eventos.filter(ev => {
 
-    const cursosCompletados =
-      completados.map(c => c.idCurso.trim());
+      const mismaCedula =
+        String(ev.cedula).trim() === cedula;
 
-    /* =====================================
-       CURSOS DE LA RUTA
-    ===================================== */
+      const aprobado =
+        String(ev.estado)
+          .trim()
+          .toLowerCase()
+          .includes("complet");
+
+      return mismaCedula && aprobado;
+
+    });
+
+    console.log("COMPLETADOS", eventosCompletados);
+
+    const cursosCompletadosIds =
+      eventosCompletados.map(ev =>
+        String(ev.idCurso).trim()
+      );
+
+    console.log("IDS", cursosCompletadosIds);
+
+    /* CURSOS DE LA RUTA */
 
     const cursosRuta = cursos.filter(c =>
-      c.ruta.trim() === estudiante.ruta.trim()
+      String(c.ruta).trim().toLowerCase() ===
+      String(estudiante.ruta).trim().toLowerCase()
     );
 
-    /* =====================================
-       PROGRESO
-    ===================================== */
+    console.log("RUTA", cursosRuta);
 
-    const cantidadCompletados = cursosRuta.filter(c =>
-      cursosCompletados.includes(c.id.trim())
+    /* PROGRESO */
+
+    const completados = cursosRuta.filter(c =>
+      cursosCompletadosIds.includes(
+        String(c.id).trim()
+      )
     ).length;
 
     document.getElementById("progressText").textContent =
-      `${cantidadCompletados}/${cursosRuta.length}`;
+      `${completados}/${cursosRuta.length}`;
 
     const porcentaje =
-      (cantidadCompletados / cursosRuta.length) * 100;
+      cursosRuta.length > 0
+        ? (completados / cursosRuta.length) * 100
+        : 0;
 
     document.getElementById("progressFill").style.width =
       `${porcentaje}%`;
 
-    /* =====================================
-       CURSOS
-    ===================================== */
+    /* CURSOS */
 
     const grid =
       document.getElementById("coursesGrid");
@@ -185,91 +198,89 @@ async function consultarRuta() {
 
     cursosRuta.forEach(curso => {
 
-      let estado = "locked";
-      let texto = "Bloqueado";
+      let estadoClase = "locked";
+      let estadoTexto = "Bloqueado";
 
-      const yaCompleto =
-        cursosCompletados.includes(curso.id.trim());
+      const completado =
+        cursosCompletadosIds.includes(
+          String(curso.id).trim()
+        );
 
-      if (yaCompleto) {
+      if (completado) {
 
-        estado = "completed";
-        texto = "Completado";
+        estadoClase = "completed";
+        estadoTexto = "Completado";
 
       } else {
 
         let disponible = false;
 
-        /* SIN REQUISITOS */
+        const r1 =
+          String(curso.requisito1 || "").trim();
+
+        const r2 =
+          String(curso.requisito2 || "").trim();
+
+        if (!r1 && !r2) {
+          disponible = true;
+        }
 
         if (
-          !curso.requisito1 &&
-          !curso.requisito2
+          r1 &&
+          cursosCompletadosIds.includes(r1)
         ) {
           disponible = true;
         }
 
-        /* REQUISITO 1 */
-
         if (
-          curso.requisito1 &&
-          cursosCompletados.includes(
-            curso.requisito1.trim()
-          )
+          r1 &&
+          r2 &&
+          cursosCompletadosIds.includes(r1) &&
+          cursosCompletadosIds.includes(r2)
         ) {
           disponible = true;
         }
 
-        /* REQUISITO 1 + 2 */
+        const esFinal =
+          String(curso.cursoFinal || "")
+            .trim()
+            .toLowerCase();
 
         if (
-          curso.requisito1 &&
-          curso.requisito2 &&
-          cursosCompletados.includes(
-            curso.requisito1.trim()
-          ) &&
-          cursosCompletados.includes(
-            curso.requisito2.trim()
-          )
-        ) {
-          disponible = true;
-        }
-
-        /* CURSO FINAL */
-
-        if (
-          curso.cursoFinal.toLowerCase() === "sí" ||
-          curso.cursoFinal.toLowerCase() === "si"
+          esFinal === "sí" ||
+          esFinal === "si"
         ) {
 
-          if (cantidadCompletados >= 6) {
+          if (completados >= 6) {
             disponible = true;
           }
+
         }
 
         if (disponible) {
-          estado = "available";
-          texto = "Disponible";
+          estadoClase = "available";
+          estadoTexto = "Disponible";
         }
+
       }
 
       const card = document.createElement("div");
 
       card.className =
-        `course-card ${estado}`;
+        `course-card ${estadoClase}`;
 
       card.innerHTML = `
         <h4>${curso.nombre}</h4>
-        <span>${texto}</span>
+        <span>${estadoTexto}</span>
       `;
 
       grid.appendChild(card);
 
     });
 
-  } catch (err) {
+  } catch (error) {
 
-    console.error(err);
+    console.error(error);
 
     alert("Error cargando datos");
 
