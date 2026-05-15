@@ -161,7 +161,7 @@ async function fetchEstudiantes() {
 }
 
 /* =========================================
-   EVENTOS / HISTORIAL
+   EVENTOS
 ========================================= */
 
 const SHEET_EVENTOS_URL =
@@ -185,3 +185,167 @@ async function fetchEventos() {
     };
   });
 }
+
+/* =========================================
+   CONSULTAR RUTA
+========================================= */
+
+async function consultarRuta() {
+
+  const cedula = document
+    .getElementById("cedulaInput")
+    .value
+    .trim();
+
+  if (!cedula) return;
+
+  const estudiantes = await fetchEstudiantes();
+  const cursos = await fetchCursos();
+  const eventos = await fetchEventos();
+
+  console.log("EVENTOS:", eventos);
+
+  const estudiante = estudiantes.find(
+    e => e.cedula === cedula
+  );
+
+  if (!estudiante) {
+
+    alert("No se encontró el estudiante");
+
+    return;
+  }
+
+  const eventosCompletados = eventos.filter(
+    e =>
+      e.cedula === cedula &&
+      (
+        e.estado.includes("complet") ||
+        e.estado.includes("apro")
+      )
+  );
+
+  console.log("COMPLETADOS:", eventosCompletados);
+
+  const cursosCompletadosIds =
+    eventosCompletados.map(e => e.idCurso);
+
+  /* =========================================
+     PERFIL
+  ========================================= */
+
+  document.getElementById("studentName").innerText =
+    estudiante.nombre;
+
+  document.getElementById("studentRoute").innerText =
+    estudiante.ruta;
+
+  const iniciales = estudiante.nombre
+    .split(" ")
+    .map(p => p[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+  document.getElementById("profileAvatar").innerText =
+    iniciales;
+
+  /* =========================================
+     CURSOS
+  ========================================= */
+
+  const coursesGrid =
+    document.getElementById("coursesGrid");
+
+  coursesGrid.innerHTML = "";
+
+  let completados = 0;
+
+  cursos.forEach(curso => {
+
+    let estado = "locked";
+
+    const completado =
+      cursosCompletadosIds.includes(curso.id);
+
+    if (completado) {
+
+      estado = "completed";
+
+      completados++;
+
+    } else {
+
+      const req1Cumplido =
+        !curso.requisito1 ||
+        cursosCompletadosIds.includes(curso.requisito1);
+
+      const req2Cumplido =
+        !curso.requisito2 ||
+        cursosCompletadosIds.includes(curso.requisito2);
+
+      /* Curso final */
+      if (curso.cursoFinal?.toLowerCase() === "sí") {
+
+        if (cursosCompletadosIds.length >= 6) {
+          estado = "available";
+        }
+
+      } else if (req1Cumplido && req2Cumplido) {
+
+        estado = "available";
+      }
+    }
+
+    const card = document.createElement("div");
+
+    card.className = `course-card ${estado}`;
+
+    let estadoTexto = "Bloqueado";
+
+    if (estado === "completed")
+      estadoTexto = "Completado";
+
+    if (estado === "available")
+      estadoTexto = "Disponible";
+
+    card.innerHTML = `
+      <h4>${curso.nombre}</h4>
+      <span>${estadoTexto}</span>
+    `;
+
+    coursesGrid.appendChild(card);
+
+  });
+
+  /* =========================================
+     PROGRESO
+  ========================================= */
+
+  document.getElementById("progressText").innerText =
+    `${completados}/${cursos.length}`;
+
+  const porcentaje =
+    (completados / cursos.length) * 100;
+
+  document.getElementById("progressFill").style.width =
+    `${porcentaje}%`;
+}
+
+/* =========================================
+   INIT
+========================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const consultarBtn =
+    document.getElementById("consultarBtn");
+
+  if (consultarBtn) {
+
+    consultarBtn.addEventListener(
+      "click",
+      consultarRuta
+    );
+  }
+});

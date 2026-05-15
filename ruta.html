@@ -19,48 +19,48 @@
       AgroLINC
     </div>
 
-    <nav class="main-nav">
+    <nav class="nav">
       <a href="./index.html">Inicio</a>
       <a href="./ruta.html">Rutas</a>
       <a href="#">AgroIdeas</a>
+      <a href="#">Territorio</a>
       <a href="#">Noticias</a>
     </nav>
+
+    <a href="./ruta.html" class="header-btn">
+      Mi ruta
+    </a>
 
   </header>
 
   <!-- HERO -->
   <section class="hero small-hero">
 
-    <div class="hero-overlay single-column">
+    <div class="hero-content">
 
-      <div class="hero-content fade-up">
+      <span class="hero-tag">
+        Ruta de formación
+      </span>
 
-        <span class="hero-tag">
-          Ruta de formación
-        </span>
+      <h1>
+        Consulta tu avance en AgroLINC
+      </h1>
 
-        <h1>
-          Consulta tu avance en AgroLINC
-        </h1>
+      <p>
+        Visualiza los cursos completados y las próximas tecnologías disponibles.
+      </p>
 
-        <p>
-          Visualiza los cursos completados, desbloquea nuevas tecnologías
-          y sigue tu progreso dentro del programa AgroLINC.
-        </p>
+      <div class="search-box">
 
-        <div class="search-box">
+        <input
+          id="cedulaInput"
+          type="text"
+          placeholder="Ingresa tu identificación"
+        />
 
-          <input
-            id="cedulaInput"
-            type="text"
-            placeholder="Ingresa tu número de identificación"
-          />
-
-          <button id="consultarBtn">
-            Consultar
-          </button>
-
-        </div>
+        <button id="consultarBtn">
+          Consultar
+        </button>
 
       </div>
 
@@ -68,7 +68,7 @@
 
   </section>
 
-  <!-- DASHBOARD -->
+  <!-- CONTENT -->
   <section class="section">
 
     <div class="dashboard-layout">
@@ -106,8 +106,9 @@
       <!-- CURSOS -->
       <div class="courses-section">
 
-        <div class="courses-header">
+        <div class="section-header">
           <h2>Ruta de aprendizaje</h2>
+
           <p>
             Los cursos se habilitan conforme completas los requisitos previos.
           </p>
