@@ -1,0 +1,116 @@
+<!-- ruta.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Ruta AgroLINC</title>
+
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="topbar">
+
+    <div class="logo">
+      AgroLINC
+    </div>
+
+    <nav class="nav">
+      <a href="./index.html">Inicio</a>
+      <a href="#">Rutas</a>
+      <a href="#">AgroIdeas</a>
+      <a href="#">Noticias</a>
+    </nav>
+
+  </header>
+
+  <!-- HERO -->
+  <section class="hero small-hero">
+
+    <div class="hero-content">
+
+      <span class="hero-tag">
+        Ruta de formación
+      </span>
+
+      <h1>
+        Consulta tu avance en AgroLINC
+      </h1>
+
+      <p>
+        Visualiza los cursos completados y las próximas tecnologías disponibles.
+      </p>
+
+      <div class="search-box">
+
+        <input
+          id="cedulaInput"
+          type="text"
+          placeholder="Ingresa tu identificación"
+        />
+
+        <button id="consultarBtn">
+          Consultar
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CONTENT -->
+  <section class="section">
+
+    <div class="dashboard-layout">
+
+      <!-- PERFIL -->
+      <aside class="profile-card">
+
+        <div class="profile-avatar" id="profileAvatar">
+          --
+        </div>
+
+        <h3 id="studentName">
+          Sin consultar
+        </h3>
+
+        <p id="studentRoute">
+          Ruta AgroLINC
+        </p>
+
+        <div class="progress-wrap">
+
+          <div class="progress-top">
+            <span>Progreso</span>
+            <span id="progressText">0/0</span>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+        </div>
+
+      </aside>
+
+      <!-- CURSOS -->
+      <div class="courses-section">
+
+        <div class="courses-grid" id="coursesGrid">
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  
+  <script src="js/data.js"></script>
+</body>
+</html>
