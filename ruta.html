@@ -1,3 +1,4 @@
+<!-- ruta.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,9 +21,9 @@
 
     <nav class="main-nav">
       <a href="./index.html">Inicio</a>
-      <a href="./ruta.html">Ruta</a>
-      <a href="#agroideas">AgroIdeas</a>
-      <a href="#noticias">Noticias</a>
+      <a href="./ruta.html">Rutas</a>
+      <a href="#">AgroIdeas</a>
+      <a href="#">Noticias</a>
     </nav>
 
   </header>
@@ -34,17 +35,17 @@
 
       <div class="hero-content fade-up">
 
-        <span class="hero-badge">
-          Programa AgroLINC
+        <span class="hero-tag">
+          Ruta de formación
         </span>
 
         <h1>
-          Consulta tu ruta de aprendizaje
+          Consulta tu avance en AgroLINC
         </h1>
 
         <p>
-          Visualiza tu avance, desbloquea nuevas tecnologías
-          y sigue tu trayectoria dentro del programa AgroLINC.
+          Visualiza los cursos completados, desbloquea nuevas tecnologías
+          y sigue tu progreso dentro del programa AgroLINC.
         </p>
 
         <div class="search-box">
@@ -52,7 +53,7 @@
           <input
             id="cedulaInput"
             type="text"
-            placeholder="Ingresa tu número de cédula"
+            placeholder="Ingresa tu número de identificación"
           />
 
           <button id="consultarBtn">
@@ -67,59 +68,52 @@
 
   </section>
 
-  <!-- CONTENIDO -->
-  <section class="ruta-section">
+  <!-- DASHBOARD -->
+  <section class="section">
 
     <div class="dashboard-layout">
 
       <!-- PERFIL -->
-      <aside id="profileCard" class="profile-card hidden-route">
+      <aside class="profile-card">
 
         <div class="profile-avatar" id="profileAvatar">
-          AG
+          --
         </div>
 
         <h3 id="studentName">
-          Nombre estudiante
+          Sin consultar
         </h3>
 
         <p id="studentRoute">
-          Ruta Técnica
+          Ruta AgroLINC
         </p>
 
         <div class="progress-wrap">
 
           <div class="progress-top">
-            <span>Progreso general</span>
+            <span>Progreso</span>
             <span id="progressText">0/0</span>
           </div>
 
           <div class="progress-bar">
-            <div id="progressFill" class="progress-fill"></div>
+            <div class="progress-fill" id="progressFill"></div>
           </div>
 
         </div>
 
       </aside>
 
-      <!-- RUTA -->
+      <!-- CURSOS -->
       <div class="courses-section">
 
-        <div id="rutaContainer">
+        <div class="courses-header">
+          <h2>Ruta de aprendizaje</h2>
+          <p>
+            Los cursos se habilitan conforme completas los requisitos previos.
+          </p>
+        </div>
 
-          <div class="empty-state">
-
-            <h3>
-              Consulta tu ruta
-            </h3>
-
-            <p>
-              Ingresa tu número de identificación para visualizar
-              tu avance dentro del programa AgroLINC.
-            </p>
-
-          </div>
-
+        <div class="courses-grid" id="coursesGrid">
         </div>
 
       </div>
@@ -129,224 +123,6 @@
   </section>
 
   <script src="js/data.js"></script>
-
-  <script>
-
-    const rutaContainer = document.getElementById("rutaContainer");
-    const consultarBtn = document.getElementById("consultarBtn");
-    const cedulaInput = document.getElementById("cedulaInput");
-
-    const profileCard = document.getElementById("profileCard");
-    const studentName = document.getElementById("studentName");
-    const studentRoute = document.getElementById("studentRoute");
-    const profileAvatar = document.getElementById("profileAvatar");
-
-    const progressText = document.getElementById("progressText");
-    const progressFill = document.getElementById("progressFill");
-
-    consultarBtn.addEventListener("click", consultarRuta);
-
-    async function consultarRuta() {
-
-      const cedula = cedulaInput.value.trim();
-
-      if (!cedula) return;
-
-      const estudiantes = await fetchEstudiantes();
-      const cursos = await fetchCursos();
-      const eventos = await fetchEventos();
-
-      const estudiante = estudiantes.find(
-        e => e.cedula === cedula
-      );
-
-      if (!estudiante) {
-
-        rutaContainer.innerHTML = `
-          <div class="empty-state">
-            <h3>Estudiante no encontrado</h3>
-            <p>No existe un registro asociado a esa identificación.</p>
-          </div>
-        `;
-
-        profileCard.classList.add("hidden-route");
-
-        return;
-      }
-
-      profileCard.classList.remove("hidden-route");
-
-      studentName.textContent = estudiante.nombre;
-      studentRoute.textContent = `Ruta ${estudiante.ruta}`;
-
-      const initials = estudiante.nombre
-        .split(" ")
-        .slice(0,2)
-        .map(n => n[0])
-        .join("");
-
-      profileAvatar.textContent = initials;
-
-      const eventosCompletos = eventos.filter(
-        e =>
-          e.cedula === cedula &&
-          e.estado === "completo"
-      );
-
-      const cursosCompletadosIds =
-        eventosCompletos.map(e => e.idCurso);
-
-      const cursosRuta = cursos.filter(
-        c => c.ruta === estudiante.ruta
-      );
-
-      const totalCursos = cursosRuta.length;
-
-      const completados = cursosRuta.filter(
-        c => cursosCompletadosIds.includes(c.id)
-      ).length;
-
-      progressText.textContent =
-        `${completados}/${totalCursos}`;
-
-      const porcentaje =
-        (completados / totalCursos) * 100;
-
-      progressFill.style.width =
-        `${porcentaje}%`;
-
-      const etapas = {};
-
-      cursosRuta.forEach(curso => {
-
-        if (!etapas[curso.etapa]) {
-          etapas[curso.etapa] = [];
-        }
-
-        etapas[curso.etapa].push(curso);
-
-      });
-
-      rutaContainer.innerHTML = "";
-
-      Object.keys(etapas)
-        .sort((a,b) => a - b)
-        .forEach(etapa => {
-
-          const etapaWrap =
-            document.createElement("div");
-
-          etapaWrap.className = "etapa-block";
-
-          etapaWrap.innerHTML = `
-            <div class="etapa-header">
-              <span>Etapa ${etapa}</span>
-            </div>
-
-            <div class="courses-grid"></div>
-          `;
-
-          const grid =
-            etapaWrap.querySelector(".courses-grid");
-
-          etapas[etapa].forEach(curso => {
-
-            let estado = "locked";
-
-            const completo =
-              cursosCompletadosIds.includes(curso.id);
-
-            if (completo) {
-
-              estado = "completed";
-
-            } else {
-
-              let desbloqueado = true;
-
-              if (
-                curso.requisito1 &&
-                !cursosCompletadosIds.includes(curso.requisito1)
-              ) {
-                desbloqueado = false;
-              }
-
-              if (
-                curso.requisito2 &&
-                !cursosCompletadosIds.includes(curso.requisito2)
-              ) {
-                desbloqueado = false;
-              }
-
-              if (curso.cursoFinal === "Sí") {
-
-                desbloqueado =
-                  completados >= 6;
-              }
-
-              if (desbloqueado) {
-                estado = "available";
-              }
-
-            }
-
-            const card =
-              document.createElement("div");
-
-            card.className =
-              `course-card ${estado}`;
-
-            card.innerHTML = `
-              <div class="course-top">
-                <span class="course-stage">
-                  ${curso.cursoFinal === "Sí"
-                    ? "Curso integrador"
-                    : `Etapa ${curso.etapa}`
-                  }
-                </span>
-
-                <span class="course-status">
-                  ${
-                    estado === "completed"
-                    ? "Completado"
-                    : estado === "available"
-                    ? "Disponible"
-                    : "Bloqueado"
-                  }
-                </span>
-              </div>
-
-              <h4>
-                ${curso.nombre}
-              </h4>
-
-              ${
-                curso.requisito1 || curso.requisito2
-                ? `
-                  <div class="course-reqs">
-                    Requiere:
-                    ${curso.requisito1 || ""}
-                    ${curso.requisito2
-                      ? ` · ${curso.requisito2}`
-                      : ""
-                    }
-                  </div>
-                `
-                : ""
-              }
-            `;
-
-            grid.appendChild(card);
-
-          });
-
-          rutaContainer.appendChild(etapaWrap);
-
-        });
-
-    }
-
-  </script>
 
 </body>
 </html>
