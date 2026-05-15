@@ -186,154 +186,202 @@ async function fetchEventos() {
   });
 }
 
+
 /* =========================================
    CONSULTAR RUTA
 ========================================= */
 
 async function consultarRuta() {
 
-  const cedula = document
+  const cedulaInput = document
     .getElementById("cedulaInput")
     .value
     .trim();
 
-  if (!cedula) return;
-
-  const estudiantes = await fetchEstudiantes();
-  const cursos = await fetchCursos();
-  const eventos = await fetchEventos();
-
-  console.log("EVENTOS:", eventos);
-
-  const estudiante = estudiantes.find(
-    e => e.cedula === cedula
-  );
-
-  if (!estudiante) {
-
-    alert("No se encontró el estudiante");
-
+  if (!cedulaInput) {
+    alert("Ingrese una identificación");
     return;
   }
 
-  const eventosCompletados = eventos.filter(
-    e =>
-      e.cedula === cedula &&
-      (
-        e.estado.includes("complet") ||
-        e.estado.includes("apro")
-      )
-  );
+  try {
 
-  console.log("COMPLETADOS:", eventosCompletados);
+    const estudiantes = await fetchEstudiantes();
+    const cursos = await fetchCursos();
+    const eventos = await fetchEventos();
 
-  const cursosCompletadosIds =
-    eventosCompletados.map(e => e.idCurso);
+    const estudiante = estudiantes.find(
+      e => e.cedula === cedulaInput
+    );
 
-  /* =========================================
-     PERFIL
-  ========================================= */
-
-  document.getElementById("studentName").innerText =
-    estudiante.nombre;
-
-  document.getElementById("studentRoute").innerText =
-    estudiante.ruta;
-
-  const iniciales = estudiante.nombre
-    .split(" ")
-    .map(p => p[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-
-  document.getElementById("profileAvatar").innerText =
-    iniciales;
-
-  /* =========================================
-     CURSOS
-  ========================================= */
-
-  const coursesGrid =
-    document.getElementById("coursesGrid");
-
-  coursesGrid.innerHTML = "";
-
-  let completados = 0;
-
-  cursos.forEach(curso => {
-
-    let estado = "locked";
-
-    const completado =
-      cursosCompletadosIds.includes(curso.id);
-
-    if (completado) {
-
-      estado = "completed";
-
-      completados++;
-
-    } else {
-
-      const req1Cumplido =
-        !curso.requisito1 ||
-        cursosCompletadosIds.includes(curso.requisito1);
-
-      const req2Cumplido =
-        !curso.requisito2 ||
-        cursosCompletadosIds.includes(curso.requisito2);
-
-      /* Curso final */
-      if (curso.cursoFinal?.toLowerCase() === "sí") {
-
-        if (cursosCompletadosIds.length >= 6) {
-          estado = "available";
-        }
-
-      } else if (req1Cumplido && req2Cumplido) {
-
-        estado = "available";
-      }
+    if (!estudiante) {
+      alert("No se encontró el estudiante");
+      return;
     }
 
-    const card = document.createElement("div");
+    /* =====================================
+       PERFIL
+    ===================================== */
 
-    card.className = `course-card ${estado}`;
+    document.getElementById("studentName").textContent =
+      estudiante.nombre;
 
-    let estadoTexto = "Bloqueado";
+    document.getElementById("studentRoute").textContent =
+      estudiante.ruta;
 
-    if (estado === "completed")
-      estadoTexto = "Completado";
+    const iniciales = estudiante.nombre
+      .split(" ")
+      .map(n => n[0])
+      .join("")
+      .substring(0, 2);
 
-    if (estado === "available")
-      estadoTexto = "Disponible";
+    document.getElementById("profileAvatar").textContent =
+      iniciales;
 
-    card.innerHTML = `
-      <h4>${curso.nombre}</h4>
-      <span>${estadoTexto}</span>
-    `;
+    /* =====================================
+       CURSOS COMPLETADOS
+    ===================================== */
 
-    coursesGrid.appendChild(card);
+    const eventosCompletados = eventos.filter(ev =>
+      ev.cedula === cedulaInput &&
+      ev.estado === "completado"
+    );
 
-  });
+    const cursosCompletadosIds =
+      eventosCompletados.map(ev => ev.idCurso);
 
-  /* =========================================
-     PROGRESO
-  ========================================= */
+    /* =====================================
+       FILTRAR CURSOS DE LA RUTA
+    ===================================== */
 
-  document.getElementById("progressText").innerText =
-    `${completados}/${cursos.length}`;
+    const cursosRuta = cursos.filter(c =>
+      c.ruta === estudiante.ruta
+    );
 
-  const porcentaje =
-    (completados / cursos.length) * 100;
+    /* =====================================
+       PROGRESO
+    ===================================== */
 
-  document.getElementById("progressFill").style.width =
-    `${porcentaje}%`;
+    const completados = cursosRuta.filter(c =>
+      cursosCompletadosIds.includes(c.id)
+    ).length;
+
+    document.getElementById("progressText").textContent =
+      `${completados}/${cursosRuta.length}`;
+
+    const porcentaje =
+      (completados / cursosRuta.length) * 100;
+
+    document.getElementById("progressFill").style.width =
+      `${porcentaje}%`;
+
+    /* =====================================
+       GENERAR CURSOS
+    ===================================== */
+
+    const coursesGrid =
+      document.getElementById("coursesGrid");
+
+    coursesGrid.innerHTML = "";
+
+    cursosRuta.forEach(curso => {
+
+      let estadoClase = "locked";
+      let estadoTexto = "Bloqueado";
+
+      const completado =
+        cursosCompletadosIds.includes(curso.id);
+
+      if (completado) {
+
+        estadoClase = "completed";
+        estadoTexto = "Completado";
+
+      } else {
+
+        let disponible = false;
+
+        /* ==========================
+           CURSO SIN REQUISITOS
+        ========================== */
+
+        if (
+          !curso.requisito1 &&
+          !curso.requisito2
+        ) {
+          disponible = true;
+        }
+
+        /* ==========================
+           REQUISITO 1
+        ========================== */
+
+        if (
+          curso.requisito1 &&
+          cursosCompletadosIds.includes(curso.requisito1)
+        ) {
+          disponible = true;
+        }
+
+        /* ==========================
+           REQUISITO 1 Y 2
+        ========================== */
+
+        if (
+          curso.requisito1 &&
+          curso.requisito2 &&
+          cursosCompletadosIds.includes(curso.requisito1) &&
+          cursosCompletadosIds.includes(curso.requisito2)
+        ) {
+          disponible = true;
+        }
+
+        /* ==========================
+           CURSO FINAL
+           (si tiene cualquier curso previo)
+        ========================== */
+
+        if (
+          curso.cursoFinal?.toLowerCase() === "sí" ||
+          curso.cursoFinal?.toLowerCase() === "si"
+        ) {
+
+          if (cursosCompletadosIds.length >= 6) {
+            disponible = true;
+          }
+        }
+
+        if (disponible) {
+          estadoClase = "available";
+          estadoTexto = "Disponible";
+        }
+      }
+
+      const card = document.createElement("div");
+
+      card.className =
+        `course-card ${estadoClase}`;
+
+      card.innerHTML = `
+        <h4>${curso.nombre}</h4>
+        <span>${estadoTexto}</span>
+      `;
+
+      coursesGrid.appendChild(card);
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Error cargando datos");
+
+  }
+
 }
 
 /* =========================================
-   INIT
+   EVENTOS
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -341,11 +389,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const consultarBtn =
     document.getElementById("consultarBtn");
 
-  if (consultarBtn) {
+  const cedulaInput =
+    document.getElementById("cedulaInput");
 
+  if (consultarBtn) {
     consultarBtn.addEventListener(
       "click",
       consultarRuta
     );
   }
+
+  if (cedulaInput) {
+    cedulaInput.addEventListener("keydown", e => {
+
+      if (e.key === "Enter") {
+        consultarRuta();
+      }
+
+    });
+  }
+
 });
