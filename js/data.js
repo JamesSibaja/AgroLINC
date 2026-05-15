@@ -1,204 +1,100 @@
-function convertirLinkDriveAImagen(url) {
-  if (!url) return "";
-
-  const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-
-  if (!match) return "";
-
-  const fileId = match[1];
-
-  return `https://lh3.googleusercontent.com/d/${fileId}`;
-}
-
 /* =========================================
    CSV PARSER
 ========================================= */
 
-function parseCSVLine(line) {
-  return (
-    line.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)?.map(v =>
-      v.replace(/^"|"$/g, "").trim()
-    ) || []
-  );
+function parseCSV(text) {
+
+  const rows = text
+    .trim()
+    .split("\n")
+    .map(row =>
+      row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)
+        ?.map(v => v.replace(/^"|"$/g, "").trim())
+    );
+
+  return rows || [];
 }
 
 /* =========================================
-   BIOFABRICAS
+   URLS
 ========================================= */
 
-const SHEET_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSugZplAvcSBZjGPZikP3jhTaKA6DtMwZpOZc0_ophORRVGjemhu3Z5JEY3EnsZMUayuhviSia3Gf58/pub?gid=0&single=true&output=csv";
-
-async function fetchBiofabricas() {
-  const response = await fetch(SHEET_CSV_URL);
-
-  const csvText = await response.text();
-
-  const rows = csvText.trim().split("\n");
-
-  return rows.slice(1).map(row => {
-    const values = parseCSVLine(row);
-
-    return {
-      id: values[0]?.trim(),
-      name: values[1]?.trim(),
-      lat: parseFloat(values[2]),
-      lng: parseFloat(values[3]),
-      region: values[4]?.trim(),
-      estado: values[5]?.trim(),
-      descripcion: values[6]?.trim(),
-      imagen: convertirLinkDriveAImagen(values[7]),
-      tags: values[8]
-        ? values[8].split(";").map(t => t.trim())
-        : []
-    };
-  });
-}
-
-/* =========================================
-   KPIs
-========================================= */
-
-const SHEET_CSV_KPI_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSugZplAvcSBZjGPZikP3jhTaKA6DtMwZpOZc0_ophORRVGjemhu3Z5JEY3EnsZMUayuhviSia3Gf58/pub?gid=1232917699&single=true&output=csv";
-
-async function fetchKPIs() {
-  const response = await fetch(SHEET_CSV_KPI_URL);
-
-  const csvText = await response.text();
-
-  const rows = csvText.trim().split("\n");
-
-  return rows.slice(1).map(row => {
-    const values = parseCSVLine(row);
-
-    return {
-      nombre: values[0]?.trim(),
-      valor: values[1]?.trim()
-    };
-  });
-}
-
-/* =========================================
-   RECURSOS
-========================================= */
-
-const SHEET_CSV_RECURSOS_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSugZplAvcSBZjGPZikP3jhTaKA6DtMwZpOZc0_ophORRVGjemhu3Z5JEY3EnsZMUayuhviSia3Gf58/pub?gid=1587744224&single=true&output=csv";
-
-async function fetchRecursos() {
-  const response = await fetch(SHEET_CSV_RECURSOS_URL);
-
-  const csvText = await response.text();
-
-  const rows = csvText.trim().split("\n");
-
-  return rows.slice(1).map(row => {
-    const values = parseCSVLine(row);
-
-    return {
-      nombre: values[0]?.trim(),
-      tipo: values[1]?.trim(),
-      categoria: values[2]?.trim(),
-      enlace: values[3]?.trim()
-    };
-  });
-}
-
-/* =========================================
-   CURSOS
-========================================= */
-
-const SHEET_CURSOS_URL =
+const CURSOS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=0&single=true&output=csv";
 
-async function fetchCursos() {
-  const response = await fetch(SHEET_CURSOS_URL);
-
-  const csvText = await response.text();
-
-  const rows = csvText.trim().split("\n");
-
-  return rows.slice(1).map(row => {
-    const values = parseCSVLine(row);
-
-    return {
-      id: values[0]?.trim(),
-      nombre: values[1]?.trim(),
-      ruta: values[2]?.trim(),
-      requisito1: values[3]?.trim(),
-      requisito2: values[4]?.trim(),
-      cursoFinal: values[5]?.trim(),
-      etapa: values[6]?.trim()
-    };
-  });
-}
-
-/* =========================================
-   ESTUDIANTES
-========================================= */
-
-const SHEET_ESTUDIANTES_URL =
+const ESTUDIANTES_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1568040734&single=true&output=csv";
 
-async function fetchEstudiantes() {
-  const response = await fetch(SHEET_ESTUDIANTES_URL);
-
-  const csvText = await response.text();
-
-  const rows = csvText.trim().split("\n");
-
-  return rows.slice(1).map(row => {
-    const values = parseCSVLine(row);
-
-    return {
-      cedula: values[0]?.trim(),
-      nombre: values[1]?.trim(),
-      correo: values[2]?.trim(),
-      ruta: values[3]?.trim()
-    };
-  });
-}
-
-/* =========================================
-   EVENTOS
-========================================= */
-
-const SHEET_EVENTOS_URL =
+const EVENTOS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1589233834&single=true&output=csv";
 
-async function fetchEventos() {
-  const response = await fetch(SHEET_EVENTOS_URL);
+/* =========================================
+   FETCHERS
+========================================= */
 
-  const csvText = await response.text();
+async function fetchCursos() {
 
-  const rows = csvText.trim().split("\n");
+  const res = await fetch(CURSOS_URL);
 
-  return rows.slice(1).map(row => {
-    const values = parseCSVLine(row);
+  const text = await res.text();
 
-    return {
-      cedula: values[0]?.trim(),
-      idCurso: values[1]?.trim(),
-      fecha: values[2]?.trim(),
-      estado: values[3]?.trim().toLowerCase()
-    };
-  });
+  const rows = parseCSV(text);
+
+  return rows.slice(1).map(r => ({
+    id: r[0],
+    nombre: r[1],
+    ruta: r[2],
+    requisito1: r[3],
+    requisito2: r[4],
+    cursoFinal: r[5],
+    etapa: r[6]
+  }));
 }
 
+async function fetchEstudiantes() {
+
+  const res = await fetch(ESTUDIANTES_URL);
+
+  const text = await res.text();
+
+  const rows = parseCSV(text);
+
+  return rows.slice(1).map(r => ({
+    cedula: r[0],
+    nombre: r[1],
+    correo: r[2],
+    ruta: r[3]
+  }));
+}
+
+async function fetchEventos() {
+
+  const res = await fetch(EVENTOS_URL);
+
+  const text = await res.text();
+
+  const rows = parseCSV(text);
+
+  return rows.slice(1).map(r => ({
+    cedula: r[0],
+    idCurso: r[1],
+    fecha: r[2],
+    estado: (r[3] || "").toLowerCase().trim()
+  }));
+}
 
 /* =========================================
-   CONSULTAR RUTA
+   CONSULTA
 ========================================= */
 
 async function consultarRuta() {
 
-  const cedulaInput = document
+  const cedula = document
     .getElementById("cedulaInput")
     .value
     .trim();
 
-  if (!cedulaInput) {
+  if (!cedula) {
     alert("Ingrese una identificación");
     return;
   }
@@ -210,7 +106,7 @@ async function consultarRuta() {
     const eventos = await fetchEventos();
 
     const estudiante = estudiantes.find(
-      e => e.cedula === cedulaInput
+      e => e.cedula.trim() === cedula
     );
 
     if (!estudiante) {
@@ -238,71 +134,73 @@ async function consultarRuta() {
       iniciales;
 
     /* =====================================
-       CURSOS COMPLETADOS
+       EVENTOS COMPLETADOS
     ===================================== */
 
-    const eventosCompletados = eventos.filter(ev =>
-      ev.cedula === cedulaInput &&
-      ev.estado === "completado"
+    const completados = eventos.filter(ev =>
+      ev.cedula.trim() === cedula &&
+      (
+        ev.estado === "completado" ||
+        ev.estado === "aprobado" ||
+        ev.estado === "finalizado"
+      )
     );
 
-    const cursosCompletadosIds =
-      eventosCompletados.map(ev => ev.idCurso);
+    const cursosCompletados =
+      completados.map(c => c.idCurso.trim());
 
     /* =====================================
-       FILTRAR CURSOS DE LA RUTA
+       CURSOS DE LA RUTA
     ===================================== */
 
     const cursosRuta = cursos.filter(c =>
-      c.ruta === estudiante.ruta
+      c.ruta.trim() === estudiante.ruta.trim()
     );
 
     /* =====================================
        PROGRESO
     ===================================== */
 
-    const completados = cursosRuta.filter(c =>
-      cursosCompletadosIds.includes(c.id)
+    const cantidadCompletados = cursosRuta.filter(c =>
+      cursosCompletados.includes(c.id.trim())
     ).length;
 
     document.getElementById("progressText").textContent =
-      `${completados}/${cursosRuta.length}`;
+      `${cantidadCompletados}/${cursosRuta.length}`;
 
     const porcentaje =
-      (completados / cursosRuta.length) * 100;
+      (cantidadCompletados / cursosRuta.length) * 100;
 
     document.getElementById("progressFill").style.width =
       `${porcentaje}%`;
 
     /* =====================================
-       GENERAR CURSOS
+       CURSOS
     ===================================== */
 
-    const coursesGrid =
+    const grid =
       document.getElementById("coursesGrid");
 
-    coursesGrid.innerHTML = "";
+    grid.innerHTML = "";
 
     cursosRuta.forEach(curso => {
 
-      let estadoClase = "locked";
-      let estadoTexto = "Bloqueado";
+      let estado = "locked";
+      let texto = "Bloqueado";
 
-      const completado =
-        cursosCompletadosIds.includes(curso.id);
+      const yaCompleto =
+        cursosCompletados.includes(curso.id.trim());
 
-      if (completado) {
+      if (yaCompleto) {
 
-        estadoClase = "completed";
-        estadoTexto = "Completado";
+        estado = "completed";
+        texto = "Completado";
 
       } else {
 
         let disponible = false;
 
-        /* ==========================
-           CURSO SIN REQUISITOS
-        ========================== */
+        /* SIN REQUISITOS */
 
         if (
           !curso.requisito1 &&
@@ -311,68 +209,67 @@ async function consultarRuta() {
           disponible = true;
         }
 
-        /* ==========================
-           REQUISITO 1
-        ========================== */
+        /* REQUISITO 1 */
 
         if (
           curso.requisito1 &&
-          cursosCompletadosIds.includes(curso.requisito1)
+          cursosCompletados.includes(
+            curso.requisito1.trim()
+          )
         ) {
           disponible = true;
         }
 
-        /* ==========================
-           REQUISITO 1 Y 2
-        ========================== */
+        /* REQUISITO 1 + 2 */
 
         if (
           curso.requisito1 &&
           curso.requisito2 &&
-          cursosCompletadosIds.includes(curso.requisito1) &&
-          cursosCompletadosIds.includes(curso.requisito2)
+          cursosCompletados.includes(
+            curso.requisito1.trim()
+          ) &&
+          cursosCompletados.includes(
+            curso.requisito2.trim()
+          )
         ) {
           disponible = true;
         }
 
-        /* ==========================
-           CURSO FINAL
-           (si tiene cualquier curso previo)
-        ========================== */
+        /* CURSO FINAL */
 
         if (
-          curso.cursoFinal?.toLowerCase() === "sí" ||
-          curso.cursoFinal?.toLowerCase() === "si"
+          curso.cursoFinal.toLowerCase() === "sí" ||
+          curso.cursoFinal.toLowerCase() === "si"
         ) {
 
-          if (cursosCompletadosIds.length >= 6) {
+          if (cantidadCompletados >= 6) {
             disponible = true;
           }
         }
 
         if (disponible) {
-          estadoClase = "available";
-          estadoTexto = "Disponible";
+          estado = "available";
+          texto = "Disponible";
         }
       }
 
       const card = document.createElement("div");
 
       card.className =
-        `course-card ${estadoClase}`;
+        `course-card ${estado}`;
 
       card.innerHTML = `
         <h4>${curso.nombre}</h4>
-        <span>${estadoTexto}</span>
+        <span>${texto}</span>
       `;
 
-      coursesGrid.appendChild(card);
+      grid.appendChild(card);
 
     });
 
-  } catch (error) {
+  } catch (err) {
 
-    console.error(error);
+    console.error(err);
 
     alert("Error cargando datos");
 
@@ -386,27 +283,18 @@ async function consultarRuta() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  const consultarBtn =
-    document.getElementById("consultarBtn");
+  document
+    .getElementById("consultarBtn")
+    .addEventListener("click", consultarRuta);
 
-  const cedulaInput =
-    document.getElementById("cedulaInput");
-
-  if (consultarBtn) {
-    consultarBtn.addEventListener(
-      "click",
-      consultarRuta
-    );
-  }
-
-  if (cedulaInput) {
-    cedulaInput.addEventListener("keydown", e => {
+  document
+    .getElementById("cedulaInput")
+    .addEventListener("keydown", e => {
 
       if (e.key === "Enter") {
         consultarRuta();
       }
 
     });
-  }
 
 });
