@@ -11,6 +11,14 @@
 
   <title>Ruta AgroLINC</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
   <link rel="stylesheet" href="css/index.css" />
 
 </head>
@@ -20,8 +28,20 @@
   <!-- HEADER -->
   <header class="topbar">
 
-    <div class="logo">
-      AgroLINC
+    <div class="logo-wrap">
+
+      <div class="logo-mark"></div>
+
+      <div>
+        <div class="logo">
+          AgroLINC
+        </div>
+
+        <small>
+          Innovación y tecnologías aplicadas
+        </small>
+      </div>
+
     </div>
 
     <nav class="nav">
@@ -30,8 +50,8 @@
         Inicio
       </a>
 
-      <a href="./ruta.html">
-        Rutas
+      <a href="./ruta.html" class="active">
+        Mi Ruta
       </a>
 
       <a href="#">
@@ -42,14 +62,10 @@
         Territorio
       </a>
 
-      <a href="#">
-        Noticias
-      </a>
-
     </nav>
 
     <a href="./ruta.html" class="header-btn">
-      Mi ruta
+      Consultar avance
     </a>
 
   </header>
@@ -57,18 +73,21 @@
   <!-- HERO -->
   <section class="hero small-hero">
 
+    <div class="hero-overlay"></div>
+
     <div class="hero-content">
 
       <span class="hero-tag">
-        Ruta de formación
+        Ruta formativa AgroLINC
       </span>
 
       <h1>
-        Consulta tu avance en AgroLINC
+        Consulta tu avance y próximos cursos
       </h1>
 
       <p>
-        Visualiza los cursos completados y las próximas tecnologías disponibles.
+        Visualiza tu progreso, cursos aprobados, tecnologías habilitadas
+        y próximos pasos dentro de la ruta técnica AgroLINC.
       </p>
 
       <div class="search-box">
@@ -76,11 +95,11 @@
         <input
           id="cedulaInput"
           type="text"
-          placeholder="Ingresa tu identificación"
+          placeholder="Ingresa tu cédula"
         />
 
         <button id="consultarBtn">
-          Consultar
+          Consultar ruta
         </button>
 
       </div>
@@ -89,13 +108,13 @@
 
   </section>
 
-  <!-- CONTENIDO -->
-  <section class="section">
+  <!-- MAIN -->
+  <main class="main-wrapper">
 
-    <div class="dashboard-layout">
+    <!-- PERFIL -->
+    <aside class="profile-card">
 
-      <!-- PERFIL -->
-      <aside class="profile-card">
+      <div class="profile-top">
 
         <div
           class="profile-avatar"
@@ -104,64 +123,129 @@
           --
         </div>
 
-        <h3 id="studentName">
-          Sin consultar
-        </h3>
+        <div>
 
-        <p id="studentRoute">
-          Ruta AgroLINC
-        </p>
+          <span class="profile-label">
+            Participante
+          </span>
 
-        <div class="progress-wrap">
+          <h3 id="studentName">
+            Sin consultar
+          </h3>
 
-          <div class="progress-top">
-
-            <span>
-              Progreso
-            </span>
-
-            <span id="progressText">
-              0/0
-            </span>
-
-          </div>
-
-          <div class="progress-bar">
-            <div
-              class="progress-fill"
-              id="progressFill"
-            ></div>
-          </div>
-
-        </div>
-
-      </aside>
-
-      <!-- CURSOS -->
-      <div class="courses-section">
-
-        <div class="section-header">
-
-          <h2>
-            Ruta de aprendizaje
-          </h2>
-
-          <p>
-            Los cursos se habilitan conforme completas los requisitos previos.
+          <p id="studentRoute">
+            Ruta AgroLINC
           </p>
 
         </div>
 
-        <div
-          class="courses-grid"
-          id="coursesGrid"
-        ></div>
+      </div>
+
+      <div class="progress-wrap">
+
+        <div class="progress-top">
+
+          <span>
+            Progreso de ruta
+          </span>
+
+          <span id="progressText">
+            0/0
+          </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+          <div
+            class="progress-fill"
+            id="progressFill"
+          ></div>
+
+        </div>
 
       </div>
 
-    </div>
+      <div class="stats-grid">
 
-  </section>
+        <div class="mini-stat">
+
+          <strong id="completedCount">
+            0
+          </strong>
+
+          <span>
+            Completados
+          </span>
+
+        </div>
+
+        <div class="mini-stat">
+
+          <strong id="availableCount">
+            0
+          </strong>
+
+          <span>
+            Disponibles
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="legend">
+
+        <div class="legend-item">
+          <span class="dot completed-dot"></span>
+          Completado
+        </div>
+
+        <div class="legend-item">
+          <span class="dot available-dot"></span>
+          Disponible
+        </div>
+
+        <div class="legend-item">
+          <span class="dot locked-dot"></span>
+          Bloqueado
+        </div>
+
+      </div>
+
+    </aside>
+
+    <!-- RUTA -->
+    <section class="courses-section">
+
+      <div class="section-header">
+
+        <div>
+
+          <span class="section-tag">
+            Ruta Técnica
+          </span>
+
+          <h2>
+            Mapa de aprendizaje
+          </h2>
+
+        </div>
+
+        <p>
+          Los cursos se desbloquean conforme completas requisitos previos.
+        </p>
+
+      </div>
+
+      <div
+        class="courses-grid"
+        id="coursesGrid"
+      ></div>
+
+    </section>
+
+  </main>
 
   <script src="js/data.js"></script>
 

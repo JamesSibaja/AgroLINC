@@ -35,7 +35,6 @@ const EVENTOS_URL =
 async function fetchCursos() {
 
   const res = await fetch(CURSOS_URL);
-
   const text = await res.text();
 
   const rows = parseCSV(text);
@@ -49,12 +48,12 @@ async function fetchCursos() {
     cursoFinal: r[5],
     etapa: r[6]
   }));
+
 }
 
 async function fetchEstudiantes() {
 
   const res = await fetch(ESTUDIANTES_URL);
-
   const text = await res.text();
 
   const rows = parseCSV(text);
@@ -65,12 +64,12 @@ async function fetchEstudiantes() {
     correo: r[2],
     ruta: r[3]
   }));
+
 }
 
 async function fetchEventos() {
 
   const res = await fetch(EVENTOS_URL);
-
   const text = await res.text();
 
   const rows = parseCSV(text);
@@ -81,6 +80,7 @@ async function fetchEventos() {
     fecha: r[2],
     estado: (r[3] || "").toLowerCase().trim()
   }));
+
 }
 
 /* =========================================
@@ -95,27 +95,31 @@ async function consultarRuta() {
     .trim();
 
   if (!cedula) {
+
     alert("Ingrese una identificación");
+
     return;
+
   }
 
   try {
 
     const estudiantes = await fetchEstudiantes();
-    const cursos = await fetchCursos();
-    const eventos = await fetchEventos();
 
-    console.log("ESTUDIANTES", estudiantes);
-    console.log("CURSOS", cursos);
-    console.log("EVENTOS", eventos);
+    const cursos = await fetchCursos();
+
+    const eventos = await fetchEventos();
 
     const estudiante = estudiantes.find(
       e => String(e.cedula).trim() === cedula
     );
 
     if (!estudiante) {
-      alert("No se encontró el estudiante");
+
+      alert("No se encontró el participante");
+
       return;
+
     }
 
     /* PERFIL */
@@ -124,7 +128,7 @@ async function consultarRuta() {
       estudiante.nombre;
 
     document.getElementById("studentRoute").textContent =
-      estudiante.ruta;
+      `Ruta ${estudiante.ruta}`;
 
     const iniciales = estudiante.nombre
       .split(" ")
@@ -135,7 +139,7 @@ async function consultarRuta() {
     document.getElementById("profileAvatar").textContent =
       iniciales;
 
-    /* EVENTOS COMPLETADOS */
+    /* EVENTOS */
 
     const eventosCompletados = eventos.filter(ev => {
 
@@ -144,31 +148,25 @@ async function consultarRuta() {
 
       const aprobado =
         String(ev.estado)
-          .trim()
-          .toLowerCase()
           .includes("complet");
 
       return mismaCedula && aprobado;
 
     });
 
-    console.log("COMPLETADOS", eventosCompletados);
-
     const cursosCompletadosIds =
       eventosCompletados.map(ev =>
         String(ev.idCurso).trim()
       );
 
-    console.log("IDS", cursosCompletadosIds);
+    /* CURSOS RUTA */
 
-    /* CURSOS DE LA RUTA */
-
-    const cursosRuta = cursos.filter(c =>
-      String(c.ruta).trim().toLowerCase() ===
-      String(estudiante.ruta).trim().toLowerCase()
-    );
-
-    console.log("RUTA", cursosRuta);
+    const cursosRuta = cursos
+      .filter(c =>
+        String(c.ruta).trim().toLowerCase() ===
+        String(estudiante.ruta).trim().toLowerCase()
+      )
+      .sort((a, b) => Number(a.etapa) - Number(b.etapa));
 
     /* PROGRESO */
 
@@ -178,23 +176,25 @@ async function consultarRuta() {
       )
     ).length;
 
-    document.getElementById("progressText").textContent =
-      `${completados}/${cursosRuta.length}`;
-
     const porcentaje =
       cursosRuta.length > 0
         ? (completados / cursosRuta.length) * 100
         : 0;
 
+    document.getElementById("progressText").textContent =
+      `${completados}/${cursosRuta.length}`;
+
     document.getElementById("progressFill").style.width =
       `${porcentaje}%`;
 
-    /* CURSOS */
+    /* GRID */
 
     const grid =
       document.getElementById("coursesGrid");
 
     grid.innerHTML = "";
+
+    let disponibles = 0;
 
     cursosRuta.forEach(curso => {
 
@@ -222,14 +222,19 @@ async function consultarRuta() {
           String(curso.requisito2 || "").trim();
 
         if (!r1 && !r2) {
+
           disponible = true;
+
         }
 
         if (
           r1 &&
+          !r2 &&
           cursosCompletadosIds.includes(r1)
         ) {
+
           disponible = true;
+
         }
 
         if (
@@ -238,7 +243,9 @@ async function consultarRuta() {
           cursosCompletadosIds.includes(r1) &&
           cursosCompletadosIds.includes(r2)
         ) {
+
           disponible = true;
+
         }
 
         const esFinal =
@@ -252,31 +259,63 @@ async function consultarRuta() {
         ) {
 
           if (completados >= 6) {
+
             disponible = true;
+
           }
 
         }
 
         if (disponible) {
+
           estadoClase = "available";
           estadoTexto = "Disponible";
+
+          disponibles++;
+
         }
 
       }
 
-      const card = document.createElement("div");
+      const card =
+        document.createElement("div");
 
       card.className =
         `course-card ${estadoClase}`;
 
       card.innerHTML = `
-        <h4>${curso.nombre}</h4>
-        <span>${estadoTexto}</span>
+
+        <div class="course-top">
+
+          <span class="course-stage">
+            Etapa ${curso.etapa}
+          </span>
+
+          <span class="course-status ${estadoClase}">
+            ${estadoTexto}
+          </span>
+
+        </div>
+
+        <h4>
+          ${curso.nombre}
+        </h4>
+
+        <p class="course-id">
+          ${curso.id}
+        </p>
+
       `;
 
       grid.appendChild(card);
 
     });
+
+    document.getElementById("completedCount").textContent =
+      completados;
+
+    document.getElementById("availableCount").textContent =
+      disponibles;
 
   } catch (error) {
 
@@ -303,7 +342,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("keydown", e => {
 
       if (e.key === "Enter") {
+
         consultarRuta();
+
       }
 
     });
