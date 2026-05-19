@@ -1,4 +1,26 @@
 /* =========================================
+   DEBUG MODE
+========================================= */
+
+const DEBUG = true;
+
+function debugLog(title, data) {
+
+  if (!DEBUG) return;
+
+  console.group(title);
+
+  console.log(data);
+
+  if (Array.isArray(data)) {
+    console.table(data);
+  }
+
+  console.groupEnd();
+
+}
+
+/* =========================================
    CSV PARSER
 ========================================= */
 
@@ -8,11 +30,28 @@ function parseCSV(text) {
     .trim()
     .split("\n")
     .map(row =>
-      row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)
-        ?.map(v => v.replace(/^"|"$/g, "").trim())
+      row.match(/(".*?"|[^",]*)(?=\s*,|\s*$)/g)
+        ?.map(v =>
+          v
+            .replace(/^"|"$/g, "")
+            .trim()
+        )
     );
 
   return rows || [];
+
+}
+
+/* =========================================
+   NORMALIZER
+========================================= */
+
+function clean(value) {
+
+  return String(value || "")
+    .trim()
+    .toLowerCase();
+
 }
 
 /* =========================================
@@ -29,57 +68,97 @@ const EVENTOS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1589233834&single=true&output=csv";
 
 /* =========================================
+   FETCH CSV
+========================================= */
+
+async function fetchCSV(url, name) {
+
+  try {
+
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error(`Error HTTP ${res.status}`);
+    }
+
+    const text = await res.text();
+
+    debugLog(`CSV RAW → ${name}`, text);
+
+    const rows = parseCSV(text);
+
+    debugLog(`CSV PARSED → ${name}`, rows);
+
+    return rows;
+
+  } catch (error) {
+
+    console.error(`ERROR FETCH ${name}`, error);
+
+    return [];
+
+  }
+
+}
+
+/* =========================================
    FETCHERS
 ========================================= */
 
 async function fetchCursos() {
 
-  const res = await fetch(CURSOS_URL);
-  const text = await res.text();
+  const rows =
+    await fetchCSV(CURSOS_URL, "CURSOS");
 
-  const rows = parseCSV(text);
-
-  return rows.slice(1).map(r => ({
-    id: r[0],
+  const data = rows.slice(1).map(r => ({
+    id: clean(r[0]),
     nombre: r[1],
-    ruta: r[2],
-    requisito1: r[3],
-    requisito2: r[4],
-    cursoFinal: r[5],
+    ruta: clean(r[2]),
+    requisito1: clean(r[3]),
+    requisito2: clean(r[4]),
+    cursoFinal: clean(r[5]),
     etapa: r[6]
   }));
+
+  debugLog("CURSOS LIMPIOS", data);
+
+  return data;
 
 }
 
 async function fetchEstudiantes() {
 
-  const res = await fetch(ESTUDIANTES_URL);
-  const text = await res.text();
+  const rows =
+    await fetchCSV(ESTUDIANTES_URL, "ESTUDIANTES");
 
-  const rows = parseCSV(text);
-
-  return rows.slice(1).map(r => ({
-    cedula: r[0],
+  const data = rows.slice(1).map(r => ({
+    cedula: clean(r[0]),
     nombre: r[1],
     correo: r[2],
-    ruta: r[3]
+    ruta: clean(r[3])
   }));
+
+  debugLog("ESTUDIANTES LIMPIOS", data);
+
+  return data;
 
 }
 
 async function fetchEventos() {
 
-  const res = await fetch(EVENTOS_URL);
-  const text = await res.text();
+  const rows =
+    await fetchCSV(EVENTOS_URL, "EVENTOS");
 
-  const rows = parseCSV(text);
-
-  return rows.slice(1).map(r => ({
-    cedula: r[0],
-    idCurso: r[1],
+  const data = rows.slice(1).map(r => ({
+    cedula: clean(r[0]),
+    idCurso: clean(r[1]),
     fecha: r[2],
-    estado: (r[3] || "").toLowerCase().trim()
+    estado: clean(r[3])
   }));
+
+  debugLog("EVENTOS LIMPIOS", data);
+
+  return data;
 
 }
 
@@ -89,10 +168,11 @@ async function fetchEventos() {
 
 async function consultarRuta() {
 
-  const cedula = document
-    .getElementById("cedulaInput")
-    .value
-    .trim();
+  const cedula = clean(
+    document
+      .getElementById("cedulaInput")
+      .value
+  );
 
   if (!cedula) {
 
@@ -102,17 +182,33 @@ async function consultarRuta() {
 
   }
 
+  console.clear();
+
+  console.log("=================================");
+  console.log("CONSULTA DE RUTA");
+  console.log("CÉDULA:", cedula);
+  console.log("=================================");
+
   try {
 
-    const estudiantes = await fetchEstudiantes();
+    const estudiantes =
+      await fetchEstudiantes();
 
-    const cursos = await fetchCursos();
+    const cursos =
+      await fetchCursos();
 
-    const eventos = await fetchEventos();
+    const eventos =
+      await fetchEventos();
+
+    /* =====================================
+       BUSCAR ESTUDIANTE
+    ===================================== */
 
     const estudiante = estudiantes.find(
-      e => String(e.cedula).trim() === cedula
+      e => e.cedula === cedula
     );
+
+    debugLog("ESTUDIANTE ENCONTRADO", estudiante);
 
     if (!estudiante) {
 
@@ -122,7 +218,9 @@ async function consultarRuta() {
 
     }
 
-    /* PERFIL */
+    /* =====================================
+       PERFIL
+    ===================================== */
 
     document.getElementById("studentName").textContent =
       estudiante.nombre;
@@ -139,47 +237,71 @@ async function consultarRuta() {
     document.getElementById("profileAvatar").textContent =
       iniciales;
 
-    /* EVENTOS */
+    /* =====================================
+       EVENTOS COMPLETADOS
+    ===================================== */
 
-    const eventosCompletados = eventos.filter(ev => {
+    const eventosCompletados =
+      eventos.filter(ev => {
 
-      const mismaCedula =
-        String(ev.cedula).trim() === cedula;
+        const mismaCedula =
+          ev.cedula === cedula;
 
-      const aprobado =
-        String(ev.estado)
-          .includes("complet");
+        const aprobado =
+          ev.estado.includes("complet");
 
-      return mismaCedula && aprobado;
+        return mismaCedula && aprobado;
 
-    });
+      });
+
+    debugLog(
+      "EVENTOS COMPLETADOS",
+      eventosCompletados
+    );
 
     const cursosCompletadosIds =
       eventosCompletados.map(ev =>
-        String(ev.idCurso).trim()
+        ev.idCurso
       );
 
-    /* CURSOS RUTA */
+    debugLog(
+      "CURSOS COMPLETADOS IDS",
+      cursosCompletadosIds
+    );
+
+    /* =====================================
+       CURSOS DE LA RUTA
+    ===================================== */
 
     const cursosRuta = cursos
       .filter(c =>
-        String(c.ruta).trim().toLowerCase() ===
-        String(estudiante.ruta).trim().toLowerCase()
+        c.ruta === estudiante.ruta
       )
-      .sort((a, b) => Number(a.etapa) - Number(b.etapa));
+      .sort(
+        (a, b) =>
+          Number(a.etapa) -
+          Number(b.etapa)
+      );
 
-    /* PROGRESO */
+    debugLog("CURSOS DE RUTA", cursosRuta);
 
-    const completados = cursosRuta.filter(c =>
-      cursosCompletadosIds.includes(
-        String(c.id).trim()
-      )
-    ).length;
+    /* =====================================
+       PROGRESO
+    ===================================== */
+
+    const completados =
+      cursosRuta.filter(c =>
+        cursosCompletadosIds.includes(c.id)
+      ).length;
 
     const porcentaje =
       cursosRuta.length > 0
         ? (completados / cursosRuta.length) * 100
         : 0;
+
+    console.log("COMPLETADOS:", completados);
+    console.log("TOTAL:", cursosRuta.length);
+    console.log("PORCENTAJE:", porcentaje);
 
     document.getElementById("progressText").textContent =
       `${completados}/${cursosRuta.length}`;
@@ -187,7 +309,9 @@ async function consultarRuta() {
     document.getElementById("progressFill").style.width =
       `${porcentaje}%`;
 
-    /* GRID */
+    /* =====================================
+       GRID
+    ===================================== */
 
     const grid =
       document.getElementById("coursesGrid");
@@ -202,9 +326,7 @@ async function consultarRuta() {
       let estadoTexto = "Bloqueado";
 
       const completado =
-        cursosCompletadosIds.includes(
-          String(curso.id).trim()
-        );
+        cursosCompletadosIds.includes(curso.id);
 
       if (completado) {
 
@@ -215,16 +337,11 @@ async function consultarRuta() {
 
         let disponible = false;
 
-        const r1 =
-          String(curso.requisito1 || "").trim();
-
-        const r2 =
-          String(curso.requisito2 || "").trim();
+        const r1 = curso.requisito1;
+        const r2 = curso.requisito2;
 
         if (!r1 && !r2) {
-
           disponible = true;
-
         }
 
         if (
@@ -232,9 +349,7 @@ async function consultarRuta() {
           !r2 &&
           cursosCompletadosIds.includes(r1)
         ) {
-
           disponible = true;
-
         }
 
         if (
@@ -243,15 +358,11 @@ async function consultarRuta() {
           cursosCompletadosIds.includes(r1) &&
           cursosCompletadosIds.includes(r2)
         ) {
-
           disponible = true;
-
         }
 
         const esFinal =
-          String(curso.cursoFinal || "")
-            .trim()
-            .toLowerCase();
+          curso.cursoFinal;
 
         if (
           esFinal === "sí" ||
@@ -259,9 +370,7 @@ async function consultarRuta() {
         ) {
 
           if (completados >= 6) {
-
             disponible = true;
-
           }
 
         }
@@ -276,6 +385,14 @@ async function consultarRuta() {
         }
 
       }
+
+      console.log({
+        curso: curso.nombre,
+        id: curso.id,
+        estado: estadoTexto,
+        requisito1: curso.requisito1,
+        requisito2: curso.requisito2
+      });
 
       const card =
         document.createElement("div");
@@ -317,9 +434,11 @@ async function consultarRuta() {
     document.getElementById("availableCount").textContent =
       disponibles;
 
+    console.log("DISPONIBLES:", disponibles);
+
   } catch (error) {
 
-    console.error(error);
+    console.error("ERROR GENERAL", error);
 
     alert("Error cargando datos");
 
@@ -332,6 +451,8 @@ async function consultarRuta() {
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+
+  console.log("AgroLINC iniciado");
 
   document
     .getElementById("consultarBtn")
