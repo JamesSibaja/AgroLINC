@@ -26,19 +26,20 @@ function debugLog(title, data) {
 
 function parseCSV(text) {
 
-  const rows = text
+  return text
     .trim()
     .split("\n")
-    .map(row =>
-      row.match(/(".*?"|[^",]*)(?=\s*,|\s*$)/g)
-        ?.map(v =>
-          v
+    .map(row => {
+
+      return row
+        .split(",")
+        .map(value =>
+          value
             .replace(/^"|"$/g, "")
             .trim()
-        )
-    );
+        );
 
-  return rows || [];
+    });
 
 }
 
