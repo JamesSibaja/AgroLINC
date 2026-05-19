@@ -1,30 +1,72 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AgroLINC</title>
-    <link rel="manifest" href="./manifest.json" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="css/index.css" />
-  </head>
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>AgroLINC</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <link rel="stylesheet" href="css/index.css"/>
+
+</head>
 
 <body>
 
   <!-- HEADER -->
   <header class="topbar">
 
-    <div class="logo">
-      AgroLINC
+    <div class="logo-wrap">
+
+      <div class="logo-mark"></div>
+
+      <div>
+        <div class="logo">
+          AgroLINC
+        </div>
+
+        <small>
+          Innovación y tecnologías aplicadas
+        </small>
+      </div>
+
     </div>
 
     <nav class="nav">
-      <a href="#">Inicio</a>
-      <a href="#">Rutas</a>
-      <a href="#">AgroIdeas</a>
-      <a href="#">Territorio</a>
-      <a href="#">Noticias</a>
+
+      <a href="#" class="active">
+        Inicio
+      </a>
+
+      <a href="#">
+        Rutas
+      </a>
+
+      <a href="#">
+        AgroIdeas
+      </a>
+
+      <a href="#">
+        Territorio
+      </a>
+
+      <a href="#">
+        Noticias
+      </a>
+
     </nav>
 
     <a href="./ruta.html" class="header-btn">
@@ -36,6 +78,8 @@
   <!-- HERO -->
   <section class="hero">
 
+    <div class="hero-overlay"></div>
+
     <div class="hero-content">
 
       <span class="hero-tag">
@@ -43,14 +87,16 @@
       </span>
 
       <h1>
-        Tecnologías aplicadas para la innovación agroalimentaria
+        Tecnologías para transformar el territorio agroalimentario
       </h1>
 
       <p>
-        Formación práctica, prototipado, fabricación digital y conexión con oportunidades reales del territorio.
+        Formación práctica, prototipado, automatización e innovación
+        conectada con oportunidades reales del territorio.
       </p>
 
       <div class="hero-actions">
+
         <button class="primary-btn">
           Explorar rutas
         </button>
@@ -58,25 +104,53 @@
         <button class="secondary-btn">
           Ver AgroIdeas
         </button>
+
       </div>
 
     </div>
 
-    <div class="hero-visual">
+    <div class="hero-stats">
 
       <div class="glass-card">
+
+        <div class="glass-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+
         <strong>14</strong>
-        <span>Cursos técnicos</span>
+
+        <span>
+          Cursos técnicos
+        </span>
+
       </div>
 
       <div class="glass-card">
+
+        <div class="glass-icon">
+          <i class="fa-solid fa-cube"></i>
+        </div>
+
         <strong>35+</strong>
-        <span>Prototipos</span>
+
+        <span>
+          Prototipos
+        </span>
+
       </div>
 
       <div class="glass-card">
+
+        <div class="glass-icon">
+          <i class="fa-solid fa-microchip"></i>
+        </div>
+
         <strong>8</strong>
-        <span>Tecnologías</span>
+
+        <span>
+          Tecnologías
+        </span>
+
       </div>
 
     </div>
@@ -86,36 +160,55 @@
   <!-- RUTAS -->
   <section class="section">
 
-    <div class="section-header">
-      <h2>Rutas AgroLINC</h2>
+    <div class="section-header center">
+
+      <span class="section-mini-tag">
+        Formación
+      </span>
+
+      <h2>
+        Rutas AgroLINC
+      </h2>
 
       <p>
-        Dos rutas complementarias para fortalecer capacidades e impulsar innovación aplicada.
+        Dos rutas complementarias para fortalecer capacidades
+        e impulsar innovación aplicada.
       </p>
+
     </div>
 
     <div class="routes-grid">
 
       <div class="route-card">
 
-        <div class="route-icon">⚡</div>
+        <div class="route-icon technical">
+          <i class="fa-solid fa-microchip"></i>
+        </div>
 
-        <h3>Ruta técnica</h3>
+        <h3>
+          Ruta técnica
+        </h3>
 
         <p>
-          Formación práctica en fabricación digital, electrónica, automatización, IoT y tecnologías emergentes.
+          Fabricación digital, electrónica, automatización,
+          IoT y tecnologías emergentes aplicadas.
         </p>
 
       </div>
 
       <div class="route-card">
 
-        <div class="route-icon">🌱</div>
+        <div class="route-icon territorial">
+          <i class="fa-solid fa-seedling"></i>
+        </div>
 
-        <h3>Ruta territorial</h3>
+        <h3>
+          Ruta territorial
+        </h3>
 
         <p>
-          Talleres para identificar oportunidades, conectar tecnologías y fortalecer procesos de innovación en territorio.
+          Procesos de cocreación, identificación de oportunidades
+          y conexión tecnológica con el territorio.
         </p>
 
       </div>
@@ -127,24 +220,63 @@
   <!-- TECNOLOGIAS -->
   <section class="section alt-section">
 
-    <div class="section-header">
-      <h2>Tecnologías</h2>
+    <div class="section-header center">
+
+      <span class="section-mini-tag">
+        Ecosistema tecnológico
+      </span>
+
+      <h2>
+        Tecnologías aplicadas
+      </h2>
 
       <p>
-        Tecnologías aplicadas para el desarrollo de soluciones agroalimentarias.
+        Herramientas utilizadas para el desarrollo de soluciones agroalimentarias.
       </p>
+
     </div>
 
     <div class="tech-grid">
 
-      <div class="tech-card">Impresión 3D</div>
-      <div class="tech-card">Corte láser</div>
-      <div class="tech-card">Drones</div>
-      <div class="tech-card">IoT</div>
-      <div class="tech-card">Automatización</div>
-      <div class="tech-card">SIG</div>
-      <div class="tech-card">Arduino</div>
-      <div class="tech-card">Prototipado</div>
+      <div class="tech-card">
+        <i class="fa-solid fa-cube"></i>
+        <span>Impresión 3D</span>
+      </div>
+
+      <div class="tech-card">
+        <i class="fa-solid fa-vector-square"></i>
+        <span>Corte láser</span>
+      </div>
+
+      <div class="tech-card">
+        <i class="fa-solid fa-helicopter"></i>
+        <span>Drones</span>
+      </div>
+
+      <div class="tech-card">
+        <i class="fa-solid fa-wifi"></i>
+        <span>IoT</span>
+      </div>
+
+      <div class="tech-card">
+        <i class="fa-solid fa-gears"></i>
+        <span>Automatización</span>
+      </div>
+
+      <div class="tech-card">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>SIG</span>
+      </div>
+
+      <div class="tech-card">
+        <i class="fa-solid fa-microchip"></i>
+        <span>Arduino</span>
+      </div>
+
+      <div class="tech-card">
+        <i class="fa-solid fa-diagram-project"></i>
+        <span>Prototipado</span>
+      </div>
 
     </div>
 
@@ -153,32 +285,76 @@
   <!-- AGROIDEAS -->
   <section class="section">
 
-    <div class="section-header">
-      <h2>AgroIdeas</h2>
+    <div class="section-header center">
+
+      <span class="section-mini-tag">
+        Biblioteca abierta
+      </span>
+
+      <h2>
+        AgroIdeas
+      </h2>
 
       <p>
-        Biblioteca abierta de modelos, prototipos y soluciones desarrolladas en AgroLINC.
+        Modelos, diseños y prototipos desarrollados dentro del ecosistema AgroLINC.
       </p>
+
     </div>
 
     <div class="ideas-grid">
 
       <div class="idea-card">
-        <div class="idea-image"></div>
-        <h3>Canasta hidropónica</h3>
-        <p>Modelo 3D paramétrico para sistemas hidropónicos.</p>
+
+        <div class="idea-image gradient-1"></div>
+
+        <div class="idea-content">
+
+          <h3>
+            Canasta hidropónica
+          </h3>
+
+          <p>
+            Modelo paramétrico para sistemas hidropónicos modulares.
+          </p>
+
+        </div>
+
       </div>
 
       <div class="idea-card">
-        <div class="idea-image"></div>
-        <h3>Rótulo de cultivo</h3>
-        <p>Diseño para corte láser adaptable a distintos cultivos.</p>
+
+        <div class="idea-image gradient-2"></div>
+
+        <div class="idea-content">
+
+          <h3>
+            Rótulo inteligente
+          </h3>
+
+          <p>
+            Diseño adaptable para corte láser aplicado a cultivos.
+          </p>
+
+        </div>
+
       </div>
 
       <div class="idea-card">
-        <div class="idea-image"></div>
-        <h3>Sistema IoT</h3>
-        <p>Monitoreo básico de temperatura y humedad.</p>
+
+        <div class="idea-image gradient-3"></div>
+
+        <div class="idea-content">
+
+          <h3>
+            Sensor IoT agrícola
+          </h3>
+
+          <p>
+            Monitoreo de temperatura y humedad para producción rural.
+          </p>
+
+        </div>
+
       </div>
 
     </div>
@@ -188,24 +364,41 @@
   <!-- TERRITORIO -->
   <section class="section alt-section">
 
-    <div class="section-header">
-      <h2>Territorio</h2>
+    <div class="section-header center">
+
+      <span class="section-mini-tag">
+        Territorio
+      </span>
+
+      <h2>
+        Innovación conectada
+      </h2>
 
       <p>
-        Espacios, actores y oportunidades identificadas desde procesos de capacitación y cocreación.
+        Capacidades, actores y oportunidades articuladas desde procesos formativos.
       </p>
+
     </div>
 
     <div class="territory-box">
 
-      <div class="territory-map"></div>
+      <div class="territory-map">
+
+        <div class="map-node node-1"></div>
+        <div class="map-node node-2"></div>
+        <div class="map-node node-3"></div>
+
+      </div>
 
       <div class="territory-info">
 
-        <h3>Innovación conectada al territorio</h3>
+        <h3>
+          Ecosistema de innovación territorial
+        </h3>
 
         <p>
-          AgroLINC busca conectar procesos formativos con oportunidades reales del sector agroalimentario.
+          AgroLINC conecta formación técnica, laboratorios,
+          tecnologías emergentes y procesos de transformación rural.
         </p>
 
       </div>
@@ -218,18 +411,39 @@
   <footer class="footer">
 
     <div>
-      <strong>AgroLINC</strong>
-      <p>Formación e innovación aplicada.</p>
+
+      <strong>
+        AgroLINC
+      </strong>
+
+      <p>
+        Formación e innovación aplicada.
+      </p>
+
     </div>
 
     <div>
-      <strong>Contacto</strong>
-      <p>info@agrolinc.org</p>
+
+      <strong>
+        Contacto
+      </strong>
+
+      <p>
+        info@agrolinc.org
+      </p>
+
     </div>
 
     <div>
-      <strong>Enlaces</strong>
-      <p>Rutas · AgroIdeas · Noticias</p>
+
+      <strong>
+        Navegación
+      </strong>
+
+      <p>
+        Rutas · AgroIdeas · Territorio
+      </p>
+
     </div>
 
   </footer>
