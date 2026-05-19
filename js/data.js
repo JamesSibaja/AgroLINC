@@ -340,8 +340,9 @@ async function consultarRuta() {
 
         const r1 = curso.requisito1;
         const r2 = curso.requisito2;
+        const esFinal = curso.cursoFinal;
 
-        if (!r1 && !r2) {
+        if (!r1 && !r2 && !esFinal) {
           disponible = true;
         }
 
@@ -362,8 +363,7 @@ async function consultarRuta() {
           disponible = true;
         }
 
-        const esFinal =
-          curso.cursoFinal;
+        
 
         if (
           esFinal === "sí" ||
