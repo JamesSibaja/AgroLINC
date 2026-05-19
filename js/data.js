@@ -8,7 +8,7 @@ function parseCSV(text) {
     .trim()
     .split("\n")
     .map(row =>
-      row.match(/(".*?"|[^",]*)(?=\s*,|\s*$)/g)
+      row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)
         ?.map(v => v.replace(/^"|"$/g, "").trim())
     );
 
