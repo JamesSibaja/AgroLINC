@@ -68,17 +68,12 @@ body{
 
 .logo-mark{
 
-  width:46px;
+  width:16px;
   height:46px;
 
   border-radius:16px;
 
-  background:
-  linear-gradient(
-    135deg,
-    var(--primary),
-    var(--accent)
-  );
+  background:var(--primary-dark);
 
 }
 
