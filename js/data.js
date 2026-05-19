@@ -367,7 +367,9 @@ async function consultarRuta() {
 
         if (
           esFinal === "sí" ||
-          esFinal === "si"
+          esFinal === "si"||
+          esFinal === "Si"||
+          esFinal === "Si"
         ) {
 
           if (completados >= 6) {
