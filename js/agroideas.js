@@ -2,6 +2,23 @@
    AGROIDEAS.JS
 ========================================= */
 
+const map = L.map("mapImpresoras").setView(
+    [9.7489, -83.7534],
+    8
+  );
+  
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      attribution:
+        '&copy; OpenStreetMap contributors'
+    }
+  ).addTo(map);
+  
+  L.marker([9.9281, -84.0907])
+    .addTo(map)
+    .bindPopup("San José");
+
 /* =========================================
    URL
 ========================================= */
@@ -321,3 +338,21 @@ document.addEventListener(
   "DOMContentLoaded",
   initAgroIdeas
 );
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+  
+      const map = L.map("mapImpresoras")
+        .setView([9.7489, -83.7534], 8);
+  
+      L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+          attribution:
+            '&copy; OpenStreetMap contributors'
+        }
+      ).addTo(map);
+  
+    }
+  );
