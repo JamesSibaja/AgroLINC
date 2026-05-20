@@ -1,4 +1,14 @@
 /* =========================================
+   PAGINACIÓN
+========================================= */
+
+const ITEMS_PER_PAGE = 6;
+
+let currentPage = 1;
+
+let catalogoGlobal = [];
+
+/* =========================================
    AGROIDEAS
 ========================================= */
 
@@ -22,6 +32,37 @@ function debugLog(title, data) {
 /* =========================================
    HELPERS
 ========================================= */
+
+/* =========================================
+   GOOGLE DRIVE IMAGE
+========================================= */
+
+function getGoogleDriveImage(url) {
+
+  if (!url) return "";
+
+  /*
+    Convierte:
+
+    https://drive.google.com/file/d/FILE_ID/view
+
+    a:
+
+    https://drive.google.com/thumbnail?id=FILE_ID&sz=w1000
+  */
+
+  const match =
+    url.match(/\/d\/(.*?)\//);
+
+  if (!match) return url;
+
+  const fileId = match[1];
+
+  return `
+    https://drive.google.com/thumbnail?id=${fileId}&sz=w1200
+  `;
+
+}
 
 function clean(value) {
 
@@ -177,7 +218,10 @@ async function fetchAgroIdeas() {
 
 function getImage(url) {
 
-  if (!url) {
+  const imageUrl =
+    getGoogleDriveImage(url);
+
+  if (!imageUrl) {
 
     return `
       <div class="idea-placeholder">
@@ -189,8 +233,9 @@ function getImage(url) {
 
   return `
     <img
-      src="${url}"
-      alt="Imagen"
+      src="${imageUrl}"
+      alt="Imagen AgroIdea"
+      loading="lazy"
     />
   `;
 
@@ -202,29 +247,53 @@ function getImage(url) {
 
 function renderCatalogo(data) {
 
-  const grid =
-    document.getElementById(
-      "ideasGrid"
-    );
-
-  if (!grid) return;
-
-  grid.innerHTML = "";
-
-  const catalogo = data.filter(item => {
+  catalogoGlobal = data.filter(item => {
 
     const tipo =
       item.tipo.toLowerCase();
 
     return (
       tipo.includes("3d") ||
-      tipo.includes("prototipo") ||
-      tipo.includes("modelo")
+      tipo.includes("modelo") ||
+      tipo.includes("prototipo")
     );
 
   });
 
-  catalogo.forEach(item => {
+  renderPage(currentPage);
+
+}
+
+/* =========================================
+   RENDER PAGE
+========================================= */
+
+function renderPage(page) {
+
+  const grid =
+    document.getElementById(
+      "ideasGrid"
+    );
+
+  const pagination =
+    document.getElementById(
+      "ideasPagination"
+    );
+
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  const start =
+    (page - 1) * ITEMS_PER_PAGE;
+
+  const end =
+    start + ITEMS_PER_PAGE;
+
+  const items =
+    catalogoGlobal.slice(start, end);
+
+  items.forEach(item => {
 
     const card =
       document.createElement("div");
@@ -250,11 +319,23 @@ function renderCatalogo(data) {
           ${item.nombre}
         </h3>
 
-        <p>
-          ${item.descripcion || ""}
+        <p class="idea-short-desc">
+          ${
+            truncate(
+              item.descripcion,
+              110
+            )
+          }
         </p>
 
         <div class="idea-actions">
+
+          <button
+            class="resource-btn"
+            onclick='openIdeaModal(${JSON.stringify(item)})'
+          >
+            Ver detalle
+          </button>
 
           ${
             item.recurso
@@ -262,9 +343,9 @@ function renderCatalogo(data) {
                 <a
                   href="${item.recurso}"
                   target="_blank"
-                  class="resource-btn"
+                  class="resource-btn secondary"
                 >
-                  Ver recurso
+                  Recurso
                 </a>
               `
               : ""
@@ -280,8 +361,89 @@ function renderCatalogo(data) {
 
   });
 
+  renderPagination();
+
 }
 
+/* =========================================
+   TRUNCATE
+========================================= */
+
+function truncate(text, max = 120) {
+
+  if (!text) return "";
+
+  if (text.length <= max) {
+
+    return text;
+
+  }
+
+  return text.substring(0, max) + "...";
+
+}
+/* =========================================
+   PAGINATION
+========================================= */
+
+function renderPagination() {
+
+  const container =
+    document.getElementById(
+      "ideasPagination"
+    );
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const totalPages =
+    Math.ceil(
+      catalogoGlobal.length /
+      ITEMS_PER_PAGE
+    );
+
+  for (
+    let i = 1;
+    i <= totalPages;
+    i++
+  ) {
+
+    const btn =
+      document.createElement("button");
+
+    btn.className =
+      `page-btn ${
+        i === currentPage
+          ? "active"
+          : ""
+      }`;
+
+    btn.textContent = i;
+
+    btn.onclick = () => {
+
+      currentPage = i;
+
+      renderPage(i);
+
+      window.scrollTo({
+        top:
+          document
+            .getElementById(
+              "catalogo"
+            )
+            .offsetTop - 80,
+        behavior: "smooth"
+      });
+
+    };
+
+    container.appendChild(btn);
+
+  }
+
+}
 /* =========================================
    MAPA
 ========================================= */

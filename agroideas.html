@@ -297,6 +297,11 @@
           id="ideasGrid"
         >
 
+        <div
+          class="ideas-pagination"
+          id="ideasPagination"
+        ></div>
+
           <!-- DINÁMICO -->
 
         </div>
@@ -452,6 +457,26 @@
   ======================================= -->
 
   <script src="js/agroideas.js"></script>
+  <div
+  class="idea-modal"
+  id="ideaModal"
+>
 
+  <div class="idea-modal-box">
+
+    <button
+      class="modal-close"
+      onclick="closeIdeaModal()"
+    >
+
+      <i class="fa-solid fa-xmark"></i>
+
+    </button>
+
+    <div id="ideaModalBody"></div>
+
+  </div>
+
+</div>
 </body>
 </html>

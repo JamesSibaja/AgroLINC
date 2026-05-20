@@ -2493,6 +2493,171 @@ body{
 
 }
 
+/* =========================================
+   PAGINATION
+========================================= */
+
+.ideas-pagination {
+
+  display: flex;
+
+  gap: .7rem;
+
+  justify-content: center;
+
+  margin-top: 2rem;
+
+}
+
+.page-btn {
+
+  width: 42px;
+
+  height: 42px;
+
+  border-radius: 12px;
+
+  border: none;
+
+  background: #eef3ef;
+
+  cursor: pointer;
+
+  font-weight: 700;
+
+}
+
+.page-btn.active {
+
+  background: #1e8449;
+
+  color: white;
+
+}
+
+/* =========================================
+   MODAL
+========================================= */
+
+.idea-modal {
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(0,0,0,.55);
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  z-index: 9999;
+
+  padding: 2rem;
+
+}
+
+.idea-modal.show {
+
+  display: flex;
+
+}
+
+.idea-modal-box {
+
+  width: min(900px, 100%);
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: white;
+
+  border-radius: 24px;
+
+  position: relative;
+
+  padding: 2rem;
+
+}
+
+.modal-close {
+
+  position: absolute;
+
+  top: 1rem;
+
+  right: 1rem;
+
+  width: 42px;
+
+  height: 42px;
+
+  border-radius: 12px;
+
+  border: none;
+
+  background: #eef3ef;
+
+  cursor: pointer;
+
+}
+
+.modal-image {
+
+  height: 340px;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  margin-bottom: 1.5rem;
+
+  background: #f3f6f7;
+
+}
+
+.modal-image img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+}
+
+.modal-content h2 {
+
+  margin: 1rem 0;
+
+}
+
+.modal-content p {
+
+  line-height: 1.8;
+
+  color: #61707c;
+
+}
+
+.idea-short-desc {
+
+  min-height: 70px;
+
+}
+
+.resource-btn.secondary {
+
+  background: #eef3ef;
+
+  color: #1e8449;
+
+}
+
 .ideas-tags span{
 
   padding:
