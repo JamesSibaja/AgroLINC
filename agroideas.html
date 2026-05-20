@@ -9,35 +9,53 @@
     content="width=device-width, initial-scale=1.0"
   />
 
-  <title>AgroIdeas | AgroLINC</title>
+  <title>
+    AgroIdeas | AgroLINC
+  </title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- FONTS -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
 
+  <!-- ICONS -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   />
 
- 
-
+  <!-- LEAFLET -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet/dist/leaflet.css"
   />
 
-  <link rel="stylesheet" href="css/index.css" />
+  <!-- CSS -->
+  <link
+    rel="stylesheet"
+    href="css/index.css"
+  />
 
 </head>
 
 <body class="agroideas-page">
 
-  <!-- HEADER -->
+  <!-- ======================================
+       HEADER
+  ======================================= -->
+
   <header class="topbar">
 
     <div class="logo-wrap">
@@ -68,7 +86,10 @@
         Mi Ruta
       </a>
 
-      <a href="./agroideas.html" class="active">
+      <a
+        href="./agroideas.html"
+        class="active"
+      >
         AgroIdeas
       </a>
 
@@ -84,81 +105,91 @@
 
   </header>
 
-  <!-- HERO -->
-  <section class="dashboard-hero">
+  <!-- ======================================
+       HERO
+  ======================================= -->
+
+  <section class="dashboard-hero agroideas-hero">
 
     <div class="dashboard-overlay"></div>
-  
+
     <div class="ideas-hero-content">
-  
+
       <span class="hero-tag">
-        Laboratorio abierto AgroLINC
+        Open Lab AgroLINC
       </span>
-  
+
       <h1>
-        Explora modelos,
-        prototipos y territorio
+        Modelos abiertos,
+        fabricación digital
+        y territorio
       </h1>
-  
+
       <p>
-        Descubre recursos abiertos,
-        fabricación digital, automatización,
-        mapas territoriales y soluciones
-        desarrolladas desde AgroLINC.
+        Explora prototipos agrícolas,
+        impresión 3D, automatización,
+        mapeos territoriales y recursos
+        abiertos desarrollados desde
+        AgroLINC.
       </p>
-  
+
       <div class="ideas-search">
-  
+
         <div class="ideas-search-input">
-  
+
           <i class="fa-solid fa-magnifying-glass"></i>
-  
+
           <input
             type="text"
             id="ideasSearch"
-            placeholder="Buscar modelos, tecnologías o territorios"
+            placeholder="Buscar recursos, prototipos o territorios"
           />
-  
+
         </div>
-  
+
         <button id="explorarBtn">
           Explorar
         </button>
-  
+
       </div>
-  
+
       <div class="ideas-tags">
-  
+
         <span>
           Impresión 3D
         </span>
-  
+
         <span>
           IoT
         </span>
-  
+
         <span>
-          SIG
+          Agricultura
         </span>
-  
-        <span>
-          Automatización
-        </span>
-  
+
         <span>
           Territorial
         </span>
-  
+
+        <span>
+          Automatización
+        </span>
+
       </div>
-  
+
     </div>
-  
+
   </section>
 
-  <!-- EXPLORADOR -->
+  <!-- ======================================
+       EXPLORADOR
+  ======================================= -->
+
   <section class="ideas-explorer">
 
-    <div class="explorer-sidebar">
+    <!-- SIDEBAR -->
+
+    <aside class="explorer-sidebar">
 
       <div class="sidebar-block">
 
@@ -174,25 +205,38 @@
 
       <div class="explorer-menu">
 
-        <button class="explorer-link active">
+        <a
+          href="#catalogo"
+          class="explorer-link active"
+        >
+
           <i class="fa-solid fa-cube"></i>
+
           Modelos y prototipos
-        </button>
 
-        <button class="explorer-link">
+        </a>
+
+        <a
+          href="#mapa3d"
+          class="explorer-link"
+        >
+
           <i class="fa-solid fa-map-location-dot"></i>
-          Mapa de impresoras 3D
-        </button>
 
-        <button class="explorer-link">
+          Mapa maker CR
+
+        </a>
+
+        <a
+          href="#territorial"
+          class="explorer-link"
+        >
+
           <i class="fa-solid fa-seedling"></i>
-          Mapeo territorial
-        </button>
 
-        <button class="explorer-link">
-          <i class="fa-solid fa-book-open"></i>
-          Recursos abiertos
-        </button>
+          Territorial
+
+        </a>
 
       </div>
 
@@ -210,11 +254,16 @@
 
       </div>
 
-    </div>
+    </aside>
+
+    <!-- CONTENT -->
 
     <div class="explorer-content">
 
-      <!-- CATALOGO -->
+      <!-- ======================================
+           CATALOGO
+      ======================================= -->
+
       <section
         class="ideas-section"
         id="catalogo"
@@ -225,7 +274,7 @@
           <div>
 
             <span class="section-badge">
-              Biblioteca
+              Biblioteca abierta
             </span>
 
             <h2>
@@ -235,9 +284,10 @@
           </div>
 
           <p>
-            Recursos creados desde
-            procesos formativos,
-            laboratorios y territorio.
+            Recursos abiertos,
+            impresión 3D,
+            automatización y
+            soluciones agroalimentarias.
           </p>
 
         </div>
@@ -253,10 +303,13 @@
 
       </section>
 
-      <!-- MAPA IMPRESORAS -->
+      <!-- ======================================
+           MAPA 3D
+      ======================================= -->
+
       <section
         class="ideas-section"
-        id="mapas"
+        id="mapa3d"
       >
 
         <div class="ideas-section-top">
@@ -268,15 +321,17 @@
             </span>
 
             <h2>
-              Impresoras 3D en Costa Rica
+              Impresoras 3D
+              en Costa Rica
             </h2>
 
           </div>
 
           <p>
-            Espacios, laboratorios y
-            actores vinculados con
-            fabricación digital.
+            Espacios maker,
+            laboratorios y
+            servicios vinculados
+            a fabricación digital.
           </p>
 
         </div>
@@ -292,177 +347,44 @@
 
       </section>
 
-      <!-- MAPEO TERRITORIAL -->
-      <section class="ideas-section">
+      <!-- ======================================
+           TERRITORIAL
+      ======================================= -->
+
+      <section
+        class="ideas-section"
+        id="territorial"
+      >
 
         <div class="ideas-section-top">
 
           <div>
 
             <span class="section-badge">
-              Territorio
+              Ruta territorial
             </span>
 
             <h2>
-              Procesos territoriales
+              Procesos y mapeos
             </h2>
 
           </div>
 
           <p>
-            Capacitaciones, actores
-            y oportunidades identificadas
-            desde la ruta territorial.
+            Capacitaciones,
+            actores y oportunidades
+            identificadas desde
+            el territorio.
           </p>
 
         </div>
 
-        <div class="territorial-layout">
+        <div
+          class="territorial-layout"
+          id="territorialGrid"
+        >
 
-          <div class="territorial-card">
-
-            <div class="territorial-icon">
-              <i class="fa-solid fa-seedling"></i>
-            </div>
-
-            <h3>
-              Agricultura regenerativa
-            </h3>
-
-            <p>
-              Talleres y procesos
-              colaborativos desarrollados
-              en comunidades rurales.
-            </p>
-
-          </div>
-
-          <div class="territorial-card">
-
-            <div class="territorial-icon">
-              <i class="fa-solid fa-users"></i>
-            </div>
-
-            <h3>
-              Redes comunitarias
-            </h3>
-
-            <p>
-              Vinculación entre actores,
-              emprendimientos y procesos
-              de innovación local.
-            </p>
-
-          </div>
-
-          <div class="territorial-card">
-
-            <div class="territorial-icon">
-              <i class="fa-solid fa-map"></i>
-            </div>
-
-            <h3>
-              Inteligencia territorial
-            </h3>
-
-            <p>
-              Mapeo de oportunidades,
-              capacidades y tecnologías
-              disponibles.
-            </p>
-
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- RECURSOS -->
-      <section class="ideas-section">
-
-        <div class="ideas-section-top">
-
-          <div>
-
-            <span class="section-badge">
-              Recursos abiertos
-            </span>
-
-            <h2>
-              Descargas y documentación
-            </h2>
-
-          </div>
-
-          <p>
-            Archivos, plantillas,
-            modelos y documentación técnica.
-          </p>
-
-        </div>
-
-        <div class="resource-list">
-
-          <div class="resource-item">
-
-            <div class="resource-icon">
-              <i class="fa-solid fa-file"></i>
-            </div>
-
-            <div>
-
-              <h4>
-                Modelos STL agrícolas
-              </h4>
-
-              <p>
-                Piezas imprimibles para
-                sistemas productivos.
-              </p>
-
-            </div>
-
-          </div>
-
-          <div class="resource-item">
-
-            <div class="resource-icon">
-              <i class="fa-solid fa-microchip"></i>
-            </div>
-
-            <div>
-
-              <h4>
-                Códigos Arduino
-              </h4>
-
-              <p>
-                Automatización y monitoreo.
-              </p>
-
-            </div>
-
-          </div>
-
-          <div class="resource-item">
-
-            <div class="resource-icon">
-              <i class="fa-solid fa-layer-group"></i>
-            </div>
-
-            <div>
-
-              <h4>
-                Diseños para láser
-              </h4>
-
-              <p>
-                SVG y archivos vectoriales.
-              </p>
-
-            </div>
-
-          </div>
+          <!-- DINÁMICO -->
 
         </div>
 
@@ -472,7 +394,10 @@
 
   </section>
 
-  <!-- FOOTER -->
+  <!-- ======================================
+       FOOTER
+  ======================================= -->
+
   <footer class="footer">
 
     <div>
@@ -482,7 +407,8 @@
       </strong>
 
       <p>
-        Innovación abierta y territorio.
+        Innovación aplicada y
+        tecnologías abiertas.
       </p>
 
     </div>
@@ -494,7 +420,7 @@
       </strong>
 
       <p>
-        Biblioteca abierta maker.
+        Biblioteca maker y territorial.
       </p>
 
     </div>
@@ -512,11 +438,18 @@
     </div>
 
   </footer>
-  
+
+  <!-- ======================================
+       LEAFLET
+  ======================================= -->
 
   <script
     src="https://unpkg.com/leaflet/dist/leaflet.js"
   ></script>
+
+  <!-- ======================================
+       JS
+  ======================================= -->
 
   <script src="js/agroideas.js"></script>
 

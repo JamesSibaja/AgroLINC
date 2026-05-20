@@ -1,26 +1,5 @@
 /* =========================================
-   AGROIDEAS.JS
-========================================= */
-
-const map = L.map("mapImpresoras").setView(
-    [9.7489, -83.7534],
-    8
-  );
-  
-  L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    {
-      attribution:
-        '&copy; OpenStreetMap contributors'
-    }
-  ).addTo(map);
-  
-  L.marker([9.9281, -84.0907])
-    .addTo(map)
-    .bindPopup("San José");
-
-/* =========================================
-   URL
+   AGROIDEAS
 ========================================= */
 
 const AGROIDEAS_URL =
@@ -62,11 +41,43 @@ function parseCSV(text) {
   return text
     .trim()
     .split("\n")
-    .map(row =>
-      row
-        .split(",")
-        .map(cell => clean(cell))
-    );
+    .map(row => {
+
+      const result = [];
+
+      let current = "";
+      let insideQuotes = false;
+
+      for (let i = 0; i < row.length; i++) {
+
+        const char = row[i];
+
+        if (char === '"') {
+
+          insideQuotes = !insideQuotes;
+
+        } else if (
+          char === "," &&
+          !insideQuotes
+        ) {
+
+          result.push(clean(current));
+
+          current = "";
+
+        } else {
+
+          current += char;
+
+        }
+
+      }
+
+      result.push(clean(current));
+
+      return result;
+
+    });
 
 }
 
@@ -98,188 +109,166 @@ async function fetchCSV(url, label = "CSV") {
 async function fetchAgroIdeas() {
 
   const rows =
-    await fetchCSV(AGROIDEAS_URL, "AGROIDEAS");
+    await fetchCSV(
+      AGROIDEAS_URL,
+      "AGROIDEAS"
+    );
 
   /*
-    COLUMNAS ESPERADAS:
+    COLUMNAS:
 
-    0 -> titulo
-    1 -> descripcion
-    2 -> categoria
-    3 -> nivel
-    4 -> tecnologia
-    5 -> recurso
-    6 -> imagen
-    7 -> enlace
+    0 ID
+    1 Colección
+    2 Nombre
+    3 Imagen
+    4 Recurso
+    5 Descripción
+    6 Tipo
+    7 lat
+    8 lng
   */
 
   const data = rows
     .slice(1)
-    .filter(r => r[0])
+    .filter(r => r[2])
     .map(r => ({
 
-      titulo:
+      id:
         clean(r[0]),
 
-      descripcion:
+      coleccion:
         clean(r[1]),
 
-      categoria:
+      nombre:
         clean(r[2]),
 
-      nivel:
+      imagen:
         clean(r[3]),
 
-      tecnologia:
+      recurso:
         clean(r[4]),
 
-      recurso:
+      descripcion:
         clean(r[5]),
 
-      imagen:
+      tipo:
         clean(r[6]),
 
-      enlace:
-        clean(r[7])
+      lat:
+        parseFloat(clean(r[7])),
+
+      lng:
+        parseFloat(clean(r[8]))
 
     }));
 
-  debugLog("AGROIDEAS LIMPIAS", data);
+  debugLog(
+    "AGROIDEAS LIMPIAS",
+    data
+  );
 
   return data;
 
 }
 
 /* =========================================
-   ICONOS
+   IMAGE
 ========================================= */
 
-function getIcon(tecnologia) {
+function getImage(url) {
 
-  const tech =
-    tecnologia.toLowerCase();
+  if (!url) {
 
-  if (tech.includes("iot")) {
-    return "fa-solid fa-wifi";
+    return `
+      <div class="idea-placeholder">
+        <i class="fa-solid fa-cube"></i>
+      </div>
+    `;
+
   }
 
-  if (tech.includes("3d")) {
-    return "fa-solid fa-cube";
-  }
-
-  if (tech.includes("laser")) {
-    return "fa-solid fa-vector-square";
-  }
-
-  if (tech.includes("arduino")) {
-    return "fa-solid fa-microchip";
-  }
-
-  if (tech.includes("drone")) {
-    return "fa-solid fa-drone";
-  }
-
-  return "fa-solid fa-lightbulb";
+  return `
+    <img
+      src="${url}"
+      alt="Imagen"
+    />
+  `;
 
 }
 
 /* =========================================
-   GRADIENTES
+   RENDER CATALOGO
 ========================================= */
 
-function getGradient(index) {
+function renderCatalogo(data) {
 
-  const gradients = [
-    "gradient-1",
-    "gradient-2",
-    "gradient-3",
-    "gradient-4",
-    "gradient-5",
-    "gradient-6"
-  ];
+  const grid =
+    document.getElementById(
+      "ideasGrid"
+    );
 
-  return gradients[
-    index % gradients.length
-  ];
+  if (!grid) return;
 
-}
+  grid.innerHTML = "";
 
-/* =========================================
-   RENDER
-========================================= */
+  const catalogo = data.filter(item => {
 
-function renderIdeas(ideas) {
+    const tipo =
+      item.tipo.toLowerCase();
 
-  const container =
-    document.querySelector(".ideas-grid");
+    return (
+      tipo.includes("3d") ||
+      tipo.includes("prototipo") ||
+      tipo.includes("modelo")
+    );
 
-  if (!container) return;
+  });
 
-  container.innerHTML = "";
-
-  ideas.forEach((idea, index) => {
+  catalogo.forEach(item => {
 
     const card =
       document.createElement("div");
 
     card.className =
-      "idea-card";
+      "idea-card-v2";
 
     card.innerHTML = `
 
-      <div class="idea-image ${getGradient(index)}">
+      <div class="idea-card-image">
 
-        <div class="idea-badge">
-          ${idea.tecnologia || "AgroTech"}
-        </div>
+        ${getImage(item.imagen)}
 
       </div>
 
-      <div class="idea-content">
+      <div class="idea-card-body">
 
-        <div class="idea-top">
-
-          <span class="idea-category">
-            ${idea.categoria || "General"}
-          </span>
-
-          <span class="idea-level">
-            ${idea.nivel || "Base"}
-          </span>
-
+        <div class="idea-chip">
+          ${item.coleccion || "AgroIdeas"}
         </div>
 
         <h3>
-          ${idea.titulo}
+          ${item.nombre}
         </h3>
 
         <p>
-          ${idea.descripcion}
+          ${item.descripcion || ""}
         </p>
-
-        <div class="idea-meta">
-
-          <span>
-            <i class="${getIcon(idea.tecnologia)}"></i>
-            ${idea.tecnologia || "Tecnología"}
-          </span>
-
-          <span>
-            <i class="fa-solid fa-folder-open"></i>
-            ${idea.recurso || "Recurso"}
-          </span>
-
-        </div>
 
         <div class="idea-actions">
 
-          <a
-            href="${idea.enlace || "#"}"
-            target="_blank"
-            class="primary-btn small-btn"
-          >
-            Ver proyecto
-          </a>
+          ${
+            item.recurso
+              ? `
+                <a
+                  href="${item.recurso}"
+                  target="_blank"
+                  class="resource-btn"
+                >
+                  Ver recurso
+                </a>
+              `
+              : ""
+          }
 
         </div>
 
@@ -287,21 +276,167 @@ function renderIdeas(ideas) {
 
     `;
 
-    container.appendChild(card);
+    grid.appendChild(card);
 
   });
 
-  /* KPI */
+}
 
-  const ideasCount =
-    document.getElementById("ideasCount");
+/* =========================================
+   MAPA
+========================================= */
 
-  if (ideasCount) {
+function renderMapa(data) {
 
-    ideasCount.textContent =
-      ideas.length;
+  const mapContainer =
+    document.getElementById(
+      "mapImpresoras"
+    );
 
-  }
+  if (!mapContainer) return;
+
+  const puntos = data.filter(item => {
+
+    return (
+      item.tipo.toLowerCase() === "punto" &&
+      !isNaN(item.lat) &&
+      !isNaN(item.lng)
+    );
+
+  });
+
+  const map = L.map(
+    "mapImpresoras"
+  ).setView(
+    [9.7489, -83.7534],
+    8
+  );
+
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      attribution:
+        "&copy; OpenStreetMap"
+    }
+  ).addTo(map);
+
+  puntos.forEach(punto => {
+
+    L.marker([
+      punto.lat,
+      punto.lng
+    ])
+      .addTo(map)
+      .bindPopup(`
+
+        <div class="map-popup">
+
+          <h4>
+            ${punto.nombre}
+          </h4>
+
+          <p>
+            ${punto.descripcion || ""}
+          </p>
+
+          ${
+            punto.recurso
+              ? `
+                <a
+                  href="${punto.recurso}"
+                  target="_blank"
+                >
+                  Ver más
+                </a>
+              `
+              : ""
+          }
+
+        </div>
+
+      `);
+
+  });
+
+  setTimeout(() => {
+
+    map.invalidateSize();
+
+  }, 500);
+
+}
+
+/* =========================================
+   TERRITORIAL
+========================================= */
+
+function renderTerritorial(data) {
+
+  const container =
+    document.getElementById(
+      "territorialGrid"
+    );
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const territoriales =
+    data.filter(item => {
+
+      const tipo =
+        item.tipo.toLowerCase();
+
+      return (
+        tipo.includes("territorial") ||
+        tipo.includes("mapeo")
+      );
+
+    });
+
+  territoriales.forEach(item => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "territorial-card";
+
+    card.innerHTML = `
+
+      <div class="territorial-icon">
+
+        <i class="fa-solid fa-map-location-dot"></i>
+
+      </div>
+
+      <h3>
+        ${item.nombre}
+      </h3>
+
+      <p>
+        ${item.descripcion}
+      </p>
+
+      ${
+        item.recurso
+          ? `
+            <a
+              href="${item.recurso}"
+              target="_blank"
+              class="territorial-link"
+            >
+              Abrir recurso
+            </a>
+          `
+          : ""
+      }
+
+    `;
+
+    container.appendChild(card);
+
+  });
 
 }
 
@@ -313,10 +448,14 @@ async function initAgroIdeas() {
 
   try {
 
-    const ideas =
+    const data =
       await fetchAgroIdeas();
 
-    renderIdeas(ideas);
+    renderCatalogo(data);
+
+    renderMapa(data);
+
+    renderTerritorial(data);
 
   } catch (error) {
 
@@ -338,21 +477,3 @@ document.addEventListener(
   "DOMContentLoaded",
   initAgroIdeas
 );
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-  
-      const map = L.map("mapImpresoras")
-        .setView([9.7489, -83.7534], 8);
-  
-      L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-          attribution:
-            '&copy; OpenStreetMap contributors'
-        }
-      ).addTo(map);
-  
-    }
-  );
