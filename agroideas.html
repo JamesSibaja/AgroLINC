@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>AgroIdeas | AgroLINC</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <link rel="stylesheet" href="css/index.css" />
+
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="topbar">
+
+    <div class="logo-wrap">
+
+      <div class="logo-mark"></div>
+
+      <div>
+
+        <div class="logo">
+          AgroLINC
+        </div>
+
+        <small>
+          Innovación y tecnologías aplicadas
+        </small>
+
+      </div>
+
+    </div>
+
+    <nav class="nav">
+
+      <a href="./index.html">
+        Inicio
+      </a>
+
+      <a href="./ruta.html">
+        Mi Ruta
+      </a>
+
+      <a href="./agroideas.html" class="active">
+        AgroIdeas
+      </a>
+
+      <a href="#">
+        Territorio
+      </a>
+
+      <a href="#">
+        Noticias
+      </a>
+
+    </nav>
+
+  </header>
+
+  <!-- HERO -->
+  <section class="hero small-hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-grid">
+
+      <div class="hero-content">
+
+        <span class="hero-tag">
+          Biblioteca abierta de innovación
+        </span>
+
+        <h1>
+          AgroIdeas
+        </h1>
+
+        <p>
+          Explora prototipos, diseños,
+          automatizaciones y soluciones
+          desarrolladas dentro del ecosistema AgroLINC.
+        </p>
+
+        <div class="hero-actions">
+
+          <a href="#ideasGrid" class="primary-btn">
+            Explorar ideas
+          </a>
+
+          <a href="#categorias" class="secondary-btn">
+            Ver categorías
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="hero-panel">
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+
+          <div>
+            <strong id="ideasCount">
+              0
+            </strong>
+            <span>Ideas publicadas</span>
+          </div>
+
+        </div>
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <i class="fa-solid fa-cube"></i>
+          </div>
+
+          <div>
+            <strong>
+              3D
+            </strong>
+            <span>Modelos y prototipos</span>
+          </div>
+
+        </div>
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <i class="fa-solid fa-microchip"></i>
+          </div>
+
+          <div>
+            <strong>
+              IoT
+            </strong>
+            <span>Automatización aplicada</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CATEGORIAS -->
+  <section class="section" id="categorias">
+
+    <div class="section-title">
+
+      <span class="section-badge">
+        Ecosistema creativo
+      </span>
+
+      <h2>
+        Categorías AgroIdeas
+      </h2>
+
+      <p>
+        Explora soluciones clasificadas
+        según tecnologías y aplicaciones.
+      </p>
+
+    </div>
+
+    <div class="tech-grid">
+
+      <div class="tech-card">
+
+        <i class="fa-solid fa-cube"></i>
+
+        <h4>
+          Impresión 3D
+        </h4>
+
+        <p>
+          Piezas, soportes y prototipos funcionales.
+        </p>
+
+      </div>
+
+      <div class="tech-card">
+
+        <i class="fa-solid fa-wifi"></i>
+
+        <h4>
+          IoT
+        </h4>
+
+        <p>
+          Sensores y monitoreo agrícola inteligente.
+        </p>
+
+      </div>
+
+      <div class="tech-card">
+
+        <i class="fa-solid fa-vector-square"></i>
+
+        <h4>
+          Corte láser
+        </h4>
+
+        <p>
+          Componentes modulares y señalética.
+        </p>
+
+      </div>
+
+      <div class="tech-card">
+
+        <i class="fa-solid fa-robot"></i>
+
+        <h4>
+          Automatización
+        </h4>
+
+        <p>
+          Soluciones para procesos agrícolas.
+        </p>
+
+      </div>
+
+      <div class="tech-card">
+
+        <i class="fa-solid fa-seedling"></i>
+
+        <h4>
+          AgroTech
+        </h4>
+
+        <p>
+          Innovación aplicada al territorio.
+        </p>
+
+      </div>
+
+      <div class="tech-card">
+
+        <i class="fa-solid fa-droplet"></i>
+
+        <h4>
+          Hidroponía
+        </h4>
+
+        <p>
+          Sistemas inteligentes de cultivo.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FILTROS -->
+  <section class="section alt-section">
+
+    <div class="ideas-toolbar">
+
+      <div>
+
+        <span class="section-badge">
+          Explorador
+        </span>
+
+        <h2>
+          Biblioteca de proyectos
+        </h2>
+
+      </div>
+
+      <div class="ideas-filters">
+
+        <button class="filter-btn active">
+          Todos
+        </button>
+
+        <button class="filter-btn">
+          3D
+        </button>
+
+        <button class="filter-btn">
+          IoT
+        </button>
+
+        <button class="filter-btn">
+          Corte láser
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- IDEAS GRID -->
+  <section class="section" id="ideasGrid">
+
+    <div class="ideas-grid">
+
+      <!-- IDEA -->
+      <div class="idea-card">
+
+        <div class="idea-image gradient-1">
+
+          <div class="idea-badge">
+            Impresión 3D
+          </div>
+
+        </div>
+
+        <div class="idea-content">
+
+          <div class="idea-top">
+
+            <span class="idea-category">
+              AgroTech
+            </span>
+
+            <span class="idea-level">
+              Básico
+            </span>
+
+          </div>
+
+          <h3>
+            Sistema hidropónico modular
+          </h3>
+
+          <p>
+            Diseño paramétrico para
+            sistemas hidropónicos
+            escalables y de bajo costo.
+          </p>
+
+          <div class="idea-meta">
+
+            <span>
+              <i class="fa-solid fa-cube"></i>
+              STL
+            </span>
+
+            <span>
+              <i class="fa-solid fa-download"></i>
+              Descargable
+            </span>
+
+          </div>
+
+          <div class="idea-actions">
+
+            <button class="primary-btn small-btn">
+              Ver proyecto
+            </button>
+
+            <button class="secondary-btn small-btn">
+              Descargar
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- IDEA -->
+      <div class="idea-card">
+
+        <div class="idea-image gradient-2">
+
+          <div class="idea-badge">
+            IoT
+          </div>
+
+        </div>
+
+        <div class="idea-content">
+
+          <div class="idea-top">
+
+            <span class="idea-category">
+              Automatización
+            </span>
+
+            <span class="idea-level">
+              Intermedio
+            </span>
+
+          </div>
+
+          <h3>
+            Sensor de humedad inteligente
+          </h3>
+
+          <p>
+            Monitoreo de humedad y temperatura
+            conectado a tablero digital.
+          </p>
+
+          <div class="idea-meta">
+
+            <span>
+              <i class="fa-solid fa-microchip"></i>
+              Arduino
+            </span>
+
+            <span>
+              <i class="fa-solid fa-cloud"></i>
+              IoT
+            </span>
+
+          </div>
+
+          <div class="idea-actions">
+
+            <button class="primary-btn small-btn">
+              Ver proyecto
+            </button>
+
+            <button class="secondary-btn small-btn">
+              Código
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- IDEA -->
+      <div class="idea-card">
+
+        <div class="idea-image gradient-3">
+
+          <div class="idea-badge">
+            Corte láser
+          </div>
+
+        </div>
+
+        <div class="idea-content">
+
+          <div class="idea-top">
+
+            <span class="idea-category">
+              Fabricación digital
+            </span>
+
+            <span class="idea-level">
+              Básico
+            </span>
+
+          </div>
+
+          <h3>
+            Señalética agrícola modular
+          </h3>
+
+          <p>
+            Plantillas personalizadas
+            para identificación
+            de cultivos y espacios.
+          </p>
+
+          <div class="idea-meta">
+
+            <span>
+              <i class="fa-solid fa-vector-square"></i>
+              SVG
+            </span>
+
+            <span>
+              <i class="fa-solid fa-scissors"></i>
+              Láser
+            </span>
+
+          </div>
+
+          <div class="idea-actions">
+
+            <button class="primary-btn small-btn">
+              Ver diseño
+            </button>
+
+            <button class="secondary-btn small-btn">
+              Descargar
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- IDEA -->
+      <div class="idea-card">
+
+        <div class="idea-image gradient-4">
+
+          <div class="idea-badge">
+            Automatización
+          </div>
+
+        </div>
+
+        <div class="idea-content">
+
+          <div class="idea-top">
+
+            <span class="idea-category">
+              Smart Farming
+            </span>
+
+            <span class="idea-level">
+              Avanzado
+            </span>
+
+          </div>
+
+          <h3>
+            Sistema automático de riego
+          </h3>
+
+          <p>
+            Activación automática de riego
+            basada en lectura de sensores.
+          </p>
+
+          <div class="idea-meta">
+
+            <span>
+              <i class="fa-solid fa-droplet"></i>
+              Riego
+            </span>
+
+            <span>
+              <i class="fa-solid fa-bolt"></i>
+              Automatizado
+            </span>
+
+          </div>
+
+          <div class="idea-actions">
+
+            <button class="primary-btn small-btn">
+              Ver proyecto
+            </button>
+
+            <button class="secondary-btn small-btn">
+              GitHub
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- IDEA -->
+      <div class="idea-card">
+
+        <div class="idea-image gradient-5">
+
+          <div class="idea-badge">
+            Drones
+          </div>
+
+        </div>
+
+        <div class="idea-content">
+
+          <div class="idea-top">
+
+            <span class="idea-category">
+              Territorio
+            </span>
+
+            <span class="idea-level">
+              Intermedio
+            </span>
+
+          </div>
+
+          <h3>
+            Mapeo agrícola con drones
+          </h3>
+
+          <p>
+            Captura y análisis visual
+            para monitoreo de cultivos.
+          </p>
+
+          <div class="idea-meta">
+
+            <span>
+              <i class="fa-solid fa-drone"></i>
+              Drone
+            </span>
+
+            <span>
+              <i class="fa-solid fa-map"></i>
+              SIG
+            </span>
+
+          </div>
+
+          <div class="idea-actions">
+
+            <button class="primary-btn small-btn">
+              Ver análisis
+            </button>
+
+            <button class="secondary-btn small-btn">
+              Recursos
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- IDEA -->
+      <div class="idea-card">
+
+        <div class="idea-image gradient-6">
+
+          <div class="idea-badge">
+            Open Source
+          </div>
+
+        </div>
+
+        <div class="idea-content">
+
+          <div class="idea-top">
+
+            <span class="idea-category">
+              Comunidad
+            </span>
+
+            <span class="idea-level">
+              Libre
+            </span>
+
+          </div>
+
+          <h3>
+            Biblioteca de piezas agrícolas
+          </h3>
+
+          <p>
+            Colección abierta de modelos,
+            soportes y adaptadores reutilizables.
+          </p>
+
+          <div class="idea-meta">
+
+            <span>
+              <i class="fa-solid fa-folder-open"></i>
+              Recursos
+            </span>
+
+            <span>
+              <i class="fa-solid fa-share-nodes"></i>
+              Compartido
+            </span>
+
+          </div>
+
+          <div class="idea-actions">
+
+            <button class="primary-btn small-btn">
+              Explorar
+            </button>
+
+            <button class="secondary-btn small-btn">
+              Compartir
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CTA -->
+  <section class="section alt-section">
+
+    <div class="territory-box">
+
+      <div class="territory-content">
+
+        <span class="section-badge">
+          Comunidad AgroLINC
+        </span>
+
+        <h2>
+          Comparte tus propias AgroIdeas
+        </h2>
+
+        <p>
+          Publica prototipos, diseños,
+          automatizaciones y soluciones
+          desarrolladas en procesos formativos
+          o proyectos territoriales.
+        </p>
+
+        <div class="hero-actions">
+
+          <button class="primary-btn">
+            Publicar idea
+          </button>
+
+          <button class="secondary-btn">
+            Ver comunidad
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="territory-visual">
+
+        <div class="node node-1"></div>
+        <div class="node node-2"></div>
+        <div class="node node-3"></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <div>
+
+      <strong>
+        AgroLINC
+      </strong>
+
+      <p>
+        Formación e innovación aplicada.
+      </p>
+
+    </div>
+
+    <div>
+
+      <strong>
+        Contacto
+      </strong>
+
+      <p>
+        info@agrolinc.org
+      </p>
+
+    </div>
+
+    <div>
+
+      <strong>
+        Plataforma
+      </strong>
+
+      <p>
+        Rutas · AgroIdeas · Territorio
+      </p>
+
+    </div>
+
+  </footer>
+
+  <script>
+
+    const ideas =
+      document.querySelectorAll(".idea-card");
+
+    document.getElementById("ideasCount").textContent =
+      ideas.length;
+
+  </script>
+    <script src="js/data.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/agroideas.js"></script>
+</body>
+</html>
