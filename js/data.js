@@ -43,6 +43,7 @@ function parseCSV(text) {
 
 }
 
+
 /* =========================================
    NORMALIZER
 ========================================= */
@@ -67,6 +68,8 @@ const ESTUDIANTES_URL =
 
 const EVENTOS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1589233834&single=true&output=csv";
+
+const KPI_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=203474066&single=true&output=csv";
 
 /* =========================================
    FETCH CSV
@@ -105,6 +108,29 @@ async function fetchCSV(url, name) {
 /* =========================================
    FETCHERS
 ========================================= */
+
+async function fetchKPI() {
+
+  const res = await fetch(KPI_URL);
+
+  const text = await res.text();
+
+  const rows = parseCSV(text);
+
+  console.log("KPI RAW");
+  console.log(text);
+
+  console.log("KPI PARSED");
+  console.table(rows);
+
+  return rows.slice(1).map(r => ({
+
+    nombre: clean(r[0]),
+    valor: clean(r[1])
+
+  }));
+
+}
 
 async function fetchCursos() {
 
@@ -474,3 +500,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
