@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
   <meta charset="UTF-8" />
@@ -109,16 +108,12 @@
       </span>
 
       <h1>
-        Modelos abiertos,
-        prototipos y
-        fabricación digital
+        Modelos abiertos y prototipos
       </h1>
 
       <p>
-        Explora recursos maker,
-        automatización agrícola,
-        impresión 3D y soluciones
-        abiertas para el territorio.
+        Explora recursos de impresión 3D,
+        automatización agrícola y fabricación digital.
       </p>
 
       <!-- SEARCH -->
@@ -132,7 +127,7 @@
           <input
             type="text"
             id="ideasSearch"
-            placeholder="Buscar modelos o prototipos"
+            placeholder="Buscar..."
           />
 
         </div>
@@ -143,25 +138,30 @@
 
       </div>
 
-      <!-- TAGS -->
+      <!-- FILTROS -->
 
-      <div class="ideas-tags">
+      <div class="catalog-filters">
 
-        <span>
+        <button
+          class="filter-btn active"
+          data-filter="all"
+        >
+          Todo
+        </button>
+
+        <button
+          class="filter-btn"
+          data-filter="modelo"
+        >
           Modelos 3D
-        </span>
+        </button>
 
-        <span>
+        <button
+          class="filter-btn"
+          data-filter="prototipo"
+        >
           Prototipos
-        </span>
-
-        <span>
-          Agricultura
-        </span>
-
-        <span>
-          Automatización
-        </span>
+        </button>
 
       </div>
 
@@ -169,7 +169,7 @@
 
   </section>
 
-  <!-- EXPLORADOR -->
+  <!-- CONTENIDO -->
 
   <section class="ideas-explorer">
 
@@ -184,7 +184,7 @@
         </span>
 
         <h3>
-          Explorar AgroIdeas
+          AgroIdeas
         </h3>
 
       </div>
@@ -213,22 +213,11 @@
 
         </a>
 
-        <a
-          href="#territorial"
-          class="explorer-link"
-        >
-
-          <i class="fa-solid fa-seedling"></i>
-
-          Territorial
-
-        </a>
-
       </div>
 
     </aside>
 
-    <!-- CONTENT -->
+    <!-- MAIN -->
 
     <div class="explorer-content">
 
@@ -244,7 +233,7 @@
           <div>
 
             <span class="section-badge">
-              Biblioteca abierta
+              Biblioteca
             </span>
 
             <h2>
@@ -252,39 +241,6 @@
             </h2>
 
           </div>
-
-          <p>
-            Recursos abiertos,
-            impresión 3D y soluciones
-            agroalimentarias.
-          </p>
-
-        </div>
-
-        <!-- FILTERS -->
-
-        <div class="catalog-filters">
-
-          <button
-            class="catalog-filter-btn active"
-            data-filter="todos"
-          >
-            Todos
-          </button>
-
-          <button
-            class="catalog-filter-btn"
-            data-filter="modelo"
-          >
-            Modelos 3D
-          </button>
-
-          <button
-            class="catalog-filter-btn"
-            data-filter="prototipo"
-          >
-            Prototipos
-          </button>
 
         </div>
 
@@ -316,12 +272,11 @@
           <div>
 
             <span class="section-badge">
-              Ecosistema maker
+              Ecosistema
             </span>
 
             <h2>
-              Impresoras 3D
-              en Costa Rica
+              Impresoras 3D en Costa Rica
             </h2>
 
           </div>
@@ -336,36 +291,6 @@
           ></div>
 
         </div>
-
-      </section>
-
-      <!-- TERRITORIAL -->
-
-      <section
-        class="ideas-section"
-        id="territorial"
-      >
-
-        <div class="ideas-section-top">
-
-          <div>
-
-            <span class="section-badge">
-              Territorial
-            </span>
-
-            <h2>
-              Procesos y mapeos
-            </h2>
-
-          </div>
-
-        </div>
-
-        <div
-          class="territorial-layout"
-          id="territorialGrid"
-        ></div>
 
       </section>
 
@@ -384,7 +309,7 @@
 
       <button
         class="modal-close"
-        id="closeModalBtn"
+        onclick="closeIdeaModal()"
       >
 
         <i class="fa-solid fa-xmark"></i>
@@ -397,25 +322,6 @@
 
   </div>
 
-  <!-- FOOTER -->
-
-  <footer class="footer">
-
-    <div>
-
-      <strong>
-        AgroLINC
-      </strong>
-
-      <p>
-        Innovación aplicada y
-        tecnologías abiertas.
-      </p>
-
-    </div>
-
-  </footer>
-
   <!-- LEAFLET -->
 
   <script
@@ -427,5 +333,4 @@
   <script src="js/agroideas.js"></script>
 
 </body>
-
 </html>

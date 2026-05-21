@@ -13,11 +13,11 @@ const AGROIDEAS_URL =
 
 let currentPage = 1;
 
-let currentFilter = "todos";
+let allIdeas = [];
 
-let catalogoGlobal = [];
+let filteredIdeas = [];
 
-let catalogoFiltrado = [];
+let currentFilter = "all";
 
 /* =========================================
    HELPERS
@@ -32,18 +32,8 @@ function clean(value) {
 
 }
 
-function truncate(text, max = 120) {
-
-  if (!text) return "";
-
-  return text.length > max
-    ? text.substring(0, max) + "..."
-    : text;
-
-}
-
 /* =========================================
-   GOOGLE DRIVE
+   GOOGLE DRIVE IMAGE FIX
 ========================================= */
 
 function getGoogleDriveImage(url) {
@@ -57,56 +47,14 @@ function getGoogleDriveImage(url) {
 
   const fileId = match[1];
 
-  /*
-    Firefox falla con thumbnail.
-    Usamos uc?export=view
-  */
-
   return `
-    https://drive.google.com/uc?export=view&id=${fileId}
+https://drive.google.com/uc?export=view&id=${fileId}
   `.trim();
 
 }
 
 /* =========================================
-   IMAGE HTML
-========================================= */
-
-function getImageHTML(url) {
-
-  const imageUrl =
-    getGoogleDriveImage(url);
-
-  if (!imageUrl) {
-
-    return `
-      <div class="idea-placeholder">
-        <i class="fa-solid fa-cube"></i>
-      </div>
-    `;
-
-  }
-
-  return `
-    <img
-      src="${imageUrl}"
-      alt="AgroIdea"
-      loading="lazy"
-      referrerpolicy="no-referrer"
-      crossorigin="anonymous"
-
-      onerror="
-        this.onerror=null;
-        this.parentElement.innerHTML=
-        '<div class=idea-placeholder><i class=fa-solid fa-image></i></div>';
-      "
-    />
-  `;
-
-}
-
-/* =========================================
-   CSV PARSER
+   CSV
 ========================================= */
 
 function parseCSV(text) {
@@ -156,57 +104,42 @@ function parseCSV(text) {
 }
 
 /* =========================================
-   FETCH CSV
+   FETCH
 ========================================= */
 
 async function fetchCSV(url) {
 
-  const response =
-    await fetch(url);
+  const response = await fetch(url);
 
-  const text =
-    await response.text();
+  const text = await response.text();
 
   return parseCSV(text);
 
 }
 
-/* =========================================
-   FETCH DATA
-========================================= */
-
 async function fetchAgroIdeas() {
 
   const rows =
-    await fetchCSV(
-      AGROIDEAS_URL
-    );
+    await fetchCSV(AGROIDEAS_URL);
 
   return rows
     .slice(1)
     .filter(r => r[2])
     .map(r => ({
 
-      id:
-        clean(r[0]),
+      id: clean(r[0]),
 
-      coleccion:
-        clean(r[1]),
+      coleccion: clean(r[1]),
 
-      nombre:
-        clean(r[2]),
+      nombre: clean(r[2]),
 
-      imagen:
-        clean(r[3]),
+      imagen: clean(r[3]),
 
-      recurso:
-        clean(r[4]),
+      recurso: clean(r[4]),
 
-      descripcion:
-        clean(r[5]),
+      descripcion: clean(r[5]),
 
-      tipo:
-        clean(r[6]),
+      tipo: clean(r[6]),
 
       lat:
         parseFloat(clean(r[7])),
@@ -215,6 +148,40 @@ async function fetchAgroIdeas() {
         parseFloat(clean(r[8]))
 
     }));
+
+}
+
+/* =========================================
+   IMAGE
+========================================= */
+
+function renderImage(url) {
+
+  const img =
+    getGoogleDriveImage(url);
+
+  if (!img) {
+
+    return `
+      <div class="idea-placeholder">
+        <i class="fa-solid fa-cube"></i>
+      </div>
+    `;
+
+  }
+
+  return `
+    <img
+      src="${img}"
+      alt="AgroIdea"
+      referrerpolicy="no-referrer"
+      loading="lazy"
+      onerror="
+        this.onerror=null;
+        this.src='https://placehold.co/600x400/e2e8f0/64748b?text=AgroIdea';
+      "
+    />
+  `;
 
 }
 
@@ -230,89 +197,52 @@ function applyFilters() {
       .value
       .toLowerCase();
 
-  catalogoFiltrado =
-    catalogoGlobal.filter(item => {
+  filteredIdeas =
+    allIdeas.filter(item => {
+
+      const text =
+        `
+          ${item.nombre}
+          ${item.descripcion}
+          ${item.tipo}
+        `
+        .toLowerCase();
+
+      const matchSearch =
+        text.includes(search);
+
+      let matchType = true;
 
       const tipo =
         item.tipo.toLowerCase();
 
-      const matchesSearch =
-
-        item.nombre
-          .toLowerCase()
-          .includes(search)
-
-        ||
-
-        item.descripcion
-          .toLowerCase()
-          .includes(search);
-
       if (
-        currentFilter ===
-        "modelo"
+        currentFilter === "modelo"
       ) {
 
-        return (
-          (
-            tipo.includes("3d") ||
-            tipo.includes("modelo")
-          )
-          &&
-          matchesSearch
-        );
+        matchType =
+          tipo.includes("3d") ||
+          tipo.includes("modelo");
 
       }
 
       if (
-        currentFilter ===
-        "prototipo"
+        currentFilter === "prototipo"
       ) {
 
-        return (
-          tipo.includes(
-            "prototipo"
-          )
-          &&
-          matchesSearch
-        );
+        matchType =
+          tipo.includes("prototipo");
 
       }
-
-      return matchesSearch;
-
-    });
-
-  currentPage = 1;
-
-  renderPage(currentPage);
-
-}
-
-/* =========================================
-   RENDER CATALOGO
-========================================= */
-
-function renderCatalogo(data) {
-
-  catalogoGlobal =
-    data.filter(item => {
-
-      const tipo =
-        item.tipo.toLowerCase();
 
       return (
-        tipo.includes("3d")
-        ||
-        tipo.includes("modelo")
-        ||
-        tipo.includes("prototipo")
+        matchSearch &&
+        matchType
       );
 
     });
 
-  catalogoFiltrado =
-    [...catalogoGlobal];
+  currentPage = 1;
 
   renderPage(currentPage);
 
@@ -332,25 +262,18 @@ function renderPage(page) {
   grid.innerHTML = "";
 
   const start =
-    (page - 1) *
-    ITEMS_PER_PAGE;
+    (page - 1) * ITEMS_PER_PAGE;
 
   const end =
-    start +
-    ITEMS_PER_PAGE;
+    start + ITEMS_PER_PAGE;
 
   const items =
-    catalogoFiltrado.slice(
-      start,
-      end
-    );
+    filteredIdeas.slice(start, end);
 
   items.forEach(item => {
 
     const card =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     card.className =
       "idea-card-v2";
@@ -359,45 +282,51 @@ function renderPage(page) {
 
       <div class="idea-card-image">
 
-        ${getImageHTML(item.imagen)}
+        ${renderImage(item.imagen)}
 
       </div>
 
       <div class="idea-card-body">
 
         <div class="idea-chip">
-          ${item.tipo || "AgroIdeas"}
+
+          ${item.coleccion || "AgroIdeas"}
+
         </div>
 
         <h3>
+
           ${item.nombre}
+
         </h3>
 
         <p class="idea-short-desc">
-          ${truncate(item.descripcion, 90)}
+
+          ${truncate(item.descripcion, 110)}
+
         </p>
 
         <div class="idea-actions">
 
           <button
             class="resource-btn"
-            data-id="${item.id}"
+            onclick='openIdeaModal(${JSON.stringify(item)})'
           >
             Ver detalle
           </button>
 
           ${
             item.recurso
-            ? `
-              <a
-                href="${item.recurso}"
-                target="_blank"
-                class="resource-btn secondary"
-              >
-                Recurso
-              </a>
-            `
-            : ""
+              ? `
+                <a
+                  href="${item.recurso}"
+                  target="_blank"
+                  class="resource-btn secondary"
+                >
+                  Recurso
+                </a>
+              `
+              : ""
           }
 
         </div>
@@ -405,17 +334,6 @@ function renderPage(page) {
       </div>
 
     `;
-
-    /* OPEN MODAL */
-
-    card
-      .querySelector(
-        ".resource-btn"
-      )
-      .addEventListener(
-        "click",
-        () => openIdeaModal(item)
-      );
 
     grid.appendChild(card);
 
@@ -440,12 +358,9 @@ function renderPagination() {
 
   const totalPages =
     Math.ceil(
-      catalogoFiltrado.length
-      /
+      filteredIdeas.length /
       ITEMS_PER_PAGE
     );
-
-  if (totalPages <= 1) return;
 
   for (
     let i = 1;
@@ -454,9 +369,7 @@ function renderPagination() {
   ) {
 
     const btn =
-      document.createElement(
-        "button"
-      );
+      document.createElement("button");
 
     btn.className =
       `page-btn ${
@@ -467,34 +380,50 @@ function renderPagination() {
 
     btn.textContent = i;
 
-    btn.addEventListener(
-      "click",
-      () => {
+    btn.onclick = () => {
 
-        currentPage = i;
+      currentPage = i;
 
-        renderPage(i);
+      renderPage(i);
 
-        window.scrollTo({
+      window.scrollTo({
 
-          top:
-            document
-              .getElementById(
-                "catalogo"
-              )
-              .offsetTop - 100,
+        top:
+          document
+            .getElementById(
+              "catalogo"
+            )
+            .offsetTop - 80,
 
-          behavior:
-            "smooth"
+        behavior: "smooth"
 
-        });
+      });
 
-      }
-    );
+    };
 
     container.appendChild(btn);
 
   }
+
+}
+
+/* =========================================
+   TRUNCATE
+========================================= */
+
+function truncate(text, max = 120) {
+
+  if (!text) return "";
+
+  if (text.length <= max) {
+
+    return text;
+
+  }
+
+  return (
+    text.substring(0, max) + "..."
+  );
 
 }
 
@@ -518,14 +447,14 @@ function openIdeaModal(item) {
 
     <div class="modal-image">
 
-      ${getImageHTML(item.imagen)}
+      ${renderImage(item.imagen)}
 
     </div>
 
     <div class="modal-content">
 
       <div class="idea-chip">
-        ${item.tipo}
+        ${item.coleccion}
       </div>
 
       <h2>
@@ -536,18 +465,20 @@ function openIdeaModal(item) {
         ${item.descripcion || ""}
       </p>
 
+      <br>
+
       ${
         item.recurso
-        ? `
-          <a
-            href="${item.recurso}"
-            target="_blank"
-            class="resource-btn"
-          >
-            Abrir recurso
-          </a>
-        `
-        : ""
+          ? `
+            <a
+              href="${item.recurso}"
+              target="_blank"
+              class="resource-btn"
+            >
+              Abrir recurso
+            </a>
+          `
+          : ""
       }
 
     </div>
@@ -558,21 +489,20 @@ function openIdeaModal(item) {
 
 }
 
-/* =========================================
-   CLOSE MODAL
-========================================= */
-
 function closeIdeaModal() {
 
   document
-    .getElementById(
-      "ideaModal"
-    )
-    .classList.remove(
-      "show"
-    );
+    .getElementById("ideaModal")
+    .classList
+    .remove("show");
 
 }
+
+window.openIdeaModal =
+  openIdeaModal;
+
+window.closeIdeaModal =
+  closeIdeaModal;
 
 /* =========================================
    MAPA
@@ -580,35 +510,26 @@ function closeIdeaModal() {
 
 function renderMapa(data) {
 
-  const mapContainer =
-    document.getElementById(
-      "mapImpresoras"
-    );
-
-  if (!mapContainer) return;
-
   const puntos =
     data.filter(item => {
 
       return (
-        item.tipo
-          .toLowerCase()
-          .includes("punto")
-        &&
-        !isNaN(item.lat)
-        &&
+        item.tipo.toLowerCase() ===
+          "punto" &&
+        !isNaN(item.lat) &&
         !isNaN(item.lng)
       );
 
     });
 
+  if (!puntos.length) return;
+
   const map =
-    L.map(
-      "mapImpresoras"
-    ).setView(
-      [9.7489, -83.7534],
-      8
-    );
+    L.map("mapImpresoras")
+      .setView(
+        [9.7489, -83.7534],
+        8
+      );
 
   L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -636,7 +557,7 @@ function renderMapa(data) {
           <p>
             ${truncate(
               punto.descripcion,
-              100
+              120
             )}
           </p>
 
@@ -649,107 +570,27 @@ function renderMapa(data) {
 }
 
 /* =========================================
-   TERRITORIAL
-========================================= */
-
-function renderTerritorial(data) {
-
-  const container =
-    document.getElementById(
-      "territorialGrid"
-    );
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  const territoriales =
-    data.filter(item => {
-
-      const tipo =
-        item.tipo.toLowerCase();
-
-      return (
-        tipo.includes(
-          "territorial"
-        )
-        ||
-        tipo.includes(
-          "mapeo"
-        )
-      );
-
-    });
-
-  territoriales.forEach(item => {
-
-    const card =
-      document.createElement(
-        "div"
-      );
-
-    card.className =
-      "territorial-card";
-
-    card.innerHTML = `
-
-      <div class="territorial-icon">
-
-        <i class="fa-solid fa-map-location-dot"></i>
-
-      </div>
-
-      <h3>
-        ${item.nombre}
-      </h3>
-
-      <p>
-        ${truncate(
-          item.descripcion,
-          160
-        )}
-      </p>
-
-    `;
-
-    container.appendChild(card);
-
-  });
-
-}
-
-/* =========================================
    EVENTS
 ========================================= */
 
-function initEvents() {
-
-  /* SEARCH */
+function setupEvents() {
 
   document
-    .getElementById(
-      "ideasSearch"
-    )
+    .getElementById("ideasSearch")
     .addEventListener(
       "input",
       applyFilters
     );
 
   document
-    .getElementById(
-      "explorarBtn"
-    )
+    .getElementById("explorarBtn")
     .addEventListener(
       "click",
       applyFilters
     );
 
-  /* FILTERS */
-
   document
-    .querySelectorAll(
-      ".catalog-filter-btn"
-    )
+    .querySelectorAll(".filter-btn")
     .forEach(btn => {
 
       btn.addEventListener(
@@ -758,7 +599,7 @@ function initEvents() {
 
           document
             .querySelectorAll(
-              ".catalog-filter-btn"
+              ".filter-btn"
             )
             .forEach(b => {
 
@@ -782,37 +623,6 @@ function initEvents() {
 
     });
 
-  /* MODAL */
-
-  document
-    .getElementById(
-      "closeModalBtn"
-    )
-    .addEventListener(
-      "click",
-      closeIdeaModal
-    );
-
-  window.addEventListener(
-    "click",
-    e => {
-
-      const modal =
-        document.getElementById(
-          "ideaModal"
-        );
-
-      if (
-        e.target === modal
-      ) {
-
-        closeIdeaModal();
-
-      }
-
-    }
-  );
-
 }
 
 /* =========================================
@@ -823,16 +633,17 @@ async function initAgroIdeas() {
 
   try {
 
-    const data =
+    allIdeas =
       await fetchAgroIdeas();
 
-    renderCatalogo(data);
+    filteredIdeas =
+      [...allIdeas];
 
-    renderMapa(data);
+    renderPage(1);
 
-    renderTerritorial(data);
+    renderMapa(allIdeas);
 
-    initEvents();
+    setupEvents();
 
   } catch (error) {
 
@@ -845,10 +656,6 @@ async function initAgroIdeas() {
   }
 
 }
-
-/* =========================================
-   LOAD
-========================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
