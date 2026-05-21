@@ -1,68 +1,27 @@
 /* =========================================
-   PAGINACIÓN
+   CONFIG
 ========================================= */
 
 const ITEMS_PER_PAGE = 6;
-
-let currentPage = 1;
-
-let catalogoGlobal = [];
-
-/* =========================================
-   AGROIDEAS
-========================================= */
 
 const AGROIDEAS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1406834327&single=true&output=csv";
 
 /* =========================================
-   DEBUG
+   STATE
 ========================================= */
 
-function debugLog(title, data) {
+let currentPage = 1;
 
-  console.group(title);
+let catalogoGlobal = [];
 
-  console.table(data);
+let catalogoFiltrado = [];
 
-  console.groupEnd();
-
-}
+let currentFilter = "todos";
 
 /* =========================================
    HELPERS
 ========================================= */
-
-/* =========================================
-   GOOGLE DRIVE IMAGE
-========================================= */
-
-function getGoogleDriveImage(url) {
-
-  if (!url) return "";
-
-  /*
-    Convierte:
-
-    https://drive.google.com/file/d/FILE_ID/view
-
-    a:
-
-    https://drive.google.com/thumbnail?id=FILE_ID&sz=w1000
-  */
-
-  const match =
-    url.match(/\/d\/(.*?)\//);
-
-  if (!match) return url;
-
-  const fileId = match[1];
-
-  return `
-    https://drive.google.com/thumbnail?id=${fileId}&sz=w1200
-  `;
-
-}
 
 function clean(value) {
 
@@ -74,7 +33,26 @@ function clean(value) {
 }
 
 /* =========================================
-   CSV PARSER
+   GOOGLE DRIVE IMAGE
+========================================= */
+
+function getGoogleDriveImage(url) {
+
+  if (!url) return "";
+
+  const match =
+    url.match(/\/d\/(.*?)\//);
+
+  if (!match) return url;
+
+  const fileId = match[1];
+
+  return `https://drive.google.com/uc?export=view&id=${fileId}`;
+
+}
+
+/* =========================================
+   CSV
 ========================================= */
 
 function parseCSV(text) {
@@ -87,6 +65,7 @@ function parseCSV(text) {
       const result = [];
 
       let current = "";
+
       let insideQuotes = false;
 
       for (let i = 0; i < row.length; i++) {
@@ -123,97 +102,59 @@ function parseCSV(text) {
 }
 
 /* =========================================
-   FETCH CSV
+   FETCH
 ========================================= */
 
-async function fetchCSV(url, label = "CSV") {
+async function fetchCSV(url) {
 
-  const response = await fetch(url);
+  const response =
+    await fetch(url);
 
-  const text = await response.text();
+  const text =
+    await response.text();
 
-  console.log(`${label} RAW`);
-  console.log(text);
-
-  const rows = parseCSV(text);
-
-  debugLog(`${label} PARSED`, rows);
-
-  return rows;
+  return parseCSV(text);
 
 }
 
 /* =========================================
-   FETCH AGROIDEAS
+   FETCH DATA
 ========================================= */
 
 async function fetchAgroIdeas() {
 
   const rows =
-    await fetchCSV(
-      AGROIDEAS_URL,
-      "AGROIDEAS"
-    );
+    await fetchCSV(AGROIDEAS_URL);
 
-  /*
-    COLUMNAS:
-
-    0 ID
-    1 Colección
-    2 Nombre
-    3 Imagen
-    4 Recurso
-    5 Descripción
-    6 Tipo
-    7 lat
-    8 lng
-  */
-
-  const data = rows
+  return rows
     .slice(1)
     .filter(r => r[2])
     .map(r => ({
 
-      id:
-        clean(r[0]),
+      id: clean(r[0]),
 
-      coleccion:
-        clean(r[1]),
+      coleccion: clean(r[1]),
 
-      nombre:
-        clean(r[2]),
+      nombre: clean(r[2]),
 
-      imagen:
-        clean(r[3]),
+      imagen: clean(r[3]),
 
-      recurso:
-        clean(r[4]),
+      recurso: clean(r[4]),
 
-      descripcion:
-        clean(r[5]),
+      descripcion: clean(r[5]),
 
-      tipo:
-        clean(r[6]),
+      tipo: clean(r[6]),
 
-      lat:
-        parseFloat(clean(r[7])),
+      lat: parseFloat(clean(r[7])),
 
-      lng:
-        parseFloat(clean(r[8]))
+      lng: parseFloat(clean(r[8]))
 
     }));
-
-  debugLog(
-    "AGROIDEAS LIMPIAS",
-    data
-  );
-
-  return data;
 
 }
 
 /* =========================================
-   IMAGE
+   IMAGE HTML
 ========================================= */
 
 function getImage(url) {
@@ -234,10 +175,85 @@ function getImage(url) {
   return `
     <img
       src="${imageUrl}"
-      alt="Imagen AgroIdea"
+      alt="AgroIdea"
       loading="lazy"
+
+      referrerpolicy="no-referrer"
+
+      onerror="
+        this.onerror=null;
+        this.src='assets/images/placeholder.jpg';
+      "
     />
   `;
+
+}
+
+/* =========================================
+   TRUNCATE
+========================================= */
+
+function truncate(text, max = 120) {
+
+  if (!text) return "";
+
+  if (text.length <= max) {
+
+    return text;
+
+  }
+
+  return text.substring(0, max) + "...";
+
+}
+
+/* =========================================
+   FILTER
+========================================= */
+
+function filterCatalog() {
+
+  const search =
+    document
+      .getElementById("ideasSearch")
+      .value
+      .toLowerCase();
+
+  catalogoFiltrado =
+    catalogoGlobal.filter(item => {
+
+      const tipo =
+        item.tipo.toLowerCase();
+
+      const matchesSearch =
+        item.nombre.toLowerCase().includes(search) ||
+        item.descripcion.toLowerCase().includes(search);
+
+      if (currentFilter === "modelo") {
+
+        return (
+          tipo.includes("3d") &&
+          matchesSearch
+        );
+
+      }
+
+      if (currentFilter === "prototipo") {
+
+        return (
+          tipo.includes("prototipo") &&
+          matchesSearch
+        );
+
+      }
+
+      return matchesSearch;
+
+    });
+
+  currentPage = 1;
+
+  renderPage(currentPage);
 
 }
 
@@ -247,18 +263,22 @@ function getImage(url) {
 
 function renderCatalogo(data) {
 
-  catalogoGlobal = data.filter(item => {
+  catalogoGlobal =
+    data.filter(item => {
 
-    const tipo =
-      item.tipo.toLowerCase();
+      const tipo =
+        item.tipo.toLowerCase();
 
-    return (
-      tipo.includes("3d") ||
-      tipo.includes("modelo") ||
-      tipo.includes("prototipo")
-    );
+      return (
+        tipo.includes("3d") ||
+        tipo.includes("modelo") ||
+        tipo.includes("prototipo")
+      );
 
-  });
+    });
+
+  catalogoFiltrado =
+    [...catalogoGlobal];
 
   renderPage(currentPage);
 
@@ -271,16 +291,7 @@ function renderCatalogo(data) {
 function renderPage(page) {
 
   const grid =
-    document.getElementById(
-      "ideasGrid"
-    );
-
-  const pagination =
-    document.getElementById(
-      "ideasPagination"
-    );
-
-  if (!grid) return;
+    document.getElementById("ideasGrid");
 
   grid.innerHTML = "";
 
@@ -291,7 +302,7 @@ function renderPage(page) {
     start + ITEMS_PER_PAGE;
 
   const items =
-    catalogoGlobal.slice(start, end);
+    catalogoFiltrado.slice(start, end);
 
   items.forEach(item => {
 
@@ -312,7 +323,7 @@ function renderPage(page) {
       <div class="idea-card-body">
 
         <div class="idea-chip">
-          ${item.coleccion || "AgroIdeas"}
+          ${item.tipo || "AgroIdeas"}
         </div>
 
         <h3>
@@ -320,12 +331,7 @@ function renderPage(page) {
         </h3>
 
         <p class="idea-short-desc">
-          ${
-            truncate(
-              item.descripcion,
-              110
-            )
-          }
+          ${truncate(item.descripcion, 100)}
         </p>
 
         <div class="idea-actions">
@@ -366,23 +372,6 @@ function renderPage(page) {
 }
 
 /* =========================================
-   TRUNCATE
-========================================= */
-
-function truncate(text, max = 120) {
-
-  if (!text) return "";
-
-  if (text.length <= max) {
-
-    return text;
-
-  }
-
-  return text.substring(0, max) + "...";
-
-}
-/* =========================================
    PAGINATION
 ========================================= */
 
@@ -393,13 +382,11 @@ function renderPagination() {
       "ideasPagination"
     );
 
-  if (!container) return;
-
   container.innerHTML = "";
 
   const totalPages =
     Math.ceil(
-      catalogoGlobal.length /
+      catalogoFiltrado.length /
       ITEMS_PER_PAGE
     );
 
@@ -428,13 +415,14 @@ function renderPagination() {
       renderPage(i);
 
       window.scrollTo({
+
         top:
           document
-            .getElementById(
-              "catalogo"
-            )
-            .offsetTop - 80,
+            .getElementById("catalogo")
+            .offsetTop - 100,
+
         behavior: "smooth"
+
       });
 
     };
@@ -444,6 +432,75 @@ function renderPagination() {
   }
 
 }
+
+/* =========================================
+   MODAL
+========================================= */
+
+function openIdeaModal(item) {
+
+  const modal =
+    document.getElementById(
+      "ideaModal"
+    );
+
+  const body =
+    document.getElementById(
+      "ideaModalBody"
+    );
+
+  body.innerHTML = `
+
+    <div class="modal-image">
+
+      ${getImage(item.imagen)}
+
+    </div>
+
+    <div class="modal-content">
+
+      <div class="idea-chip">
+        ${item.tipo}
+      </div>
+
+      <h2>
+        ${item.nombre}
+      </h2>
+
+      <p>
+        ${item.descripcion || ""}
+      </p>
+
+      ${
+        item.recurso
+          ? `
+            <a
+              href="${item.recurso}"
+              target="_blank"
+              class="resource-btn"
+            >
+              Abrir recurso
+            </a>
+          `
+          : ""
+      }
+
+    </div>
+
+  `;
+
+  modal.classList.add("show");
+
+}
+
+function closeIdeaModal() {
+
+  document
+    .getElementById("ideaModal")
+    .classList.remove("show");
+
+}
+
 /* =========================================
    MAPA
 ========================================= */
@@ -498,33 +555,17 @@ function renderMapa(data) {
           </h4>
 
           <p>
-            ${punto.descripcion || ""}
+            ${truncate(
+              punto.descripcion,
+              120
+            )}
           </p>
-
-          ${
-            punto.recurso
-              ? `
-                <a
-                  href="${punto.recurso}"
-                  target="_blank"
-                >
-                  Ver más
-                </a>
-              `
-              : ""
-          }
 
         </div>
 
       `);
 
   });
-
-  setTimeout(() => {
-
-    map.invalidateSize();
-
-  }, 500);
 
 }
 
@@ -577,28 +618,82 @@ function renderTerritorial(data) {
       </h3>
 
       <p>
-        ${item.descripcion}
+        ${truncate(item.descripcion, 180)}
       </p>
-
-      ${
-        item.recurso
-          ? `
-            <a
-              href="${item.recurso}"
-              target="_blank"
-              class="territorial-link"
-            >
-              Abrir recurso
-            </a>
-          `
-          : ""
-      }
 
     `;
 
     container.appendChild(card);
 
   });
+
+}
+
+/* =========================================
+   EVENTS
+========================================= */
+
+function initEvents() {
+
+  const searchInput =
+    document.getElementById(
+      "ideasSearch"
+    );
+
+  searchInput.addEventListener(
+    "input",
+    filterCatalog
+  );
+
+  document
+    .querySelectorAll(".catalog-btn")
+    .forEach(btn => {
+
+      btn.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelectorAll(".catalog-btn")
+            .forEach(b => {
+
+              b.classList.remove(
+                "active"
+              );
+
+            });
+
+          btn.classList.add(
+            "active"
+          );
+
+          currentFilter =
+            btn.dataset.filter;
+
+          filterCatalog();
+
+        }
+      );
+
+    });
+
+  window.addEventListener(
+    "click",
+    e => {
+
+      const modal =
+        document.getElementById(
+          "ideaModal"
+        );
+
+      if (e.target === modal) {
+
+        closeIdeaModal();
+
+      }
+
+    }
+  );
 
 }
 
@@ -618,6 +713,8 @@ async function initAgroIdeas() {
     renderMapa(data);
 
     renderTerritorial(data);
+
+    initEvents();
 
   } catch (error) {
 
