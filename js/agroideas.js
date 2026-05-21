@@ -1,55 +1,54 @@
 /* =========================================
-   PAGINACIÓN
+   CONFIG
 ========================================= */
 
 const ITEMS_PER_PAGE = 6;
-
-let currentPage = 1;
-
-let catalogoGlobal = [];
-
-/* =========================================
-   AGROIDEAS
-========================================= */
 
 const AGROIDEAS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1406834327&single=true&output=csv";
 
 /* =========================================
-   DEBUG
+   STATE
 ========================================= */
 
-function debugLog(title, data) {
+let currentPage = 1;
 
-  console.group(title);
+let currentFilter = "todos";
 
-  console.table(data);
+let catalogoGlobal = [];
 
-  console.groupEnd();
-
-}
+let catalogoFiltrado = [];
 
 /* =========================================
    HELPERS
 ========================================= */
 
+function clean(value) {
+
+  return String(value || "")
+    .replace(/\r/g, "")
+    .replace(/\n/g, "")
+    .trim();
+
+}
+
+function truncate(text, max = 120) {
+
+  if (!text) return "";
+
+  return text.length > max
+    ? text.substring(0, max) + "..."
+    : text;
+
+}
+
 /* =========================================
-   GOOGLE DRIVE IMAGE
+   GOOGLE DRIVE
 ========================================= */
 
 function getGoogleDriveImage(url) {
 
   if (!url) return "";
-
-  /*
-    Convierte:
-
-    https://drive.google.com/file/d/FILE_ID/view
-
-    a:
-
-    https://drive.google.com/thumbnail?id=FILE_ID&sz=w1000
-  */
 
   const match =
     url.match(/\/d\/(.*?)\//);
@@ -58,18 +57,51 @@ function getGoogleDriveImage(url) {
 
   const fileId = match[1];
 
+  /*
+    Firefox falla con thumbnail.
+    Usamos uc?export=view
+  */
+
   return `
-    https://drive.google.com/thumbnail?id=${fileId}&sz=w1200
-  `;
+    https://drive.google.com/uc?export=view&id=${fileId}
+  `.trim();
 
 }
 
-function clean(value) {
+/* =========================================
+   IMAGE HTML
+========================================= */
 
-  return String(value || "")
-    .replace(/\r/g, "")
-    .replace(/\n/g, "")
-    .trim();
+function getImageHTML(url) {
+
+  const imageUrl =
+    getGoogleDriveImage(url);
+
+  if (!imageUrl) {
+
+    return `
+      <div class="idea-placeholder">
+        <i class="fa-solid fa-cube"></i>
+      </div>
+    `;
+
+  }
+
+  return `
+    <img
+      src="${imageUrl}"
+      alt="AgroIdea"
+      loading="lazy"
+      referrerpolicy="no-referrer"
+      crossorigin="anonymous"
+
+      onerror="
+        this.onerror=null;
+        this.parentElement.innerHTML=
+        '<div class=idea-placeholder><i class=fa-solid fa-image></i></div>';
+      "
+    />
+  `;
 
 }
 
@@ -87,6 +119,7 @@ function parseCSV(text) {
       const result = [];
 
       let current = "";
+
       let insideQuotes = false;
 
       for (let i = 0; i < row.length; i++) {
@@ -126,50 +159,30 @@ function parseCSV(text) {
    FETCH CSV
 ========================================= */
 
-async function fetchCSV(url, label = "CSV") {
+async function fetchCSV(url) {
 
-  const response = await fetch(url);
+  const response =
+    await fetch(url);
 
-  const text = await response.text();
+  const text =
+    await response.text();
 
-  console.log(`${label} RAW`);
-  console.log(text);
-
-  const rows = parseCSV(text);
-
-  debugLog(`${label} PARSED`, rows);
-
-  return rows;
+  return parseCSV(text);
 
 }
 
 /* =========================================
-   FETCH AGROIDEAS
+   FETCH DATA
 ========================================= */
 
 async function fetchAgroIdeas() {
 
   const rows =
     await fetchCSV(
-      AGROIDEAS_URL,
-      "AGROIDEAS"
+      AGROIDEAS_URL
     );
 
-  /*
-    COLUMNAS:
-
-    0 ID
-    1 Colección
-    2 Nombre
-    3 Imagen
-    4 Recurso
-    5 Descripción
-    6 Tipo
-    7 lat
-    8 lng
-  */
-
-  const data = rows
+  return rows
     .slice(1)
     .filter(r => r[2])
     .map(r => ({
@@ -203,41 +216,76 @@ async function fetchAgroIdeas() {
 
     }));
 
-  debugLog(
-    "AGROIDEAS LIMPIAS",
-    data
-  );
-
-  return data;
-
 }
 
 /* =========================================
-   IMAGE
+   FILTERS
 ========================================= */
 
-function getImage(url) {
+function applyFilters() {
 
-  const imageUrl =
-    getGoogleDriveImage(url);
+  const search =
+    document
+      .getElementById("ideasSearch")
+      .value
+      .toLowerCase();
 
-  if (!imageUrl) {
+  catalogoFiltrado =
+    catalogoGlobal.filter(item => {
 
-    return `
-      <div class="idea-placeholder">
-        <i class="fa-solid fa-cube"></i>
-      </div>
-    `;
+      const tipo =
+        item.tipo.toLowerCase();
 
-  }
+      const matchesSearch =
 
-  return `
-    <img
-      src="${imageUrl}"
-      alt="Imagen AgroIdea"
-      loading="lazy"
-    />
-  `;
+        item.nombre
+          .toLowerCase()
+          .includes(search)
+
+        ||
+
+        item.descripcion
+          .toLowerCase()
+          .includes(search);
+
+      if (
+        currentFilter ===
+        "modelo"
+      ) {
+
+        return (
+          (
+            tipo.includes("3d") ||
+            tipo.includes("modelo")
+          )
+          &&
+          matchesSearch
+        );
+
+      }
+
+      if (
+        currentFilter ===
+        "prototipo"
+      ) {
+
+        return (
+          tipo.includes(
+            "prototipo"
+          )
+          &&
+          matchesSearch
+        );
+
+      }
+
+      return matchesSearch;
+
+    });
+
+  currentPage = 1;
+
+  renderPage(currentPage);
 
 }
 
@@ -247,18 +295,24 @@ function getImage(url) {
 
 function renderCatalogo(data) {
 
-  catalogoGlobal = data.filter(item => {
+  catalogoGlobal =
+    data.filter(item => {
 
-    const tipo =
-      item.tipo.toLowerCase();
+      const tipo =
+        item.tipo.toLowerCase();
 
-    return (
-      tipo.includes("3d") ||
-      tipo.includes("modelo") ||
-      tipo.includes("prototipo")
-    );
+      return (
+        tipo.includes("3d")
+        ||
+        tipo.includes("modelo")
+        ||
+        tipo.includes("prototipo")
+      );
 
-  });
+    });
+
+  catalogoFiltrado =
+    [...catalogoGlobal];
 
   renderPage(currentPage);
 
@@ -275,28 +329,28 @@ function renderPage(page) {
       "ideasGrid"
     );
 
-  const pagination =
-    document.getElementById(
-      "ideasPagination"
-    );
-
-  if (!grid) return;
-
   grid.innerHTML = "";
 
   const start =
-    (page - 1) * ITEMS_PER_PAGE;
+    (page - 1) *
+    ITEMS_PER_PAGE;
 
   const end =
-    start + ITEMS_PER_PAGE;
+    start +
+    ITEMS_PER_PAGE;
 
   const items =
-    catalogoGlobal.slice(start, end);
+    catalogoFiltrado.slice(
+      start,
+      end
+    );
 
   items.forEach(item => {
 
     const card =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     card.className =
       "idea-card-v2";
@@ -305,14 +359,14 @@ function renderPage(page) {
 
       <div class="idea-card-image">
 
-        ${getImage(item.imagen)}
+        ${getImageHTML(item.imagen)}
 
       </div>
 
       <div class="idea-card-body">
 
         <div class="idea-chip">
-          ${item.coleccion || "AgroIdeas"}
+          ${item.tipo || "AgroIdeas"}
         </div>
 
         <h3>
@@ -320,35 +374,30 @@ function renderPage(page) {
         </h3>
 
         <p class="idea-short-desc">
-          ${
-            truncate(
-              item.descripcion,
-              110
-            )
-          }
+          ${truncate(item.descripcion, 90)}
         </p>
 
         <div class="idea-actions">
 
           <button
             class="resource-btn"
-            onclick='openIdeaModal(${JSON.stringify(item)})'
+            data-id="${item.id}"
           >
             Ver detalle
           </button>
 
           ${
             item.recurso
-              ? `
-                <a
-                  href="${item.recurso}"
-                  target="_blank"
-                  class="resource-btn secondary"
-                >
-                  Recurso
-                </a>
-              `
-              : ""
+            ? `
+              <a
+                href="${item.recurso}"
+                target="_blank"
+                class="resource-btn secondary"
+              >
+                Recurso
+              </a>
+            `
+            : ""
           }
 
         </div>
@@ -356,6 +405,17 @@ function renderPage(page) {
       </div>
 
     `;
+
+    /* OPEN MODAL */
+
+    card
+      .querySelector(
+        ".resource-btn"
+      )
+      .addEventListener(
+        "click",
+        () => openIdeaModal(item)
+      );
 
     grid.appendChild(card);
 
@@ -365,23 +425,6 @@ function renderPage(page) {
 
 }
 
-/* =========================================
-   TRUNCATE
-========================================= */
-
-function truncate(text, max = 120) {
-
-  if (!text) return "";
-
-  if (text.length <= max) {
-
-    return text;
-
-  }
-
-  return text.substring(0, max) + "...";
-
-}
 /* =========================================
    PAGINATION
 ========================================= */
@@ -393,15 +436,16 @@ function renderPagination() {
       "ideasPagination"
     );
 
-  if (!container) return;
-
   container.innerHTML = "";
 
   const totalPages =
     Math.ceil(
-      catalogoGlobal.length /
+      catalogoFiltrado.length
+      /
       ITEMS_PER_PAGE
     );
+
+  if (totalPages <= 1) return;
 
   for (
     let i = 1;
@@ -410,7 +454,9 @@ function renderPagination() {
   ) {
 
     const btn =
-      document.createElement("button");
+      document.createElement(
+        "button"
+      );
 
     btn.className =
       `page-btn ${
@@ -421,29 +467,113 @@ function renderPagination() {
 
     btn.textContent = i;
 
-    btn.onclick = () => {
+    btn.addEventListener(
+      "click",
+      () => {
 
-      currentPage = i;
+        currentPage = i;
 
-      renderPage(i);
+        renderPage(i);
 
-      window.scrollTo({
-        top:
-          document
-            .getElementById(
-              "catalogo"
-            )
-            .offsetTop - 80,
-        behavior: "smooth"
-      });
+        window.scrollTo({
 
-    };
+          top:
+            document
+              .getElementById(
+                "catalogo"
+              )
+              .offsetTop - 100,
+
+          behavior:
+            "smooth"
+
+        });
+
+      }
+    );
 
     container.appendChild(btn);
 
   }
 
 }
+
+/* =========================================
+   MODAL
+========================================= */
+
+function openIdeaModal(item) {
+
+  const modal =
+    document.getElementById(
+      "ideaModal"
+    );
+
+  const body =
+    document.getElementById(
+      "ideaModalBody"
+    );
+
+  body.innerHTML = `
+
+    <div class="modal-image">
+
+      ${getImageHTML(item.imagen)}
+
+    </div>
+
+    <div class="modal-content">
+
+      <div class="idea-chip">
+        ${item.tipo}
+      </div>
+
+      <h2>
+        ${item.nombre}
+      </h2>
+
+      <p>
+        ${item.descripcion || ""}
+      </p>
+
+      ${
+        item.recurso
+        ? `
+          <a
+            href="${item.recurso}"
+            target="_blank"
+            class="resource-btn"
+          >
+            Abrir recurso
+          </a>
+        `
+        : ""
+      }
+
+    </div>
+
+  `;
+
+  modal.classList.add("show");
+
+}
+
+/* =========================================
+   CLOSE MODAL
+========================================= */
+
+function closeIdeaModal() {
+
+  document
+    .getElementById(
+      "ideaModal"
+    )
+    .classList.remove(
+      "show"
+    );
+
+}
+
 /* =========================================
    MAPA
 ========================================= */
@@ -457,22 +587,28 @@ function renderMapa(data) {
 
   if (!mapContainer) return;
 
-  const puntos = data.filter(item => {
+  const puntos =
+    data.filter(item => {
 
-    return (
-      item.tipo.toLowerCase() === "punto" &&
-      !isNaN(item.lat) &&
-      !isNaN(item.lng)
+      return (
+        item.tipo
+          .toLowerCase()
+          .includes("punto")
+        &&
+        !isNaN(item.lat)
+        &&
+        !isNaN(item.lng)
+      );
+
+    });
+
+  const map =
+    L.map(
+      "mapImpresoras"
+    ).setView(
+      [9.7489, -83.7534],
+      8
     );
-
-  });
-
-  const map = L.map(
-    "mapImpresoras"
-  ).setView(
-    [9.7489, -83.7534],
-    8
-  );
 
   L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -498,33 +634,17 @@ function renderMapa(data) {
           </h4>
 
           <p>
-            ${punto.descripcion || ""}
+            ${truncate(
+              punto.descripcion,
+              100
+            )}
           </p>
-
-          ${
-            punto.recurso
-              ? `
-                <a
-                  href="${punto.recurso}"
-                  target="_blank"
-                >
-                  Ver más
-                </a>
-              `
-              : ""
-          }
 
         </div>
 
       `);
 
   });
-
-  setTimeout(() => {
-
-    map.invalidateSize();
-
-  }, 500);
 
 }
 
@@ -550,8 +670,13 @@ function renderTerritorial(data) {
         item.tipo.toLowerCase();
 
       return (
-        tipo.includes("territorial") ||
-        tipo.includes("mapeo")
+        tipo.includes(
+          "territorial"
+        )
+        ||
+        tipo.includes(
+          "mapeo"
+        )
       );
 
     });
@@ -559,7 +684,9 @@ function renderTerritorial(data) {
   territoriales.forEach(item => {
 
     const card =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     card.className =
       "territorial-card";
@@ -577,28 +704,114 @@ function renderTerritorial(data) {
       </h3>
 
       <p>
-        ${item.descripcion}
+        ${truncate(
+          item.descripcion,
+          160
+        )}
       </p>
-
-      ${
-        item.recurso
-          ? `
-            <a
-              href="${item.recurso}"
-              target="_blank"
-              class="territorial-link"
-            >
-              Abrir recurso
-            </a>
-          `
-          : ""
-      }
 
     `;
 
     container.appendChild(card);
 
   });
+
+}
+
+/* =========================================
+   EVENTS
+========================================= */
+
+function initEvents() {
+
+  /* SEARCH */
+
+  document
+    .getElementById(
+      "ideasSearch"
+    )
+    .addEventListener(
+      "input",
+      applyFilters
+    );
+
+  document
+    .getElementById(
+      "explorarBtn"
+    )
+    .addEventListener(
+      "click",
+      applyFilters
+    );
+
+  /* FILTERS */
+
+  document
+    .querySelectorAll(
+      ".catalog-filter-btn"
+    )
+    .forEach(btn => {
+
+      btn.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelectorAll(
+              ".catalog-filter-btn"
+            )
+            .forEach(b => {
+
+              b.classList.remove(
+                "active"
+              );
+
+            });
+
+          btn.classList.add(
+            "active"
+          );
+
+          currentFilter =
+            btn.dataset.filter;
+
+          applyFilters();
+
+        }
+      );
+
+    });
+
+  /* MODAL */
+
+  document
+    .getElementById(
+      "closeModalBtn"
+    )
+    .addEventListener(
+      "click",
+      closeIdeaModal
+    );
+
+  window.addEventListener(
+    "click",
+    e => {
+
+      const modal =
+        document.getElementById(
+          "ideaModal"
+        );
+
+      if (
+        e.target === modal
+      ) {
+
+        closeIdeaModal();
+
+      }
+
+    }
+  );
 
 }
 
@@ -618,6 +831,8 @@ async function initAgroIdeas() {
     renderMapa(data);
 
     renderTerritorial(data);
+
+    initEvents();
 
   } catch (error) {
 
