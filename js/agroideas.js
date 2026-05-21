@@ -11,12 +11,10 @@ const AGROIDEAS_URL =
    STATE
 ========================================= */
 
-let currentPage = 1;
-
 let allIdeas = [];
-
 let filteredIdeas = [];
 
+let currentPage = 1;
 let currentFilter = "all";
 
 /* =========================================
@@ -27,13 +25,13 @@ function clean(value) {
 
   return String(value || "")
     .replace(/\r/g, "")
-    .replace(/\n/g, "")
+    .replace(/\n/g, " ")
     .trim();
 
 }
 
 /* =========================================
-   GOOGLE DRIVE IMAGE FIX
+   GOOGLE DRIVE
 ========================================= */
 
 function getGoogleDriveImage(url) {
@@ -47,9 +45,12 @@ function getGoogleDriveImage(url) {
 
   const fileId = match[1];
 
-  return `
-https://drive.google.com/uc?export=view&id=${fileId}
-  `.trim();
+  /*
+    ESTE formato funciona mucho mejor
+    en Firefox + móvil
+  */
+
+  return `https://lh3.googleusercontent.com/d/${fileId}`;
 
 }
 
@@ -109,9 +110,11 @@ function parseCSV(text) {
 
 async function fetchCSV(url) {
 
-  const response = await fetch(url);
+  const response =
+    await fetch(url);
 
-  const text = await response.text();
+  const text =
+    await response.text();
 
   return parseCSV(text);
 
@@ -152,15 +155,33 @@ async function fetchAgroIdeas() {
 }
 
 /* =========================================
+   TRUNCATE
+========================================= */
+
+function truncate(text, max = 120) {
+
+  if (!text) return "";
+
+  if (text.length <= max) {
+
+    return text;
+
+  }
+
+  return text.substring(0, max) + "...";
+
+}
+
+/* =========================================
    IMAGE
 ========================================= */
 
 function renderImage(url) {
 
-  const img =
+  const image =
     getGoogleDriveImage(url);
 
-  if (!img) {
+  if (!image) {
 
     return `
       <div class="idea-placeholder">
@@ -172,10 +193,10 @@ function renderImage(url) {
 
   return `
     <img
-      src="${img}"
+      src="${image}"
       alt="AgroIdea"
-      referrerpolicy="no-referrer"
       loading="lazy"
+      referrerpolicy="no-referrer"
       onerror="
         this.onerror=null;
         this.src='https://placehold.co/600x400/e2e8f0/64748b?text=AgroIdea';
@@ -186,7 +207,7 @@ function renderImage(url) {
 }
 
 /* =========================================
-   FILTERS
+   FILTER
 ========================================= */
 
 function applyFilters() {
@@ -205,8 +226,7 @@ function applyFilters() {
           ${item.nombre}
           ${item.descripcion}
           ${item.tipo}
-        `
-        .toLowerCase();
+        `.toLowerCase();
 
       const matchSearch =
         text.includes(search);
@@ -216,9 +236,7 @@ function applyFilters() {
       const tipo =
         item.tipo.toLowerCase();
 
-      if (
-        currentFilter === "modelo"
-      ) {
+      if (currentFilter === "modelo") {
 
         matchType =
           tipo.includes("3d") ||
@@ -226,9 +244,7 @@ function applyFilters() {
 
       }
 
-      if (
-        currentFilter === "prototipo"
-      ) {
+      if (currentFilter === "prototipo") {
 
         matchType =
           tipo.includes("prototipo");
@@ -249,7 +265,7 @@ function applyFilters() {
 }
 
 /* =========================================
-   RENDER PAGE
+   PAGE
 ========================================= */
 
 function renderPage(page) {
@@ -302,7 +318,7 @@ function renderPage(page) {
 
         <p class="idea-short-desc">
 
-          ${truncate(item.descripcion, 110)}
+          ${truncate(item.descripcion, 100)}
 
         </p>
 
@@ -310,7 +326,6 @@ function renderPage(page) {
 
           <button
             class="resource-btn"
-            onclick='openIdeaModal(${JSON.stringify(item)})'
           >
             Ver detalle
           </button>
@@ -335,6 +350,26 @@ function renderPage(page) {
 
     `;
 
+    /*
+      IMPORTANTE:
+      evitar onclick inline
+      porque rompe el HTML
+    */
+
+    const detailBtn =
+      card.querySelector(
+        ".resource-btn"
+      );
+
+    detailBtn.addEventListener(
+      "click",
+      () => {
+
+        openIdeaModal(item);
+
+      }
+    );
+
     grid.appendChild(card);
 
   });
@@ -354,6 +389,8 @@ function renderPagination() {
       "ideasPagination"
     );
 
+  if (!container) return;
+
   container.innerHTML = "";
 
   const totalPages =
@@ -369,7 +406,9 @@ function renderPagination() {
   ) {
 
     const btn =
-      document.createElement("button");
+      document.createElement(
+        "button"
+      );
 
     btn.className =
       `page-btn ${
@@ -408,26 +447,6 @@ function renderPagination() {
 }
 
 /* =========================================
-   TRUNCATE
-========================================= */
-
-function truncate(text, max = 120) {
-
-  if (!text) return "";
-
-  if (text.length <= max) {
-
-    return text;
-
-  }
-
-  return (
-    text.substring(0, max) + "..."
-  );
-
-}
-
-/* =========================================
    MODAL
 ========================================= */
 
@@ -454,15 +473,21 @@ function openIdeaModal(item) {
     <div class="modal-content">
 
       <div class="idea-chip">
+
         ${item.coleccion}
+
       </div>
 
       <h2>
+
         ${item.nombre}
+
       </h2>
 
       <p>
+
         ${item.descripcion || ""}
+
       </p>
 
       <br>
@@ -492,7 +517,9 @@ function openIdeaModal(item) {
 function closeIdeaModal() {
 
   document
-    .getElementById("ideaModal")
+    .getElementById(
+      "ideaModal"
+    )
     .classList
     .remove("show");
 
@@ -505,10 +532,17 @@ window.closeIdeaModal =
   closeIdeaModal;
 
 /* =========================================
-   MAPA
+   MAP
 ========================================= */
 
 function renderMapa(data) {
+
+  const mapContainer =
+    document.getElementById(
+      "mapImpresoras"
+    );
+
+  if (!mapContainer) return;
 
   const puntos =
     data.filter(item => {
@@ -521,8 +555,6 @@ function renderMapa(data) {
       );
 
     });
-
-  if (!puntos.length) return;
 
   const map =
     L.map("mapImpresoras")
@@ -557,7 +589,7 @@ function renderMapa(data) {
           <p>
             ${truncate(
               punto.descripcion,
-              120
+              100
             )}
           </p>
 
@@ -576,21 +608,27 @@ function renderMapa(data) {
 function setupEvents() {
 
   document
-    .getElementById("ideasSearch")
+    .getElementById(
+      "ideasSearch"
+    )
     .addEventListener(
       "input",
       applyFilters
     );
 
   document
-    .getElementById("explorarBtn")
+    .getElementById(
+      "explorarBtn"
+    )
     .addEventListener(
       "click",
       applyFilters
     );
 
   document
-    .querySelectorAll(".filter-btn")
+    .querySelectorAll(
+      ".filter-btn"
+    )
     .forEach(btn => {
 
       btn.addEventListener(

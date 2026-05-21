@@ -2234,3 +2234,129 @@ input {
   }
 
 }
+
+/* =========================================
+   FILTROS
+========================================= */
+
+.catalog-filters{
+
+  display:flex;
+  gap:1rem;
+  justify-content:center;
+  flex-wrap:wrap;
+
+  margin-top:2rem;
+
+}
+
+.filter-btn{
+
+  border:none;
+
+  padding:
+  .9rem 1.3rem;
+
+  border-radius:14px;
+
+  background:
+  rgba(255,255,255,.12);
+
+  color:white;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.25s ease;
+
+  backdrop-filter:blur(10px);
+
+}
+
+.filter-btn:hover{
+
+  transform:translateY(-2px);
+
+  background:
+  rgba(255,255,255,.2);
+
+}
+
+.filter-btn.active{
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--primary),
+    var(--accent)
+  );
+
+  color:white;
+
+}
+
+/* =========================================
+   CARDS
+========================================= */
+
+.idea-actions{
+
+  display:flex;
+  gap:.8rem;
+  flex-wrap:wrap;
+
+}
+
+.idea-card-image{
+
+  height:220px;
+
+  overflow:hidden;
+
+  background:#f1f5f9;
+
+}
+
+.idea-card-image img{
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  display:block;
+
+}
+
+.idea-short-desc{
+
+  min-height:72px;
+
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:768px){
+
+  .catalog-filters{
+
+    justify-content:flex-start;
+
+  }
+
+  .idea-actions{
+
+    flex-direction:column;
+
+  }
+
+  .resource-btn{
+
+    width:100%;
+
+  }
+
+}
