@@ -1,42 +1,55 @@
 /* =========================================
-   CONFIG
+   PAGINACIÓN
 ========================================= */
 
 const ITEMS_PER_PAGE = 6;
+
+let currentPage = 1;
+
+let catalogoGlobal = [];
+
+/* =========================================
+   AGROIDEAS
+========================================= */
 
 const AGROIDEAS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1406834327&single=true&output=csv";
 
 /* =========================================
-   STATE
+   DEBUG
 ========================================= */
 
-let allIdeas = [];
-let filteredIdeas = [];
+function debugLog(title, data) {
 
-let currentPage = 1;
-let currentFilter = "all";
+  console.group(title);
+
+  console.table(data);
+
+  console.groupEnd();
+
+}
 
 /* =========================================
    HELPERS
 ========================================= */
 
-function clean(value) {
-
-  return String(value || "")
-    .replace(/\r/g, "")
-    .replace(/\n/g, " ")
-    .trim();
-
-}
-
 /* =========================================
-   GOOGLE DRIVE
+   GOOGLE DRIVE IMAGE
 ========================================= */
 
 function getGoogleDriveImage(url) {
 
   if (!url) return "";
+
+  /*
+    Convierte:
+
+    https://drive.google.com/file/d/FILE_ID/view
+
+    a:
+
+    https://drive.google.com/thumbnail?id=FILE_ID&sz=w1000
+  */
 
   const match =
     url.match(/\/d\/(.*?)\//);
@@ -45,17 +58,23 @@ function getGoogleDriveImage(url) {
 
   const fileId = match[1];
 
-  /*
-    ESTE formato funciona mucho mejor
-    en Firefox + móvil
-  */
+  return `
+    https://drive.google.com/thumbnail?id=${fileId}&sz=w1200
+  `;
 
-  return `https://lh3.googleusercontent.com/d/${fileId}`;
+}
+
+function clean(value) {
+
+  return String(value || "")
+    .replace(/\r/g, "")
+    .replace(/\n/g, "")
+    .trim();
 
 }
 
 /* =========================================
-   CSV
+   CSV PARSER
 ========================================= */
 
 function parseCSV(text) {
@@ -68,7 +87,6 @@ function parseCSV(text) {
       const result = [];
 
       let current = "";
-
       let insideQuotes = false;
 
       for (let i = 0; i < row.length; i++) {
@@ -105,44 +123,77 @@ function parseCSV(text) {
 }
 
 /* =========================================
-   FETCH
+   FETCH CSV
 ========================================= */
 
-async function fetchCSV(url) {
+async function fetchCSV(url, label = "CSV") {
 
-  const response =
-    await fetch(url);
+  const response = await fetch(url);
 
-  const text =
-    await response.text();
+  const text = await response.text();
 
-  return parseCSV(text);
+  console.log(`${label} RAW`);
+  console.log(text);
+
+  const rows = parseCSV(text);
+
+  debugLog(`${label} PARSED`, rows);
+
+  return rows;
 
 }
+
+/* =========================================
+   FETCH AGROIDEAS
+========================================= */
 
 async function fetchAgroIdeas() {
 
   const rows =
-    await fetchCSV(AGROIDEAS_URL);
+    await fetchCSV(
+      AGROIDEAS_URL,
+      "AGROIDEAS"
+    );
 
-  return rows
+  /*
+    COLUMNAS:
+
+    0 ID
+    1 Colección
+    2 Nombre
+    3 Imagen
+    4 Recurso
+    5 Descripción
+    6 Tipo
+    7 lat
+    8 lng
+  */
+
+  const data = rows
     .slice(1)
     .filter(r => r[2])
     .map(r => ({
 
-      id: clean(r[0]),
+      id:
+        clean(r[0]),
 
-      coleccion: clean(r[1]),
+      coleccion:
+        clean(r[1]),
 
-      nombre: clean(r[2]),
+      nombre:
+        clean(r[2]),
 
-      imagen: clean(r[3]),
+      imagen:
+        clean(r[3]),
 
-      recurso: clean(r[4]),
+      recurso:
+        clean(r[4]),
 
-      descripcion: clean(r[5]),
+      descripcion:
+        clean(r[5]),
 
-      tipo: clean(r[6]),
+      tipo:
+        clean(r[6]),
 
       lat:
         parseFloat(clean(r[7])),
@@ -152,23 +203,12 @@ async function fetchAgroIdeas() {
 
     }));
 
-}
+  debugLog(
+    "AGROIDEAS LIMPIAS",
+    data
+  );
 
-/* =========================================
-   TRUNCATE
-========================================= */
-
-function truncate(text, max = 120) {
-
-  if (!text) return "";
-
-  if (text.length <= max) {
-
-    return text;
-
-  }
-
-  return text.substring(0, max) + "...";
+  return data;
 
 }
 
@@ -176,12 +216,12 @@ function truncate(text, max = 120) {
    IMAGE
 ========================================= */
 
-function renderImage(url) {
+function getImage(url) {
 
-  const image =
+  const imageUrl =
     getGoogleDriveImage(url);
 
-  if (!image) {
+  if (!imageUrl) {
 
     return `
       <div class="idea-placeholder">
@@ -193,79 +233,39 @@ function renderImage(url) {
 
   return `
     <img
-      src="${image}"
-      alt="AgroIdea"
+      src="${imageUrl}"
+      alt="Imagen AgroIdea"
       loading="lazy"
-      referrerpolicy="no-referrer"
-      onerror="
-        this.onerror=null;
-        this.src='https://placehold.co/600x400/e2e8f0/64748b?text=AgroIdea';
-      "
     />
   `;
 
 }
 
 /* =========================================
-   FILTER
+   RENDER CATALOGO
 ========================================= */
 
-function applyFilters() {
+function renderCatalogo(data) {
 
-  const search =
-    document
-      .getElementById("ideasSearch")
-      .value
-      .toLowerCase();
+  catalogoGlobal = data.filter(item => {
 
-  filteredIdeas =
-    allIdeas.filter(item => {
+    const tipo =
+      item.tipo.toLowerCase();
 
-      const text =
-        `
-          ${item.nombre}
-          ${item.descripcion}
-          ${item.tipo}
-        `.toLowerCase();
+    return (
+      tipo.includes("3d") ||
+      tipo.includes("modelo") ||
+      tipo.includes("prototipo")
+    );
 
-      const matchSearch =
-        text.includes(search);
-
-      let matchType = true;
-
-      const tipo =
-        item.tipo.toLowerCase();
-
-      if (currentFilter === "modelo") {
-
-        matchType =
-          tipo.includes("3d") ||
-          tipo.includes("modelo");
-
-      }
-
-      if (currentFilter === "prototipo") {
-
-        matchType =
-          tipo.includes("prototipo");
-
-      }
-
-      return (
-        matchSearch &&
-        matchType
-      );
-
-    });
-
-  currentPage = 1;
+  });
 
   renderPage(currentPage);
 
 }
 
 /* =========================================
-   PAGE
+   RENDER PAGE
 ========================================= */
 
 function renderPage(page) {
@@ -274,6 +274,13 @@ function renderPage(page) {
     document.getElementById(
       "ideasGrid"
     );
+
+  const pagination =
+    document.getElementById(
+      "ideasPagination"
+    );
+
+  if (!grid) return;
 
   grid.innerHTML = "";
 
@@ -284,7 +291,7 @@ function renderPage(page) {
     start + ITEMS_PER_PAGE;
 
   const items =
-    filteredIdeas.slice(start, end);
+    catalogoGlobal.slice(start, end);
 
   items.forEach(item => {
 
@@ -298,34 +305,34 @@ function renderPage(page) {
 
       <div class="idea-card-image">
 
-        ${renderImage(item.imagen)}
+        ${getImage(item.imagen)}
 
       </div>
 
       <div class="idea-card-body">
 
         <div class="idea-chip">
-
           ${item.coleccion || "AgroIdeas"}
-
         </div>
 
         <h3>
-
           ${item.nombre}
-
         </h3>
 
         <p class="idea-short-desc">
-
-          ${truncate(item.descripcion, 100)}
-
+          ${
+            truncate(
+              item.descripcion,
+              110
+            )
+          }
         </p>
 
         <div class="idea-actions">
 
           <button
             class="resource-btn"
+            onclick='openIdeaModal(${JSON.stringify(item)})'
           >
             Ver detalle
           </button>
@@ -350,26 +357,6 @@ function renderPage(page) {
 
     `;
 
-    /*
-      IMPORTANTE:
-      evitar onclick inline
-      porque rompe el HTML
-    */
-
-    const detailBtn =
-      card.querySelector(
-        ".resource-btn"
-      );
-
-    detailBtn.addEventListener(
-      "click",
-      () => {
-
-        openIdeaModal(item);
-
-      }
-    );
-
     grid.appendChild(card);
 
   });
@@ -378,6 +365,23 @@ function renderPage(page) {
 
 }
 
+/* =========================================
+   TRUNCATE
+========================================= */
+
+function truncate(text, max = 120) {
+
+  if (!text) return "";
+
+  if (text.length <= max) {
+
+    return text;
+
+  }
+
+  return text.substring(0, max) + "...";
+
+}
 /* =========================================
    PAGINATION
 ========================================= */
@@ -395,7 +399,7 @@ function renderPagination() {
 
   const totalPages =
     Math.ceil(
-      filteredIdeas.length /
+      catalogoGlobal.length /
       ITEMS_PER_PAGE
     );
 
@@ -406,9 +410,7 @@ function renderPagination() {
   ) {
 
     const btn =
-      document.createElement(
-        "button"
-      );
+      document.createElement("button");
 
     btn.className =
       `page-btn ${
@@ -426,16 +428,13 @@ function renderPagination() {
       renderPage(i);
 
       window.scrollTo({
-
         top:
           document
             .getElementById(
               "catalogo"
             )
             .offsetTop - 80,
-
         behavior: "smooth"
-
       });
 
     };
@@ -445,94 +444,8 @@ function renderPagination() {
   }
 
 }
-
 /* =========================================
-   MODAL
-========================================= */
-
-function openIdeaModal(item) {
-
-  const modal =
-    document.getElementById(
-      "ideaModal"
-    );
-
-  const body =
-    document.getElementById(
-      "ideaModalBody"
-    );
-
-  body.innerHTML = `
-
-    <div class="modal-image">
-
-      ${renderImage(item.imagen)}
-
-    </div>
-
-    <div class="modal-content">
-
-      <div class="idea-chip">
-
-        ${item.coleccion}
-
-      </div>
-
-      <h2>
-
-        ${item.nombre}
-
-      </h2>
-
-      <p>
-
-        ${item.descripcion || ""}
-
-      </p>
-
-      <br>
-
-      ${
-        item.recurso
-          ? `
-            <a
-              href="${item.recurso}"
-              target="_blank"
-              class="resource-btn"
-            >
-              Abrir recurso
-            </a>
-          `
-          : ""
-      }
-
-    </div>
-
-  `;
-
-  modal.classList.add("show");
-
-}
-
-function closeIdeaModal() {
-
-  document
-    .getElementById(
-      "ideaModal"
-    )
-    .classList
-    .remove("show");
-
-}
-
-window.openIdeaModal =
-  openIdeaModal;
-
-window.closeIdeaModal =
-  closeIdeaModal;
-
-/* =========================================
-   MAP
+   MAPA
 ========================================= */
 
 function renderMapa(data) {
@@ -544,24 +457,22 @@ function renderMapa(data) {
 
   if (!mapContainer) return;
 
-  const puntos =
-    data.filter(item => {
+  const puntos = data.filter(item => {
 
-      return (
-        item.tipo.toLowerCase() ===
-          "punto" &&
-        !isNaN(item.lat) &&
-        !isNaN(item.lng)
-      );
+    return (
+      item.tipo.toLowerCase() === "punto" &&
+      !isNaN(item.lat) &&
+      !isNaN(item.lng)
+    );
 
-    });
+  });
 
-  const map =
-    L.map("mapImpresoras")
-      .setView(
-        [9.7489, -83.7534],
-        8
-      );
+  const map = L.map(
+    "mapImpresoras"
+  ).setView(
+    [9.7489, -83.7534],
+    8
+  );
 
   L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -587,11 +498,21 @@ function renderMapa(data) {
           </h4>
 
           <p>
-            ${truncate(
-              punto.descripcion,
-              100
-            )}
+            ${punto.descripcion || ""}
           </p>
+
+          ${
+            punto.recurso
+              ? `
+                <a
+                  href="${punto.recurso}"
+                  target="_blank"
+                >
+                  Ver más
+                </a>
+              `
+              : ""
+          }
 
         </div>
 
@@ -599,67 +520,85 @@ function renderMapa(data) {
 
   });
 
+  setTimeout(() => {
+
+    map.invalidateSize();
+
+  }, 500);
+
 }
 
 /* =========================================
-   EVENTS
+   TERRITORIAL
 ========================================= */
 
-function setupEvents() {
+function renderTerritorial(data) {
 
-  document
-    .getElementById(
-      "ideasSearch"
-    )
-    .addEventListener(
-      "input",
-      applyFilters
+  const container =
+    document.getElementById(
+      "territorialGrid"
     );
 
-  document
-    .getElementById(
-      "explorarBtn"
-    )
-    .addEventListener(
-      "click",
-      applyFilters
-    );
+  if (!container) return;
 
-  document
-    .querySelectorAll(
-      ".filter-btn"
-    )
-    .forEach(btn => {
+  container.innerHTML = "";
 
-      btn.addEventListener(
-        "click",
-        () => {
+  const territoriales =
+    data.filter(item => {
 
-          document
-            .querySelectorAll(
-              ".filter-btn"
-            )
-            .forEach(b => {
+      const tipo =
+        item.tipo.toLowerCase();
 
-              b.classList.remove(
-                "active"
-              );
-
-            });
-
-          btn.classList.add(
-            "active"
-          );
-
-          currentFilter =
-            btn.dataset.filter;
-
-          applyFilters();
-
-        }
+      return (
+        tipo.includes("territorial") ||
+        tipo.includes("mapeo")
       );
 
     });
+
+  territoriales.forEach(item => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "territorial-card";
+
+    card.innerHTML = `
+
+      <div class="territorial-icon">
+
+        <i class="fa-solid fa-map-location-dot"></i>
+
+      </div>
+
+      <h3>
+        ${item.nombre}
+      </h3>
+
+      <p>
+        ${item.descripcion}
+      </p>
+
+      ${
+        item.recurso
+          ? `
+            <a
+              href="${item.recurso}"
+              target="_blank"
+              class="territorial-link"
+            >
+              Abrir recurso
+            </a>
+          `
+          : ""
+      }
+
+    `;
+
+    container.appendChild(card);
+
+  });
 
 }
 
@@ -671,17 +610,14 @@ async function initAgroIdeas() {
 
   try {
 
-    allIdeas =
+    const data =
       await fetchAgroIdeas();
 
-    filteredIdeas =
-      [...allIdeas];
+    renderCatalogo(data);
 
-    renderPage(1);
+    renderMapa(data);
 
-    renderMapa(allIdeas);
-
-    setupEvents();
+    renderTerritorial(data);
 
   } catch (error) {
 
@@ -694,6 +630,10 @@ async function initAgroIdeas() {
   }
 
 }
+
+/* =========================================
+   LOAD
+========================================= */
 
 document.addEventListener(
   "DOMContentLoaded",

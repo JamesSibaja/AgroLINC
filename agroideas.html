@@ -52,7 +52,9 @@
 
 <body class="agroideas-page">
 
-  <!-- HEADER -->
+  <!-- ======================================
+       HEADER
+  ======================================= -->
 
   <header class="topbar">
 
@@ -91,11 +93,21 @@
         AgroIdeas
       </a>
 
+      <a href="#">
+        Territorio
+      </a>
+
+      <a href="#">
+        Noticias
+      </a>
+
     </nav>
 
   </header>
 
-  <!-- HERO -->
+  <!-- ======================================
+       HERO
+  ======================================= -->
 
   <section class="dashboard-hero agroideas-hero">
 
@@ -108,15 +120,18 @@
       </span>
 
       <h1>
-        Modelos abiertos y prototipos
+        Modelos abiertos,
+        fabricación digital
+        y territorio
       </h1>
 
       <p>
-        Explora recursos de impresión 3D,
-        automatización agrícola y fabricación digital.
+        Explora prototipos agrícolas,
+        impresión 3D, automatización,
+        mapeos territoriales y recursos
+        abiertos desarrollados desde
+        AgroLINC.
       </p>
-
-      <!-- SEARCH -->
 
       <div class="ideas-search">
 
@@ -127,41 +142,38 @@
           <input
             type="text"
             id="ideasSearch"
-            placeholder="Buscar..."
+            placeholder="Buscar recursos, prototipos o territorios"
           />
 
         </div>
 
         <button id="explorarBtn">
-          Buscar
+          Explorar
         </button>
 
       </div>
 
-      <!-- FILTROS -->
+      <div class="ideas-tags">
 
-      <div class="catalog-filters">
+        <span>
+          Impresión 3D
+        </span>
 
-        <button
-          class="filter-btn active"
-          data-filter="all"
-        >
-          Todo
-        </button>
+        <span>
+          IoT
+        </span>
 
-        <button
-          class="filter-btn"
-          data-filter="modelo"
-        >
-          Modelos 3D
-        </button>
+        <span>
+          Agricultura
+        </span>
 
-        <button
-          class="filter-btn"
-          data-filter="prototipo"
-        >
-          Prototipos
-        </button>
+        <span>
+          Territorial
+        </span>
+
+        <span>
+          Automatización
+        </span>
 
       </div>
 
@@ -169,7 +181,9 @@
 
   </section>
 
-  <!-- CONTENIDO -->
+  <!-- ======================================
+       EXPLORADOR
+  ======================================= -->
 
   <section class="ideas-explorer">
 
@@ -184,7 +198,7 @@
         </span>
 
         <h3>
-          AgroIdeas
+          Explorar AgroIdeas
         </h3>
 
       </div>
@@ -198,7 +212,7 @@
 
           <i class="fa-solid fa-cube"></i>
 
-          Catálogo
+          Modelos y prototipos
 
         </a>
 
@@ -209,19 +223,46 @@
 
           <i class="fa-solid fa-map-location-dot"></i>
 
-          Mapa Maker
+          Mapa maker CR
+
+        </a>
+
+        <a
+          href="#territorial"
+          class="explorer-link"
+        >
+
+          <i class="fa-solid fa-seedling"></i>
+
+          Territorial
 
         </a>
 
       </div>
 
+      <div class="sidebar-info">
+
+        <h4>
+          AgroLINC Open Lab
+        </h4>
+
+        <p>
+          Conectando tecnologías,
+          territorio y fabricación
+          digital aplicada.
+        </p>
+
+      </div>
+
     </aside>
 
-    <!-- MAIN -->
+    <!-- CONTENT -->
 
     <div class="explorer-content">
 
-      <!-- CATALOGO -->
+      <!-- ======================================
+           CATALOGO
+      ======================================= -->
 
       <section
         class="ideas-section"
@@ -233,7 +274,7 @@
           <div>
 
             <span class="section-badge">
-              Biblioteca
+              Biblioteca abierta
             </span>
 
             <h2>
@@ -242,25 +283,34 @@
 
           </div>
 
-        </div>
+          <p>
+            Recursos abiertos,
+            impresión 3D,
+            automatización y
+            soluciones agroalimentarias.
+          </p>
 
-        <!-- GRID -->
+        </div>
 
         <div
           class="ideas-grid"
           id="ideasGrid"
-        ></div>
-
-        <!-- PAGINATION -->
+        >
 
         <div
           class="ideas-pagination"
           id="ideasPagination"
         ></div>
 
+          <!-- DINÁMICO -->
+
+        </div>
+
       </section>
 
-      <!-- MAPA -->
+      <!-- ======================================
+           MAPA 3D
+      ======================================= -->
 
       <section
         class="ideas-section"
@@ -272,14 +322,22 @@
           <div>
 
             <span class="section-badge">
-              Ecosistema
+              Ecosistema maker
             </span>
 
             <h2>
-              Impresoras 3D en Costa Rica
+              Impresoras 3D
+              en Costa Rica
             </h2>
 
           </div>
+
+          <p>
+            Espacios maker,
+            laboratorios y
+            servicios vinculados
+            a fabricación digital.
+          </p>
 
         </div>
 
@@ -294,43 +352,131 @@
 
       </section>
 
+      <!-- ======================================
+           TERRITORIAL
+      ======================================= -->
+
+      <section
+        class="ideas-section"
+        id="territorial"
+      >
+
+        <div class="ideas-section-top">
+
+          <div>
+
+            <span class="section-badge">
+              Ruta territorial
+            </span>
+
+            <h2>
+              Procesos y mapeos
+            </h2>
+
+          </div>
+
+          <p>
+            Capacitaciones,
+            actores y oportunidades
+            identificadas desde
+            el territorio.
+          </p>
+
+        </div>
+
+        <div
+          class="territorial-layout"
+          id="territorialGrid"
+        >
+
+          <!-- DINÁMICO -->
+
+        </div>
+
+      </section>
+
     </div>
 
   </section>
 
-  <!-- MODAL -->
+  <!-- ======================================
+       FOOTER
+  ======================================= -->
 
-  <div
-    class="idea-modal"
-    id="ideaModal"
-  >
+  <footer class="footer">
 
-    <div class="idea-modal-box">
+    <div>
 
-      <button
-        class="modal-close"
-        onclick="closeIdeaModal()"
-      >
+      <strong>
+        AgroLINC
+      </strong>
 
-        <i class="fa-solid fa-xmark"></i>
-
-      </button>
-
-      <div id="ideaModalBody"></div>
+      <p>
+        Innovación aplicada y
+        tecnologías abiertas.
+      </p>
 
     </div>
 
-  </div>
+    <div>
 
-  <!-- LEAFLET -->
+      <strong>
+        AgroIdeas
+      </strong>
+
+      <p>
+        Biblioteca maker y territorial.
+      </p>
+
+    </div>
+
+    <div>
+
+      <strong>
+        Ecosistema
+      </strong>
+
+      <p>
+        Fabricación · Territorio · AgroTech
+      </p>
+
+    </div>
+
+  </footer>
+
+  <!-- ======================================
+       LEAFLET
+  ======================================= -->
 
   <script
     src="https://unpkg.com/leaflet/dist/leaflet.js"
   ></script>
 
-  <!-- JS -->
+  <!-- ======================================
+       JS
+  ======================================= -->
 
   <script src="js/agroideas.js"></script>
+  <div
+  class="idea-modal"
+  id="ideaModal"
+>
 
+  <div class="idea-modal-box">
+
+    <button
+      class="modal-close"
+      onclick="closeIdeaModal()"
+    >
+
+      <i class="fa-solid fa-xmark"></i>
+
+    </button>
+
+    <div id="ideaModalBody"></div>
+
+  </div>
+
+</div>
 </body>
 </html>
