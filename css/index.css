@@ -564,7 +564,7 @@ input {
 
 .routes-layout {
 
-  max-width: 1100px;
+  /* max-width: 1100px; */
 
   margin: 3rem auto 0;
 
@@ -630,9 +630,10 @@ input {
 
   background:
     linear-gradient(
-      135deg,
-      #5b21b6,
-      #06b6d4
+      180deg,
+      #562e6b,
+      #44266d,
+      #255995
     );
 
 }
@@ -641,9 +642,10 @@ input {
 
   background:
     linear-gradient(
-      135deg,
-      #166534,
-      #22c55e
+      180deg,
+      #122d12,
+      #1c482d,
+      #6b6f26
     );
 
 }
@@ -849,8 +851,8 @@ input {
   background:
     linear-gradient(
       135deg,
-      #0f172a,
-      #1e293b
+      #2b133d,
+      #1d2d48
     );
 
 }
@@ -861,7 +863,7 @@ input {
 
   inset: 0;
 
-  background-image:
+  /* background-image:
     linear-gradient(
       rgba(255,255,255,.04) 1px,
       transparent 1px
@@ -870,7 +872,7 @@ input {
       90deg,
       rgba(255,255,255,.04) 1px,
       transparent 1px
-    );
+    ); */
 
   background-size: 40px 40px;
 
