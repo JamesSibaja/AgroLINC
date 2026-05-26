@@ -559,104 +559,148 @@ input {
 }
 
 /* =========================================================
-   ROUTES V2
+   ROUTES V3
 ========================================================= */
 
-.routes-section {
+.routes-layout {
 
-  position: relative;
+  max-width: 1100px;
 
-  overflow: hidden;
+  margin: 3rem auto 0;
 
-}
+  display: flex;
 
-.routes-grid {
+  flex-direction: column;
 
-  position: relative;
-
-  z-index: 2;
+  gap: 1.5rem;
 
 }
 
-.route-card {
+.route-block {
+
+  display: grid;
+
+  grid-template-columns: 280px 1fr;
+
+  overflow: hidden;
+
+  border-radius: 32px;
+
+  background: white;
+
+  border: 1px solid #e2e8f0;
+
+  box-shadow:
+    0 10px 30px rgba(15,23,42,.05);
+
+  transition: .3s ease;
+
+}
+
+.route-block:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 20px 50px rgba(15,23,42,.08);
+
+}
+
+.route-side {
 
   position: relative;
 
-  overflow: hidden;
+  padding: 2.5rem 2rem;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: flex-start;
+
+  gap: 1rem;
+
+  color: white;
+
+}
+
+.technical-side {
 
   background:
     linear-gradient(
-      180deg,
-      rgba(255,255,255,.96),
-      rgba(248,250,252,.95)
+      135deg,
+      #5b21b6,
+      #06b6d4
     );
 
-  border: 1px solid rgba(255,255,255,.7);
-
-  backdrop-filter: blur(14px);
-
-  min-height: 100%;
-
 }
 
-.route-card:hover {
-
-  transform: translateY(-10px);
-
-  box-shadow:
-    0 25px 60px rgba(15,23,42,.08);
-
-}
-
-.route-glow {
-
-  position: absolute;
-
-  width: 220px;
-  height: 220px;
-
-  border-radius: 50%;
-
-  top: -120px;
-  right: -120px;
+.territorial-side {
 
   background:
-    radial-gradient(
-      rgba(109,40,217,.18),
-      transparent 70%
+    linear-gradient(
+      135deg,
+      #166534,
+      #22c55e
     );
 
 }
 
-.green-glow {
+.route-side i {
 
-  background:
-    radial-gradient(
-      rgba(34,197,94,.18),
-      transparent 70%
-    );
+  font-size: 2.5rem;
+
+  opacity: .95;
 
 }
 
-.route-card h3 {
+.route-side span {
+
+  font-size: 1.5rem;
+
+  font-weight: 800;
+
+  line-height: 1.1;
+
+}
+
+.route-main {
+
+  padding: 2.5rem;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+}
+
+.route-main h3 {
 
   font-size: 2rem;
 
   margin-bottom: 1rem;
 
+  color: #0f172a;
+
 }
 
-.route-card p {
+.route-main p {
 
-  color: var(--muted);
+  color: #64748b;
 
-  line-height: 1.8;
+  line-height: 1.9;
 
   font-size: 1rem;
 
+  max-width: 760px;
+
 }
 
-.route-points {
+.route-tags {
 
   display: flex;
 
@@ -668,13 +712,7 @@ input {
 
 }
 
-.route-points span {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: .5rem;
+.route-tags span {
 
   padding: .7rem 1rem;
 
@@ -684,23 +722,113 @@ input {
 
   border: 1px solid #e2e8f0;
 
-  font-size: .88rem;
+  color: #334155;
+
+  font-size: .9rem;
 
   font-weight: 600;
 
-  color: #334155;
+}
+
+/* CONNECTOR */
+
+.route-connector {
+
+  position: relative;
+
+  height: 70px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
 
 }
 
-.route-points i {
+.connector-line {
+
+  position: absolute;
+
+  width: 2px;
+
+  height: 100%;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(109,40,217,.25),
+      rgba(34,197,94,.25)
+    );
+
+}
+
+.connector-center {
+
+  position: relative;
+
+  z-index: 2;
+
+  width: 58px;
+  height: 58px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  border: 1px solid #e2e8f0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 10px 25px rgba(15,23,42,.08);
+
+}
+
+.connector-center i {
 
   color: var(--primary);
 
+  font-size: 1.1rem;
+
 }
 
-.territorial-route .route-points i {
+/* RESPONSIVE */
 
-  color: #16a34a;
+@media(max-width:900px){
+
+  .route-block {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .route-side {
+
+    align-items: center;
+
+    text-align: center;
+
+  }
+
+}
+
+@media(max-width:768px){
+
+  .route-main {
+
+    padding: 2rem 1.5rem;
+
+  }
+
+  .route-main h3 {
+
+    font-size: 1.5rem;
+
+  }
 
 }
 
