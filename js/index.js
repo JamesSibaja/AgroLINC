@@ -75,3 +75,27 @@ async function renderKPIs() {
     "DOMContentLoaded",
     renderKPIs
   );
+
+  const copyBtn =
+  document.getElementById("copyBtn");
+
+copyBtn.addEventListener(
+  "click",
+  async () => {
+
+    await navigator.clipboard.writeText(
+      "fablab@iica.int"
+    );
+
+    copyBtn.innerHTML =
+      '<i class="fa-solid fa-check"></i>';
+
+    setTimeout(() => {
+
+      copyBtn.innerHTML =
+        '<i class="fa-regular fa-copy"></i>';
+
+    }, 1800);
+
+  }
+);
