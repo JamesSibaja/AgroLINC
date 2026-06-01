@@ -483,21 +483,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.log("AgroLINC iniciado");
 
-  document
-    .getElementById("consultarBtn")
-    .addEventListener("click", consultarRuta);
+  const consultarBtn =
+    document.getElementById("consultarBtn");
 
-  document
-    .getElementById("cedulaInput")
-    .addEventListener("keydown", e => {
+  const cedulaInput =
+    document.getElementById("cedulaInput");
 
-      if (e.key === "Enter") {
+  if (consultarBtn) {
 
-        consultarRuta();
+    consultarBtn.addEventListener(
+      "click",
+      consultarRuta
+    );
+
+  }
+
+  if (cedulaInput) {
+
+    cedulaInput.addEventListener(
+      "keydown",
+      e => {
+
+        if (e.key === "Enter") {
+
+          consultarRuta();
+
+        }
 
       }
+    );
 
-    });
+  }
 
 });
 
