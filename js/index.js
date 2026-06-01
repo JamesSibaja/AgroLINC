@@ -121,7 +121,7 @@ async function renderRuta() {
   const etapas = {};
 
   cursos.forEach(curso => {
-
+    debugLog("CURSO RUTA", curso.ruta);
     if (curso.ruta != "Territorial"){
       if (!etapas[curso.etapa]) {
 
