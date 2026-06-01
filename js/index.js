@@ -203,6 +203,7 @@ async function renderRuta() {
     grid.appendChild(wrapper);
 
   });
+}
 
 /* =========================================
    MODAL
