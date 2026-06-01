@@ -140,10 +140,11 @@ async function fetchCursos() {
   const data = rows.slice(1).map(r => ({
     id: clean(r[0]),
     nombre: r[1],
-    ruta: clean(r[2]),
-    requisito1: clean(r[3]),
-    requisito2: clean(r[4]),
-    cursoFinal: clean(r[5]),
+    descripcion: clean(r[2]),
+    ruta: clean(r[3]),
+    requisito1: clean(r[4]),
+    requisito2: clean(r[5]),
+    cursoFinal: clean(r[6]),
     etapa: r[6]
   }));
 
