@@ -145,7 +145,7 @@ async function fetchCursos() {
     requisito1: clean(r[4]),
     requisito2: clean(r[5]),
     cursoFinal: clean(r[6]),
-    etapa: r[6]
+    etapa: r[7]
   }));
 
   debugLog("CURSOS LIMPIOS", data);
