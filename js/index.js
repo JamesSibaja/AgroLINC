@@ -139,59 +139,76 @@ async function renderRuta() {
   ============================== */
 
   Object.keys(etapas)
-    .sort((a, b) => Number(a) - Number(b))
-    .forEach(etapa => {
+  .sort((a, b) => Number(a) - Number(b))
+  .forEach(etapa => {
 
-      const row =
-        document.createElement("div");
+    const wrapper =
+      document.createElement("div");
 
-      row.className =
-        "path-row";
+    wrapper.className =
+      "path-stage";
 
-      etapas[etapa]
-        .forEach(curso => {
+    const title =
+      document.createElement("h3");
 
-          const btn =
-            document.createElement("button");
-          
-          btn.className =
-            "course-node";
-          if (etapa % 2 ==1){
-            btn.style =
-              "background:linear-gradient(135deg, #2c77a0, #39abd8);"
-          }
-          btn.innerHTML = `
+    title.className =
+      "stage-title";
 
-            <small>
-              Etapa ${curso.etapa}
-            </small>
+    title.textContent =
+      `Etapa ${etapa}`;
 
-            <strong>
-              ${curso.nombre}
-            </strong>
+    wrapper.appendChild(title);
 
-          `;
+    const row =
+      document.createElement("div");
 
-          btn.addEventListener(
-            "click",
-            () => openModal(curso)
-          );
+    row.className =
+      "path-row";
 
-          row.appendChild(btn);
+    etapas[etapa]
+      .forEach(curso => {
 
-        });
+        const btn =
+          document.createElement("button");
 
-      grid.appendChild(row);
+        btn.className =
+          "course-node";
 
-    });
+        if (Number(etapa) % 2 === 1) {
 
-}
+          btn.style.background =
+            "linear-gradient(135deg,#2c77a0,#39abd8)";
+
+        }
+
+        btn.innerHTML = `
+
+          <strong>
+            ${curso.nombre}
+          </strong>
+
+        `;
+
+        btn.addEventListener(
+          "click",
+          () => openModal(curso, cursos)
+        );
+
+        row.appendChild(btn);
+
+      });
+
+    wrapper.appendChild(row);
+
+    grid.appendChild(wrapper);
+
+  });
 
 /* =========================================
    MODAL
 ========================================= */
 
-function openModal(curso) {
+function openModal(curso, cursos) {
 
   document
     .getElementById("modalTitle")
@@ -203,11 +220,54 @@ function openModal(curso) {
     .textContent =
       `Etapa ${curso.etapa}`;
 
+  let requisitos = [];
+
+  if (curso.requisito1) {
+
+    const r1 =
+      cursos.find(
+        c => c.id === curso.requisito1
+      );
+
+    if (r1) {
+      requisitos.push(r1.nombre);
+    }
+
+  }
+
+  if (curso.requisito2) {
+
+    const r2 =
+      cursos.find(
+        c => c.id === curso.requisito2
+      );
+
+    if (r2) {
+      requisitos.push(r2.nombre);
+    }
+
+  }
+
+  const textoRequisitos =
+    requisitos.length > 0
+      ? `<strong>Requisitos:</strong><br>${requisitos.join("<br>")}`
+      : "<strong>Requisitos:</strong><br>Ninguno";
+
   document
     .getElementById("modalDescription")
-    .textContent =
-      curso.descripcion ||
-      "Próximamente disponible.";
+    .innerHTML = `
+
+      <p>
+        ${curso.descripcion || "Próximamente disponible."}
+      </p>
+
+      <br>
+
+      <div class="modal-reqs">
+        ${textoRequisitos}
+      </div>
+
+    `;
 
   document
     .getElementById("courseModal")

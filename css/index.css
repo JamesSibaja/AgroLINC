@@ -2966,8 +2966,11 @@ input {
 
 .path-row {
 
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(280px, 1fr));
+
   gap: 1rem;
 
 }
@@ -2977,6 +2980,10 @@ input {
 ========================================= */
 
 .course-node {
+
+  width: 100%;
+
+  min-height: 110px;
 
   position: relative;
 
@@ -2991,11 +2998,9 @@ input {
 
   color: white;
 
-  padding: 1.2rem 1.4rem;
+  padding: 1.4rem;
 
   border-radius: 22px;
-
-  min-width: 240px;
 
   text-align: left;
 
@@ -3006,7 +3011,33 @@ input {
     box-shadow .25s ease;
 
   box-shadow:
-    0 10px 25px rgba(90, 44, 160, .18);
+    0 10px 25px rgba(90,44,160,.18);
+
+}
+
+.path-stage {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: .8rem;
+
+}
+
+.stage-title {
+
+  margin: 0;
+
+  font-size: .95rem;
+
+  font-weight: 700;
+
+  color: var(--primary);
+
+  text-transform: uppercase;
+
+  letter-spacing: .08em;
 
 }
 
