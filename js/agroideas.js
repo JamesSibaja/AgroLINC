@@ -13,7 +13,13 @@ let catalogoGlobal = [];
 ========================================= */
 
 const AGROIDEAS_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1406834327&single=true&output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=1323057626&single=true&output=csv";
+
+const AGROIDEAS_3D =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=434666419&single=true&output=csv";
+
+const AGROIDEAS_MAPA_MAKER =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=1086175041&single=true&output=csv";
 
 /* =========================================
    DEBUG

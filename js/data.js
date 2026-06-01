@@ -61,15 +61,15 @@ function clean(value) {
 ========================================= */
 
 const CURSOS_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=0&single=true&output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=1008621981&single=true&output=csv";
 
 const ESTUDIANTES_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1568040734&single=true&output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=1841377808&single=true&output=csv";
 
 const EVENTOS_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=1589233834&single=true&output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=1458346686&single=true&output=csv";
 
-const KPI_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnS7gYqNZk-2vrvEU1DSYrZa7535VglT7kXCXWWpjDLwDu32K4od3CZqFJyeANgHP_OGhVvVwMhPZC/pub?gid=203474066&single=true&output=csv";
+const KPI_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=1244953961&single=true&output=csv";
 
 /* =========================================
    FETCH CSV
