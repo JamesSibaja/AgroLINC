@@ -122,14 +122,15 @@ async function renderRuta() {
 
   cursos.forEach(curso => {
 
-    if (!etapas[curso.etapa]) {
+    if (etapas.ruta != "Territorial")
+      if (!etapas[curso.etapa]) {
 
-      etapas[curso.etapa] = [];
+        etapas[curso.etapa] = [];
 
-    }
+      }
 
-    etapas[curso.etapa]
-      .push(curso);
+      etapas[curso.etapa]
+        .push(curso);
 
   });
 
