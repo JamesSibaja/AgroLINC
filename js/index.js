@@ -122,7 +122,7 @@ async function renderRuta() {
 
   cursos.forEach(curso => {
 
-    if (etapas.ruta != "Territorial")
+    if (etapas.ruta != "Territorial"){
       if (!etapas[curso.etapa]) {
 
         etapas[curso.etapa] = [];
@@ -131,7 +131,7 @@ async function renderRuta() {
 
       etapas[curso.etapa]
         .push(curso);
-
+    }
   });
 
   /* ==============================
@@ -153,10 +153,13 @@ async function renderRuta() {
 
           const btn =
             document.createElement("button");
-
+          
           btn.className =
             "course-node";
-
+          if (etapa % 2 ==1){
+            btn.style =
+              "background:linear-gradient(135deg, #2c77a0, #39abd8);"
+          }
           btn.innerHTML = `
 
             <small>
