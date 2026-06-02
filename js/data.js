@@ -69,7 +69,11 @@ const ESTUDIANTES_URL =
 const EVENTOS_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=1458346686&single=true&output=csv";
 
-const KPI_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=1244953961&single=true&output=csv";
+const KPI_URL = 
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=1244953961&single=true&output=csv";
+
+const CALENDARIO_URL = 
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=933585437&single=true&output=csv";
 
 /* =========================================
    FETCH CSV
@@ -151,6 +155,32 @@ async function fetchCursos() {
   debugLog("CURSOS LIMPIOS", data);
 
   return data;
+
+}
+
+async function fetchCalendario() {
+
+  const rows =
+    await fetchCSV(
+      CALENDARIO_URL,
+      "CALENDARIO"
+    );
+
+  return rows.slice(1).map(r => ({
+
+    fecha: r[0],
+
+    id: clean(r[1]),
+
+    min: Number(r[2]),
+
+    max: Number(r[3]),
+
+    disponibles: Number(r[4]),
+
+    enlace: r[5]
+
+  }));
 
 }
 

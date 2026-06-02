@@ -193,6 +193,7 @@ async function renderRuta() {
           "click",
           () => openModal(curso, cursos)
         );
+        
 
         row.appendChild(btn);
 
@@ -209,7 +210,10 @@ async function renderRuta() {
    MODAL
 ========================================= */
 
-function openModal(curso, cursos) {
+async function openModal(curso, cursos) {
+
+  const calendario =
+    await fetchCalendario();
 
   document
     .getElementById("modalTitle")
@@ -220,6 +224,10 @@ function openModal(curso, cursos) {
     .getElementById("modalStage")
     .textContent =
       `Etapa ${curso.etapa}`;
+
+  /* ==========================
+     REQUISITOS
+  ========================== */
 
   let requisitos = [];
 
@@ -251,8 +259,135 @@ function openModal(curso, cursos) {
 
   const textoRequisitos =
     requisitos.length > 0
-      ? `<strong>Requisitos:</strong><br>${requisitos.join("<br>")}`
-      : "<strong>Requisitos:</strong><br>Ninguno";
+      ? requisitos.join("<br>")
+      : "Ninguno";
+
+  /* ==========================
+     CALENDARIO
+  ========================== */
+
+  const eventosCurso =
+    calendario.filter(
+      e => e.id === curso.id
+    );
+
+  let eventosHTML = "";
+
+  if (eventosCurso.length === 0) {
+
+    eventosHTML = `
+
+      <div class="course-event event-closed">
+
+        <div class="event-status">
+          Próximamente
+        </div>
+
+        <p>
+          No hay convocatorias publicadas.
+        </p>
+
+      </div>
+
+    `;
+
+  } else {
+
+    eventosCurso.forEach(evento => {
+
+      let clase =
+        "event-open";
+
+      let estado =
+        "Inscripción abierta";
+
+      let mensaje =
+        `Cupo mínimo: ${evento.min}
+         · Cupos disponibles: ${evento.disponibles}`;
+
+      let boton = "";
+
+      if (!evento.enlace) {
+
+        clase =
+          "event-closed";
+
+        estado =
+          "Grupo cerrado";
+
+        mensaje =
+          "Esta convocatoria se gestiona mediante un grupo específico.";
+
+      }
+
+      else if (
+        evento.disponibles <= 0
+      ) {
+
+        clase =
+          "event-waiting";
+
+        estado =
+          "Lista de espera";
+
+        mensaje =
+          "Los cupos fueron completados. Las nuevas solicitudes ingresarán a lista de espera.";
+
+        boton = `
+
+          <a
+            class="event-btn"
+            href="${evento.enlace}"
+            target="_blank"
+          >
+            Lista de espera
+          </a>
+
+        `;
+
+      }
+
+      else {
+
+        boton = `
+
+          <a
+            class="event-btn"
+            href="${evento.enlace}"
+            target="_blank"
+          >
+            Solicitar inscripción
+          </a>
+
+        `;
+
+      }
+
+      eventosHTML += `
+
+        <div class="course-event ${clase}">
+
+          <div class="event-date">
+            ${evento.fecha}
+          </div>
+
+          <div class="event-status">
+            ${estado}
+          </div>
+
+          <p>
+            ${mensaje}
+          </p>
+
+          ${boton}
+
+        </div>
+
+      `;
+
+    });
+
+  }
 
   document
     .getElementById("modalDescription")
@@ -262,10 +397,24 @@ function openModal(curso, cursos) {
         ${curso.descripcion || "Próximamente disponible."}
       </p>
 
-      <br>
-
       <div class="modal-reqs">
+
+        <h4>
+          Requisitos
+        </h4>
+
         ${textoRequisitos}
+
+      </div>
+
+      <div class="modal-events">
+
+        <h4>
+          Convocatorias
+        </h4>
+
+        ${eventosHTML}
+
       </div>
 
     `;
