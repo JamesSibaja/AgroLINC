@@ -263,7 +263,7 @@ async function openModal(curso, cursos) {
       : "Ninguno";
 
   /* ==========================
-     CALENDARIO
+     CONVOCATORIAS
   ========================== */
 
   const eventosCurso =
@@ -279,12 +279,12 @@ async function openModal(curso, cursos) {
 
       <div class="course-event event-closed">
 
-        <div class="event-status">
+        <div class="event-status status-closed">
           Próximamente
         </div>
 
         <p>
-          No hay convocatorias publicadas.
+          No hay convocatorias publicadas para este curso.
         </p>
 
       </div>
@@ -295,43 +295,66 @@ async function openModal(curso, cursos) {
 
     eventosCurso.forEach(evento => {
 
-      let clase =
-        "event-open";
+      const cuposDisponibles =
+        evento.max - evento.inscritos;
 
-      let estado =
-        "Inscripción abierta";
+      const cumpleMinimo =
+        evento.inscritos >= evento.min;
 
-      let mensaje =
-        `Cupo mínimo: ${evento.min}
-         · Cupos disponibles: ${evento.disponibles}`;
-
+      let clase = "";
+      let estado = "";
+      let estadoClase = "";
+      let detalle = "";
       let boton = "";
+
+      /* =====================
+         GRUPO CERRADO
+      ===================== */
 
       if (!evento.enlace) {
 
         clase =
           "event-closed";
 
+        estadoClase =
+          "status-closed";
+
         estado =
           "Grupo cerrado";
 
-        mensaje =
+        detalle =
           "Esta convocatoria se gestiona mediante un grupo específico.";
 
       }
 
+      /* =====================
+         LISTA DE ESPERA
+      ===================== */
+
       else if (
-        evento.disponibles <= 0
+        cuposDisponibles <= 0
       ) {
 
         clase =
           "event-waiting";
 
+        estadoClase =
+          "status-waiting";
+
         estado =
           "Lista de espera";
 
-        mensaje =
-          "Los cupos fueron completados. Las nuevas solicitudes ingresarán a lista de espera.";
+        detalle = `
+
+          <span class="event-note">
+            No hay cupos disponibles.
+            Puede registrarse en la lista de espera.
+            Si se producen cancelaciones,
+            las solicitudes se atenderán según
+            el orden de registro.
+          </span>
+
+        `;
 
         boton = `
 
@@ -340,14 +363,84 @@ async function openModal(curso, cursos) {
             href="${evento.enlace}"
             target="_blank"
           >
-            Lista de espera
+            Unirse a lista de espera
+          </a>
+
+          <small class="event-small">
+            Mantenga disponibilidad para la fecha y horario de la capacitación.
+          </small>
+
+        `;
+
+      }
+
+      /* =====================
+         CONFIRMADO
+      ===================== */
+
+      else if (
+        cumpleMinimo
+      ) {
+
+        clase =
+          "event-confirmed";
+
+        estadoClase =
+          "status-confirmed";
+
+        estado =
+          "Convocatoria confirmada";
+
+        detalle = `
+
+          <div class="event-slots status-confirmed">
+            ${cuposDisponibles}
+            cupos disponibles
+          </div>
+
+        `;
+
+        boton = `
+
+          <a
+            class="event-btn"
+            href="${evento.enlace}"
+            target="_blank"
+          >
+            Solicitar inscripción
           </a>
 
         `;
 
       }
 
+      /* =====================
+         PENDIENTE CUPO MÍNIMO
+      ===================== */
+
       else {
+
+        clase =
+          "event-pending";
+
+        estadoClase =
+          "status-pending";
+
+        estado =
+          "Convocatoria abierta";
+
+        detalle = `
+
+          <div class="event-note status-pending">
+            Pendiente de alcanzar el cupo mínimo.
+          </div>
+
+          <div class="event-slots status-pending">
+            ${cuposDisponibles}
+            cupos disponibles
+          </div>
+
+        `;
 
         boton = `
 
@@ -371,13 +464,11 @@ async function openModal(curso, cursos) {
             ${evento.fecha}
           </div>
 
-          <div class="event-status">
+          <div class="event-status ${estadoClase}">
             ${estado}
           </div>
 
-          <p>
-            ${mensaje}
-          </p>
+          ${detalle}
 
           ${boton}
 
@@ -410,7 +501,7 @@ async function openModal(curso, cursos) {
       <div class="modal-events">
 
         <h4>
-          Convocatorias
+          Próximas convocatorias
         </h4>
 
         ${eventosHTML}

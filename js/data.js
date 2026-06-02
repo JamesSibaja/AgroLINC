@@ -172,13 +172,13 @@ async function fetchCalendario() {
 
     id: clean(r[1]),
 
-    min: Number(r[2]),
+    min: Number(r[3]),
 
-    max: Number(r[3]),
+    max: Number(r[4]),
 
-    disponibles: Number(r[4]),
+    inscritos: Number(r[5]),
 
-    enlace: r[5]
+    enlace: r[6]
 
   }));
 

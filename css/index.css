@@ -134,33 +134,77 @@ input {
 }
 
 /* =========================================================
+   BARRA INSTITUCIONAL
+========================================================= */
+
+.institution-bar {
+
+  height: 42px;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  padding: 0 5%;
+
+  background: white;
+
+  border-bottom:
+    1px solid rgba(0,0,0,.05);
+
+}
+
+.iica-logo {
+
+  height: 22px;
+
+  width: auto;
+
+  object-fit: contain;
+
+  opacity: .95;
+
+}
+
+/* =========================================================
    HEADER
 ========================================================= */
 
 .topbar {
 
   position: sticky;
+
   top: 0;
+
   z-index: 1000;
 
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
 
   padding: 1rem 5%;
 
-  background: rgba(255, 255, 255, .85);
+  background:
+    rgba(255,255,255,.88);
 
-  backdrop-filter: blur(20px);
+  backdrop-filter:
+    blur(20px);
 
-  border-bottom: 1px solid rgba(255, 255, 255, .3);
+  border-bottom:
+    1px solid rgba(255,255,255,.3);
 
 }
 
 .logo-wrap {
 
   display: flex;
+
   align-items: center;
+
   gap: 1rem;
 
 }
@@ -168,6 +212,7 @@ input {
 .logo-mark {
 
   width: 4px;
+
   height: 44px;
 
   border-radius: 14px;
@@ -183,24 +228,37 @@ input {
 
 .logo {
 
-  font-size: 1.4rem;
+  font-size: 2rem;
+
   font-weight: 800;
 
-  color: var(--primary);
+  line-height: 1;
+
+  color:
+    var(--primary);
 
 }
 
 .logo-wrap small {
 
-  color: var(--muted);
+  display: block;
+
+  margin-top: .35rem;
+
+  color:
+    var(--muted);
+
+  font-size: .95rem;
 
 }
 
 .nav {
 
   display: flex;
+
   align-items: center;
-  gap: 2rem;
+
+  gap: 2.2rem;
 
 }
 
@@ -208,18 +266,21 @@ input {
 
   text-decoration: none;
 
-  color: var(--muted);
+  color:
+    var(--muted);
 
   font-weight: 600;
 
-  transition: .25s ease;
+  transition:
+    .25s ease;
 
 }
 
 .nav a:hover,
 .nav a.active {
 
-  color: var(--primary);
+  color:
+    var(--primary);
 
 }
 
@@ -227,25 +288,30 @@ input {
 
   text-decoration: none;
 
-  background: var(--primary);
+  background:
+    var(--primary);
 
   color: white;
 
-  padding: .95rem 1.3rem;
+  padding:
+    .95rem 1.3rem;
 
   border-radius: 18px;
 
   font-weight: 700;
 
-  transition: .25s ease;
+  transition:
+    .25s ease;
 
 }
 
 .header-btn:hover {
 
-  background: var(--primary-dark);
+  background:
+    var(--primary-dark);
 
-  transform: translateY(-2px);
+  transform:
+    translateY(-2px);
 
 }
 
@@ -1027,25 +1093,108 @@ input {
 
   color: white;
 
-  padding: 3rem 5%;
+  padding: 4rem 5% 3rem;
 
   display: grid;
 
   grid-template-columns:
-    repeat(auto-fit, minmax(200px, 1fr));
+    2fr
+    1fr
+    1fr
+    1.2fr;
 
-  gap: 2rem;
+  gap: 3rem;
+
+}
+
+.footer-main h3 {
+
+  font-size: 1.5rem;
+
+  margin-bottom: 1rem;
+
+}
+
+.footer-main p {
+
+  max-width: 420px;
+
+}
+
+.footer-section strong {
+
+  display: block;
+
+  margin-bottom: .8rem;
+
+  font-size: .95rem;
+
+  letter-spacing: .02em;
 
 }
 
 .footer p {
 
-  color: rgba(255, 255, 255, .65);
+  color:
+    rgba(255,255,255,.68);
 
-  margin-top: .7rem;
+  line-height: 1.7;
 
 }
 
+.footer-bottom {
+
+  background: #0b1220;
+
+  color:
+    rgba(255,255,255,.5);
+
+  text-align: center;
+
+  padding: 1rem;
+
+  font-size: .85rem;
+
+  border-top:
+    1px solid rgba(255,255,255,.08);
+
+}
+
+.footer-logos {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 1.5rem;
+
+  margin-top: 1.8rem;
+
+  flex-wrap: wrap;
+
+}
+
+.footer-logos img {
+
+  height: 42px;
+
+  width: auto;
+
+  object-fit: contain;
+
+  opacity: .8;
+
+  transition: .25s ease;
+
+}
+
+.footer-logos img:hover {
+
+  opacity: 1;
+
+  transform: translateY(-2px);
+
+}
 /* =========================================================
    RUTA PAGE
 ========================================================= */
@@ -2024,9 +2173,43 @@ input {
    EVENTOS
 ========================================= */
 
+.status-confirmed {
+
+  color: #1d9b50;
+  font-weight: 700;
+
+}
+
+.status-pending {
+
+  color: #d28a00;
+  font-weight: 700;
+
+}
+
+.status-waiting {
+
+  color: #2c77a0;
+  font-weight: 700;
+
+}
+
+.status-closed {
+
+  color: #6b7280;
+  font-weight: 700;
+
+}
+
 .modal-events {
 
   margin-top: 2rem;
+
+  max-height: 320px;
+
+  overflow-y: auto;
+
+  padding-right: .5rem;
 
 }
 
@@ -2070,9 +2253,19 @@ input {
 
 .event-date {
 
-  font-weight: 700;
+  display: inline-block;
 
-  margin-bottom: .5rem;
+  padding: .25rem .65rem;
+
+  border-radius: 999px;
+
+  background: #eef3ef;
+
+  font-size: .85rem;
+
+  font-weight: 600;
+
+  margin-bottom: .6rem;
 
 }
 
@@ -2088,11 +2281,11 @@ input {
 
 }
 
-.course-event p {
+.course-event {
 
-  margin: 0;
+  padding: .9rem 1rem;
 
-  line-height: 1.6;
+  margin-bottom: .75rem;
 
 }
 
@@ -2121,6 +2314,16 @@ input {
 .event-btn:hover {
 
   opacity: .9;
+
+}
+
+.event-slots {
+
+  font-size: 1.1rem;
+
+  font-weight: 700;
+
+  margin-top: .4rem;
 
 }
 
