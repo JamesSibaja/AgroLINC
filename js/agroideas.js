@@ -1,3 +1,5 @@
+let catalogoOriginal = [];
+
 /* =========================================
    PAGINACIÓN
 ========================================= */
@@ -247,26 +249,28 @@ function getImage(url) {
 
 }
 
-/* =========================================
-   RENDER CATALOGO
-========================================= */
-
 function renderCatalogo(data) {
 
-  catalogoGlobal = data.filter(item => {
+  catalogoOriginal =
+    data.filter(item => {
 
-    const tipo =
-      item.tipo.toLowerCase();
+      const tipo =
+        item.tipo.toLowerCase();
 
-    return (
-      tipo.includes("3d") ||
-      tipo.includes("modelo") ||
-      tipo.includes("prototipo")
-    );
+      return (
+        tipo.includes("3d") ||
+        tipo.includes("modelo") ||
+        tipo.includes("prototipo")
+      );
 
-  });
+    });
 
-  renderPage(currentPage);
+  catalogoGlobal =
+    [...catalogoOriginal];
+
+  currentPage = 1;
+
+  renderPage(1);
 
 }
 
@@ -625,7 +629,11 @@ async function initAgroIdeas() {
 
     renderTerritorial(data);
 
-  } catch (error) {
+    initSidebar();
+
+  }
+
+  catch (error) {
 
     console.error(error);
 
@@ -645,3 +653,97 @@ document.addEventListener(
   "DOMContentLoaded",
   initAgroIdeas
 );
+
+/* =========================================
+   SIDEBAR ACTIVE
+========================================= */
+
+function initSidebar() {
+
+  const links =
+    document.querySelectorAll(
+      ".explorer-link"
+    );
+
+  const sections =
+    [
+      "catalogoPrototipo",
+      "catalogo",
+      "mapamaker"
+    ]
+    .map(id =>
+      document.getElementById(id)
+    )
+    .filter(Boolean);
+
+  function updateActive() {
+
+    let current =
+      sections[0]?.id;
+
+    sections.forEach(section => {
+
+      const top =
+        section.offsetTop - 180;
+
+      if (
+        window.scrollY >= top
+      ) {
+
+        current =
+          section.id;
+
+      }
+
+    });
+
+    links.forEach(link => {
+
+      link.classList.remove(
+        "active"
+      );
+
+      if (
+        link.getAttribute("href")
+        === `#${current}`
+      ) {
+
+        link.classList.add(
+          "active"
+        );
+
+      }
+
+    });
+
+  }
+
+  links.forEach(link => {
+
+    link.addEventListener(
+      "click",
+      () => {
+
+        links.forEach(l =>
+          l.classList.remove(
+            "active"
+          )
+        );
+
+        link.classList.add(
+          "active"
+        );
+
+      }
+    );
+
+  });
+
+  window.addEventListener(
+    "scroll",
+    updateActive
+  );
+
+  updateActive();
+
+}
