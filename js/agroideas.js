@@ -611,139 +611,271 @@ function renderTerritorial(data) {
   });
 
 }
-
 /* =========================================
-   INIT
+   BUSCADOR
 ========================================= */
 
-async function initAgroIdeas() {
+function initSearch() {
 
+  const input =
+  document.getElementById(
+  "ideasSearch"
+  );
+  
+  const btn =
+  document.getElementById(
+  "explorarBtn"
+  );
+  
+  if (!input) return;
+  
+  function buscar() {
+  
+  const q =
+  input.value
+  .toLowerCase()
+  .trim();
+  
+  if (!q) {
+  
+  catalogoGlobal =
+  [
+  ...catalogoOriginal
+  ];
+  
+  }
+  
+  else {
+  
+  catalogoGlobal =
+  catalogoOriginal.filter(
+  item => {
+  
+  return (
+  
+  item.nombre
+  .toLowerCase()
+  .includes(q)
+  
+  ||
+  
+  item.descripcion
+  .toLowerCase()
+  .includes(q)
+  
+  ||
+  
+  item.coleccion
+  .toLowerCase()
+  .includes(q)
+  
+  );
+  
+  }
+  );
+  
+  }
+  
+  currentPage = 1;
+  
+  renderPage(1);
+  
+  document
+  .getElementById(
+  "catalogoPrototipo"
+  )
+  .scrollIntoView({
+  behavior:
+  "smooth"
+  });
+  
+  }
+  
+  input.addEventListener(
+  "input",
+  buscar
+  );
+  
+  btn.addEventListener(
+  "click",
+  buscar
+  );
+  
+  }
+  
+  
+  /* =========================================
+  SIDEBAR
+  ========================================= */
+  
+  function initSidebar() {
+  
+  const links =
+  document.querySelectorAll(
+  ".explorer-link"
+  );
+  
+  const sections =
+  [
+  ...links
+  ]
+  .map(
+  l => {
+  
+  const id =
+  l
+  .getAttribute(
+  "href"
+  )
+  .replace(
+  "#",
+  ""
+  );
+  
+  return document.getElementById(
+  id
+  );
+  
+  }
+  )
+  .filter(Boolean);
+  
+  function activate() {
+  
+  let active =
+  sections[0];
+  
+  sections.forEach(s => {
+  
+  if (
+  
+  window.scrollY
+  
+  >=
+  
+  s.offsetTop
+  - 220
+  
+  ) {
+  
+  active =
+  s;
+  
+  }
+  
+  });
+  
+  links.forEach(link => {
+  
+  link.classList.remove(
+  "active"
+  );
+  
+  if (
+  
+  link.getAttribute(
+  "href"
+  )
+  
+  ===
+  
+  `#${active.id}`
+  
+  ) {
+  
+  link.classList.add(
+  "active"
+  );
+  
+  }
+  
+  });
+  
+  }
+  
+  links.forEach(link => {
+  
+  link.addEventListener(
+  "click",
+  e => {
+  
+  e.preventDefault();
+  
+  const id =
+  link
+  .getAttribute(
+  "href"
+  );
+  
+  document
+  .querySelector(
+  id
+  )
+  .scrollIntoView({
+  
+  behavior:
+  "smooth"
+  
+  });
+  
+  });
+  
+  });
+  
+  window.addEventListener(
+  "scroll",
+  activate
+  );
+  
+  activate();
+  
+  }
+  
+  
+  /* =========================================
+  INIT
+  ========================================= */
+  
+  async function initAgroIdeas() {
+  
   try {
-
-    const data =
-      await fetchAgroIdeas();
-
-    renderCatalogo(data);
-
-    renderMapa(data);
-
-    renderTerritorial(data);
-
-    initSidebar();
-
+  
+  const data =
+  await fetchAgroIdeas();
+  
+  renderCatalogo(
+  data
+  );
+  
+  renderMapa(
+  data
+  );
+  
+  renderTerritorial(
+  data
+  );
+  
+  initSidebar();
+  
+  initSearch();
+  
   }
-
-  catch (error) {
-
-    console.error(error);
-
-    alert(
-      "Error cargando AgroIdeas"
-    );
-
+  
+  catch (e) {
+  
+  console.error(
+  e
+  );
+  
+  alert(
+  "Error cargando AgroIdeas"
+  );
+  
   }
-
-}
-
-/* =========================================
-   LOAD
-========================================= */
-
-document.addEventListener(
+  
+  }
+  
+  document.addEventListener(
   "DOMContentLoaded",
   initAgroIdeas
-);
-
-/* =========================================
-   SIDEBAR ACTIVE
-========================================= */
-
-function initSidebar() {
-
-  const links =
-    document.querySelectorAll(
-      ".explorer-link"
-    );
-
-  const sections =
-    [
-      "catalogoPrototipo",
-      "catalogo",
-      "mapamaker"
-    ]
-    .map(id =>
-      document.getElementById(id)
-    )
-    .filter(Boolean);
-
-  function updateActive() {
-
-    let current =
-      sections[0]?.id;
-
-    sections.forEach(section => {
-
-      const top =
-        section.offsetTop - 180;
-
-      if (
-        window.scrollY >= top
-      ) {
-
-        current =
-          section.id;
-
-      }
-
-    });
-
-    links.forEach(link => {
-
-      link.classList.remove(
-        "active"
-      );
-
-      if (
-        link.getAttribute("href")
-        === `#${current}`
-      ) {
-
-        link.classList.add(
-          "active"
-        );
-
-      }
-
-    });
-
-  }
-
-  links.forEach(link => {
-
-    link.addEventListener(
-      "click",
-      () => {
-
-        links.forEach(l =>
-          l.classList.remove(
-            "active"
-          )
-        );
-
-        link.classList.add(
-          "active"
-        );
-
-      }
-    );
-
-  });
-
-  window.addEventListener(
-    "scroll",
-    updateActive
   );
-
-  updateActive();
-
-}
