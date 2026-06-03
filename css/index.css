@@ -242,6 +242,12 @@ input {
 
 }
 
+.agrolinc-logo {
+
+  height: 80px;
+
+}
+
 
 /* =========================================================
    HEADER
@@ -2336,7 +2342,7 @@ input {
 }
 
 .modal-events {
-
+  z-index: 1001;
   margin-top: 2rem;
 
   max-height: 320px;
