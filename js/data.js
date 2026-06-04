@@ -75,6 +75,81 @@ const KPI_URL =
 const CALENDARIO_URL = 
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0Qx4yyj93NZTptg6jXzfAH4PJukBl7pjLJ8rry7j5fOfEETlzC45utloqB6WYxw/pub?gid=933585437&single=true&output=csv";
 
+  /* =========================================
+   BLOG
+========================================= */
+
+const BLOG_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQen9jQ8hTfq8nTuYdXS3JXnha10XGyrK42n57v2UT8kEvN3UlrfGiXcKaLY2ZhX8YN2IjWyiUqj-_q/pub?gid=670892286&single=true&output=csv";
+
+const BLOG_IMAGENES_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vQen9jQ8hTfq8nTuYdXS3JXnha10XGyrK42n57v2UT8kEvN3UlrfGiXcKaLY2ZhX8YN2IjWyiUqj-_q/pub?gid=2108075240&single=true&output=csv";
+
+/* =========================================
+ FETCH BLOG
+========================================= */
+
+async function fetchBlog() {
+
+const noticiasRows =
+  await fetchCSV(
+    BLOG_URL,
+    "BLOG"
+  );
+
+const imagenesRows =
+  await fetchCSV(
+    BLOG_IMAGENES_URL,
+    "BLOG_IMAGENES"
+  );
+
+const imagenes =
+  imagenesRows
+    .slice(1)
+    .map(r => ({
+      noticia:
+        clean(r[1]),
+
+      imagen:
+        clean(r[0])
+    }));
+
+return noticiasRows
+  .slice(1)
+  .map(r => {
+
+    const id =
+      clean(r[0]);
+
+    return {
+
+      id,
+
+      fecha:
+        clean(r[1]),
+
+      titulo:
+        clean(r[2]),
+
+      texto:
+        clean(r[3]),
+
+      imagenes:
+        imagenes
+          .filter(
+            i =>
+              i.noticia === id
+          )
+          .map(
+            i =>
+              `assets/images/blog/${i.imagen}`
+          )
+
+    };
+
+  });
+
+}
 /* =========================================
    FETCH CSV
 ========================================= */

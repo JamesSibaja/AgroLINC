@@ -259,7 +259,7 @@ input {
 
   top: 0;
 
-  z-index: 1000;
+  z-index: 500;
 
   height: 100px;
 
@@ -2342,7 +2342,7 @@ input {
 }
 
 .modal-events {
-  z-index: 1001;
+  z-index: 1000;
   margin-top: 2rem;
 
   max-height: 320px;
