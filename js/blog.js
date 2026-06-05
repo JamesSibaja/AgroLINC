@@ -24,61 +24,219 @@ async function initBlog() {
 
 /* ========================= */
 
-function moveSlide(post,step,total){
+function renderBlog() {
 
-  if(
-  sliderState[post]
-  ===undefined
-  ){
+  const container =
+  document.getElementById(
+  "blogContainer"
+  );
   
-  sliderState[post]=0;
+  container.innerHTML =
+  "";
+  
+  const start =
+  (page - 1)
+  *
+  ITEMS;
+  
+  const subset =
+  noticias.slice(
+  start,
+  start + ITEMS
+  );
+  
+  subset.forEach(
+  (n,index)=>{
+  
+  const imagenes =
+  n.imagenes.length
+  ? n.imagenes
+  : [
+  "assets/images/hero.png"
+  ];
+  
+  sliderState[index]=0;
+  
+  container.innerHTML += `
+  
+  <article
+  class="blog-post"
+  >
+  
+  <div
+  class="blog-slider"
+  >
+  
+  <div
+  class="blog-track"
+  id="track-${index}"
+  >
+  
+  ${
+  
+  imagenes
+  .map(
+  (img,i)=>
+  
+  `
+  
+  <div
+  class="
+  blog-slide
+  ${
+  i===0
+  ?
+  "active"
+  :
+  ""
+  }
+  "
+  >
+  
+  <img
+  src="${img}"
+  loading="lazy"
+  >
+  
+  </div>
+  
+  `
+  
+  )
+  .join("")
   
   }
   
-  const slides =
-  document.querySelectorAll(
-  `#track-${post} .blog-slide`
-  );
+  </div>
   
-  slides[
-  sliderState[post]
-  ]
-  .classList.remove(
+  ${
+  imagenes.length>1
+  
+  ?
+  
+  `
+  
+  <button
+  class="
+  blog-arrow
+  left
+  "
+  onclick="
+  moveSlide(
+  ${index},
+  -1,
+  ${imagenes.length}
+  )
+  "
+  >
+  
+  ❮
+  
+  </button>
+  
+  <button
+  class="
+  blog-arrow
+  right
+  "
+  onclick="
+  moveSlide(
+  ${index},
+  1,
+  ${imagenes.length}
+  )
+  "
+  >
+  
+  ❯
+  
+  </button>
+  
+  <div
+  class="blog-dots"
+  >
+  
+  ${
+  
+  imagenes
+  .map(
+  (_,i)=>
+  
+  `
+  
+  <span
+  class="
+  blog-dot
+  ${
+  i===0
+  ?
   "active"
+  :
+  ""
+  }
+  "
+  data-post="${index}"
+  data-slide="${i}"
+  ></span>
+  
+  `
+  
+  )
+  .join("")
+  
+  }
+  
+  </div>
+  
+  `
+  
+  :
+  
+  ""
+  
+  }
+  
+  </div>
+  
+  <div
+  class="blog-body"
+  >
+  
+  <div
+  class="blog-date"
+  >
+  
+  ${n.fecha}
+  
+  </div>
+  
+  <h2
+  class="blog-title"
+  >
+  
+  ${n.titulo}
+  
+  </h2>
+  
+  <div
+  class="blog-text"
+  >
+  
+  ${n.texto}
+  
+  </div>
+  
+  </div>
+  
+  </article>
+  
+  `;
+  
+  }
+  
   );
   
-  sliderState[post]+=step;
-  
-  if(
-  sliderState[post]>=total
-  )
-  sliderState[post]=0;
-  
-  if(
-  sliderState[post]<0
-  )
-  sliderState[post]=
-  total-1;
-  
-  slides[
-  sliderState[post]
-  ]
-  .classList.add(
-  "active"
-  );
-  
-  document
-  .querySelectorAll(
-  `[data-post="${post}"]`
-  )
-  .forEach(
-  (dot,i)=>
-  dot.classList.toggle(
-  "active",
-  i===
-  sliderState[post]
-  )
-  );
+  renderPagination();
   
   }
 /* ========================= */
