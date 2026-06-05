@@ -24,140 +24,70 @@ async function initBlog() {
 
 /* ========================= */
 
-function renderBlog() {
+function renderBlog(){
 
   const container =
   document.getElementById(
   "blogContainer"
   );
   
-  container.innerHTML =
-  "";
+  container.innerHTML="";
   
   const start =
-  (page - 1)
+  (page-1)
   *
   ITEMS;
   
   const subset =
   noticias.slice(
   start,
-  start + ITEMS
+  start+ITEMS
   );
   
   subset.forEach(
-  (n,index)=>{
+  n=>{
   
-  const images =
-  n.imagenes.length
-  ? n.imagenes
-  : ["assets/images/hero.png"];
-  
-  container.innerHTML += `
+  container.innerHTML+=`
   
   <article
   class="blog-post"
   >
   
   <div
-  class="blog-slider"
+  class="blog-gallery"
   >
-  
-  <div
-  class="blog-track"
-  id="track-${index}"
-  style="
-  transform:
-  translateX(0%);
-  "
-  >
-  
-  ${images.map(img=>`
-  
-  <div
-  class="blog-slide"
-  >
-  
-  <img
-  src="${img}"
-  >
-  
-  </div>
-  
-  `).join("")}
-  
-  </div>
   
   ${
-  images.length>1
+  (
+  n.imagenes.length
   ?
   
-  `
-  <button
-  class="blog-arrow left"
-  onclick="
-  moveSlide(
-  ${index},
-  -1,
-  ${images.length}
-  )
-  "
-  >
-  
-  ❮
-  
-  </button>
-  
-  <button
-  class="blog-arrow right"
-  onclick="
-  moveSlide(
-  ${index},
-  1,
-  ${images.length}
-  )
-  "
-  >
-  
-  ❯
-  
-  </button>
-  
-  `
+  n.imagenes
   
   :
   
-  ""
+  [
+  "assets/images/hero.png"
+  ]
   
-  }
+  )
   
-  <div
-  class="blog-dots"
+  .map(
+  img=>
+  
+  `
+  
+  <img
+  src="${img}"
+  loading="lazy"
   >
   
-  ${images.map(
-  (_,i)=>
-  
   `
   
-  <span
-  class="
-  blog-dot
-  ${
-  i===0
-  ?"active"
-  :""
+  )
+  .join("")
+  
   }
-  "
-  data-post="${index}"
-  data-slide="${i}"
-  ></span>
-  
-  `
-  
-  ).join("")}
-  
-  </div>
   
   </div>
   
@@ -181,13 +111,13 @@ function renderBlog() {
   
   </h2>
   
-  <p
+  <div
   class="blog-text"
   >
   
   ${n.texto}
   
-  </p>
+  </div>
   
   </div>
   
@@ -195,102 +125,9 @@ function renderBlog() {
   
   `;
   
-  }
-  
-  );
+  });
   
   renderPagination();
-  
-  }
-  
-  const sliderState =
-  {};
-  
-  function moveSlide(
-  post,
-  step,
-  total
-  ){
-  
-  if(
-  sliderState[
-  post
-  ]
-  ===undefined
-  ){
-  
-  sliderState[
-  post
-  ]=0;
-  
-  }
-  
-  sliderState[
-  post
-  ]+=step;
-  
-  if(
-  sliderState[
-  post
-  ]>=total
-  ){
-  
-  sliderState[
-  post
-  ]=0;
-  
-  }
-  
-  if(
-  sliderState[
-  post
-  ]<0
-  ){
-  
-  sliderState[
-  post
-  ]=
-  total-1;
-  
-  }
-  
-  document
-  .getElementById(
-  `track-${post}`
-  )
-  .style.transform=
-  `
-  translateX(
-  -${
-  sliderState[
-  post
-  ]*100
-  }%
-  )
-  `;
-  
-  document
-  .querySelectorAll(
-  `
-  [data-post="${post}"]
-  `
-  )
-  .forEach(
-  (
-  dot,
-  i
-  )=>{
-  
-  dot.classList.toggle(
-  "active",
-  i===
-  sliderState[
-  post
-  ]
-  );
-  
-  }
-  );
   
   }
 /* ========================= */
