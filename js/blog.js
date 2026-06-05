@@ -24,110 +24,61 @@ async function initBlog() {
 
 /* ========================= */
 
-function renderBlog(){
+function moveSlide(post,step,total){
 
-  const container =
-  document.getElementById(
-  "blogContainer"
-  );
+  if(
+  sliderState[post]
+  ===undefined
+  ){
   
-  container.innerHTML="";
-  
-  const start =
-  (page-1)
-  *
-  ITEMS;
-  
-  const subset =
-  noticias.slice(
-  start,
-  start+ITEMS
-  );
-  
-  subset.forEach(
-  n=>{
-  
-  container.innerHTML+=`
-  
-  <article
-  class="blog-post"
-  >
-  
-  <div
-  class="blog-gallery"
-  >
-  
-  ${
-  (
-  n.imagenes.length
-  ?
-  
-  n.imagenes
-  
-  :
-  
-  [
-  "assets/images/hero.png"
-  ]
-  
-  )
-  
-  .map(
-  img=>
-  
-  `
-  
-  <img
-  src="${img}"
-  loading="lazy"
-  >
-  
-  `
-  
-  )
-  .join("")
+  sliderState[post]=0;
   
   }
   
-  </div>
+  const slides =
+  document.querySelectorAll(
+  `#track-${post} .blog-slide`
+  );
   
-  <div
-  class="blog-body"
-  >
+  slides[
+  sliderState[post]
+  ]
+  .classList.remove(
+  "active"
+  );
   
-  <div
-  class="blog-date"
-  >
+  sliderState[post]+=step;
   
-  ${n.fecha}
+  if(
+  sliderState[post]>=total
+  )
+  sliderState[post]=0;
   
-  </div>
+  if(
+  sliderState[post]<0
+  )
+  sliderState[post]=
+  total-1;
   
-  <h2
-  class="blog-title"
-  >
+  slides[
+  sliderState[post]
+  ]
+  .classList.add(
+  "active"
+  );
   
-  ${n.titulo}
-  
-  </h2>
-  
-  <div
-  class="blog-text"
-  >
-  
-  ${n.texto}
-  
-  </div>
-  
-  </div>
-  
-  </article>
-  
-  `;
-  
-  });
-  
-  renderPagination();
+  document
+  .querySelectorAll(
+  `[data-post="${post}"]`
+  )
+  .forEach(
+  (dot,i)=>
+  dot.classList.toggle(
+  "active",
+  i===
+  sliderState[post]
+  )
+  );
   
   }
 /* ========================= */
