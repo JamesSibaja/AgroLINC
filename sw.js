@@ -1,11 +1,17 @@
-const CACHE_NAME = "biofabricas-v1";
+const CACHE_NAME = "agrolinc-v1";
 
 const urlsToCache = [
   "./",
   "./index.html",
+  "./agroideas.html",
+  "./blog.html",
+  "./ruta.html",
   "./css/index.css",
   "./js/map.js",
   "./js/data.js",
+  "./js/agroideas.js",
+  "./js/blog.js",
+  "./js/index.js",
   "./manifest.json"
 ];
 

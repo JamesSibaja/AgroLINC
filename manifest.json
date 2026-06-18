@@ -1,8 +1,8 @@
 {
-  "name": "Biofábricas Costa Rica",
-  "short_name": "Biofábricas",
-  "start_url": "/Biofabricas/",
-  "scope": "/Biofabricas/",
+  "name": "AgroLINC FabLab IICA",
+  "short_name": "AgroLINC",
+  "start_url": "/AgroLINC/",
+  "scope": "/AgroLINC/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2e7d32",

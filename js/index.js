@@ -296,10 +296,10 @@ async function openModal(curso, cursos) {
     eventosCurso.forEach(evento => {
 
       const cuposDisponibles =
-        evento.max - evento.inscritos;
+        evento.max - evento.inscritos - evento.espera + evento.cancelados;
 
       const cumpleMinimo =
-        evento.inscritos >= evento.min;
+        evento.inscritos + evento.espera - evento.cancelados >= evento.min;
 
       let clase = "";
       let estado = "";

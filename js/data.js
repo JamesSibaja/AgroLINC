@@ -253,7 +253,11 @@ async function fetchCalendario() {
 
     inscritos: Number(r[5]),
 
-    enlace: r[6]
+    enlace: r[6],
+
+    espera: Number(r[7]),
+
+    cancelados: Number(r[8])
 
   }));
 
