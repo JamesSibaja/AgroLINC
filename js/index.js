@@ -22,12 +22,10 @@ async function renderKPIs() {
       const card = document.createElement("div");
       card.className = "metric-card";
 
-      // Convertir a minúsculas para comparar de manera flexible
-      const nombreLimpio = String(kpi.nombre || "").toLowerCase();
-      
-      // Buscar si el nombre contiene alguna de nuestras palabras clave
-      const match = iconKeywords.find(item => nombreLimpio.includes(item.key));
-      const icon = match ? match.icon : "fa-solid fa-chart-column"; // Icono por defecto
+      // CORRECCIÓN: La conversión a minúsculas se hace en una variable interna SOLO para el icono
+      const nombreParaBuscarIcono = String(kpi.nombre || "").toLowerCase();
+      const match = iconKeywords.find(item => nombreParaBuscarIcono.includes(item.key));
+      const icon = match ? match.icon : "fa-solid fa-chart-column";
 
       card.innerHTML = `
         <div class="metric-icon">
@@ -42,7 +40,7 @@ async function renderKPIs() {
       container.appendChild(card);
     });
 
-    // Disparar la animación de los contadores justo después de renderizarlos
+    // Disparar la animación optimizada
     animateKPICounters();
 
   } catch (error) {
@@ -50,44 +48,46 @@ async function renderKPIs() {
   }
 }
 
-// LÓGICA DE LA ANIMACIÓN DE NÚMEROS (De 0 al valor real)
+// CORRECCIÓN: ANIMACIÓN BASADA EN TIEMPO REAL (DURACIÓN FIJA)
 function animateKPICounters() {
   const counters = document.querySelectorAll(".kpi-counter");
+  const duration = 1500; // Duración exacta de la animación en milisegundos (1.5 segundos)
 
   counters.forEach(counter => {
     const targetText = String(counter.dataset.target || "").trim();
-    
-    // Extraer solo los dígitos numéricos para la animación matemática
     const targetValue = parseInt(targetText.replace(/\D/g, ""), 10);
     
-    // Si no es un número válido, mostrar el texto estático directamente
     if (isNaN(targetValue) || targetValue === 0) {
       counter.textContent = targetText;
       return;
     }
 
-    // Extraer cualquier sufijo o prefijo no numérico (ej: "+", "%", "k")
     const suffix = targetText.replace(/[0-9]/g, "");
+    let startTime = null;
 
-    let current = 0;
-    let currentFloat = 0;
-    
-    // Dividir el total entre 60 para que la animación dure cerca de 1 segundo (a 60fps)
-    const increment = Math.max(targetValue / 60, 1); 
+    const updateNumber = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
 
-    const updateNumber = () => {
-      currentFloat += increment;
-      current = Math.ceil(currentFloat);
-
-      if (current >= targetValue) {
-        counter.textContent = targetText; // Asegura que quede el valor exacto final con su formato
+      // Calcular el valor actual basado en el progreso del tiempo
+      if (progress < duration) {
+        // Fracción del progreso (de 0 a 1)
+        const percentage = progress / duration;
+        
+        // Efecto de desaceleración (Ease-Out) para que frene suavemente al llegar al final
+        const easeOutPercentage = 1 - Math.pow(1 - percentage, 3);
+        
+        const currentValue = Math.floor(easeOutPercentage * targetValue);
+        
+        counter.textContent = currentValue + suffix;
+        requestAnimationFrame(updateNumber);
       } else {
-        counter.textContent = current + suffix;
-        requestAnimationFrame(updateNumber); // Llama al siguiente cuadro de animación nativa
+        // Asegurar que al finalizar el tiempo quede el valor exacto de la hoja
+        counter.textContent = targetText;
       }
     };
 
-    updateNumber();
+    requestAnimationFrame(updateNumber);
   });
 }
 
