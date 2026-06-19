@@ -2,7 +2,7 @@
 ESTADO GLOBAL
 ========================================= */
 
-const ITEMS_PER_PAGE = 3;
+const ITEMS_PER_PAGE = 6;
 // Páginas independientes para cada sección
 let currentPagePrototipos = 1;
 let currentPage3D = 1;

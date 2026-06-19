@@ -81,6 +81,9 @@ const greenIcon = L.icon({
 // =============================
 // DATOS Google Sheets
 // =============================
+// =============================
+// DATOS Google Sheets
+// =============================
 async function initMapData() {
   const biofabricas = await fetchBiofabricas();
 
@@ -89,6 +92,7 @@ async function initMapData() {
       icon: greenIcon
     }).addTo(markerLayer);
 
+    // CONFIGURACIÓN DE POPUP OPTIMIZADA
     marker.bindPopup(`
       <div class="map-popup">
         <div class="popup-header">
@@ -98,9 +102,11 @@ async function initMapData() {
     
         <p class="popup-region">📍 ${bio.region}, Costa Rica</p>
     
-        <p class="popup-desc">
-          ${bio.descripcion}
-        </p>
+        <div class="popup-desc-container">
+          <p class="popup-desc">
+            ${bio.descripcion}
+          </p>
+        </div>
     
         <div class="popup-tags">
           ${bio.tags
@@ -113,11 +119,19 @@ async function initMapData() {
           Haz clic para ver ficha →
         </div>
       </div>
-    `);
+    `, {
+      maxWidth: 300,         // Limita el ancho del globo para que no se desborde horizontalmente
+      minWidth: 260,         // Mantiene una consistencia visual limpia
+      autoPan: true,         // Mueve el mapa automáticamente si el marcador está cerca del borde
+      autoPanPadding: L.point(50, 50), // Deja un margen de seguridad de 50px con los bordes del mapa
+      closeButton: false     // Opcional: Remueve la 'X' si satura la cabecera, se cierra al tocar el mapa
+    });
 
     marker.on("click", () => {
       renderPanel(bio);
 
+      // Desplazamiento inteligente: Centra el marcador un poco hacia la derecha 
+      // para compensar el infoPanel de la izquierda si es responsive.
       map.flyTo(
         [bio.lat, bio.lng],
         10,
