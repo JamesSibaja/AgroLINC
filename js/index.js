@@ -6,10 +6,11 @@ async function renderKPIs() {
 
     // Diccionario de palabras clave para asignar iconos de forma dinámica
     const iconKeywords = [
-      { key: "participante", icon: "fa-solid fa-users" },
+      { key: "personas", icon: "fa-solid fa-users" },
       { key: "recurso", icon: "fa-solid fa-lightbulb" },
       { key: "agroidea", icon: "fa-solid fa-lightbulb" },
-      { key: "curso", icon: "fa-solid fa-graduation-cap" },
+      { key: "curso", icon: "fa-solid fa-book" },
+      { key: "certificaciones", icon: "fa-solid fa-graduation-cap" },
       { key: "capacitacion", icon: "fa-solid fa-graduation-cap" },
       { key: "modelo", icon: "fa-solid fa-cube" },
       { key: "prototipo", icon: "fa-solid fa-microchip" },

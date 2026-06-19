@@ -189,26 +189,28 @@ async function fetchCSV(url, name) {
 ========================================= */
 
 async function fetchKPI() {
-
   const res = await fetch(KPI_URL);
-
   const text = await res.text();
-
   const rows = parseCSV(text);
 
   console.log("KPI RAW");
   console.log(text);
-
   console.log("KPI PARSED");
   console.table(rows);
 
-  return rows.slice(1).map(r => ({
+  return rows.slice(1).map(r => {
+    // Limpieza manual segura: remueve saltos de línea y espacios en los extremos, 
+    // pero MANTIENE las mayúsculas y minúsculas originales de Google Sheets.
+    const nombreOriginal = String(r[0] || "")
+      .replace(/\r/g, "")
+      .replace(/\n/g, " ")
+      .trim();
 
-    nombre: clean(r[0]),
-    valor: clean(r[1])
-
-  }));
-
+    return {
+      nombre: nombreOriginal, 
+      valor: clean(r[1]) // El valor numérico sí puede seguir usando clean()
+    };
+  });
 }
 
 async function fetchCursos() {
