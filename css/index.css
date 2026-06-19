@@ -1,7 +1,7 @@
 
-   html {
-    scroll-padding-top: 100px; /* Cambia 100px por la altura de tu barra superior + un margen extra de diseño */
-  }
+   /* html {
+    scroll-padding-top: 100px; 
+  } */
 
 /* =========================================================
    ROOT
@@ -3902,11 +3902,7 @@ BLOG
 /* =========================================================
    NUEVO POPUP COMPACTO DEL MAPA
 ========================================================= */
-.leaflet-popup-content-wrapper {
-  padding: 0 !important;
-  overflow: hidden !important;
-  border-radius: 12px !important;
-}
+
 
 .map-popup-compact {
   padding: 12px;
@@ -3930,26 +3926,71 @@ BLOG
   color: #0f172a;
 }
 
+
+
+
+
+
+/* =========================================================
+   REDISEÑO DEL CONTENEDOR NATIVO DE LEAFLET
+========================================================= */
+
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+/* Contenedor compacto interno */
+.map-popup-compact {
+  padding: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+/* Mini miniatura de la imagen */
+.popup-img-thumb {
+  width: 100%;
+  height: 95px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 2px;
+  display: block;
+}
+
+.map-popup-compact h4.popup-title {
+  margin: 4px 0 0 0 !important;
+  font-size: 0.95rem !important;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #0f172a;
+}
+
 .popup-region-sub {
-  margin: 0;
+  margin: 0 !important;
   font-size: 0.8rem;
   color: #64748b;
 }
 
-/* Botón estilizado dentro del Popup */
+/* Botón discreto de ampliación */
 .popup-modal-btn {
-  background: #6d28d9;
+  background: #6d28d9; /* Color primario */
   color: white;
   border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   margin-top: 4px;
-  transition: background 0.2s;
+  width: 100%;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
 .popup-modal-btn:hover {
   background: #5b21b6;
+  transform: scale(1.02);
 }

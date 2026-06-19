@@ -78,62 +78,75 @@ const greenIcon = L.icon({
   iconAnchor: [12, 41]
 });
 
+
 // =============================
 // DATOS Google Sheets
 // =============================
 // =============================
-// DATOS Google Sheets
-// =============================
-// =============================
-// DATOS Google Sheets
+// DATOS Google Sheets (POPUP ULTRA COMPACTO)
 // =============================
 async function initMapData() {
   const biofabricas = await fetchBiofabricas();
 
   biofabricas.forEach((bio) => {
+    // 1. Crear el marcador en la capa correspondiente
     const marker = L.marker([bio.lat, bio.lng], {
       icon: greenIcon
     }).addTo(markerLayer);
 
-    // Formateamos los datos para que el modal los lea correctamente
+    // 2. Empaquetar los datos exactamente con la estructura que lee tu Modal Global
     const itemData = {
-      tipo: "prototipo", // Reutiliza el formato de tarjeta para el modal
+      tipo: "prototipo", // Usamos este tipo para mapear los campos por defecto en tu modal
       nombre: bio.name,
-      imagen: bio.imagen,
+      imagen: bio.imagen || 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800',
       coleccion: bio.estado,
       descripcion: bio.descripcion,
       autor: `${bio.region}, Costa Rica`
     };
 
-    // Convertimos a Base64 idéntico a como lo haces en agroideas.js
+    // 3. Convertir el objeto a una cadena Base64 segura para el atributo 'onclick'
     const itemDataAttr = btoa(unescape(encodeURIComponent(JSON.stringify(itemData))));
 
-    // Popup ultra-limpio: solo imagen, nombre y botón
-    marker.bindPopup(`
+    // 4. Diseñar el Popup: ELIMINAMOS por completo la descripción aquí
+    const popupHTML = `
       <div class="map-popup-compact">
-        ${bio.imagen ? `<img src="${bio.imagen}" alt="${bio.name}" class="popup-img-thumb" onerror="this.src='https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=400'}" />` : ''}
-        <h4>${bio.name}</h4>
+        ${bio.imagen ? `<img src="${bio.imagen}" class="popup-img-thumb" onerror="this.src='https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=400'" />` : ''}
+        <h4 class="popup-title">${bio.name}</h4>
         <p class="popup-region-sub">📍 ${bio.region}</p>
         <button class="popup-modal-btn" onclick="openIdeaModalFromAttr('${itemDataAttr}')">
-          Ver descripción completa
+          Ampliar detalles
         </button>
       </div>
-    `, {
-      maxWidth: 220,
+    `;
+
+    // 5. Vincular el popup al marcador con dimensiones fijas y limpias
+    marker.bindPopup(popupHTML, {
+      maxWidth: 200,
       minWidth: 180,
-      closeButton: false,
-      autoPanPadding: L.point(50, 50)
+      closeButton: false, // Menos saturación visual
+      autoPanPadding: L.point(50, 80) // Evita que se pegue al header superior al abrirse
     });
 
+    // 6. Evento al hacer clic en el marcador
     marker.on("click", () => {
+      // Actualiza el panel lateral secundario si aún lo usas
       renderPanel(bio);
-      map.flyTo([bio.lat, bio.lng], 10, { duration: 1 });
+
+      // Centrado inteligente con un leve offset hacia abajo para que el popup no quede oculto
+      const visualOffset = 0.02; 
+      const adjustedLat = Number(bio.lat) + visualOffset;
+
+      map.flyTo(
+        [adjustedLat, bio.lng],
+        10,
+        { duration: 1 }
+      );
     });
 
+    // Guardar referencia en el array global de marcadores
     markers.push({ marker, bio });
   });
 }
-
 
 // =============================
 // BÚSQUEDA
