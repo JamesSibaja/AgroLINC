@@ -2247,7 +2247,7 @@ input {
 ========================================================= */
 
 /* Forzar que el contenedor nativo respete los bordes de nuestro diseño */
-.leaflet-popup-content-wrapper {
+/* .leaflet-popup-content-wrapper {
   padding: 0 !important;
   overflow: hidden !important;
   border-radius: 16px !important;
@@ -2256,26 +2256,26 @@ input {
 .leaflet-popup-content {
   margin: 0 !important;
   width: 100% !important;
-}
+} */
 
 /* Estilos de tu tarjeta interna del popup */
-.map-popup {
+/* .map-popup {
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   box-sizing: border-box;
-}
+} */
 
 /* Contenedor con scroll para descripciones masivas */
-.popup-desc-container {
-  max-height: 120px;       /* Altura máxima para la descripción */
-  overflow-y: auto;        /* Activa scroll vertical si el texto se pasa */
+/* .popup-desc-container {
+  max-height: 120px;       
+  overflow-y: auto;        
   padding-right: 4px;
-}
+} */
 
 /* Estilo para la barra de scroll integrada (opcional, más estética) */
-.popup-desc-container::-webkit-scrollbar {
+/* .popup-desc-container::-webkit-scrollbar {
   width: 4px;
 }
 .popup-desc-container::-webkit-scrollbar-thumb {
@@ -2288,7 +2288,7 @@ input {
   line-height: 1.4 !important;
   color: #475569;
   margin: 0;
-}
+} */
 
 /* =========================================================
    PAGINATION
