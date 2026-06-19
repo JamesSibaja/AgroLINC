@@ -4008,13 +4008,12 @@ html {
     scroll-padding-top: 4.5rem; /* Ajuste preciso para celulares */
   }
 }
-
 /* =========================================================
-   BOTÓN HOME DEL MAPA
+   BOTÓN HOME PROFESIONAL (FONTAWESOME)
 ========================================================= */
 .map-home-btn {
   background-color: #ffffff;
-  color: #333333;
+  color: #475569; /* Un gris oscuro más elegante que el negro puro */
   width: 34px;
   height: 34px;
   border: 2px solid rgba(0, 0, 0, 0.2);
@@ -4023,28 +4022,50 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
   padding: 0;
   box-shadow: none;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Efecto hover alineado a los estándares de Leaflet */
+/* Tamaño específico para el icono interno */
+.map-home-btn i {
+  font-size: 0.95rem; 
+}
+
+/* Efecto Hover */
 .map-home-btn:hover {
-  background-color: #f4f4f4;
-  color: #000000;
+  background-color: #f8fafc;
+  color: #0f172a; /* Se oscurece al pasar el cursor */
 }
 
-/* Pequeño ajuste para espaciarlo del control de zoom nativo */
+/* Margen superior para separarlo del bloque de zoom [ + ] y [ - ] */
 .leaflet-top.leaflet-left .map-home-btn {
   margin-top: 6px !important;
 }
 
-/* Optimización táctil para dispositivos móviles */
+/* Ajuste fino para pantallas táctiles */
 @media (max-width: 768px) {
   .map-home-btn {
     width: 38px;
     height: 38px;
-    font-size: 1.2rem;
+  }
+  .map-home-btn i {
+    font-size: 1.1rem;
+  }
+}
+
+/* Animación de entrada para las tarjetas KPI */
+.metric-card {
+  animation: kpiFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes kpiFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

@@ -427,7 +427,7 @@ function initMapa() {
       const btn = L.DomUtil.create('button', 'map-home-btn');
       
       // Contenido visual del botón (un icono de casa o texto discreto)
-      btn.innerHTML = '🏠'; 
+      btn.innerHTML = '<i class="fa-solid fa-house"></i>';
       btn.title = 'Restablecer vista inicial';
       btn.type = 'button';
       

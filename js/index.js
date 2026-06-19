@@ -1,104 +1,109 @@
 async function renderKPIs() {
+  try {
+    const kpis = await fetchKPI();
+    const container = document.getElementById("kpiContainer");
+    if (!container) return;
 
-    try {
-  
-      const kpis = await fetchKPI();
-  
-      const container =
-        document.getElementById("kpiContainer");
-  
-      if (!container) return;
-  
-      const icons = {
+    // Diccionario de palabras clave para asignar iconos de forma dinámica
+    const iconKeywords = [
+      { key: "participante", icon: "fa-solid fa-users" },
+      { key: "recurso", icon: "fa-solid fa-lightbulb" },
+      { key: "agroidea", icon: "fa-solid fa-lightbulb" },
+      { key: "curso", icon: "fa-solid fa-graduation-cap" },
+      { key: "capacitacion", icon: "fa-solid fa-graduation-cap" },
+      { key: "modelo", icon: "fa-solid fa-cube" },
+      { key: "prototipo", icon: "fa-solid fa-microchip" },
+      { key: "mapa", icon: "fa-solid fa-map-location-dot" }
+    ];
 
-        participantes:
-          "fa-solid fa-users",
+    container.innerHTML = "";
+
+    kpis.forEach(kpi => {
+      const card = document.createElement("div");
+      card.className = "metric-card";
+
+      // Convertir a minúsculas para comparar de manera flexible
+      const nombreLimpio = String(kpi.nombre || "").toLowerCase();
       
-        "recursos agroideas":
-          "fa-solid fa-lightbulb",
-      
-        "cursos diferentes":
-          "fa-solid fa-graduation-cap"
-      
-      };
-  
-      container.innerHTML = "";
-  
-      kpis.forEach(kpi => {
-  
-        const card =
-          document.createElement("div");
-  
-        card.className =
-          "metric-card";
-  
-        const icon =
-          icons[kpi.nombre] ||
-          "fa-solid fa-chart-column";
-  
-        card.innerHTML = `
-  
-          <div class="metric-icon">
-            <i class="${icon}"></i>
-          </div>
-  
-          <div>
-  
-            <strong>
-              ${kpi.valor}
-            </strong>
-  
-            <span>
-              ${kpi.nombre}
-            </span>
-  
-          </div>
-  
-        `;
-  
-        container.appendChild(card);
-  
-      });
-  
-    } catch (error) {
-  
-      console.error(
-        "Error cargando KPI",
-        error
-      );
-  
+      // Buscar si el nombre contiene alguna de nuestras palabras clave
+      const match = iconKeywords.find(item => nombreLimpio.includes(item.key));
+      const icon = match ? match.icon : "fa-solid fa-chart-column"; // Icono por defecto
+
+      card.innerHTML = `
+        <div class="metric-icon">
+          <i class="${icon}"></i>
+        </div>
+        <div>
+          <strong class="kpi-counter" data-target="${kpi.valor}">0</strong>
+          <span>${kpi.nombre}</span>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+
+    // Disparar la animación de los contadores justo después de renderizarlos
+    animateKPICounters();
+
+  } catch (error) {
+    console.error("Error cargando KPI", error);
+  }
+}
+
+// LÓGICA DE LA ANIMACIÓN DE NÚMEROS (De 0 al valor real)
+function animateKPICounters() {
+  const counters = document.querySelectorAll(".kpi-counter");
+
+  counters.forEach(counter => {
+    const targetText = String(counter.dataset.target || "").trim();
+    
+    // Extraer solo los dígitos numéricos para la animación matemática
+    const targetValue = parseInt(targetText.replace(/\D/g, ""), 10);
+    
+    // Si no es un número válido, mostrar el texto estático directamente
+    if (isNaN(targetValue) || targetValue === 0) {
+      counter.textContent = targetText;
+      return;
     }
-  
-  }
-  
-  document.addEventListener(
-    "DOMContentLoaded",
-    renderKPIs
-  );
 
-  const copyBtn =
-  document.getElementById("copyBtn");
+    // Extraer cualquier sufijo o prefijo no numérico (ej: "+", "%", "k")
+    const suffix = targetText.replace(/[0-9]/g, "");
 
-copyBtn.addEventListener(
-  "click",
-  async () => {
+    let current = 0;
+    let currentFloat = 0;
+    
+    // Dividir el total entre 60 para que la animación dure cerca de 1 segundo (a 60fps)
+    const increment = Math.max(targetValue / 60, 1); 
 
-    await navigator.clipboard.writeText(
-      "fablab@iica.int"
-    );
+    const updateNumber = () => {
+      currentFloat += increment;
+      current = Math.ceil(currentFloat);
 
-    copyBtn.innerHTML =
-      '<i class="fa-solid fa-check"></i>';
+      if (current >= targetValue) {
+        counter.textContent = targetText; // Asegura que quede el valor exacto final con su formato
+      } else {
+        counter.textContent = current + suffix;
+        requestAnimationFrame(updateNumber); // Llama al siguiente cuadro de animación nativa
+      }
+    };
 
+    updateNumber();
+  });
+}
+
+// Mantener los eventos existentes intactos
+document.addEventListener("DOMContentLoaded", renderKPIs);
+
+const copyBtn = document.getElementById("copyBtn");
+if (copyBtn) {
+  copyBtn.addEventListener("click", async () => {
+    await navigator.clipboard.writeText("fablab@iica.int");
+    copyBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
     setTimeout(() => {
-
-      copyBtn.innerHTML =
-        '<i class="fa-regular fa-copy"></i>';
-
+      copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i>';
     }, 1800);
-
-  }
-);
+  });
+}
 
 /* =========================================
    RENDER
