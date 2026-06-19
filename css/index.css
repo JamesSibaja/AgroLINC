@@ -3934,7 +3934,9 @@ BLOG
 /* =========================================================
    REDISEÑO DEL CONTENEDOR NATIVO DE LEAFLET
 ========================================================= */
-
+.leaflet-popup{
+  width: 400px; 
+}
 
 .leaflet-popup-content {
   margin: 0 !important;
@@ -3954,7 +3956,7 @@ BLOG
 /* Mini miniatura de la imagen */
 .popup-img-thumb {
   width: 100%;
-  height: 95px;
+  height: 250px;
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 2px;
@@ -3993,4 +3995,16 @@ BLOG
 .popup-modal-btn:hover {
   background: #5b21b6;
   transform: scale(1.02);
+}
+html {
+  /* Le dice al navegador que deje un margen superior exacto al saltar a un ancla (#) */
+  scroll-padding-top: 7rem; 
+  scroll-behavior: smooth;
+}
+
+/* Si en pantallas móviles tu barra superior mide menos, la ajustas con un Media Query */
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 4.5rem; /* Ajuste preciso para celulares */
+  }
 }

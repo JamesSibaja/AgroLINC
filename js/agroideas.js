@@ -553,21 +553,19 @@ function initSidebar() {
   }
   
   // CORRECCIÓN DEL CLICK CON ANCHOR OFFSET PARA BARRAS FIJAS
-  links.forEach(link => {
-    link.addEventListener("click", e => {
-      e.preventDefault();
-      const target = document.querySelector(link.getAttribute("href"));
-      if (target) {
-        const topbarHeight = 100; // Compensa la altura exacta de tu barra superior fija
-        const targetPosition = target.offsetTop - topbarHeight;
-
-        window.scrollTo({
-          top: targetPosition,
-          behavior: "smooth"
-        });
-      }
-    });
+ // Reemplaza ÚNICAMENTE el fragmento del click en tu función initSidebar() por este:
+links.forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute("href"));
+    if (target) {
+      // Dejamos que el "scroll-padding-top" del CSS haga todo el trabajo sucio en móvil y PC
+      target.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
   });
+});
   
   window.addEventListener("scroll", activate);
   activate();
