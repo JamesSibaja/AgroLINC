@@ -516,8 +516,9 @@ function initSidebar() {
     if (sections.length === 0) return;
     let active = sections[0];
     
+    // Añadimos un margen de 120px para activar el estado visual del menú antes
     sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 220) {
+      if (window.scrollY >= s.offsetTop - 120) {
         active = s;
       }
     });
@@ -530,12 +531,19 @@ function initSidebar() {
     });
   }
   
+  // CORRECCIÓN DEL CLICK CON OFFSET
   links.forEach(link => {
     link.addEventListener("click", e => {
       e.preventDefault();
       const target = document.querySelector(link.getAttribute("href"));
       if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
+        const topbarHeight = 90; // Ajusta este número según los píxeles reales de tu barra superior
+        const targetPosition = target.offsetTop - topbarHeight;
+
+        window.scrollTo({
+          top: targetPosition,
+          behavior: "smooth"
+        });
       }
     });
   });
@@ -543,7 +551,6 @@ function initSidebar() {
   window.addEventListener("scroll", activate);
   activate();
 }
-
 /* =========================================
 EVENT LISTENERS ACCESIBILIDAD MÓDULOS
 ========================================= */
