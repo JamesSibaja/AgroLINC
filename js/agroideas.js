@@ -330,7 +330,6 @@ function renderPagination3D() {
   if (!container) {
     container = document.createElement("div");
     container.id = "3dPagination";
-    // Copia de los mismos estilos que tiene tu paginación general
     container.style.display = "flex";
     container.style.gap = "1rem";
     container.style.justify = "center";
@@ -368,21 +367,17 @@ function initSearch() {
     const q = input.value.toLowerCase().trim();
     
     if (!q) {
-      // Si no hay búsqueda, restaurar todo al estado original completo
       prototiposFiltrados = [...biblioteca.prototipos];
       modelos3dFiltrados = [...biblioteca.modelos3d];
       mapaFiltrado = [...biblioteca.mapaMaker];
     } else {
-      // Función helper interna para buscar coincidencia de texto
       const matchesQuery = (item) => Object.values(item).join(" ").toLowerCase().includes(q);
 
-      // Filtrar las 3 colecciones de forma independiente
       prototiposFiltrados = biblioteca.prototipos.filter(matchesQuery);
       modelos3dFiltrados = biblioteca.modelos3d.filter(matchesQuery);
       mapaFiltrado = biblioteca.mapaMaker.filter(matchesQuery);
     }
     
-    // Forzar reinicio de páginas al buscar
     currentPagePrototipos = 1;
     currentPage3D = 1;
 
@@ -418,6 +413,7 @@ function initMapa() {
   }, 400);
 }
 
+// CORREGIDO: POPUP COMPACTO Y CENTRADO INTELIGENTE CON CONTEXTO GLOBAL
 function renderMarcadoresMapa() {
   if (!mapaLeaflet) return;
 
@@ -427,19 +423,45 @@ function renderMarcadoresMapa() {
   mapaFiltrado
     .filter(p => !isNaN(p.lat) && !isNaN(p.lng))
     .forEach(p => {
+      // Formateamos la estructura para que sea compatible con el render del modal existente
+      const itemDataForModal = {
+        tipo: "prototipo", // Usado para mapear campos estándar en tu modal
+        nombre: p.nombre,
+        imagen: p.imagen,
+        coleccion: p.tipoPunto || "Punto de Mapa",
+        descripcion: p.descripcion,
+        autor: p.link ? `<a href="${p.link}" target="_blank" class="resource-btn">Abrir enlace externo</a>` : ""
+      };
+
+      const itemDataAttr = btoa(unescape(encodeURIComponent(JSON.stringify(itemDataForModal))));
+
+      // HTML súper limpio: Sin descripciones masivas que dañen el mapa
       const popup = `
-        <div class="map-popup">
-          ${p.imagen ? `<img src="${getGoogleDriveImage(p.imagen)}" style="width:100%; border-radius:12px; margin-bottom:12px;" alt="Punto"/>` : ""}
-          <h3>${p.nombre}</h3>
-          ${p.tipoPunto ? `<p><strong>Tipo:</strong> ${p.tipoPunto}</p>` : ""}
-          <p>${p.descripcion || ""}</p>
-          ${p.link ? `<a href="${p.link}" target="_blank">Abrir recurso</a>` : ""}
+        <div class="map-popup-compact">
+          ${p.imagen ? `<img src="${getGoogleDriveImage(p.imagen)}" class="popup-img-thumb" alt="Punto"/>` : ""}
+          <h4 class="popup-title">${p.nombre}</h4>
+          ${p.tipoPunto ? `<p class="popup-region-sub">📍 ${p.tipoPunto}</p>` : ""}
+          <button class="popup-modal-btn" onclick="openIdeaModalFromAttr('${itemDataAttr}')">
+            Ampliar detalles
+          </button>
         </div>
       `;
       
-      const marker = L.marker([p.lat, p.lng]).bindPopup(popup);
+      const marker = L.marker([p.lat, p.lng]).bindPopup(popup, {
+        maxWidth: 200,
+        minWidth: 180,
+        closeButton: false,
+        autoPanPadding: L.point(50, 100) // Evita choques con barras fijas arriba
+      });
+
+      // Compensación visual al hacer click para evitar la barra superior rígida
+      marker.on("click", () => {
+        const visualOffset = 0.025; // Eleva el punto geográfico sutilmente
+        const adjustedLat = Number(p.lat) + visualOffset;
+        mapaLeaflet.flyTo([adjustedLat, p.lng], 10, { duration: 0.8 });
+      });
+
       marker.addTo(mapaLeaflet);
-      
       marcadoresMapa.push(marker);
     });
 }
@@ -467,7 +489,7 @@ function openIdeaModal(item) {
 
   if (item.tipo === "prototipo") {
     extra = `
-      ${item.autor ? `<p><strong>Desarrollado por:</strong> ${item.autor}</p>` : ""}
+      ${item.autor ? `<p class="modal-meta-info">${item.autor}</p>` : ""}
       ${item.github ? `<a href="${item.github}" target="_blank" class="resource-btn">Ver Github</a>` : ""}
     `;
   }
@@ -483,8 +505,8 @@ function openIdeaModal(item) {
     <div class="idea-modal-content">
       <div>${getImage(item.imagen)}</div>
       <h2>${item.nombre}</h2>
-      <p>${item.descripcion || ""}</p>
-      <p><strong>Colección:</strong> ${item.coleccion || "AgroIdeas"}</p>
+      <p class="modal-desc-text">${item.descripcion || ""}</p>
+      <p><strong>Categoría:</strong> ${item.coleccion || "AgroIdeas"}</p>
       ${extra}
     </div>
   `;
@@ -516,9 +538,8 @@ function initSidebar() {
     if (sections.length === 0) return;
     let active = sections[0];
     
-    // Añadimos un margen de 120px para activar el estado visual del menú antes
     sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 120) {
+      if (window.scrollY >= s.offsetTop - 140) {
         active = s;
       }
     });
@@ -531,13 +552,13 @@ function initSidebar() {
     });
   }
   
-  // CORRECCIÓN DEL CLICK CON OFFSET
+  // CORRECCIÓN DEL CLICK CON ANCHOR OFFSET PARA BARRAS FIJAS
   links.forEach(link => {
     link.addEventListener("click", e => {
       e.preventDefault();
       const target = document.querySelector(link.getAttribute("href"));
       if (target) {
-        const topbarHeight = 90; // Ajusta este número según los píxeles reales de tu barra superior
+        const topbarHeight = 100; // Compensa la altura exacta de tu barra superior fija
         const targetPosition = target.offsetTop - topbarHeight;
 
         window.scrollTo({
@@ -551,6 +572,7 @@ function initSidebar() {
   window.addEventListener("scroll", activate);
   activate();
 }
+
 /* =========================================
 EVENT LISTENERS ACCESIBILIDAD MÓDULOS
 ========================================= */
