@@ -396,17 +396,65 @@ function initSearch() {
 MAPA MAKER (LEAFLET - INICIALIZACIÓN Y FILTRADO)
 ========================================= */
 
+/* =========================================
+MAPA MAKER (LEAFLET - INICIALIZACIÓN Y FILTRADO)
+========================================= */
+
 function initMapa() {
   const container = document.getElementById("mapImpresoras");
   if (!container) return;
   
   container.innerHTML = "";
   
-  mapaLeaflet = L.map("mapImpresoras").setView([9.7489, -83.7534], 8);
+  // Coordenadas y zoom de origen (Costa Rica central)
+  const origenLatLng = [9.7489, -83.7534];
+  const origenZoom = 8;
+  
+  mapaLeaflet = L.map("mapImpresoras").setView(origenLatLng, origenZoom);
   
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap"
   }).addTo(mapaLeaflet);
+  
+  // =========================================================
+  // BOTÓN PERSONALIZADO PARA VOLVER AL ORIGEN
+  // =========================================================
+  const HomeButtonControl = L.Control.extend({
+    options: {
+      position: 'topleft' // Se ubica justo debajo de los botones de + y -
+    },
+    onAdd: function () {
+      const btn = L.DomUtil.create('button', 'map-home-btn');
+      
+      // Contenido visual del botón (un icono de casa o texto discreto)
+      btn.innerHTML = '🏠'; 
+      btn.title = 'Restablecer vista inicial';
+      btn.type = 'button';
+      
+      // Evita que al hacer doble clic en el botón se haga zoom al mapa de fondo
+      L.DomEvent.disableClickPropagation(btn);
+      
+      // Acción al presionar el botón
+      btn.onclick = function() {
+        const isMobile = window.innerWidth <= 768;
+        
+        // En móviles podemos regresar a un zoom un poco menor (7.5 u 8) si es necesario
+        const zoomFinal = isMobile ? 7.5 : origenZoom;
+        
+        mapaLeaflet.flyTo(origenLatLng, zoomFinal, {
+          duration: 1.2 // Transición suave de vuelta a casa
+        });
+        
+        // Opcional: Cierra cualquier popup que haya quedado abierto
+        mapaLeaflet.closePopup();
+      };
+      
+      return btn;
+    }
+  });
+  
+  // Añadimos el botón al mapa
+  mapaLeaflet.addControl(new HomeButtonControl());
   
   setTimeout(() => {
     mapaLeaflet.invalidateSize();

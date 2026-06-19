@@ -4008,3 +4008,43 @@ html {
     scroll-padding-top: 4.5rem; /* Ajuste preciso para celulares */
   }
 }
+
+/* =========================================================
+   BOTÓN HOME DEL MAPA
+========================================================= */
+.map-home-btn {
+  background-color: #ffffff;
+  color: #333333;
+  width: 34px;
+  height: 34px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  padding: 0;
+  box-shadow: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Efecto hover alineado a los estándares de Leaflet */
+.map-home-btn:hover {
+  background-color: #f4f4f4;
+  color: #000000;
+}
+
+/* Pequeño ajuste para espaciarlo del control de zoom nativo */
+.leaflet-top.leaflet-left .map-home-btn {
+  margin-top: 6px !important;
+}
+
+/* Optimización táctil para dispositivos móviles */
+@media (max-width: 768px) {
+  .map-home-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1.2rem;
+  }
+}
