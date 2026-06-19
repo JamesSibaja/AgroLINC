@@ -2,7 +2,7 @@
 ESTADO GLOBAL
 ========================================= */
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 3;
 let currentPage = 1;
 
 let biblioteca = {
@@ -11,8 +11,14 @@ let biblioteca = {
   mapaMaker: []
 };
 
-let catalogoOriginal = [];
-let catalogoGlobal = [];
+// Listas globales que mutan con las búsquedas
+let prototiposFiltrados = [];
+let modelos3dFiltrados = [];
+let mapaFiltrado = [];
+
+// Instancia global del mapa para poder manipular los marcadores dinámicamente
+let mapaLeaflet = null;
+let marcadoresMapa = [];
 
 /* =========================================
 URLS DE GOOGLE SHEETS (CSV)
@@ -29,7 +35,7 @@ HELPERS / UTILIDADES
 function clean(v) {
   return String(v || "")
     .replace(/\r/g, "")
-    .replace(/\n/g, " ") // Cambiado a espacio para no romper textos en listados
+    .replace(/\n/g, " ")
     .trim();
 }
 
@@ -74,10 +80,10 @@ function parseCSV(text) {
 
     if (c === '"') {
       if (insideQuotes && next === '"') {
-        current += '"'; // Escapar comillas dobles
+        current += '"';
         i++;
       } else {
-        insideQuotes = !insideQuotes; // Switchear estado
+        insideQuotes = !insideQuotes;
       }
     } else if (c === ',' && !insideQuotes) {
       row.push(clean(current));
@@ -178,28 +184,33 @@ async function fetchAgroIdeas() {
 }
 
 /* =========================================
-RENDER TARJETAS / CATÁLOGO
+RENDERIZADO DE COMPONENTES
 ========================================= */
 
 function renderCatalogo() {
-  catalogoOriginal = [...biblioteca.prototipos];
-  catalogoGlobal = [...catalogoOriginal];
+  // Inicializar estados filtrados con los originales de la biblioteca
+  prototiposFiltrados = [...biblioteca.prototipos];
+  modelos3dFiltrados = [...biblioteca.modelos3d];
+  mapaFiltrado = [...biblioteca.mapaMaker];
+  
   currentPage = 1;
   
   renderPage(1);
   render3D();
+  renderMarcadoresMapa();
 }
 
+// 1. Renderizar Prototipos (Paginados)
 function renderPage(page) {
   const grid = document.getElementById("ideasGrid");
   if (!grid) return;
   
   grid.innerHTML = "";
   const start = (page - 1) * ITEMS_PER_PAGE;
-  const items = catalogoGlobal.slice(start, start + ITEMS_PER_PAGE);
+  const items = prototiposFiltrados.slice(start, start + ITEMS_PER_PAGE);
   
   if (items.length === 0) {
-    grid.innerHTML = `<p class="no-results">No se encontraron prototipos que coincidan con la búsqueda.</p>`;
+    grid.innerHTML = `<p class="no-results">No se encontraron prototipos que coincidan.</p>`;
     renderPagination();
     return;
   }
@@ -208,7 +219,6 @@ function renderPage(page) {
     const card = document.createElement("div");
     card.className = "idea-card-v2";
     
-    // Inyección segura de datos del item en el botón usando Base64 para evitar errores de sintaxis JSON
     const itemDataAttr = btoa(unescape(encodeURIComponent(JSON.stringify(item))));
 
     card.innerHTML = `
@@ -233,21 +243,26 @@ function renderPage(page) {
   renderPagination();
 }
 
-/* =========================================
-RENDER MODELOS 3D
-========================================= */
-
+// 2. Renderizar Modelos 3D
 function render3D() {
   const section = document.getElementById("catalogo");
   if (!section) return;
   
-  const old = section.querySelector(".ideas-grid");
-  if (old) old.remove();
+  let grid = section.querySelector(".ideas-grid");
+  if (!grid) {
+    grid = document.createElement("div");
+    grid.className = "ideas-grid";
+    section.appendChild(grid);
+  }
   
-  const grid = document.createElement("div");
-  grid.className = "ideas-grid";
+  grid.innerHTML = "";
   
-  biblioteca.modelos3d.forEach(item => {
+  if (modelos3dFiltrados.length === 0) {
+    grid.innerHTML = `<p class="no-results">No se encontraron modelos 3D que coincidan.</p>`;
+    return;
+  }
+
+  modelos3dFiltrados.forEach(item => {
     const card = document.createElement("div");
     card.className = "idea-card-v2";
     
@@ -269,8 +284,6 @@ function render3D() {
     `;
     grid.appendChild(card);
   });
-  
-  section.appendChild(grid);
 }
 
 /* =========================================
@@ -282,7 +295,7 @@ function renderPagination() {
   if (!container) return;
   
   container.innerHTML = "";
-  const pages = Math.ceil(catalogoGlobal.length / ITEMS_PER_PAGE);
+  const pages = Math.ceil(prototiposFiltrados.length / ITEMS_PER_PAGE);
   if (pages <= 1) return;
 
   for (let i = 1; i <= pages; i++) {
@@ -298,10 +311,101 @@ function renderPagination() {
 }
 
 /* =========================================
+BÚSQUEDA GLOBAL (AFECTA A LAS 3 BIBLIOTECAS)
+========================================= */
+
+function initSearch() {
+  const input = document.getElementById("ideasSearch");
+  const btn = document.getElementById("explorarBtn");
+  
+  if (!input) return;
+
+  function buscar() {
+    const q = input.value.toLowerCase().trim();
+    
+    if (!q) {
+      // Si no hay búsqueda, restaurar todo al estado original completo
+      prototiposFiltrados = [...biblioteca.prototipos];
+      modelos3dFiltrados = [...biblioteca.modelos3d];
+      mapaFiltrado = [...biblioteca.mapaMaker];
+    } else {
+      // Función helper interna para buscar coincidencias de texto en cualquier propiedad de un objeto
+      const matchesQuery = (item) => Object.values(item).join(" ").toLowerCase().includes(q);
+
+      // Filtrar las 3 colecciones de forma independiente
+      prototiposFiltrados = biblioteca.prototipos.filter(matchesQuery);
+      modelos3dFiltrados = biblioteca.modelos3d.filter(matchesQuery);
+      mapaFiltrado = biblioteca.mapaMaker.filter(matchesQuery);
+    }
+    
+    // Forzar actualización de todos los elementos visuales en pantalla
+    currentPage = 1;
+    renderPage(1);
+    render3D();
+    renderMarcadoresMapa();
+  }
+
+  input.addEventListener("input", buscar);
+  if (btn) {
+    btn.addEventListener("click", buscar);
+  }
+}
+
+/* =========================================
+MAPA MAKER (LEAFLET - INICIALIZACIÓN Y FILTRADO)
+========================================= */
+
+function initMapa() {
+  const container = document.getElementById("mapImpresoras");
+  if (!container) return;
+  
+  container.innerHTML = "";
+  
+  // Guardamos la instancia de Leaflet en la variable global para no re-inicializar el contenedor
+  mapaLeaflet = L.map("mapImpresoras").setView([9.7489, -83.7534], 8);
+  
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap"
+  }).addTo(mapaLeaflet);
+  
+  setTimeout(() => {
+    mapaLeaflet.invalidateSize();
+  }, 400);
+}
+
+function renderMarcadoresMapa() {
+  if (!mapaLeaflet) return;
+
+  // 1. Limpiar marcadores antiguos del mapa
+  marcadoresMapa.forEach(marker => mapaLeaflet.removeLayer(marker));
+  marcadoresMapa = [];
+
+  // 2. Insertar solo los marcadores que superaron el filtro de búsqueda
+  mapaFiltrado
+    .filter(p => !isNaN(p.lat) && !isNaN(p.lng))
+    .forEach(p => {
+      const popup = `
+        <div class="map-popup">
+          ${p.imagen ? `<img src="${getGoogleDriveImage(p.imagen)}" style="width:100%; border-radius:12px; margin-bottom:12px;" alt="Punto"/>` : ""}
+          <h3>${p.nombre}</h3>
+          ${p.tipoPunto ? `<p><strong>Tipo:</strong> ${p.tipoPunto}</p>` : ""}
+          <p>${p.descripcion || ""}</p>
+          ${p.link ? `<a href="${p.link}" target="_blank">Abrir recurso</a>` : ""}
+        </div>
+      `;
+      
+      const marker = L.marker([p.lat, p.lng]).bindPopup(popup);
+      marker.addTo(mapaLeaflet);
+      
+      // Almacenar referencia para poder limpiarlo en futuras búsquedas
+      marcadoresMapa.push(marker);
+    });
+}
+
+/* =========================================
 MODAL CONTROL
 ========================================= */
 
-// Función puente para decodificar los atributos del botón y evitar bugs de comillas
 window.openIdeaModalFromAttr = function(base64Str) {
   try {
     const jsonStr = decodeURIComponent(escape(atob(base64Str)));
@@ -349,80 +453,6 @@ function openIdeaModal(item) {
 function closeIdeaModal() {
   const modal = document.getElementById("ideaModal");
   if (modal) modal.classList.remove("open");
-}
-
-/* =========================================
-BÚSQUEDA EN TIEMPO REAL
-========================================= */
-
-function initSearch() {
-  const input = document.getElementById("ideasSearch");
-  const btn = document.getElementById("explorarBtn");
-  
-  if (!input) return;
-
-  function buscar() {
-    const q = input.value.toLowerCase().trim();
-    
-    if (!q) {
-      catalogoGlobal = [...catalogoOriginal];
-    } else {
-      catalogoGlobal = catalogoOriginal.filter(item => 
-        Object.values(item)
-          .join(" ")
-          .toLowerCase()
-          .includes(q)
-      );
-    }
-    
-    currentPage = 1;
-    renderPage(1);
-  }
-
-  input.addEventListener("input", buscar);
-  if (btn) {
-    btn.addEventListener("click", buscar);
-  }
-}
-
-/* =========================================
-MAPA MAKER (LEAFLET)
-========================================= */
-
-function renderMapa() {
-  const container = document.getElementById("mapImpresoras");
-  if (!container) return;
-  
-  container.innerHTML = "";
-  
-  // Coordenadas base por defecto
-  const map = L.map("mapImpresoras").setView([9.7489, -83.7534], 8);
-  
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "© OpenStreetMap"
-  }).addTo(map);
-  
-  biblioteca.mapaMaker
-    .filter(p => !isNaN(p.lat) && !isNaN(p.lng))
-    .forEach(p => {
-      const popup = `
-        <div class="map-popup">
-          ${p.imagen ? `<img src="${getGoogleDriveImage(p.imagen)}" style="width:100%; border-radius:12px; margin-bottom:12px;" alt="Punto de interés"/>` : ""}
-          <h3>${p.nombre}</h3>
-          ${p.tipoPunto ? `<p><strong>Tipo:</strong> ${p.tipoPunto}</p>` : ""}
-          <p>${p.descripcion || ""}</p>
-          ${p.link ? `<a href="${p.link}" target="_blank">Abrir recurso</a>` : ""}
-        </div>
-      `;
-      
-      L.marker([p.lat, p.lng])
-        .addTo(map)
-        .bindPopup(popup);
-    });
-  
-  setTimeout(() => {
-    map.invalidateSize();
-  }, 400);
 }
 
 /* =========================================
@@ -493,12 +523,18 @@ INICIALIZADOR APP
 
 async function initAgroIdeas() {
   try {
+    // 1. Construir e inicializar mapa vacío de manera estática primero
+    initMapa();
+
+    // 2. Descargar los datos asíncronos de las planillas
     await fetchAgroIdeas();
+    
+    // 3. Renderizar y poblar todos los componentes con datos
     renderCatalogo();
-    renderMapa();
     initSidebar();
     initSearch();
-    console.log("AgroIdeas inicializado con éxito OK");
+    
+    console.log("AgroIdeas inicializado con éxito en todas las librerías OK");
   } catch (e) {
     console.error("Fallo crítico en AgroIdeas:", e);
     alert("Error cargando los componentes de AgroIdeas");
