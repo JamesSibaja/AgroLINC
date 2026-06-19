@@ -3851,3 +3851,100 @@ BLOG
   .blog-arrow.left { left: 12px; }
   .blog-arrow.right { right: 12px; }
 }
+/* =========================================================
+   ESTILOS CORREGIDOS PARA EL MODAL (VENTANA FLOTANTE)
+========================================================= */
+#ideaModal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.6); /* Fondo oscuro semitransparente */
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999; /* Por encima de mapas, headers y todo */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding: 1.5rem;
+}
+
+/* Cuando el JS le añade la clase .open */
+#ideaModal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Caja blanca interna del modal */
+.idea-modal-content {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* =========================================================
+   NUEVO POPUP COMPACTO DEL MAPA
+========================================================= */
+.leaflet-popup-content-wrapper {
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: 12px !important;
+}
+
+.map-popup-compact {
+  padding: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.popup-img-thumb {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.map-popup-compact h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #0f172a;
+}
+
+.popup-region-sub {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* Botón estilizado dentro del Popup */
+.popup-modal-btn {
+  background: #6d28d9;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.2s;
+}
+
+.popup-modal-btn:hover {
+  background: #5b21b6;
+}

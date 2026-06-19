@@ -84,6 +84,9 @@ const greenIcon = L.icon({
 // =============================
 // DATOS Google Sheets
 // =============================
+// =============================
+// DATOS Google Sheets
+// =============================
 async function initMapData() {
   const biofabricas = await fetchBiofabricas();
 
@@ -92,51 +95,39 @@ async function initMapData() {
       icon: greenIcon
     }).addTo(markerLayer);
 
-    // CONFIGURACIÓN DE POPUP OPTIMIZADA
+    // Formateamos los datos para que el modal los lea correctamente
+    const itemData = {
+      tipo: "prototipo", // Reutiliza el formato de tarjeta para el modal
+      nombre: bio.name,
+      imagen: bio.imagen,
+      coleccion: bio.estado,
+      descripcion: bio.descripcion,
+      autor: `${bio.region}, Costa Rica`
+    };
+
+    // Convertimos a Base64 idéntico a como lo haces en agroideas.js
+    const itemDataAttr = btoa(unescape(encodeURIComponent(JSON.stringify(itemData))));
+
+    // Popup ultra-limpio: solo imagen, nombre y botón
     marker.bindPopup(`
-      <div class="map-popup">
-        <div class="popup-header">
-          <h4>${bio.name}</h4>
-          <span class="popup-status">${bio.estado}</span>
-        </div>
-    
-        <p class="popup-region">📍 ${bio.region}, Costa Rica</p>
-    
-        <div class="popup-desc-container">
-          <p class="popup-desc">
-            ${bio.descripcion}
-          </p>
-        </div>
-    
-        <div class="popup-tags">
-          ${bio.tags
-            .slice(0, 2)
-            .map(tag => `<span>${tag}</span>`)
-            .join("")}
-        </div>
-    
-        <div class="popup-cta">
-          Haz clic para ver ficha →
-        </div>
+      <div class="map-popup-compact">
+        ${bio.imagen ? `<img src="${bio.imagen}" alt="${bio.name}" class="popup-img-thumb" onerror="this.src='https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=400'}" />` : ''}
+        <h4>${bio.name}</h4>
+        <p class="popup-region-sub">📍 ${bio.region}</p>
+        <button class="popup-modal-btn" onclick="openIdeaModalFromAttr('${itemDataAttr}')">
+          Ver descripción completa
+        </button>
       </div>
     `, {
-      maxWidth: 300,         // Limita el ancho del globo para que no se desborde horizontalmente
-      minWidth: 260,         // Mantiene una consistencia visual limpia
-      autoPan: true,         // Mueve el mapa automáticamente si el marcador está cerca del borde
-      autoPanPadding: L.point(50, 50), // Deja un margen de seguridad de 50px con los bordes del mapa
-      closeButton: false     // Opcional: Remueve la 'X' si satura la cabecera, se cierra al tocar el mapa
+      maxWidth: 220,
+      minWidth: 180,
+      closeButton: false,
+      autoPanPadding: L.point(50, 50)
     });
 
     marker.on("click", () => {
       renderPanel(bio);
-
-      // Desplazamiento inteligente: Centra el marcador un poco hacia la derecha 
-      // para compensar el infoPanel de la izquierda si es responsive.
-      map.flyTo(
-        [bio.lat, bio.lng],
-        10,
-        { duration: 1 }
-      );
+      map.flyTo([bio.lat, bio.lng], 10, { duration: 1 });
     });
 
     markers.push({ marker, bio });
