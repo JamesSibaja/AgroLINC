@@ -1,237 +1,85 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1"
->
-
-<title>
-Blog | AgroLINC
-</title>
-
-<link
-rel="stylesheet"
-href="css/index.css"
->
-
-<script src="js/data.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | AgroLINC</title>
+  <link rel="stylesheet" href="css/index.css">
+  <script src="js/data.js"></script>
 </head>
-
 <body>
 
-<header class="topbar">
+  <header class="topbar">
+    <div class="logo-wrap">
+      <img src="assets/images/agrolinc.svg" class="institution-logo agrolinc-logo" alt="AgroLINC">
+    </div>
+    <nav class="nav">
+      <a href="./index.html">Inicio</a>
+      <a href="./ruta.html">Mi Ruta</a>
+      <a href="./agroideas.html">AgroIdeas</a>
+      <a href="#" class="active">Blog</a>
+    </nav>
+    <div class="institution-right">
+      <img src="assets/images/micitt.png" class="institution-logo linc-logo" alt="MICITT">
+      <div class="institution-divider"></div>
+      <img src="assets/images/iica-azul.png" class="institution-logo iica-logo" alt="IICA">
+    </div>
+  </header>
 
-<div class="logo-wrap">
-
-<img
-src="assets/images/agrolinc.svg"
-class="institution-logo agrolinc-logo"
->
-
-</div>
-
-<nav class="nav">
-
-<a href="./index.html">
-Inicio
-</a>
-
-<a href="./ruta.html">
-Mi Ruta
-</a>
-
-<a href="./agroideas.html">
-AgroIdeas
-</a>
-
-<a
-href="#"
-class="active"
->
-Blog
-</a>
-
-</nav>
-
-<div class="institution-right">
-
-<img
-src="assets/images/micitt.png"
-class="institution-logo linc-logo"
->
-
-<div class="institution-divider"></div>
-
-<img
-src="assets/images/iica-azul.png"
-class="institution-logo iica-logo"
->
-
-</div>
-
-</header>
-
-<section class="dashboard-hero blog-hero">
-
+  <section class="dashboard-hero blog-hero">
     <div class="dashboard-overlay"></div>
-    
     <div class="dashboard-content">
-    
-    <span class="hero-tag">
-    
-    Actualidad · Comunidad · Innovación
-    
-    </span>
-    
-    <h1>
-    
-    Historias que conectan
-    tecnología y territorio
-    
-    </h1>
-    
-    <p>
-    
-    Descubre talleres, experiencias,
-    prototipos y actividades que forman
-    parte del ecosistema AgroLINC y su
-    comunidad de innovación aplicada.
-    
-    </p>
-    
-    <div class="hero-mini-stats">
-    
-    <div>
-    
-    <strong>
-    Blog
-    </strong>
-    
-    <span>
-    Noticias y actividades
-    </span>
-    
-    </div>
-    
-    <div>
-    
-    <strong>
-    Open Lab
-    </strong>
-    
-    <span>
-    Fabricación digital
-    </span>
-    
-    </div>
-    
-    <div>
-    
-    <strong>
-    Comunidad
-    </strong>
-    
-    <span>
-    Experiencias y territorio
-    </span>
-    
-    </div>
-    
-    </div>
-    
-    </div>
-    
-    </section>
-
-<main
-class="main-wrapper"
->
-
-<section
-id="blogContainer"
->
-
-</section>
-
-<div
-id="blogPagination"
-style="
-display:flex;
-gap:1rem;
-justify-content:center;
-margin-top:3rem;
-"
-></div>
-
-</main>
-
-<footer class="footer">
-
-    <div class="footer-brand">
-  
-      <h3>
-        AgroLINC
-      </h3>
-  
+      <span class="hero-tag">Actualidad · Comunidad · Innovación</span>
+      <h1>Historias que conectan tecnología y territorio</h1>
       <p>
-        Plataforma de formación, innovación y tecnologías aplicadas para el sector agroalimentario.
+        Descubre talleres, experiencias, prototipos y actividades que forman
+        parte del ecosistema AgroLINC y su comunidad de innovación aplicada.
       </p>
-  
-      <div class="footer-institution">
-  
-        <span>
-          Desarrollado por
-        </span>
-  
-        <div class="footer-logos">
-  
-          <img style="height: 65px;"
-            src="assets/images/fablab.png"
-            alt="FabLab"
-          >
-  
-          
-  
+      
+      <div class="hero-mini-stats">
+        <div>
+          <strong>Blog</strong>
+          <span>Noticias y actividades</span>
         </div>
-  
+        <div>
+          <strong>Open Lab</strong>
+          <span>Fabricación digital</span>
+        </div>
+        <div>
+          <strong>Comunidad</strong>
+          <span>Experiencias y territorio</span>
+        </div>
       </div>
-  
     </div>
-  
+  </section>
+
+  <main class="main-wrapper">
+    <section id="blogContainer"></section>
+    
+    <nav id="blogPagination"></nav>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-brand">
+      <h3>AgroLINC</h3>
+      <p>Plataforma de formación, innovación y tecnologías aplicadas para el sector agroalimentario.</p>
+      <div class="footer-institution">
+        <span>Desarrollado por</span>
+        <div class="footer-logos">
+          <img style="height: 65px;" src="assets/images/fablab.png" alt="FabLab">
+        </div>
+      </div>
+    </div>
     <div class="footer-col">
-  
-      <strong>
-        Contacto
-      </strong>
-  
-      <p>
-        fablab@iica.int
-      </p>
-  
+      <strong>Contacto</strong>
+      <p>fablab@iica.int</p>
     </div>
-  
     <div class="footer-col">
-  
-      <strong>
-        Plataforma
-      </strong>
-  
-      <p>
-        Inicio · Mi Ruta · AgroIdeas · Blog
-      </p>
-  
+      <strong>Plataforma</strong>
+      <p>Inicio · Mi Ruta · AgroIdeas · Blog</p>
     </div>
-  
   </footer>
 
-<script src="js/blog.js"></script>
-
+  <script src="js/blog.js"></script>
 </body>
-
 </html>

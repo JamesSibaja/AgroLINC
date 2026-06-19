@@ -3608,363 +3608,198 @@ input {
 /* =====================================================
 BLOG
 ===================================================== */
-/* =====================================================
-BLOG
-===================================================== */
+:root {
+  --primary: #6d28d9; /* Definición del color por si no venía en el resto del CSS */
+}
 
-#blogContainer{
-
+#blogContainer {
   max-width: 1100px;
-  
   margin: 0 auto;
-  
   padding: 4rem 5%;
-  
   display: flex;
-  
   flex-direction: column;
-  
   gap: 4rem;
-  
-  }
-  
-  /* ======================= */
-  
-  .blog-post{
-  
+}
+
+/* =====================================================
+   POST STRUCTURE
+===================================================== */
+.blog-post {
   background: white;
-  
   border-radius: 30px;
-  
   overflow: hidden;
-  
-  box-shadow:
-  0 20px 50px
-  rgba(0,0,0,.06);
-  
-  }
-  
-  /* ======================= */
-  
-  .blog-slider{
-  
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+}
+
+/* =====================================================
+   SLIDER (CORREGIDO PARA TRAX HORIZONTAL FLUIDO)
+===================================================== */
+.blog-slider {
   position: relative;
-  
   width: 100%;
-  
-  height:
-  clamp(
-  320px,
-  55vw,
-  620px
-  );
-  
+  height: clamp(320px, 55vw, 620px);
   overflow: hidden;
-  
-  background:
-  #eef2f7;
-  
-  }
-  
-  /* NO FLEX */
-  
-  .blog-track{
-  
-  display:block;
-  
-  position:relative;
-  
-  width:100%;
-  
-  height:100%;
-  
-  }
-  
-  .blog-slide{
-  
-  position:absolute;
-  
-  inset:0;
-  
-  opacity:0;
-  
-  transition:
-  opacity .45s ease;
-  
-  }
-  
-  .blog-slide.active{
-  
-  opacity:1;
-  
-  z-index:2;
-  
-  }
-  
-  .blog-slide img{
-  
-  width:100%;
-  
-  height:100%;
-  
-  object-fit:cover;
-  
-  display:block;
-  
-  }
-  
-  /* ======================= */
-  
-  .blog-arrow{
-  
-  position:absolute;
-  
-  top:50%;
-  
-  transform:
-  translateY(-50%);
-  
-  z-index:10;
-  
-  width:52px;
-  
-  height:52px;
-  
-  border:none;
-  
-  border-radius:50%;
-  
-  background:
-  rgba(
-  255,
-  255,
-  255,
-  .92
-  );
-  
-  cursor:pointer;
-  
-  font-size:1.1rem;
-  
-  transition:.2s;
-  
-  }
-  
-  .blog-arrow:hover{
-  
-  transform:
-  translateY(-50%)
-  scale(1.08);
-  
-  }
-  
-  .blog-arrow.left{
-  
-  left:24px;
-  
-  }
-  
-  .blog-arrow.right{
-  
-  right:24px;
-  
-  }
-  
-  /* ======================= */
-  
-  .blog-dots{
-  
-  position:absolute;
-  
-  left:50%;
-  
-  bottom:24px;
-  
-  transform:
-  translateX(-50%);
-  
-  display:flex;
-  
-  gap:.6rem;
-  
-  z-index:10;
-  
-  }
-  
-  .blog-dot{
-  
-  width:10px;
-  
-  height:10px;
-  
-  border-radius:999px;
-  
-  background:
-  rgba(
-  255,
-  255,
-  255,
-  .45
-  );
-  
-  transition:.2s;
-  
-  }
-  
-  .blog-dot.active{
-  
-  width:34px;
-  
-  background:white;
-  
-  }
-  
-  /* ======================= */
-  
-  .blog-body{
-  
-  padding:
-  2.8rem
-  3rem;
-  
-  }
-  
-  .blog-date{
-  
-  display:inline-flex;
-  
-  padding:
-  .6rem
-  1rem;
-  
-  border-radius:
-  999px;
-  
-  background:
-  rgba(
-  109,
-  40,
-  217,
-  .08
-  );
-  
-  color:
-  var(--primary);
-  
-  font-weight:700;
-  
-  margin-bottom:1rem;
-  
-  }
-  
-  .blog-title{
-  
-  font-size:
-  clamp(
-  2rem,
-  4vw,
-  2.8rem
-  );
-  
-  line-height:1.15;
-  
-  margin-bottom:1.4rem;
-  
-  color:
-  #0f172a;
-  
-  }
-  
-  .blog-text{
-  
-  font-size:1.06rem;
-  
-  line-height:2;
-  
-  color:
-  #61707c;
-  
-  max-width:850px;
-  
-  }
-  
-  /* ======================= */
-  
-  #blogPagination{
-  
-  display:flex;
-  
-  justify-content:center;
-  
-  gap:1rem;
-  
-  margin:
-  0 auto
-  5rem;
-  
+  background: #eef2f7;
+}
+
+.blog-track {
+  display: flex;          /* CAMBIADO A FLEX: Coloca las imágenes una al lado de la otra */
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1); /* Transición suave de deslizamiento */
+  will-change: transform;
+}
+
+.blog-slide {
+  flex: 0 0 100%;         /* Asegura que cada slide ocupe exactamente el 100% del contenedor */
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.blog-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* =====================================================
+   CONTROLES DEL SLIDER
+===================================================== */
+.blog-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.blog-arrow:hover {
+  transform: translateY(-50%) scale(1.08);
+  background: white;
+}
+
+.blog-arrow.left { left: 24px; }
+.blog-arrow.right { right: 24px; }
+
+.blog-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.6rem;
+  z-index: 10;
+}
+
+.blog-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.blog-dot.active {
+  width: 34px;
+  background: white;
+}
+
+/* =====================================================
+   BODY CONTENIDO
+===================================================== */
+.blog-body {
+  padding: 2.8rem 3rem;
+}
+
+.blog-date {
+  display: inline-flex;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: rgba(109, 40, 217, 0.08);
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.blog-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.15;
+  margin-bottom: 1.4rem;
+  color: #0f172a;
+}
+
+.blog-text {
+  font-size: 1.06rem;
+  line-height: 2;
+  color: #61707c;
+  max-width: 850px;
+}
+
+/* =====================================================
+   PAGINACIÓN
+===================================================== */
+#blogPagination {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 auto 5rem;
   flex-wrap:wrap;
-  
+}
+
+#blogPagination button, 
+#blogPagination .page-btn {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 16px;
+  background: white;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+#blogPagination button.active,
+#blogPagination .page-btn.active {
+  background: var(--primary);
+  color: white;
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+@media (max-width: 900px) {
+  #blogContainer {
+    padding: 2rem 1rem;
+    gap: 2.5rem;
   }
   
-  #blogPagination button{
-  
-  width:50px;
-  
-  height:50px;
-  
-  border:none;
-  
-  border-radius:16px;
-  
-  background:white;
-  
-  cursor:pointer;
-  
-  font-weight:700;
-  
-  box-shadow:
-  0 10px 20px
-  rgba(0,0,0,.08);
-  
+  .blog-body {
+    padding: 2rem 1.5rem;
   }
   
-  #blogPagination button.active{
-  
-  background:
-  var(--primary);
-  
-  color:white;
-  
+  .blog-title {
+    font-size: 1.6rem;
   }
   
-  /* ======================= */
-  
-  @media(max-width:900px){
-  
-  #blogContainer{
-  
-  padding:2rem;
-  
+  .blog-arrow {
+    width: 44px;
+    height: 44px;
   }
   
-  .blog-body{
-  
-  padding:2rem;
-  
-  }
-  
-  .blog-title{
-  
-  font-size:1.8rem;
-  
-  }
-  
-  .blog-arrow{
-  
-  width:44px;
-  
-  height:44px;
-  
-  }
-  
-  }
+  .blog-arrow.left { left: 12px; }
+  .blog-arrow.right { right: 12px; }
+}
