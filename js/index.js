@@ -345,7 +345,7 @@ async function openModal(curso, cursos) {
           "Lista de espera";
 
         detalle = `
-
+        <br>
           <span class="event-note">
             No hay cupos disponibles.
             Puede registrarse en la lista de espera.
@@ -365,7 +365,7 @@ async function openModal(curso, cursos) {
           >
             Unirse a lista de espera
           </a>
-
+        <br>
           <small class="event-small">
             Mantenga disponibilidad para la fecha y horario de la capacitación.
           </small>
