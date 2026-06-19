@@ -3,7 +3,9 @@ ESTADO GLOBAL
 ========================================= */
 
 const ITEMS_PER_PAGE = 3;
-let currentPage = 1;
+// Páginas independientes para cada sección
+let currentPagePrototipos = 1;
+let currentPage3D = 1;
 
 let biblioteca = {
   prototipos: [],
@@ -193,10 +195,11 @@ function renderCatalogo() {
   modelos3dFiltrados = [...biblioteca.modelos3d];
   mapaFiltrado = [...biblioteca.mapaMaker];
   
-  currentPage = 1;
+  currentPagePrototipos = 1;
+  currentPage3D = 1;
   
   renderPage(1);
-  render3D();
+  render3D(1);
   renderMarcadoresMapa();
 }
 
@@ -211,7 +214,7 @@ function renderPage(page) {
   
   if (items.length === 0) {
     grid.innerHTML = `<p class="no-results">No se encontraron prototipos que coincidan.</p>`;
-    renderPagination();
+    renderPaginationPrototipos();
     return;
   }
 
@@ -240,11 +243,11 @@ function renderPage(page) {
     grid.appendChild(card);
   });
   
-  renderPagination();
+  renderPaginationPrototipos();
 }
 
-// 2. Renderizar Modelos 3D
-function render3D() {
+// 2. Renderizar Modelos 3D (Paginados)
+function render3D(page) {
   const section = document.getElementById("catalogo");
   if (!section) return;
   
@@ -257,12 +260,16 @@ function render3D() {
   
   grid.innerHTML = "";
   
-  if (modelos3dFiltrados.length === 0) {
+  const start = (page - 1) * ITEMS_PER_PAGE;
+  const items = modelos3dFiltrados.slice(start, start + ITEMS_PER_PAGE);
+  
+  if (items.length === 0) {
     grid.innerHTML = `<p class="no-results">No se encontraron modelos 3D que coincidan.</p>`;
+    renderPagination3D();
     return;
   }
 
-  modelos3dFiltrados.forEach(item => {
+  items.forEach(item => {
     const card = document.createElement("div");
     card.className = "idea-card-v2";
     
@@ -284,13 +291,16 @@ function render3D() {
     `;
     grid.appendChild(card);
   });
+
+  renderPagination3D();
 }
 
 /* =========================================
-PAGINACIÓN
+PAGINACIONES INDEPENDIENTES
 ========================================= */
 
-function renderPagination() {
+// Paginación de Prototipos
+function renderPaginationPrototipos() {
   const container = document.getElementById("ideasPagination");
   if (!container) return;
   
@@ -300,11 +310,45 @@ function renderPagination() {
 
   for (let i = 1; i <= pages; i++) {
     const btn = document.createElement("button");
-    btn.className = `page-btn ${i === currentPage ? "active" : ""}`;
+    btn.className = `page-btn ${i === currentPagePrototipos ? "active" : ""}`;
     btn.textContent = i;
     btn.onclick = () => {
-      currentPage = i;
+      currentPagePrototipos = i;
       renderPage(i);
+    };
+    container.appendChild(btn);
+  }
+}
+
+// Paginación de Modelos 3D
+function renderPagination3D() {
+  const section = document.getElementById("catalogo");
+  if (!section) return;
+
+  // Buscar o crear dinámicamente el contenedor de paginación para 3D
+  let container = document.getElementById("3dPagination");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "3dPagination";
+    // Copia de los mismos estilos que tiene tu paginación general
+    container.style.display = "flex";
+    container.style.gap = "1rem";
+    container.style.justify = "center";
+    container.style.marginTop = "3rem";
+    section.appendChild(container);
+  }
+
+  container.innerHTML = "";
+  const pages = Math.ceil(modelos3dFiltrados.length / ITEMS_PER_PAGE);
+  if (pages <= 1) return;
+
+  for (let i = 1; i <= pages; i++) {
+    const btn = document.createElement("button");
+    btn.className = `page-btn ${i === currentPage3D ? "active" : ""}`;
+    btn.textContent = i;
+    btn.onclick = () => {
+      currentPage3D = i;
+      render3D(i);
     };
     container.appendChild(btn);
   }
@@ -329,7 +373,7 @@ function initSearch() {
       modelos3dFiltrados = [...biblioteca.modelos3d];
       mapaFiltrado = [...biblioteca.mapaMaker];
     } else {
-      // Función helper interna para buscar coincidencias de texto en cualquier propiedad de un objeto
+      // Función helper interna para buscar coincidencia de texto
       const matchesQuery = (item) => Object.values(item).join(" ").toLowerCase().includes(q);
 
       // Filtrar las 3 colecciones de forma independiente
@@ -338,10 +382,12 @@ function initSearch() {
       mapaFiltrado = biblioteca.mapaMaker.filter(matchesQuery);
     }
     
-    // Forzar actualización de todos los elementos visuales en pantalla
-    currentPage = 1;
+    // Forzar reinicio de páginas al buscar
+    currentPagePrototipos = 1;
+    currentPage3D = 1;
+
     renderPage(1);
-    render3D();
+    render3D(1);
     renderMarcadoresMapa();
   }
 
@@ -361,7 +407,6 @@ function initMapa() {
   
   container.innerHTML = "";
   
-  // Guardamos la instancia de Leaflet en la variable global para no re-inicializar el contenedor
   mapaLeaflet = L.map("mapImpresoras").setView([9.7489, -83.7534], 8);
   
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -376,11 +421,9 @@ function initMapa() {
 function renderMarcadoresMapa() {
   if (!mapaLeaflet) return;
 
-  // 1. Limpiar marcadores antiguos del mapa
   marcadoresMapa.forEach(marker => mapaLeaflet.removeLayer(marker));
   marcadoresMapa = [];
 
-  // 2. Insertar solo los marcadores que superaron el filtro de búsqueda
   mapaFiltrado
     .filter(p => !isNaN(p.lat) && !isNaN(p.lng))
     .forEach(p => {
@@ -397,7 +440,6 @@ function renderMarcadoresMapa() {
       const marker = L.marker([p.lat, p.lng]).bindPopup(popup);
       marker.addTo(mapaLeaflet);
       
-      // Almacenar referencia para poder limpiarlo en futuras búsquedas
       marcadoresMapa.push(marker);
     });
 }
@@ -523,18 +565,14 @@ INICIALIZADOR APP
 
 async function initAgroIdeas() {
   try {
-    // 1. Construir e inicializar mapa vacío de manera estática primero
     initMapa();
-
-    // 2. Descargar los datos asíncronos de las planillas
     await fetchAgroIdeas();
     
-    // 3. Renderizar y poblar todos los componentes con datos
     renderCatalogo();
     initSidebar();
     initSearch();
     
-    console.log("AgroIdeas inicializado con éxito en todas las librerías OK");
+    console.log("AgroIdeas inicializado con éxito con paginación independiente.");
   } catch (e) {
     console.error("Fallo crítico en AgroIdeas:", e);
     alert("Error cargando los componentes de AgroIdeas");
