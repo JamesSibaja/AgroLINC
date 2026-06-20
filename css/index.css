@@ -2397,13 +2397,9 @@ input {
 .modal-events {
   z-index: 1000;
   margin-top: 2rem;
-
-  max-height: 320px;
-
-  overflow-y: auto;
-
-  padding-right: .5rem;
-
+  /* Se eliminó max-height */
+  /* Se eliminó overflow-y */
+  /* Se eliminó padding-right */
 }
 
 .modal-events h4 {
