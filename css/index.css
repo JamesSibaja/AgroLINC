@@ -3547,27 +3547,63 @@ input {
   backdrop-filter: blur(4px);
 
 }
-
+/* =========================================================
+   CONTENEDOR GLOBAL DEL MODAL (CORREGIDO)
+========================================================= */
 .modal-content {
   position: relative;
   width: min(520px, 90%);
   background: white;
   border-radius: 28px;
-  padding: 2rem;
+  padding: 2.5rem 2rem 2rem 2rem; /* Más espacio arriba para que no choque con la X */
   z-index: 2;
   box-shadow: 0 30px 60px rgba(0,0,0,.18);
   animation: modalIn .25s ease;
-  max-height: 85vh;          /* No permite que el modal mida más del 85% del alto de la pantalla */
-  display: flex;             /* Volvemos el contenido un contenedor flexible */
-  flex-direction: column;    /* Alineamos los elementos internos en vertical */
+
+  /* FORZAR COMPORTAMIENTO FLEX */
+  max-height: 80vh;           /* Altura máxima estricta del 80% de la pantalla */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;           /* Evita que cualquier cosa se desborde del contenedor blanco */
 }
 
-/* Hace que el cuerpo del modal cree scroll si el texto es muy largo */
+/* Forzamos que el encabezado (etapa y título) no se encoja */
+.modal-content .modal-stage,
+.modal-content h3 {
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   ZONA DE SCROLL INTERNO (OBLIGATORIO)
+========================================================= */
 .modal-description {
   color: #555;
   line-height: 1.8;
-  overflow-y: auto;          /* Activa el scroll vertical solo si es necesario */
-  padding-right: 0.5rem;     /* Espacio para que la barra de scroll no tape el texto */
+  
+  /* Esto obliga a esta sección a tomar todo el espacio restante y crear el scroll */
+  flex-grow: 1;
+  overflow-y: auto;           
+  padding-right: 0.75rem;     /* Espacio para la barra de scroll */
+  margin-top: 0.5rem;
+}
+
+/* Estilizado de la barra de scroll para que no se vea tosca */
+.modal-description::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-description::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.modal-description::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.modal-description::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 /* Opcional: Estilizar la barra de scroll para que se vea más limpia y discreta */
