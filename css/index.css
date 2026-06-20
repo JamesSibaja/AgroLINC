@@ -3549,24 +3549,35 @@ input {
 }
 
 .modal-content {
-
   position: relative;
-
   width: min(520px, 90%);
-
   background: white;
-
   border-radius: 28px;
-
   padding: 2rem;
-
   z-index: 2;
-
-  box-shadow:
-    0 30px 60px rgba(0,0,0,.18);
-
+  box-shadow: 0 30px 60px rgba(0,0,0,.18);
   animation: modalIn .25s ease;
+  max-height: 85vh;          /* No permite que el modal mida más del 85% del alto de la pantalla */
+  display: flex;             /* Volvemos el contenido un contenedor flexible */
+  flex-direction: column;    /* Alineamos los elementos internos en vertical */
+}
 
+/* Hace que el cuerpo del modal cree scroll si el texto es muy largo */
+.modal-description {
+  color: #555;
+  line-height: 1.8;
+  overflow-y: auto;          /* Activa el scroll vertical solo si es necesario */
+  padding-right: 0.5rem;     /* Espacio para que la barra de scroll no tape el texto */
+}
+
+/* Opcional: Estilizar la barra de scroll para que se vea más limpia y discreta */
+.modal-description::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-description::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
 }
 
 @keyframes modalIn {
