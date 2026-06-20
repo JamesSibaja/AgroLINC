@@ -3378,199 +3378,157 @@ input {
 ========================================= */
 
 .path-grid {
-
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-
 }
 
 /* FILAS */
-
 .path-row {
-
   display: grid;
-
-  grid-template-columns:
-    repeat(auto-fit, minmax(280px, 1fr));
-
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
-
-}
-
-/* =========================================
-   BOTONES CURSOS
-========================================= */
-
-.course-node {
-
-  width: 100%;
-
-  min-height: 110px;
-
-  position: relative;
-
-  border: none;
-
-  background:
-    linear-gradient(
-      135deg,
-      #5b2ca0,
-      #7d39d8
-    );
-
-  color: white;
-
-  padding: 1.4rem;
-
-  border-radius: 22px;
-
-  text-align: left;
-
-  cursor: pointer;
-
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease;
-
-  box-shadow:
-    0 10px 25px rgba(90,44,160,.18);
-
 }
 
 .path-stage {
-
   display: flex;
-
   flex-direction: column;
-
   gap: .8rem;
-
 }
 
 .stage-title {
-
   margin: 0;
-
   font-size: .95rem;
-
   font-weight: 700;
-
   color: var(--primary);
-
   text-transform: uppercase;
-
   letter-spacing: .08em;
-
-}
-
-.course-node:hover {
-
-  transform: translateY(-5px);
-
-  box-shadow:
-    0 18px 35px rgba(90, 44, 160, .25);
-
-}
-
-.course-node::before {
-
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  border-radius: inherit;
-
-  background:
-    radial-gradient(
-      circle at top right,
-      rgba(255,255,255,.18),
-      transparent 40%
-    );
-
-}
-
-.course-node small {
-
-  display: block;
-
-  opacity: .8;
-
-  margin-bottom: .4rem;
-
-  font-size: .8rem;
-
-}
-
-.course-node strong {
-
-  display: block;
-
-  font-size: 1rem;
-  line-height: 1.4;
-
 }
 
 /* =========================================
-   MODAL
+   BOTONES CURSOS (TARJETAS CLICKABLES)
+========================================= */
+
+.course-node {
+  width: 100%;
+  min-height: 110px;
+  position: relative;
+  border: none;
+  background: linear-gradient(135deg, #5b2ca0, #7d39d8);
+  color: white;
+  padding: 1.4rem;
+  border-radius: 22px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .25s ease;
+  box-shadow: 0 10px 25px rgba(90,44,160,.18);
+}
+
+.course-node:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 35px rgba(90, 44, 160, .25);
+}
+
+.course-node::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 40%);
+}
+
+.course-node small {
+  display: block;
+  opacity: .8;
+  margin-bottom: .4rem;
+  font-size: .8rem;
+}
+
+.course-node strong {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* =========================================
+   MODAL CONTENEDOR E ESTRUCTURA FIXED
 ========================================= */
 
 .course-modal {
-
   position: fixed;
   inset: 0;
-
   display: none;
-
   align-items: center;
   justify-content: center;
-
   z-index: 999;
-
 }
 
 .course-modal.active {
-
   display: flex;
-
 }
 
 .modal-overlay {
-
   position: absolute;
   inset: 0;
-
   background: rgba(15, 12, 25, .6);
-
   backdrop-filter: blur(4px);
-
 }
+
 /* =========================================================
-   CONTENEDOR GLOBAL DEL MODAL (CORREGIDO)
+   CONTENEDOR GLOBAL DEL MODAL (CORREGIDO Y BLINDADO)
 ========================================================= */
 .modal-content {
   position: relative;
   width: min(520px, 90%);
   background: white;
   border-radius: 28px;
-  padding: 2.5rem 2rem 2rem 2rem; /* Más espacio arriba para que no choque con la X */
+  padding: 2.5rem 2rem 2rem 2rem;
   z-index: 2;
   box-shadow: 0 30px 60px rgba(0,0,0,.18);
   animation: modalIn .25s ease;
 
-  /* FORZAR COMPORTAMIENTO FLEX */
-  max-height: 80vh;           /* Altura máxima estricta del 80% de la pantalla */
+  /* Estructura rígida flex para evitar desbordes */
+  max-height: 80vh;           
   display: flex;
   flex-direction: column;
-  overflow: hidden;           /* Evita que cualquier cosa se desborde del contenedor blanco */
+  overflow: hidden; 
 }
 
-/* Forzamos que el encabezado (etapa y título) no se encoja */
+/* Elementos superiores fijos que nunca deben encogerse */
 .modal-content .modal-stage,
-.modal-content h3 {
+.modal-content h3,
+.modal-close {
   flex-shrink: 0;
+}
+
+.modal-stage {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: .4rem .8rem;
+  border-radius: 999px;
+  background: rgba(125, 57, 216, .12);
+  color: #7d39d8;
+  font-size: .85rem;
+  font-weight: 600;
+}
+
+.modal-content h3 {
+  font-size: 1.8rem;
+  color: #2e1760;
+  margin-bottom: 1rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #f2f2f7;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
 /* =========================================================
@@ -3579,116 +3537,68 @@ input {
 .modal-description {
   color: #555;
   line-height: 1.8;
-  
-  /* Esto obliga a esta sección a tomar todo el espacio restante y crear el scroll */
   flex-grow: 1;
   overflow-y: auto;           
-  padding-right: 0.75rem;     /* Espacio para la barra de scroll */
+  padding-right: 0.75rem;     
   margin-top: 0.5rem;
+  -webkit-overflow-scrolling: touch; /* Scroll táctil fluido en iOS/Android */
 }
 
-/* Estilizado de la barra de scroll para que no se vea tosca */
+/* Estilizado unificado de la barra de scroll */
 .modal-description::-webkit-scrollbar {
   width: 6px;
 }
-
 .modal-description::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 10px;
 }
-
 .modal-description::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 10px;
 }
-
 .modal-description::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
-/* Opcional: Estilizar la barra de scroll para que se vea más limpia y discreta */
-.modal-description::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal-description::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 999px;
-}
-
+/* Animación de entrada */
 @keyframes modalIn {
-
   from {
-
     opacity: 0;
     transform: translateY(10px);
-
   }
-
   to {
-
     opacity: 1;
     transform: translateY(0);
+  }
+}
 
+/* =========================================================
+   MÓVIL Y ADAPTACIÓN A PANTALLAS PEQUEÑAS
+========================================================= */
+@media (max-width: 576px) {
+  .modal-content {
+    width: 95%;
+    max-height: 88vh; /* Control estricto de altura en celulares */
+    padding: 2rem 1.2rem 1.5rem 1.2rem;
+    border-radius: 20px;
+  }
+  
+  .modal-content h3 {
+    font-size: 1.4rem; /* Texto balanceado para pantallas pequeñas */
+    margin-bottom: 0.5rem;
+    padding-right: 2.5rem; /* No se encima con el botón de cerrar */
   }
 
-}
-
-.modal-close {
-
-  position: absolute;
-
-  top: 1rem;
-  right: 1rem;
-
-  width: 42px;
-  height: 42px;
-
-  border: none;
-
-  border-radius: 50%;
-
-  background: #f2f2f7;
-
-  cursor: pointer;
-
-  font-size: 1rem;
-
-}
-
-.modal-stage {
-
-  display: inline-block;
-
-  margin-bottom: 1rem;
-
-  padding: .4rem .8rem;
-
-  border-radius: 999px;
-
-  background: rgba(125, 57, 216, .12);
-
-  color: #7d39d8;
-
-  font-size: .85rem;
-  font-weight: 600;
-
-}
-
-.modal-content h3 {
-
-  font-size: 1.8rem;
-  color: #2e1760;
-
-  margin-bottom: 1rem;
-
-}
-
-.modal-description {
-
-  color: #555;
-  line-height: 1.8;
-
+  .modal-close {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 36px;
+    height: 36px;
+  }
+  
+  .path-row {
+    grid-template-columns: 1fr; /* Una columna rígida en pantallas muy angostas */
+  }
 }
 
 /* =========================================
