@@ -215,7 +215,7 @@ async function renderRuta() {
 }
 
 /* =========================================
-   MODAL
+   MODAL CURSOS
 ========================================= */
 
 async function openModal(curso, cursos) {
@@ -525,6 +525,32 @@ async function openModal(curso, cursos) {
 
 }
 
+/* =========================================
+   NUEVO: MODAL PARA IMÁGENES ASOCIADAS
+========================================= */
+
+function openImageModal(titulo, rutaImagen) {
+  // Asignamos el título correspondiente
+  document.getElementById("modalTitle").textContent = titulo;
+  
+  // Limpiamos la etapa ya que no aplica para una imagen suelta
+  document.getElementById("modalStage").textContent = "";
+
+  // Inyectamos la imagen con estilos fluidos dentro del contenedor de descripción
+  document.getElementById("modalDescription").innerHTML = `
+    <div style="text-align: center; margin-top: 1rem;">
+      <img 
+        src="${rutaImagen}" 
+        alt="${titulo}" 
+        style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+      />
+    </div>
+  `;
+
+  // Abrimos el modal reutilizando tu clase existente
+  document.getElementById("courseModal").classList.add("active");
+}
+
 function closeModal() {
 
   document
@@ -544,6 +570,7 @@ document.addEventListener(
 
     renderRuta();
 
+    // Evento de cierre por botón
     document
       .getElementById("closeModal")
       .addEventListener(
@@ -551,12 +578,32 @@ document.addEventListener(
         closeModal
       );
 
+    // Evento de cierre haciendo click en el fondo opaco
     document
       .querySelector(".modal-overlay")
       .addEventListener(
         "click",
         closeModal
       );
+
+    /* Escucha de clics para los nuevos botones de imágenes */
+    const btnCalendario = document.getElementById("btnCalendario");
+    if (btnCalendario) {
+      btnCalendario.addEventListener("click", (e) => {
+        e.preventDefault(); // Evitamos que salte la página por usar '#'
+        const imgSrc = btnCalendario.getAttribute("data-img");
+        openImageModal("Calendario de Actividades", imgSrc);
+      });
+    }
+
+    const btnRuta = document.getElementById("btnRuta");
+    if (btnRuta) {
+      btnRuta.addEventListener("click", (e) => {
+        e.preventDefault();
+        const imgSrc = btnRuta.getAttribute("data-img");
+        openImageModal("Explorar Ruta Formativa", imgSrc);
+      });
+    }
 
   }
 );

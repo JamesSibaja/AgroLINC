@@ -4103,3 +4103,46 @@ acciones{
     0 18px 40px rgba(88,28,135,.28);
 
 }
+
+/* =========================================================
+   RESPONSIVE (Pantallas menores a 768px)
+========================================================= */
+@media (max-width: 768px) {
+  
+  .topbar {
+    /* Cambiamos height fijo por min-height para que respire si se apila */
+    height: auto;
+    min-height: 80px; 
+    padding: 1rem 3%;
+    
+    /* Permitimos que los elementos pasen abajo si es muy necesario */
+    flex-wrap: wrap; 
+    gap: 1rem;
+    justify-content: center; /* Centra los bloques en móvil */
+  }
+
+  .nav {
+    /* Reduce el espacio entre enlaces para que quepan mejor */
+    gap: 1.2rem; 
+    
+    /* Opcional: Si son muchos enlaces, esto permite hacer scroll horizontal con el dedo */
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0.5rem 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Ajuste para las imágenes de la derecha en móvil */
+  .institution-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  /* Asegura que los logos no se vean gigantes en móviles */
+  .institution-logo {
+    max-height: 40px; 
+    width: auto;
+  }
+}
