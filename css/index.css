@@ -3446,6 +3446,10 @@ input {
   line-height: 1.4;
 }
 
+.course-node p {
+  color: rgb(189, 189, 189);
+}
+
 /* =========================================
    MODAL CONTENEDOR E ESTRUCTURA FIXED
 ========================================= */

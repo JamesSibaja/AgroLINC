@@ -192,7 +192,7 @@ async function renderRuta() {
             ${curso.nombre}
           </strong>
           <p>
-          Ver cupos disponibles
+          Ver cupos e inscribirme
           </p>
 
         `;
