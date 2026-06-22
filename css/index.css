@@ -4047,9 +4047,9 @@ acciones{
 
   padding:18px 28px;
 
-  background:#ffffff;
+  background:#ffffff00;
 
-  color:#581c87;
+  color:#cf7500;
 
   text-decoration:none;
 
@@ -4057,7 +4057,7 @@ acciones{
 
   border-radius:18px;
 
-  border:1px solid #ececec;
+  border:2px solid #cf7500;
 
   box-shadow:
     0 8px 24px rgba(0,0,0,.06);
@@ -4087,8 +4087,8 @@ acciones{
   background:
     linear-gradient(
       135deg,
-      #581c87,
-      #7c3aed
+      #cf5300,
+      #ffa735
     );
 
   color:white;
