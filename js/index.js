@@ -183,7 +183,7 @@ async function renderRuta() {
         if (Number(etapa) % 2 === 1) {
 
           btn.style.background =
-            "linear-gradient(135deg,#2c77a0,#39abd8)";
+            "#2c77a0";
         }
 
         btn.innerHTML = `
