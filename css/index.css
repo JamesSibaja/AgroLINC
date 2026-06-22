@@ -3414,7 +3414,7 @@ input {
   color: white;
   padding: 1.4rem;
   border-radius: 22px;
-  text-align: left;
+  text-align: center;
   cursor: pointer;
   transition: transform .25s ease, box-shadow .25s ease;
   box-shadow: 0 10px 25px rgba(90,44,160,.18);

@@ -184,14 +184,16 @@ async function renderRuta() {
 
           btn.style.background =
             "linear-gradient(135deg,#2c77a0,#39abd8)";
-
         }
 
         btn.innerHTML = `
 
-          <strong>
+          <strong style>
             ${curso.nombre}
           </strong>
+          <p>
+          Ver cupos disponibles
+          </p>
 
         `;
 
