@@ -84,56 +84,68 @@ content="website">
 <header class="topbar">
 
   <div class="logo-wrap">
-
-    
-
-    
     <img
       src="assets/images/agrolinc.svg"
       alt="AgroLINC"
       class="institution-logo agrolinc-logo"
     >
-    
   </div>
 
-  <nav class="nav">
+  <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 
-    <a href="#" class="active">
-      Inicio
-    </a>
-
-    <a href="./ruta.html">
-      Mi Ruta
-    </a>
-
-    <a href="./agroideas.html">
-      AgroIdeas
-    </a>
-
-    <!-- <a href="./blog.html">
-      Blog
-    </a> -->
-
+  <nav class="nav" id="mainNav">
+    <a href="./index.html">Inicio</a>
+    <a href="#" class="active">Mi Ruta</a>
+    <a href="./agroideas.html">AgroIdeas</a>
   </nav>
-  <div class="institution-right">
 
+  <div class="institution-right">
     <img
       src="assets/images/micitt.png"
       alt="Laboratorios LINC"
       class="institution-logo linc-logo"
     >
-
     <div class="institution-divider"></div>
-
     <img
       src="assets/images/iica-azul.png"
       alt="IICA"
       class="institution-logo iica-logo"
     >
-
   </div>
 
 </header>
+
+<div class="acciones">
+  <a
+    href="https://forms.gle/3hsVm6HF35N531JG7"
+    class="agrolinc-card-link agrolinc-card-link--principal"
+    target="_blank"
+  >
+    Registrarme en AgroLINC
+  </a>
+
+  <a
+    href="#"
+    id="btnCalendario"
+    data-img="assets/images/calendario.jpg"
+    class="agrolinc-card-link"
+  >
+    Ver calendario
+  </a>
+
+  <a
+    href="#"
+    id="btnRuta"
+    data-img="assets/images/ruta.jpg"
+    class="agrolinc-card-link"
+  >
+    Explorar ruta formativa
+  </a>
+</div>
 
   <!-- HERO -->
   <section class="hero">
