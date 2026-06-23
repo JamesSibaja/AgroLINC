@@ -142,7 +142,7 @@ button, input {
 }
 
 .linc-logo {
-  max-height: 55px;
+  max-height: 62px;
 }
 
 .iica-logo {
@@ -2170,5 +2170,101 @@ button, input {
 
   .idea-short-desc {
     min-height: auto;
+  }
+}
+
+/* =========================================================
+   SISTEMA DE DISEÑO MAPA MAKER CON PANEL LATERAL RESPONSIVO
+========================================================= */
+.map-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px; /* Mapa grande y panel lateral fijo */
+  gap: 1.5rem;
+  background: white;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.map-card {
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.map-details-sidebar {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 1.5rem;
+  height: 520px; /* Emparejado con la altura nativa de tu Leaflet */
+  overflow-y: auto; /* Deslizador si hay overflow */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estado inicial / Sin punto seleccionado */
+.map-details-placeholder {
+  margin: auto;
+  text-align: center;
+  color: var(--muted);
+}
+
+.map-details-placeholder i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #cbd5e1;
+}
+
+.map-details-placeholder p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Contenido dinámico del punto */
+.map-sidebar-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+}
+
+.map-sidebar-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.map-sidebar-badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  background: rgba(109, 40, 217, 0.1);
+  color: var(--primary);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.map-sidebar-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #475569;
+  margin-bottom: 1.5rem;
+}
+
+.d-none {
+  display: none !important;
+}
+
+/* Adaptación responsiva para tablets y celulares */
+@media (max-width: 992px) {
+  .map-layout {
+    grid-template-columns: 1fr; /* Se apila uno arriba de otro */
+  }
+  .map-details-sidebar {
+    height: 320px; /* Reducimos la altura en móvil para no generar un scroll infinito */
   }
 }

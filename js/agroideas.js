@@ -462,51 +462,58 @@ function initMapa() {
 }
 
 // CORREGIDO: POPUP COMPACTO Y CENTRADO INTELIGENTE CON CONTEXTO GLOBAL
+// CONTROL DE MARCADORES CON TOOLTIP FLOTANTE Y PANEL LATERAL RESERVADO
 function renderMarcadoresMapa() {
   if (!mapaLeaflet) return;
 
+  // Limpiamos capas previas
   marcadoresMapa.forEach(marker => mapaLeaflet.removeLayer(marker));
   marcadoresMapa = [];
+
+  // Capturamos los nodos del DOM de la barra lateral fija
+  const placeholder = document.getElementById("mapSidebarPlaceholder");
+  const contentContainer = document.getElementById("mapSidebarContent");
 
   mapaFiltrado
     .filter(p => !isNaN(p.lat) && !isNaN(p.lng))
     .forEach(p => {
-      // Formateamos la estructura para que sea compatible con el render del modal existente
-      const itemDataForModal = {
-        tipo: "prototipo", // Usado para mapear campos estándar en tu modal
-        nombre: p.nombre,
-        imagen: p.imagen,
-        coleccion: p.tipoPunto || "Punto de Mapa",
-        descripcion: p.descripcion,
-        autor: p.link ? `<a href="${p.link}" target="_blank" class="resource-btn">Abrir enlace externo</a>` : ""
-      };
-
-      const itemDataAttr = btoa(unescape(encodeURIComponent(JSON.stringify(itemDataForModal))));
-
-      // HTML súper limpio: Sin descripciones masivas que dañen el mapa
-      const popup = `
-        <div class="map-popup-compact">
-          ${p.imagen ? `<img src="${getGoogleDriveImage(p.imagen)}" class="popup-img-thumb" alt="Punto"/>` : ""}
-          <h4 class="popup-title">${p.nombre}</h4>
-          ${p.tipoPunto ? `<p class="popup-region-sub">📍 ${p.tipoPunto}</p>` : ""}
-          <button class="popup-modal-btn" onclick="openIdeaModalFromAttr('${itemDataAttr}')">
-            Ampliar detalles
-          </button>
-        </div>
-      `;
       
-      const marker = L.marker([p.lat, p.lng]).bindPopup(popup, {
-        maxWidth: 200,
-        minWidth: 180,
-        closeButton: false,
-        autoPanPadding: L.point(50, 100) // Evita choques con barras fijas arriba
+      // Creación del marcador nativo limpio sin popup pesado
+      const marker = L.marker([p.lat, p.lng]);
+
+      // 1. COMPORTAMIENTO MOUSEOVER: Muestra etiqueta ligera flotante con el nombre
+      marker.bindTooltip(`<strong>${p.nombre}</strong>`, {
+        direction: 'top',
+        opacity: 0.9,
+        sticky: true // El nombre sigue la trayectoria exacta del puntero del mouse
       });
 
-      // Compensación visual al hacer click para evitar la barra superior rígida
+      // 2. COMPORTAMIENTO CLICK: Envía los detalles a la región lateral fija reservada
       marker.on("click", () => {
-        const visualOffset = 0.025; // Eleva el punto geográfico sutilmente
-        const adjustedLat = Number(p.lat) + visualOffset;
-        mapaLeaflet.flyTo([adjustedLat, p.lng], 10, { duration: 0.8 });
+        // Centrar sutilmente el mapa sobre el punto
+        const visualOffset = window.innerWidth <= 768 ? 0 : 0.012; 
+        mapaLeaflet.flyTo([Number(p.lat) + visualOffset, p.lng], 11, { duration: 0.6 });
+
+        // Ocultamos el placeholder inicial instructivo
+        if (placeholder) placeholder.classList.add("d-none");
+        if (contentContainer) {
+          contentContainer.classList.remove("d-none");
+
+          // Inyectamos la información estructurada con scroll interno en el Panel Lateral
+          contentContainer.innerHTML = `
+            ${p.imagen ? `<img src="${getGoogleDriveImage(p.imagen)}" class="map-sidebar-img" alt="${p.nombre}"/>` : `
+              <div class="idea-placeholder" style="height:140px; margin-bottom:1rem; border-radius:16px;">
+                <i class="fa-solid fa-cube"></i>
+              </div>
+            `}
+            <h3 class="map-sidebar-title">${p.nombre}</h3>
+            ${p.tipoPunto ? `<span class="map-sidebar-badge">📍 ${p.tipoPunto}</span>` : ""}
+            <div class="map-sidebar-desc">
+              <p>${p.descripcion || "Sin descripción detallada disponible actualmente."}</p>
+            </div>
+            ${p.link ? `<a href="${p.link}" target="_blank" class="resource-btn" style="width:100%; text-align:center; display:block; text-decoration:none;">Ver sitio o recurso</a>` : ""}
+          `;
+        }
       });
 
       marker.addTo(mapaLeaflet);
@@ -638,8 +645,13 @@ if (modalContainer) {
 INICIALIZADOR APP
 ========================================= */
 
+/* =========================================
+INICIALIZADOR APP
+========================================= */
+
 async function initAgroIdeas() {
   try {
+    initMenuMobile(); // <-- Nueva función añadida para el botón sandwich
     initMapa();
     await fetchAgroIdeas();
     
@@ -651,6 +663,27 @@ async function initAgroIdeas() {
   } catch (e) {
     console.error("Fallo crítico en AgroIdeas:", e);
     alert("Error cargando los componentes de AgroIdeas");
+  }
+}
+
+// Lógica de activación de la barra de navegación responsive
+function initMenuMobile() {
+  const menuToggle = document.getElementById("menuToggle");
+  const mainNav = document.getElementById("mainNav");
+
+  if (menuToggle && mainNav) {
+    menuToggle.addEventListener("click", () => {
+      menuToggle.classList.toggle("open");
+      mainNav.classList.toggle("open");
+    });
+
+    // Cerrar el menú si se da clic a cualquier enlace interno
+    mainNav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        menuToggle.classList.remove("open");
+        mainNav.classList.remove("open");
+      });
+    });
   }
 }
 

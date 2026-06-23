@@ -32,9 +32,6 @@
 
  
 
-<!-- =====================================================
-     HEADER
-====================================================== -->
 <header class="topbar">
 
   <div class="logo-wrap">
@@ -73,7 +70,6 @@
 
 </header>
 
-  <!-- HERO -->
   <section class="dashboard-hero">
 
     <div class="dashboard-overlay"></div>
@@ -100,7 +96,7 @@
         <input
           id="cedulaInput"
           type="text"
-          placeholder="Ingresa tu identificación (Cédulo o DIMEX)"
+          placeholder="Ingresa tu identificación (Cédula o DIMEX)"
         />
 
         <button id="consultarBtn">
@@ -113,10 +109,8 @@
 
   </section>
 
-  <!-- MAIN -->
   <main class="main-wrapper">
 
-    <!-- PERFIL -->
     <aside class="profile-card">
 
       <div class="profile-top">
@@ -220,7 +214,6 @@
 
     </aside>
 
-    <!-- CURSOS -->
     <section class="courses-section">
 
       <div class="section-header">
@@ -254,7 +247,7 @@
   </main>
 
   <script src="js/data.js"></script>
- <!-- FOOTER -->
+
  <footer class="footer">
 
   <div class="footer-brand">
@@ -279,8 +272,6 @@
           src="assets/images/fablab.png"
           alt="FabLab"
         >
-
-        
 
       </div>
 
@@ -313,5 +304,28 @@
   </div>
 
 </footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const menuToggle = document.getElementById("menuToggle");
+    const mainNav = document.getElementById("mainNav");
+
+    if (menuToggle && mainNav) {
+      menuToggle.addEventListener("click", () => {
+        menuToggle.classList.toggle("open");
+        mainNav.classList.toggle("open");
+      });
+
+      // Cerrar de forma automática el menú si se clickea una opción
+      mainNav.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          menuToggle.classList.remove("open");
+          mainNav.classList.remove("open");
+        });
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
