@@ -1914,11 +1914,17 @@ button, input {
     width: auto;
   }
 
-  /* El botón hamburguesa pasa a estar visible al lado de la barra de navegación */
+  /* El botón hamburguesa pasa a estar visible al lado de la barra de navegación
   .menu-toggle {
     margin-left: 0.2rem;
     margin-right: 0.2rem;
     flex-shrink: 0; /* Impide que el botón sándwich pierda su forma redonda/cuadrada */
+  } */
+
+  .menu-toggle {
+    display: flex;
+    margin-left: 0.2rem; 
+    margin-right: 0.2rem;
   }
 
   /* La navegación se esconde y se transforma en caja desplegable */
