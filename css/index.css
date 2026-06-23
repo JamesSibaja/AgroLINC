@@ -1657,6 +1657,8 @@ button, input {
   transform: translateY(20px);
   transition: transform 0.3s ease, max-width 0.3s ease;
   animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 @keyframes modalSlideUp {
