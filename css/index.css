@@ -1918,7 +1918,7 @@ button, input {
   .menu-toggle {
     margin-left: 0.2rem;
     margin-right: 0.2rem;
-    flex-shrink: 0; /* Impide que el botón sándwich pierda su forma redonda/cuadrada */
+    flex-shrink: 0; /* Impide que el botón sándwich pierda su forma redonda/cuadrada 
   } */
 
   .menu-toggle {
