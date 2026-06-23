@@ -1949,7 +1949,7 @@ button, input {
   }
 
   .iica-logo {
-    max-height: 30px;
+    max-height: 28px;
   }
 
   .linc-logo {
@@ -1958,6 +1958,7 @@ button, input {
   
   .institution-divider {
     height: 22px;
+    display: none !important;
   }
 
   .route-block {
