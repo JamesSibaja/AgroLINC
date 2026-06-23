@@ -1913,8 +1913,8 @@ button, input {
   /* El botón hamburguesa pasa a estar visible al lado de la barra de navegación */
   .menu-toggle {
     display: flex;
-    margin-left: 1.5rem; 
-    margin-right: 1.5rem;
+    margin-left: 1rem; 
+    margin-right: 1rem;
   }
 
   /* La navegación se esconde y se transforma en caja desplegable */
@@ -1949,11 +1949,11 @@ button, input {
   }
 
   .iica-logo {
-    max-height: 28px;
+    max-height: 25px;
   }
 
   .linc-logo {
-    max-height: 50px;
+    max-height: 45px;
   }
   
   .institution-divider {
