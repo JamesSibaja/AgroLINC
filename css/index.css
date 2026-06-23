@@ -1913,7 +1913,7 @@ button, input {
   /* El botón hamburguesa pasa a estar visible al lado de la barra de navegación */
   .menu-toggle {
     display: flex;
-    margin-left: auto; 
+    margin-left: 1.5rem; 
     margin-right: 1.5rem;
   }
 
@@ -1948,8 +1948,12 @@ button, input {
     gap: 0.8rem;
   }
 
-  .institution-logo:not(.agrolinc-logo) {
-    max-height: 32px;
+  .iica-logo {
+    max-height: 30px;
+  }
+
+  .linc-logo {
+    max-height: 50px;
   }
   
   .institution-divider {
