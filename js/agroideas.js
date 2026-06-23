@@ -408,7 +408,7 @@ function initMapa() {
   
   // Coordenadas y zoom de origen (Costa Rica central)
   const origenLatLng = [9.7489, -83.8];
-  const origenZoom = 8;
+  const origenZoom = 7;
   
   mapaLeaflet = L.map("mapImpresoras").setView(origenLatLng, origenZoom);
   
