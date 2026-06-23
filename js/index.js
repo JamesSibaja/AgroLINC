@@ -261,6 +261,10 @@ async function openModal(curso, cursos) {
    MODAL AMPLIADO PARA IMÁGENES GIGANTES
 ========================================= */
 
+/* =========================================
+   MODAL AMPLIADO PARA IMÁGENES GIGANTES
+========================================= */
+
 function openImageModal(titulo, rutaImagen) {
   // Agregamos la clase que expande el contenedor al ancho máximo
   document.getElementById("courseModal").classList.add("modal-xl");
@@ -268,12 +272,43 @@ function openImageModal(titulo, rutaImagen) {
   document.getElementById("modalTitle").textContent = titulo;
   document.getElementById("modalStage").textContent = "";
 
+  // Inyectamos la estructura de la imagen junto con un botón de descarga discreto y profesional
   document.getElementById("modalDescription").innerHTML = `
-    <div style="text-align: center; margin-top: 0.5rem;">
+    <div class="modal-image-container" style="text-align: center; margin-top: 0.5rem; position: relative;">
+      
+      <div class="modal-image-actions" style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+        <a 
+          href="${rutaImagen}" 
+          download="${titulo.toLowerCase().replace(/\s+/g, '_')}.png" 
+          class="image-download-btn"
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #ffffff;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            cursor: pointer;
+          "
+          onmouseover="this.style.backgroundColor='#f8fafc'; this.style.color='#6d28d9'; this.style.borderColor='#cbd5e1';"
+          onmouseout="this.style.backgroundColor='#ffffff'; this.style.color='#475569'; this.style.borderColor='#e2e8f0';"
+        >
+          <i class="fa-solid fa-download"></i>
+          Descargar imagen
+        </a>
+      </div>
+
       <img 
         src="${rutaImagen}" 
         alt="${titulo}" 
-        style="width: 100%; max-width: 100%; height: auto; border-radius: 8px; display: block;"
+        style="width: 100%; max-width: 100%; height: auto; border-radius: 8px; display: block; border: 1px solid #e2e8f0;"
       />
     </div>
   `;
@@ -323,7 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btnCalendario.addEventListener("click", (e) => {
         e.preventDefault();
         const imgSrc = btnCalendario.getAttribute("data-img");
-        openImageModal("Calendario de Actividades", imgSrc);
+        openImageModal("Calendario de Capacitaciones", imgSrc);
       });
     }
 
