@@ -137,7 +137,7 @@ async function renderRuta() {
       btn.className = "course-node";
 
       if (Number(etapa) % 2 === 1) {
-        btn.style.background = "#2c77a0";
+        btn.style.background = "#3ec2cf";
       }
 
       btn.innerHTML = `
