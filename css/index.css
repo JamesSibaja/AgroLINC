@@ -399,12 +399,12 @@ button, input {
 ========================================================= */
 .courses-ticker-wrap {
   width: auto;                  /* Cambiado de 100% a auto para que el margen negativo funcione */
-  margin-left: -5.3%;           /* Rompe el padding izquierdo del Hero */
-  margin-right: -5.3%;          /* Rompe el padding derecho del Hero */
+  margin-left: -6%;           /* Rompe el padding izquierdo del Hero */
+  margin-right: -6%;          /* Rompe el padding derecho del Hero */
   margin-top: auto;             /* La sigue empujando al fondo del Hero */
   background: rgba(15, 12, 41, 0.96);
   backdrop-filter: blur(10px);
-  border-top: 3px solid #f97316;
+  border-top: 3px solid #39b0b4;
   height: 56px;
   display: flex;
   align-items: center;
@@ -415,7 +415,7 @@ button, input {
 }
 
 .ticker-title {
-  background: linear-gradient(135deg, #f97316, #ea580c);
+  background: #39b0b4;
   color: #ffffff;
   padding: 0 1.75rem;
   height: 100%;
