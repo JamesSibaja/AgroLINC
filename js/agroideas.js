@@ -521,6 +521,62 @@ function renderMarcadoresMapa() {
     });
 }
 
+// 1. Lógica para los botones de pestañas en celular
+const btnVerMapa = document.getElementById('btnVerMapa');
+const btnVerDetalles = document.getElementById('btnVerDetalles');
+const mapLayout = document.querySelector('.map-layout');
+
+if (btnVerMapa && btnVerDetalles) {
+  btnVerMapa.addEventListener('click', () => {
+    btnVerMapa.classList.add('active');
+    btnVerDetalles.classList.remove('active');
+    mapLayout.classList.remove('show-details');
+    
+    // Si usas Leaflet, esto fuerza al mapa a redibujarse correctamente al regresar
+    if (typeof mapa !== 'undefined') {
+      setTimeout(() => mapa.invalidateSize(), 100);
+    }
+  });
+
+  btnVerDetalles.addEventListener('click', () => {
+    btnVerDetalles.classList.add('active');
+    btnVerMapa.classList.remove('remove');
+    // Nota: una pequeña corrección visual en caliente para asegurar el intercambio de clases:
+    btnVerMapa.classList.remove('active');
+    mapLayout.classList.add('show-details');
+  });
+}
+
+// 2. ADAPTACIÓN DE EVENTOS EN LOS MARCADORES (Computadora vs Celular)
+// Cuando crees tus marcadores, haz esto:
+
+markers.forEach(marcadorData => {
+  const marker = L.marker([marcadorData.lat, marcadorData.lng]).addTo(mapa);
+
+  // EVENTO PARA COMPUTADORA (Hover / Pasar el mouse)
+  marker.on('mouseover', function() {
+    if (window.innerWidth > 768) {
+      mostrarDetallesEnSidebar(marcadorData);
+    }
+  });
+
+  // EVENTO PARA CELULAR / TABLET (Click / Tocar)
+  marker.on('click', function() {
+    mostrarDetallesEnSidebar(marcadorData);
+    
+    // Si está en celular, llévalo automáticamente a la pestaña de detalles
+    if (window.innerWidth <= 768) {
+      btnVerDetalles.click(); // Simula el clic en la pestaña "Ver Detalles"
+    }
+  });
+});
+
+// Función ejemplo que ya debes tener para rellenar el sidebar
+function mostrarDetallesEnSidebar(data) {
+  const sidebar = document.getElementById('mapDetailsSidebar');
+  // ... Tu lógica actual para meter el HTML dentro del panel de detalles ...
+}
+
 /* =========================================
 MODAL CONTROL
 ========================================= */
