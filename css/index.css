@@ -404,32 +404,32 @@ button, input {
   margin-right: -5.3%;          
   margin-top: auto;             
   background: rgba(11, 19, 43, 0.96); /* Un fondo ligeramente más azulado/oscuro que combina con el cian */
-  backdrop-filter: blur(10px)[cite: 2];
+  backdrop-filter: blur(10px);
   border-top: 3px solid #11c7c7; /* Tu nuevo color cian impecable */
   height: 50px;                 /* Ligeramente más esbelta (de 56px a 50px) para pantallas móviles */
-  display: flex[cite: 2];
-  align-items: center[cite: 2];
-  overflow: hidden[cite: 2];
-  z-index: 30[cite: 2];
-  position: relative[cite: 2]; 
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 30;
+  position: relative; 
 }
 
 /* El indicador izquierdo ultra optimizado */
 .ticker-title {
   background: linear-gradient(135deg, #11c7c7, #0891b2); /* Degradado cian tecnológico */
-  color: #ffffff[cite: 2];
+  color: #ffffff;
   padding: 0 1.2rem;            /* Padding más ajustado */
   height: 100%;
-  display: flex[cite: 2];
-  align-items: center[cite: 2];
+  display: flex;
+  align-items: center;
   gap: 0.5rem;                  
-  font-weight: 800[cite: 2];
+  font-weight: 800;
   font-size: 0.78rem;           /* Tipografía un toque más pequeña y elegante */
-  text-transform: uppercase[cite: 2];
+  text-transform: uppercase;
   letter-spacing: 1.5px;        /* Mayor tracking para compensar el tamaño */
-  z-index: 40[cite: 2];
+  z-index: 40;
   box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
-  white-space: nowrap[cite: 2];
+  white-space: nowrap;
 }
 
 /* El botón de acción dentro del bucle también lo hacemos más compacto */
@@ -439,11 +439,11 @@ button, input {
   border: 1px solid #11c7c7;
   color: #11c7c7;
   padding: 0.2rem 0.6rem;
-  border-radius: 6px[cite: 2];
+  border-radius: 6px;
   font-size: 0.7rem;
-  font-weight: 700[cite: 2];
-  text-decoration: none[cite: 2];
-  transition: all 0.2s ease[cite: 2];
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 .ticker-action-btn:hover {
