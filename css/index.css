@@ -400,8 +400,8 @@ button, input {
 /* La barra principal con tu nuevo color estético */
 .courses-ticker-wrap {
   width: auto;                  /* Permite los márgenes negativos en el Hero */
-  margin-left: -5.3%;           
-  margin-right: -5.3%;          
+  margin-left: -6%;           
+  margin-right: -6%;          
   margin-top: auto;             
   background: rgba(11, 19, 43, 0.96); /* Un fondo ligeramente más azulado/oscuro que combina con el cian */
   backdrop-filter: blur(10px);
@@ -416,7 +416,7 @@ button, input {
 
 /* El indicador izquierdo ultra optimizado */
 .ticker-title {
-  background: linear-gradient(135deg, #11c7c7, #0891b2); /* Degradado cian tecnológico */
+  background:  #11c7c7; /* Degradado cian tecnológico */
   color: #ffffff;
   padding: 0 1.2rem;            /* Padding más ajustado */
   height: 100%;
@@ -436,8 +436,8 @@ button, input {
 .ticker-action-btn {
   margin-left: 0.8rem;
   background: rgba(17, 199, 199, 0.15);
-  border: 1px solid #11c7c7;
-  color: #11c7c7;
+  border: 1px solid #b46a08;
+  color: #b46a08;
   padding: 0.2rem 0.6rem;
   border-radius: 6px;
   font-size: 0.7rem;
@@ -447,7 +447,7 @@ button, input {
 }
 
 .ticker-action-btn:hover {
-  background: #11c7c7;
+  background: #b46a08;
   color: #0f1229;
   box-shadow: 0 0 10px rgba(17, 199, 199, 0.4);
 }
@@ -487,9 +487,9 @@ button, input {
   letter-spacing: 0.5px;
 }
 
-.ticker-badge.status-open { background: #16a34a; color: #ffffff; }
-.ticker-badge.status-danger { background: #dc2626; color: #ffffff; }
-.ticker-badge.status-alert { background: #2563eb; color: #ffffff; }
+.ticker-badge.status-open { background: #7418ca; color: #ffffff; }
+.ticker-badge.status-danger { background: #b4aa1b; color: #ffffff; }
+.ticker-badge.status-alert { background: #808080; color: #ffffff; }
 
 .ticker-course-name {
   color: #ffffff;
