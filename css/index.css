@@ -436,8 +436,8 @@ button, input {
 .ticker-action-btn {
   margin-left: 0.8rem;
   background: rgba(17, 199, 199, 0.15);
-  border: 1px solid #ffae00;
-  color: #ffae00;
+  border: 1px solid #17a3ad;
+  color: #17a3ad;
   padding: 0.2rem 0.6rem;
   border-radius: 6px;
   font-size: 0.7rem;
@@ -447,7 +447,7 @@ button, input {
 }
 
 .ticker-action-btn:hover {
-  background: #ffae00;
+  background: #17a3ad;
   color: #0f1229;
   box-shadow: 0 0 10px rgba(17, 199, 199, 0.4);
 }
@@ -487,8 +487,8 @@ button, input {
   letter-spacing: 0.5px;
 }
 
-.ticker-badge.status-open { background: #128055; color: #ffffff; }
-.ticker-badge.status-danger { background: #920d66;; color: #ffffff; }
+.ticker-badge.status-open { background: #159463; color: #ffffff; }
+.ticker-badge.status-danger { background: #ffae00;; color: #ffffff; }
 .ticker-badge.status-alert { background: #808080; color: #ffffff; }
 
 .ticker-course-name {
