@@ -2287,3 +2287,188 @@ button, input {
     height: 320px; /* Reducimos la altura en móvil para no generar un scroll infinito */
   }
 }
+
+/* =========================================================
+   ANIMACIÓN Y DESPLIEGUE ESCALONADO DE KPIS
+========================================================= */
+#kpiContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.metric-card {
+  opacity: 0;
+  transform: translateX(60px); /* Inicia desplazada hacia la derecha */
+  animation: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--card-delay, 0s);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(109, 40, 217, 0.12);
+}
+
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =========================================================
+   ESTILOS DE LA FRANJA MÓVIL ESTILO CANAL DEPORTIVO
+========================================================= */
+.courses-ticker-wrap {
+  width: 100%;
+  background: #1e1b4b; /* Fondo azul oscuro profundo y elegante */
+  border-top: 3px solid #f97316; /* Línea de acento naranja brillante */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  z-index: 40;
+}
+
+/* Etiqueta Fija de "En Vivo" (Estilo marcador de televisión) */
+.ticker-title {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  color: #ffffff;
+  padding: 0 1.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 50;
+  box-shadow: 8px 0 20px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+.ticker-title i {
+  animation: pulseBlink 1.5s infinite ease-in-out;
+}
+
+/* Contenedor del desplazamiento */
+.ticker-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+
+.ticker-content-loop {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: marqueeContinuous 28s linear infinite; /* Ritmo ideal de lectura continua */
+}
+
+/* Pausa la franja al pasar el ratón para dar control total de lectura */
+.courses-ticker-wrap:hover .ticker-content-loop {
+  animation-play-state: paused;
+}
+
+/* Bloques individuales de noticias de cursos */
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 2.5rem;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.ticker-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  margin-right: 0.8rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Colores de Escudos / Flags de estado deportivo */
+.ticker-badge.status-open {
+  background: #16a34a; /* Verde éxito */
+  color: #ffffff;
+}
+
+.ticker-badge.status-danger {
+  background: #ea580c; /* Naranja peligro */
+  color: #ffffff;
+}
+
+.ticker-badge.status-alert {
+  background: #2563eb; /* Azul institucional */
+  color: #ffffff;
+}
+
+.ticker-course-name {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.ticker-separator {
+  margin: 0 1rem;
+  color: rgba(255, 255, 255, 0.2);
+  font-weight: 300;
+}
+
+.ticker-slots {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Botón de acción integrado en la franja */
+.ticker-action-btn {
+  margin-left: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 0.2rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.ticker-action-btn:hover {
+  background: #ffffff;
+  color: #1e1b4b;
+  border-color: #ffffff;
+}
+
+/* KEYFRAMES DE ANIMACIONES */
+@keyframes marqueeContinuous {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+
+@keyframes pulseBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.9); }
+}
+
+/* Ajuste adaptativo para dispositivos móviles */
+@media (max-width: 768px) {
+  .ticker-title {
+    padding: 0 1rem;
+    font-size: 0.75rem;
+  }
+  .ticker-item {
+    padding: 0 1.5rem;
+  }
+}
