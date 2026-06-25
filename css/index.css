@@ -514,7 +514,7 @@ button, input {
 }
 
 .ticker-badge.status-open { background: #159463; color: #ffffff; }
-.ticker-badge.status-danger { background: #ffae00;; color: #ffffff; }
+.ticker-badge.status-danger { background: #df6706;; color: #ffffff; }
 .ticker-badge.status-alert { background: #808080; color: #ffffff; }
 
 .ticker-course-name {

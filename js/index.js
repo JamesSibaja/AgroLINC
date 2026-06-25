@@ -129,14 +129,14 @@ async function initCoursesTicker() {
       const nombreLimpioCurso = cursoEncontrado ? cursoEncontrado.nombre : String(evento.id).replace(/_/g, " ");
 
       let badgeClase = "status-open";
-      let badgeTexto = "MATRÍCULA ABIERTA";
+      let badgeTexto = "INSCRIPCIÓN ABIERTA";
 
       if (cuposDisponibles <= 0) {
         badgeClase = "status-alert";
         badgeTexto = "LISTA DE ESPERA";
       } else if (cuposDisponibles <= 5) {
         badgeClase = "status-danger";
-        badgeTexto = "ÚLTIMOS CUPOS";
+        badgeTexto = "ÚLTIMOS LUGARES";
       }
 
       return `
