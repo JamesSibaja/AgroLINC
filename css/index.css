@@ -404,7 +404,7 @@ button, input {
   margin-top: auto;             /* La sigue empujando al fondo del Hero */
   background: rgba(15, 12, 41, 0.96);
   backdrop-filter: blur(10px);
-  border-top: 3px solid #39b0b4;
+  border-top: 3px solid #11c7c7;
   height: 56px;
   display: flex;
   align-items: center;
@@ -1263,7 +1263,7 @@ button, input {
  
   .dashboard-hero h1 { font-size: 2.2rem; }
   .section-title h2 { font-size: 2.4rem; }
-  .hero, .ideas-hero { padding: 6rem 1.2rem 4rem; }
+  
   .hero-grid { gap: 2rem; }
 
   .hero-actions, .search-box, .ideas-search, .idea-actions { flex-direction: column; }
