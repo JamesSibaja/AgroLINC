@@ -334,6 +334,9 @@ button, input {
 }
 
 /* KPIs Interactivos (Hero Panel) */
+/* =========================================================
+   KPIs Interactivos (Hero Panel) - Efecto Cascada Recuperado
+========================================================= */
 .hero-panel {
   position: relative;
   z-index: 2;
@@ -351,15 +354,32 @@ button, input {
   background: rgba(255, 255, 255, .12);
   backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, .14);
+  
+  /* Animación base activa */
   animation: kpiFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background-color 0.3s ease;
   cursor: default;
 }
 
+/* --- REGLAS RESCATADAS: Retrasos incrementales para la entrada de una en una --- */
+.hero-panel .metric-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.hero-panel .metric-card:nth-child(2) {
+  animation-delay: 0.25s;
+}
+
+.hero-panel .metric-card:nth-child(3) {
+  animation-delay: 0.4s;
+}
+/* ------------------------------------------------------------------------------- */
+
 .metric-card:hover {
   transform: translateY(-6px) scale(1.03);
   background-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 15px rgba(109, 40, 217, 0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 15px rgba(17, 199, 199, 0.3); /* Cambiado al cian de tu estética */
 }
 
 .metric-icon {
@@ -390,8 +410,14 @@ button, input {
 }
 
 @keyframes kpiFadeUp {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { 
+    opacity: 0; 
+    transform: translateY(25px); /* Un poco más de recorrido hacia arriba para notar más la fluidez */
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
 /* =========================================================
