@@ -92,28 +92,34 @@ function animateKPICounters() {
 }
 
 // =========================================================
-// CONSTRUCCIÓN DINÁMICA DE LA FRANJA MÓVIL (TICKER)
+// CONSTRUCCIÓN DINÁMICA DE LA FRANJA MÓVIL CON NOMBRES REALES
 // =========================================================
 async function initCoursesTicker() {
   const tickerTrack = document.getElementById("tickerTrack");
   if (!tickerTrack) return;
 
   try {
-    const calendario = await fetchCalendario();
-    // Filtramos solo convocatorias válidas que tengan un enlace activo de inscripción
+    // Traemos de forma paralela los cursos base y el calendario de convocatorias
+    const [cursos, calendario] = await Promise.all([fetchCursos(), fetchCalendario()]);
+    
+    // Filtramos solo las que tienen enlace activo
     const inscripcionesActivas = calendario.filter(evento => evento.enlace);
 
     if (inscripcionesActivas.length === 0) {
-      tickerTrack.innerHTML = `<div class="ticker-item"><span>✨ Próximos ciclos de formación bajo diseño cooperativo</span></div>`;
+      tickerTrack.innerHTML = `<div class="ticker-item"><span>✨ Próximas convocatorias bajo codiseño regional</span></div>`;
       return;
     }
 
-    // Generamos el bloque de ítems deportivos
+    // Generamos el bloque de ítems usando el nombre real del curso
     let itemsHTML = inscripcionesActivas.map(evento => {
       const cuposDisponibles = evento.max - evento.inscritos - evento.espera + evento.cancelados;
       
+      // BUSCAR EL NOMBRE REAL: emparejamos evento.id con curso.id para extraer el nombre limpio
+      const cursoEncontrado = cursos.find(c => c.id === evento.id);
+      const nombreLimpioCurso = cursoEncontrado ? cursoEncontrado.nombre : String(evento.id).replace(/_/g, " ");
+
       let badgeClase = "status-open";
-      let badgeTexto = "CONVOCATORIA ABIERTA";
+      let badgeTexto = "MATRÍCULA ABIERTA";
 
       if (cuposDisponibles <= 0) {
         badgeClase = "status-alert";
@@ -126,15 +132,15 @@ async function initCoursesTicker() {
       return `
         <div class="ticker-item">
           <span class="ticker-badge ${badgeClase}">${badgeTexto}</span>
-          <strong class="ticker-course-name">${evento.fecha}: ${evento.id.toUpperCase().replace(/_/g, " ")}</strong>
+          <strong class="ticker-course-name">${evento.fecha} — ${nombreLimpioCurso}</strong>
           <span class="ticker-separator">|</span>
-          <span class="ticker-slots"><i class="fa-solid fa-user-tag"></i> ${cuposDisponibles > 0 ? cuposDisponibles + ' lugares' : 'Completo'}</span>
+          <span class="ticker-slots"><i class="fa-solid fa-users-viewfinder"></i> ${cuposDisponibles > 0 ? cuposDisponibles + ' cupos' : 'Lleno'}</span>
           <a href="${evento.enlace}" target="_blank" class="ticker-action-btn">Inscribirme <i class="fa-solid fa-arrow-right-to-bracket"></i></a>
         </div>
       `;
     }).join("");
 
-    // Truco de duplicación: unimos el bloque consigo mismo para que la animación no tenga fin
+    // Duplicación perfecta para simular el desplazamiento infinito de banda deportiva
     tickerTrack.innerHTML = `<div class="ticker-content-loop">${itemsHTML}</div><div class="ticker-content-loop" aria-hidden="true">${itemsHTML}</div>`;
 
   } catch (error) {

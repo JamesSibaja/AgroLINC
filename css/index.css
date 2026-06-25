@@ -2472,3 +2472,178 @@ button, input {
     padding: 0 1.5rem;
   }
 }
+
+/* =========================================================
+   NUEVO DINAMISMO AVANZADO PARA LOS KPIS (METRIC CARDS)
+========================================================= */
+.metric-card {
+  opacity: 0;
+  transform: translateX(60px);
+  animation: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--card-delay, 0s);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              box-shadow 0.4s ease, 
+              background-color 0.3s ease;
+  cursor: default;
+}
+
+/* Interacción dinámica al pasar el mouse por los KPIs */
+.metric-card:hover {
+  transform: translateY(-6px) scale(1.03); /* Se levanta y expande levemente */
+  background-color: #ffffff; /* Brillo de fondo */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 
+              0 0 15px rgba(109, 40, 217, 0.2); /* Sombra difuminada morada */
+}
+
+/* Efecto especial reactivo en el icono del KPI al hacer hover en la tarjeta */
+.metric-card:hover .metric-icon {
+  transform: scale(1.15) rotate(5deg);
+  background: var(--primary, #6d28d9);
+  color: #ffffff;
+}
+
+.metric-icon {
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              background 0.3s ease, 
+              color 0.3s ease;
+}
+
+
+/* =========================================================
+   FRANJA MÓVIL OPTIMIZADA E INTEGRADA EN LA BASE DEL HERO
+========================================================= */
+.hero {
+  position: relative; /* Asegura que la franja se posicione respecto al Hero */
+  /* Si tu hero tiene un padding-bottom alto, redúcelo un poco para dar espacio a la franja */
+  padding-bottom: 4rem !important; 
+}
+
+.courses-ticker-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(15, 12, 41, 0.95); /* Tono ultra oscuro con leve transparencia de cristal */
+  backdrop-filter: blur(5px); /* Desenfoque sutil de fondo */
+  border-top: 3px solid #f97316; /* Línea de acento naranja */
+  height: 54px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 30;
+  box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Cabecera de la franja (Estilo tablero deportivo institucional) */
+.ticker-title {
+  background: linear-gradient(135deg, #f97316, #ea580c); /* Degradado naranja AgroLINC */
+  color: #ffffff;
+  padding: 0 1.75rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  position: relative;
+  z-index: 40;
+  box-shadow: 6px 0 15px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+}
+
+/* Contenedor del riel */
+.ticker-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+
+/* Modificación de velocidad: 45s para un desplazamiento sumamente pausado y nítido */
+.ticker-content-loop {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: marqueeContinuous 45s linear infinite; 
+}
+
+.courses-ticker-wrap:hover .ticker-content-loop {
+  animation-play-state: paused; /* Se congela al poner el mouse encima */
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 3rem;
+  color: #f1f5f9;
+  font-size: 0.9rem;
+}
+
+.ticker-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  margin-right: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.ticker-badge.status-open { background: #16a34a; color: #ffffff; }
+.ticker-badge.status-danger { background: #dc2626; color: #ffffff; }
+.ticker-badge.status-alert { background: #2563eb; color: #ffffff; }
+
+.ticker-course-name {
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.ticker-separator {
+  margin: 0 1.25rem;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.ticker-slots {
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ticker-action-btn {
+  margin-left: 1.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 0.25rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.ticker-action-btn:hover {
+  background: #ffffff;
+  color: #0f1229;
+  border-color: #ffffff;
+  box-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+/* Animación de desplazamiento continuo lineal */
+@keyframes marqueeContinuous {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
