@@ -320,21 +320,22 @@
           </div>
         </div>
         
+        <!-- Botones de alternancia exclusivos para celular -->
+        <div class="map-tabs-mobile">
+          <button id="btnVerMapa" class="map-tab-btn active">Ver Mapa</button>
+          <button id="btnVerDetalles" class="map-tab-btn">Ver Detalles</button>
+        </div>
+
         <div class="map-layout">
-        
-          <div class="map-card">
-            <div id="mapImpresoras" class="leaflet-map"></div>
-          </div>
-
+          <div id="mapImpresoras" class="map-card"></div>
           <div class="map-details-sidebar" id="mapDetailsSidebar">
-            <div class="map-details-placeholder" id="mapSidebarPlaceholder">
-              <i class="fa-solid fa-map-location-dot"></i>
-              <p>Pasa el mouse sobre un punto para ver su nombre.<br><strong>Haz clic</strong> para cargar sus especificaciones aquí.</p>
+            <!-- Aquí cae la info dinámicamente -->
+            <div class="sidebar-placeholder">
+              <i class="fas fa-mouse-pointer"></i>
+              <p class="txt-desktop">Pasa el mouse sobre un marcador para ver los detalles</p>
+              <p class="txt-mobile" style="display: none;">Toca un marcador en el mapa para ver los detalles</p>
             </div>
-            <div class="map-details-content d-none" id="mapSidebarContent">
-              </div>
           </div>
-
         </div>
       
       </section>
