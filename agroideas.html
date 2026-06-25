@@ -13,7 +13,6 @@
     AgroIdeas | AgroLINC
   </title>
 
-  <!-- FONTS -->
   <link
     rel="preconnect"
     href="https://fonts.googleapis.com"
@@ -30,19 +29,16 @@
     rel="stylesheet"
   />
 
-  <!-- ICONS -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   />
 
-  <!-- LEAFLET -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet/dist/leaflet.css"
   />
 
-  <!-- CSS -->
   <link
     rel="stylesheet"
     href="css/index.css"
@@ -54,10 +50,6 @@
 
 
 
-
-<!-- =====================================================
-     HEADER
-====================================================== -->
 
 <header class="topbar">
 
@@ -100,10 +92,6 @@
   </div>
 
 </header>
-
-  <!-- ======================================
-       HERO
-  ======================================= -->
 
   <section class="dashboard-hero agroideas-hero">
 
@@ -175,13 +163,7 @@
 
   </section>
 
-  <!-- ======================================
-       EXPLORADOR
-  ======================================= -->
-
   <section class="ideas-explorer">
-
-    <!-- SIDEBAR -->
 
     <aside class="explorer-sidebar">
 
@@ -253,8 +235,6 @@
 
     </aside>
 
-    <!-- CONTENT -->
-
     <div class="explorer-content">
 
       <section
@@ -319,23 +299,32 @@
             </h2>
           </div>
         </div>
-        
-        <!-- Botones de alternancia exclusivos para celular -->
-        <div class="map-tabs-mobile">
-          <button id="btnVerMapa" class="map-tab-btn active">Ver Mapa</button>
-          <button id="btnVerDetalles" class="map-tab-btn">Ver Detalles</button>
-        </div>
 
-        <div class="map-layout">
-          <div id="mapImpresoras" class="map-card"></div>
+        <div class="map-tabs-mobile" id="mapTabsMobile">
+          <button id="btnVerMapa" class="map-tab-btn active">
+            <i class="fa-solid fa-map"></i> Ver Mapa
+          </button>
+          <button id="btnVerDetalles" class="map-tab-btn">
+            <i class="fa-solid fa-circle-info"></i> Ver Detalles
+          </button>
+        </div>
+        
+        <div class="map-layout" id="mapLayoutWrapper">
+        
+          <div class="map-card">
+            <div id="mapImpresoras" class="leaflet-map"></div>
+          </div>
+
           <div class="map-details-sidebar" id="mapDetailsSidebar">
-            <!-- Aquí cae la info dinámicamente -->
-            <div class="sidebar-placeholder">
-              <i class="fas fa-mouse-pointer"></i>
-              <p class="txt-desktop">Pasa el mouse sobre un marcador para ver los detalles</p>
-              <p class="txt-mobile" style="display: none;">Toca un marcador en el mapa para ver los detalles</p>
+            <div class="map-details-placeholder" id="mapSidebarPlaceholder">
+              <i class="fa-solid fa-map-location-dot"></i>
+              <p class="txt-desktop">Pasa el mouse sobre un punto para ver su nombre.<br><strong>Haz clic</strong> para cargar sus especificaciones aquí.</p>
+              <p class="txt-mobile">Toca un punto en el mapa para cargar sus especificaciones aquí.</p>
+            </div>
+            <div class="map-details-content d-none" id="mapSidebarContent">
             </div>
           </div>
+
         </div>
       
       </section>
@@ -344,12 +333,7 @@
 
   </section>  
 
-  <!-- ======================================
-       FOOTER
-  ======================================= -->
-
- <!-- FOOTER -->
- <footer class="footer">
+  <footer class="footer">
 
   <div class="footer-brand">
 
@@ -408,17 +392,9 @@
 
 </footer>
 
-  <!-- ======================================
-       LEAFLET
-  ======================================= -->
-
   <script
     src="https://unpkg.com/leaflet/dist/leaflet.js"
   ></script>
-
-  <!-- ======================================
-       JS
-  ======================================= -->
 
   <script src="js/agroideas.js"></script>
   <div

@@ -396,10 +396,6 @@ function initSearch() {
 MAPA MAKER (LEAFLET - INICIALIZACIÓN Y FILTRADO)
 ========================================= */
 
-/* =========================================
-MAPA MAKER (LEAFLET - INICIALIZACIÓN Y FILTRADO)
-========================================= */
-
 function initMapa() {
   const container = document.getElementById("mapImpresoras");
   if (!container) return;
@@ -461,7 +457,6 @@ function initMapa() {
   }, 400);
 }
 
-// CORREGIDO: POPUP COMPACTO Y CENTRADO INTELIGENTE CON CONTEXTO GLOBAL
 // CONTROL DE MARCADORES CON TOOLTIP FLOTANTE Y PANEL LATERAL RESERVADO
 function renderMarcadoresMapa() {
   if (!mapaLeaflet) return;
@@ -514,6 +509,14 @@ function renderMarcadoresMapa() {
             ${p.link ? `<a href="${p.link}" target="_blank" class="resource-btn" style="width:100%; text-align:center; display:block; text-decoration:none;">Ver sitio o recurso</a>` : ""}
           `;
         }
+
+        // CONTROL EXCLUSIVO CELULARES: Al tocar un marcador, simular salto de pestaña dinámico
+        if (window.innerWidth <= 768) {
+          const btnVerDetalles = document.getElementById("btnVerDetalles");
+          if (btnVerDetalles) {
+            btnVerDetalles.click();
+          }
+        }
       });
 
       marker.addTo(mapaLeaflet);
@@ -521,60 +524,34 @@ function renderMarcadoresMapa() {
     });
 }
 
-// 1. Lógica para los botones de pestañas en celular
-const btnVerMapa = document.getElementById('btnVerMapa');
-const btnVerDetalles = document.getElementById('btnVerDetalles');
-const mapLayout = document.querySelector('.map-layout');
+/* =========================================
+CONTROLADORES DE PESTAÑAS (TABS) PARA MÓVIL
+========================================= */
+function initMapaTabsMobile() {
+  const btnVerMapa = document.getElementById("btnVerMapa");
+  const btnVerDetalles = document.getElementById("btnVerDetalles");
+  const mapLayoutWrapper = document.getElementById("mapLayoutWrapper");
 
-if (btnVerMapa && btnVerDetalles) {
-  btnVerMapa.addEventListener('click', () => {
-    btnVerMapa.classList.add('active');
-    btnVerDetalles.classList.remove('active');
-    mapLayout.classList.remove('show-details');
-    
-    // Si usas Leaflet, esto fuerza al mapa a redibujarse correctamente al regresar
-    if (typeof mapa !== 'undefined') {
-      setTimeout(() => mapa.invalidateSize(), 100);
-    }
-  });
+  if (btnVerMapa && btnVerDetalles && mapLayoutWrapper) {
+    btnVerMapa.addEventListener("click", () => {
+      btnVerMapa.classList.add("active");
+      btnVerDetalles.classList.remove("active");
+      mapLayoutWrapper.classList.remove("show-details-view");
+      
+      // Forzar recalculado de geometría espacial de Leaflet al volver al mapa activo
+      if (mapaLeaflet) {
+        setTimeout(() => {
+          mapaLeaflet.invalidateSize();
+        }, 150);
+      }
+    });
 
-  btnVerDetalles.addEventListener('click', () => {
-    btnVerDetalles.classList.add('active');
-    btnVerMapa.classList.remove('remove');
-    // Nota: una pequeña corrección visual en caliente para asegurar el intercambio de clases:
-    btnVerMapa.classList.remove('active');
-    mapLayout.classList.add('show-details');
-  });
-}
-
-// 2. ADAPTACIÓN DE EVENTOS EN LOS MARCADORES (Computadora vs Celular)
-// Cuando crees tus marcadores, haz esto:
-
-markers.forEach(marcadorData => {
-  const marker = L.marker([marcadorData.lat, marcadorData.lng]).addTo(mapa);
-
-  // EVENTO PARA COMPUTADORA (Hover / Pasar el mouse)
-  marker.on('mouseover', function() {
-    if (window.innerWidth > 768) {
-      mostrarDetallesEnSidebar(marcadorData);
-    }
-  });
-
-  // EVENTO PARA CELULAR / TABLET (Click / Tocar)
-  marker.on('click', function() {
-    mostrarDetallesEnSidebar(marcadorData);
-    
-    // Si está en celular, llévalo automáticamente a la pestaña de detalles
-    if (window.innerWidth <= 768) {
-      btnVerDetalles.click(); // Simula el clic en la pestaña "Ver Detalles"
-    }
-  });
-});
-
-// Función ejemplo que ya debes tener para rellenar el sidebar
-function mostrarDetallesEnSidebar(data) {
-  const sidebar = document.getElementById('mapDetailsSidebar');
-  // ... Tu lógica actual para meter el HTML dentro del panel de detalles ...
+    btnVerDetalles.addEventListener("click", () => {
+      btnVerDetalles.classList.add("active");
+      btnVerMapa.classList.remove("active");
+      mapLayoutWrapper.classList.add("show-details-view");
+    });
+  }
 }
 
 /* =========================================
@@ -663,14 +640,11 @@ function initSidebar() {
     });
   }
   
-  // CORRECCIÓN DEL CLICK CON ANCHOR OFFSET PARA BARRAS FIJAS
- // Reemplaza ÚNICAMENTE el fragmento del click en tu función initSidebar() por este:
 links.forEach(link => {
   link.addEventListener("click", e => {
     e.preventDefault();
     const target = document.querySelector(link.getAttribute("href"));
     if (target) {
-      // Dejamos que el "scroll-padding-top" del CSS haga todo el trabajo sucio en móvil y PC
       target.scrollIntoView({
         behavior: "smooth"
       });
@@ -701,13 +675,10 @@ if (modalContainer) {
 INICIALIZADOR APP
 ========================================= */
 
-/* =========================================
-INICIALIZADOR APP
-========================================= */
-
 async function initAgroIdeas() {
   try {
-    initMenuMobile(); // <-- Nueva función añadida para el botón sandwich
+    initMenuMobile(); // Lógica para el botón sandwich
+    initMapaTabsMobile(); // Inicialización de las pestañas móviles
     initMapa();
     await fetchAgroIdeas();
     
@@ -733,7 +704,6 @@ function initMenuMobile() {
       mainNav.classList.toggle("open");
     });
 
-    // Cerrar el menú si se da clic a cualquier enlace interno
     mainNav.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => {
         menuToggle.classList.remove("open");
