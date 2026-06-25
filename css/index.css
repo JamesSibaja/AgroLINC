@@ -397,38 +397,59 @@ button, input {
 /* =========================================================
    5. FRANJA MÓVIL DE CONVOCATORIAS (TICKER)
 ========================================================= */
+/* La barra principal con tu nuevo color estético */
 .courses-ticker-wrap {
-  width: auto;                  /* Cambiado de 100% a auto para que el margen negativo funcione */
-  margin-left: -6%;           /* Rompe el padding izquierdo del Hero */
-  margin-right: -6%;          /* Rompe el padding derecho del Hero */
-  margin-top: auto;             /* La sigue empujando al fondo del Hero */
-  background: rgba(15, 12, 41, 0.96);
-  backdrop-filter: blur(10px);
-  border-top: 3px solid #11c7c7;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  z-index: 30;
-  position: relative; 
-  margin-top: auto;   
+  width: auto;                  /* Permite los márgenes negativos en el Hero */
+  margin-left: -5.3%;           
+  margin-right: -5.3%;          
+  margin-top: auto;             
+  background: rgba(11, 19, 43, 0.96); /* Un fondo ligeramente más azulado/oscuro que combina con el cian */
+  backdrop-filter: blur(10px)[cite: 2];
+  border-top: 3px solid #11c7c7; /* Tu nuevo color cian impecable */
+  height: 50px;                 /* Ligeramente más esbelta (de 56px a 50px) para pantallas móviles */
+  display: flex[cite: 2];
+  align-items: center[cite: 2];
+  overflow: hidden[cite: 2];
+  z-index: 30[cite: 2];
+  position: relative[cite: 2]; 
 }
 
+/* El indicador izquierdo ultra optimizado */
 .ticker-title {
-  background: #39b0b4;
-  color: #ffffff;
-  padding: 0 1.75rem;
+  background: linear-gradient(135deg, #11c7c7, #0891b2); /* Degradado cian tecnológico */
+  color: #ffffff[cite: 2];
+  padding: 0 1.2rem;            /* Padding más ajustado */
   height: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-weight: 800;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  z-index: 40;
-  box-shadow: 6px 0 15px rgba(0, 0, 0, 0.4);
-  white-space: nowrap;
+  display: flex[cite: 2];
+  align-items: center[cite: 2];
+  gap: 0.5rem;                  
+  font-weight: 800[cite: 2];
+  font-size: 0.78rem;           /* Tipografía un toque más pequeña y elegante */
+  text-transform: uppercase[cite: 2];
+  letter-spacing: 1.5px;        /* Mayor tracking para compensar el tamaño */
+  z-index: 40[cite: 2];
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+  white-space: nowrap[cite: 2];
+}
+
+/* El botón de acción dentro del bucle también lo hacemos más compacto */
+.ticker-action-btn {
+  margin-left: 0.8rem;
+  background: rgba(17, 199, 199, 0.15);
+  border: 1px solid #11c7c7;
+  color: #11c7c7;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px[cite: 2];
+  font-size: 0.7rem;
+  font-weight: 700[cite: 2];
+  text-decoration: none[cite: 2];
+  transition: all 0.2s ease[cite: 2];
+}
+
+.ticker-action-btn:hover {
+  background: #11c7c7;
+  color: #0f1229;
+  box-shadow: 0 0 10px rgba(17, 199, 199, 0.4);
 }
 
 .ticker-track {
@@ -442,7 +463,7 @@ button, input {
   display: flex;
   align-items: center;
   white-space: nowrap;
-  animation: marqueeContinuous 45s linear infinite; 
+  animation: marqueeContinuous 40s linear infinite; 
 }
 
 .courses-ticker-wrap:hover .ticker-content-loop {
@@ -489,25 +510,7 @@ button, input {
   gap: 0.35rem;
 }
 
-.ticker-action-btn {
-  margin-left: 1.25rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  padding: 0.25rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
 
-.ticker-action-btn:hover {
-  background: #ffffff;
-  color: #0f1229;
-  border-color: #ffffff;
-  box-shadow: 0 0 10px rgba(255,255,255,0.5);
-}
 
 @keyframes marqueeContinuous {
   0% { transform: translate3d(0, 0, 0); }
@@ -1300,6 +1303,25 @@ button, input {
   .blog-arrow { width: 44px; height: 44px; }
   .blog-arrow.left { left: 12px; }
   .blog-arrow.right { right: 12px; }
+
+  .ticker-title {
+    padding: 0 0.8rem;         /* Espacio mínimo indispensable */
+  }
+  
+  /* Escondemos el texto dejamos SOLO el icono parpadeante */
+  /* Esto ahorra casi 80px de espacio en pantalla, dejando el paso libre al texto corrido */
+  .ticker-title span {
+    display: none;
+  }
+  
+  .ticker-title i {
+    font-size: 1.1rem;         /* Hacemos el icono un poquito más grande para que sea el protagonista */
+  }
+
+  .ticker-item {
+    padding: 0 1.5rem;         /* Reduce la distancia entre cursos para que se vean más rápido en móvil */
+  }
+
 }
 
 @media (max-width: 576px) {
