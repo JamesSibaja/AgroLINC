@@ -312,10 +312,12 @@ button, input {
 }
 
 .hero h1 {
-  font-size: 4.5rem;
-  line-height: 1.05;
+  /* Mínimo: 2.2rem (en móviles), Preferido: 5.5vw (escala con la pantalla), Máximo: 4.5rem (en desktop) */
+  font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+  line-height: 1.1;             /* Un interlineado ligeramente más cómodo cuando el texto se rompe en varias líneas */
   margin-bottom: 1.4rem;
   color: white;
+  font-weight: 800;             /* Le da ese impacto visual fuerte de tipografía moderna */
 }
 
 .hero p {
@@ -396,7 +398,10 @@ button, input {
    5. FRANJA MÓVIL DE CONVOCATORIAS (TICKER)
 ========================================================= */
 .courses-ticker-wrap {
-  width: 100%;
+  width: auto;                  /* Cambiado de 100% a auto para que el margen negativo funcione */
+  margin-left: -5.3%;           /* Rompe el padding izquierdo del Hero */
+  margin-right: -5.3%;          /* Rompe el padding derecho del Hero */
+  margin-top: auto;             /* La sigue empujando al fondo del Hero */
   background: rgba(15, 12, 41, 0.96);
   backdrop-filter: blur(10px);
   border-top: 3px solid #f97316;
@@ -1255,7 +1260,7 @@ button, input {
 
 @media (max-width: 768px) {
   html { scroll-padding-top: 4.5rem; }
-  .hero h1, .ideas-hero h1 { font-size: 2.7rem; }
+ 
   .dashboard-hero h1 { font-size: 2.2rem; }
   .section-title h2 { font-size: 2.4rem; }
   .hero, .ideas-hero { padding: 6rem 1.2rem 4rem; }
@@ -1304,7 +1309,7 @@ button, input {
 }
 
 @media (max-width: 480px) {
-  .hero h1, .ideas-hero h1 { font-size: 2.2rem; }
+  
   .dashboard-hero h1 { font-size: 1.9rem; }
   .hero-tag, .section-badge { font-size: .75rem; }
   .idea-card-body { padding: 1rem; }
