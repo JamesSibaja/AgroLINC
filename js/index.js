@@ -92,7 +92,7 @@ function animateKPICounters() {
 }
 
 // =========================================================
-// CONSTRUCCIÓN DINÁMICA DE LA FRANJA MÓVIL CON NOMBRES REALES
+// CONSTRUCCIÓN DINÁMICA DE LA FRANJA MÓVIL (SÓLO LOS 3 PRÓXIMOS)
 // =========================================================
 async function initCoursesTicker() {
   const tickerTrack = document.getElementById("tickerTrack");
@@ -102,7 +102,7 @@ async function initCoursesTicker() {
     // Traemos de forma paralela los cursos base y el calendario de convocatorias
     const [cursos, calendario] = await Promise.all([fetchCursos(), fetchCalendario()]);
     
-    // Filtramos solo las que tienen enlace activo
+    // 1. Filtramos solo los eventos que tienen un enlace activo de inscripción
     const inscripcionesActivas = calendario.filter(evento => evento.enlace);
 
     if (inscripcionesActivas.length === 0) {
@@ -110,11 +110,21 @@ async function initCoursesTicker() {
       return;
     }
 
-    // Generamos el bloque de ítems usando el nombre real del curso
-    let itemsHTML = inscripcionesActivas.map(evento => {
+    // 2. ORDENAR Y LIMITAR A LOS 3 MÁS CERCANOS
+    // Convertimos o asumimos el orden cronológico del calendario y cortamos el array
+    const proximosTresEventos = inscripcionesActivas
+      .sort((a, b) => {
+        // Esto asume que tus fechas vienen ordenables o ya ordenadas de API. 
+        // Si vienen en texto estricto, el orden nativo del JSON suele ser cronológico.
+        return new Date(a.fecha) - new Date(b.fecha); 
+      })
+      .slice(0, 3); // <--- Aquí se hace la magia: extrae estrictamente los 3 primeros
+
+    // 3. Generamos el bloque de ítems usando el nombre real del curso
+    let itemsHTML = proximosTresEventos.map(evento => {
       const cuposDisponibles = evento.max - evento.inscritos - evento.espera + evento.cancelados;
       
-      // BUSCAR EL NOMBRE REAL: emparejamos evento.id con curso.id para extraer el nombre limpio
+      // Buscamos el nombre real mapeando con la base de datos de cursos
       const cursoEncontrado = cursos.find(c => c.id === evento.id);
       const nombreLimpioCurso = cursoEncontrado ? cursoEncontrado.nombre : String(evento.id).replace(/_/g, " ");
 
@@ -140,7 +150,7 @@ async function initCoursesTicker() {
       `;
     }).join("");
 
-    // Duplicación perfecta para simular el desplazamiento infinito de banda deportiva
+    // Duplicación idéntica para que el bucle CSS infinito ruede sin cortes visuales
     tickerTrack.innerHTML = `<div class="ticker-content-loop">${itemsHTML}</div><div class="ticker-content-loop" aria-hidden="true">${itemsHTML}</div>`;
 
   } catch (error) {
