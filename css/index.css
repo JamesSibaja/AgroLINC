@@ -276,9 +276,9 @@ button, input {
 .hero {
   min-height: 85vh;
   display: flex;
-  flex-direction: column; /* Cambiado para soportar la franja en la base fluidamente */
+  flex-direction: column; 
   justify-content: center;
-  padding: 5rem 5% 0 5%; /* Quitamos padding bottom para que la franja pegue a la base */
+  padding: 5rem 5% 0 5%; 
 }
 
 .hero-grid {
@@ -289,7 +289,7 @@ button, input {
   grid-template-columns: 1.2fr .8fr;
   gap: 4rem;
   align-items: center;
-  flex: 1; /* Empuja los elementos hacia arriba */
+  flex: 1; 
   padding-bottom: 3rem;
 }
 
@@ -405,8 +405,8 @@ button, input {
   align-items: center;
   overflow: hidden;
   z-index: 30;
-  position: relative; /* Cambiado de absolute a relative para que se acople al flexbox del hero */
-  margin-top: auto;   /* Se ancla perfectamente abajo sin importar el alto dinámico */
+  position: relative; 
+  margin-top: auto;   
 }
 
 .ticker-title {
@@ -997,8 +997,342 @@ button, input {
 #blogPagination button.active, #blogPagination .page-btn.active { background: var(--primary); color: white; }
 
 /* =========================================================
-   12. MEDIA QUERIES (SOPORTE RESPONSIVE INTEGRAL)
+   12. MODAL DIALOGS ENGINE (CURSOS, IDEAS Y EXTRA GRANDE XL)
 ========================================================= */
-@important-media-rules {
-  /* Aquí puedes insertar reglas personalizadas de responsive heredadas */
+.course-modal, #ideaModal, #courseModal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.course-modal.active, #ideaModal.open, #courseModal.active {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Contenedor Base Interno */
+.modal-content, .idea-modal-content, .modal-container {
+  position: relative;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  max-width: 650px;
+  width: 100%;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transform: translateY(20px);
+  transition: transform 0.3s ease, max-width 0.3s ease;
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@keyframes modalSlideUp {
+  to { transform: translateY(0); }
+}
+
+/* MODIFICADOR DINÁMICO GIGANTE PARA CALENDARIOS EXTRAS */
+#courseModal.modal-xl .modal-container,
+.course-modal.modal-xl .modal-content {
+  max-width: 1200px;
+  width: 95%;
+}
+
+/* Zona del Header del Modal */
+.modal-stage {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: .4rem .8rem;
+  border-radius: 999px;
+  background: rgba(125, 57, 216, .12);
+  color: #7d39d8;
+  font-size: .85rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.modal-content h3, .idea-modal-content h3 {
+  font-size: 1.8rem;
+  color: #2e1760;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.modal-close, .modal-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: #f1f5f9;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #64748b;
+  z-index: 10;
+  transition: 0.2s;
+}
+
+.modal-close:hover, .modal-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Caja de Scroll Interna Obligatoria */
+.modal-description, #modalDescription {
+  color: #555;
+  line-height: 1.8;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 0.75rem;
+  margin-top: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-description::-webkit-scrollbar, #modalDescription::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-description::-webkit-scrollbar-track, #modalDescription::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+.modal-description::-webkit-scrollbar-thumb, #modalDescription::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+/* Componentes internos adicionales */
+.modal-reqs {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f6f8fa;
+  border-radius: 14px;
+}
+
+.modal-reqs h4, .modal-events h4 { margin-bottom: .75rem; }
+.modal-events { z-index: 1000; margin-top: 2rem; }
+
+.course-event {
+  border-radius: 16px;
+  padding: .9rem 1rem;
+  margin-bottom: .75rem;
+  border-left: 6px solid #d0d7de;
+  background: #fafbfc;
+}
+
+.event-open { border-left-color: #2ea44f; }
+.event-waiting { border-left-color: #f39c12; }
+.event-closed { border-left-color: #8b949e; }
+
+.event-date {
+  display: inline-block;
+  padding: .25rem .65rem;
+  border-radius: 999px;
+  background: #eef3ef;
+  font-size: .85rem;
+  font-weight: 600;
+  margin-bottom: .6rem;
+}
+
+.event-status { display: inline-block; margin-bottom: .75rem; font-size: .85rem; font-weight: 600; }
+
+.event-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: .7rem 1rem;
+  border-radius: 10px;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: .2s ease;
+}
+
+.event-btn:hover { opacity: .9; }
+.event-slots { font-size: 1.1rem; font-weight: 700; margin-top: .4rem; }
+
+.status-confirmed { color: #1d9b50; font-weight: 700; }
+.status-pending { color: #d28a00; font-weight: 700; }
+.status-waiting { color: #2c77a0; font-weight: 700; }
+.status-closed { color: #6b7280; font-weight: 700; }
+
+/* =========================================================
+   13. FOOTER (ESTILO OSCURO BASE)
+========================================================= */
+.footer {
+  background: #07152d;
+  color: white;
+  padding: 3rem 5%;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+}
+
+.footer-brand h3 { font-size: 2rem; margin-bottom: 1rem; }
+.footer-brand p { max-width: 460px; color: rgba(255,255,255,.72); line-height: 1.8; }
+.footer-institution { margin-top: 2rem; }
+.footer-institution span { display: block; margin-bottom: 1rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.45); }
+
+.footer-logos { display: flex; align-items: center; gap: 2rem; }
+.footer-logos img { height: 34px; width: auto; object-fit: contain; transition: .25s; }
+.footer-logos img:hover { opacity: 1; transform: translateY(-2px); }
+.footer-logos img:last-child { height: 42px; }
+
+.footer-col strong { display: block; margin-bottom: .9rem; }
+.footer-col p { color: rgba(255,255,255,.68); line-height: 1.8; }
+
+.footer-bottom {
+  background: #061024;
+  color: rgba(255,255,255,.4);
+  text-align: center;
+  padding: 1rem;
+  font-size: .85rem;
+}
+
+/* =========================================================
+   14. MEDIA QUERIES (SOPORTE RESPONSIVE INTEGRAL)
+========================================================= */
+@media (max-width: 1200px) {
+  .hero-grid, .main-wrapper, .ideas-explorer, .territory-box {
+    grid-template-columns: 1fr;
+  }
+  .explorer-sidebar {
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (max-width: 992px) {
+  .institution-bar { justify-content: center; }
+  .topbar { height: 80px; padding: 0 12px; justify-content: space-between; align-items: center; gap: 8px; }
+  .agrolinc-logo { max-height: 40px; width: auto; }
+
+  .menu-toggle { display: flex; margin-left: 0.2rem; margin-right: 0.2rem; flex-shrink: 0; }
+
+  .nav {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    flex-direction: column;
+    gap: 0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 499;
+  }
+
+  .nav.open { transform: translateY(0); }
+  .nav a { padding: 1.2rem 2rem; border-bottom: 1px solid #f1f5f9; width: 100%; box-sizing: border-box; text-align: left; }
+  .institution-right { gap: 0.5rem; flex-shrink: 1; display: flex; align-items: center; }
+  .iica-logo { max-height: 20px; width: auto; object-fit: contain; }
+  .linc-logo { max-height: 32px; width: auto; object-fit: contain; }
+  .institution-divider { display: none !important; }
+
+  .route-block { grid-template-columns: 1fr; }
+  .route-side { align-items: center; text-align: center; }
+  .footer { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-logos { gap: 1.2rem; flex-wrap: wrap; }
+}
+
+@media (max-width: 768px) {
+  html { scroll-padding-top: 4.5rem; }
+  .hero h1, .ideas-hero h1 { font-size: 2.7rem; }
+  .dashboard-hero h1 { font-size: 2.2rem; }
+  .section-title h2 { font-size: 2.4rem; }
+  .hero, .ideas-hero { padding: 6rem 1.2rem 4rem; }
+  .hero-grid { gap: 2rem; }
+
+  .hero-actions, .search-box, .ideas-search, .idea-actions { flex-direction: column; }
+  .ideas-search { margin-top: 2rem; }
+  #explorarBtn, .search-box button, .resource-btn, .course-node { width: 100%; }
+
+  .section { padding: 4rem 1rem; }
+  .ideas-explorer { padding: 0 1rem 4rem; }
+  .ideas-section { padding: 1.2rem; border-radius: 24px; }
+  .ideas-section-top { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .ideas-section-top h2 { font-size: 1.7rem; }
+
+  .main-wrapper { padding: 0 1rem 3rem; }
+  .profile-card, .courses-section { padding: 1.4rem; }
+  .courses-grid, .ideas-grid, .tech-grid, .routes-grid, .path-row { grid-template-columns: 1fr; }
+
+  .route-main { padding: 2rem 1.5rem; }
+  .route-main h3 { font-size: 1.5rem; }
+  .routes-connection { padding: 3rem 1.5rem; }
+  .routes-connection h3 { font-size: 1.8rem; }
+  
+  .catalog-filters { justify-content: flex-start; }
+  .idea-card-image { aspect-ratio: 16/9; }
+  .modal-image { height: 220px; }
+  #mapImpresoras { height: 380px; }
+  .map-home-btn { width: 38px; height: 38px; }
+  .map-home-btn i { font-size: 1.1rem; }
+  .connection-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .contact-card { width: 100%; }
+
+  #blogContainer { padding: 2rem 1rem; gap: 2.5rem; }
+  .blog-body { padding: 2rem 1.5rem; }
+  .blog-title { font-size: 1.6rem; }
+  .blog-arrow { width: 44px; height: 44px; }
+  .blog-arrow.left { left: 12px; }
+  .blog-arrow.right { right: 12px; }
+}
+
+@media (max-width: 576px) {
+  .modal-content, .modal-container { width: 95%; max-height: 88vh; padding: 2rem 1.2rem 1.5rem 1.2rem; border-radius: 20px; }
+  .modal-content h3 { font-size: 1.4rem; margin-bottom: 0.5rem; padding-right: 2.5rem; }
+  .modal-close, .modal-close-btn { top: 0.75rem; right: 0.75rem; width: 36px; height: 36px; }
+}
+
+@media (max-width: 480px) {
+  .hero h1, .ideas-hero h1 { font-size: 2.2rem; }
+  .dashboard-hero h1 { font-size: 1.9rem; }
+  .hero-tag, .section-badge { font-size: .75rem; }
+  .idea-card-body { padding: 1rem; }
+  .idea-short-desc { min-height: auto; }
+}
+
+/* =========================================================
+   15. SISTEMA DE DISEÑO MAPA MAKER CON PANEL LATERAL
+========================================================= */
+.map-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px; 
+  gap: 1.5rem;
+  background: white;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.map-card {
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.map-details-sidebar {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 1.5rem;
+  height: 520px;
 }
