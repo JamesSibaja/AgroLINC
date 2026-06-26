@@ -935,11 +935,179 @@ button, input, select, textarea {
 .filter-btn:hover, .catalog-filter:hover { transform: translateY(-2px); background: rgba(255,255,255,.2); }
 .filter-btn.active, .catalog-filter.active { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; }
 
-.ideas-explorer { max-width: 1500px; margin-top: -70px; margin-inline: auto; padding: 0 5% 5rem; position: relative; z-index: 10; display: grid; grid-template-columns: 300px 1fr; gap: 2rem; }
-.explorer-sidebar { position: sticky; top: 110px; height: fit-content; padding: 2rem; border-radius: 30px; background: white; box-shadow: 0 20px 60px rgba(15, 23, 42, .08); }
-.explorer-menu { display: flex; flex-direction: column; gap: .8rem; margin-top: 2rem; }
-.explorer-link { display: flex; align-items: center; gap: .9rem; width: 100%; border: none; padding: 1rem 1.1rem; border-radius: 18px; background: #f8fafc; color: #475569; font-weight: 600; cursor: pointer; transition: .25s ease; }
-.explorer-link.active { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; }
+/* =========================================================
+   ESTILOS BASE: SIDEBAR (ESCRITORIO)
+========================================================= */
+.ideas-explorer { 
+  max-width: 1500px; 
+  margin-top: -70px; 
+  margin-inline: auto; 
+  padding: 0 5% 5rem; 
+  position: relative; 
+  z-index: 10; 
+  display: grid; 
+  grid-template-columns: 300px 1fr; 
+  gap: 2rem; 
+}
+
+.explorer-sidebar { 
+  position: sticky; 
+  top: 120px; /* Separación estética debajo de la topbar */
+  height: fit-content; 
+  padding: 2rem; 
+  border-radius: 30px; 
+  background: white; 
+  box-shadow: 0 20px 60px rgba(15, 23, 42, .08); 
+  z-index: 400; /* Debajo de los 500/999 de la topbar */
+}
+
+.explorer-menu { 
+  display: flex; 
+  flex-direction: column; 
+  gap: .8rem; 
+  margin-top: 1.5rem; 
+}
+
+.explorer-link { 
+  display: flex; 
+  align-items: center; 
+  gap: .9rem; 
+  width: 100%; 
+  border: none; 
+  padding: 1rem 1.1rem; 
+  border-radius: 18px; 
+  background: #f8fafc; 
+  color: #475569; 
+  font-weight: 600; 
+  cursor: pointer; 
+  transition: .25s ease; 
+  text-decoration: none;
+}
+
+.explorer-link.active { 
+  background: linear-gradient(135deg, var(--primary), var(--accent)); 
+  color: white; 
+}
+
+/* Componente de búsqueda en Sidebar */
+.sidebar-search-block {
+  margin-bottom: 1rem;
+}
+
+.sidebar-search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-search-wrapper .search-icon {
+  position: absolute;
+  left: 1.1rem;
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+.sidebar-search-wrapper input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 2.8rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  background: #f8fafc;
+  font-size: 0.95rem;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.sidebar-search-wrapper input:focus {
+  background: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1);
+}
+
+/* =========================================================
+   COMPORTAMIENTO STICKY ULTRACOMPACTO (MÓVIL / TABLET)
+========================================================= */
+@media (max-width: 1200px) {
+  .ideas-explorer {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: -20px;
+  }
+
+  /* Se vuelve sticky horizontal en tablets y móviles */
+  .explorer-sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 110px; /* Se acopla exactamente debajo de los 110px de tu topbar */
+    width: 100%;
+    padding: 1rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Ocultamos elementos informativos que saturan la vista móvil */
+  .hide-on-mobile {
+    display: none !important;
+  }
+
+  .sidebar-search-block {
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  /* El menú de navegación se vuelve una botonera horizontal scrolleable */
+  .explorer-menu {
+    flex-direction: row;
+    margin-top: 0;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 0.5rem;
+    padding-bottom: 4px;
+    
+    /* Ocultar barra de scroll en navegadores modernos */
+    scrollbar-width: none; 
+  }
+  
+  .explorer-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .explorer-link {
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: auto; /* Evita que ocupen todo el ancho */
+  }
+}
+
+@media (max-width: 600px) {
+  /* En pantallas extremadamente angostas, ocultamos el texto de los botones 
+     y dejamos solo los íconos para un look ultracompacto */
+  .explorer-link span {
+    display: none;
+  }
+  
+  .explorer-menu {
+    justify-content: space-around;
+  }
+  
+  .explorer-link {
+    padding: 0.75rem;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    justify-content: center;
+  }
+}
 
 .explorer-content { display: flex; flex-direction: column; gap: 2rem; }
 .ideas-section { background: white; border-radius: 34px; padding: 2rem; box-shadow: 0 20px 60px rgba(15, 23, 42, .06); }

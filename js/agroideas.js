@@ -493,7 +493,7 @@ function renderMarcadoresMapa() {
 
           // Inyectamos la información estructurada con la grilla premium
           sidebar.innerHTML = `
-            <h3><i class="fas fa-map-marker-alt"></i> Detalles de la Red</h3>
+            <h3><i class="fas fa-map-marker-alt"></i> Detalles dela Lugar</h3>
             
             <div class="sidebar-info-group">
               ${imagenUrl ? `<img src="${imagenUrl}" class="sidebar-feature-img" alt="${p.nombre}">` : `
@@ -651,9 +651,8 @@ window.closeIdeaModal = function() {
 };
 
 /* =========================================
-SIDEBAR / NAVEGACIÓN SCROLL
+   SIDEBAR / NAVEGACIÓN SCROLL (SOPORTE MÓVIL)
 ========================================= */
-
 function initSidebar() {
   const links = document.querySelectorAll(".explorer-link");
   if (links.length === 0) return;
@@ -669,8 +668,11 @@ function initSidebar() {
     if (sections.length === 0) return;
     let active = sections[0];
     
+    // Si la pantalla es móvil, calculamos una holgura mayor porque hay dos barras fijas arriba
+    const offsetCalculado = window.innerWidth <= 1200 ? 250 : 140;
+    
     sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 140) {
+      if (window.scrollY >= s.offsetTop - offsetCalculado) {
         active = s;
       }
     });
@@ -688,7 +690,12 @@ function initSidebar() {
       e.preventDefault();
       const target = document.querySelector(link.getAttribute("href"));
       if (target) {
-        target.scrollIntoView({
+        const offsetCalculado = window.innerWidth <= 1200 ? 230 : 130;
+        const elementoPosición = target.getBoundingClientRect().top;
+        const posiciónGlobal = elementoPosición + window.pageYOffset - offsetCalculado;
+
+        window.scrollTo({
+          top: posiciónGlobal,
           behavior: "smooth"
         });
       }
@@ -696,22 +703,8 @@ function initSidebar() {
   });
   
   window.addEventListener("scroll", activate);
+  window.addEventListener("resize", activate); // Recalcular si rota la pantalla
   activate();
-}
-
-/* =========================================
-EVENT LISTENERS ACCESIBILIDAD MÓDULOS
-========================================= */
-
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeIdeaModal();
-});
-
-const modalContainer = document.getElementById("ideaModal");
-if (modalContainer) {
-  modalContainer.addEventListener("click", e => {
-    if (e.target.id === "ideaModal") closeIdeaModal();
-  });
 }
 
 /* =========================================

@@ -167,72 +167,53 @@
 
     <aside class="explorer-sidebar">
 
-      <div class="sidebar-block">
-
+      <div class="sidebar-search-block">
+        <div class="sidebar-search-wrapper">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input 
+            type="text" 
+            id="ideasSearch" 
+            placeholder="Buscar prototipos, STL..." 
+            autocomplete="off"
+          />
+        </div>
+      </div>
+    
+      <div class="sidebar-block hide-on-mobile">
         <span class="section-badge">
           Navegación
         </span>
-
         <h3>
           Explorar AgroIdeas
         </h3>
-
       </div>
-
+    
       <div class="explorer-menu">
-
-        <a
-          href="#catalogoPrototipo"
-          class="explorer-link active"
-        >
-
+        <a href="#catalogoPrototipo" class="explorer-link active">
           <i class="fa-solid fa-microchip"></i>
-
-
-          Catálogo de Prototipos
-
+          <span>Catálogo de Prototipos</span>
         </a>
-
-        <a
-          href="#catalogo"
-          class="explorer-link"
-        >
-
-        <i class="fa-solid fa-cube"></i>
-
-
-          AgroIdeas 3D
-
+    
+        <a href="#catalogo" class="explorer-link">
+          <i class="fa-solid fa-cube"></i>
+          <span>AgroIdeas 3D</span>
         </a>
-
-        <a
-          href="#mapamaker"
-          class="explorer-link"
-        >
-
+    
+        <a href="#mapamaker" class="explorer-link">
           <i class="fa-solid fa-map-location-dot"></i>
-
-
-          Mapa Maker
-
+          <span>Mapa Maker</span>
         </a>
-
       </div>
-
-      <div class="sidebar-info" style="margin-top: 1rem;">
-
+    
+      <div class="sidebar-info hide-on-mobile" style="margin-top: 1rem;">
         <h4>
           AgroIdeas
         </h4>
-
         <p>
-          Conectando tecnologías,
-          territorio y fabricación
-          digital aplicada.
+          Conectando tecnologías, territorio y fabricación digital aplicada.
         </p>
-
       </div>
-
+    
     </aside>
 
     <div class="explorer-content">
@@ -316,7 +297,7 @@
           </div>
           
           <div class="map-details-sidebar" id="mapSidebar">
-            <h3>Detalles del lugar</h3>
+            <h3>Detalles del Lugar</h3>
             <p>Selecciona un punto en el mapa para ver la información detallada aquí.</p>
             </div>
         
