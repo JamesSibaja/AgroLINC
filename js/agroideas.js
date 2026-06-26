@@ -717,4 +717,40 @@ function initMenuMobile() {
 EJECUCIÓN AL CARGAR DOM
 ========================================= */
 
+document.addEventListener("DOMContentLoaded", () => {
+  const tabButtons = document.querySelectorAll(".map-tab-btn");
+  const mapWrapper = document.getElementById("mapWrapper");
+
+  if (tabButtons && mapWrapper) {
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        // 1. Quitar la clase active de todos los botones de la pestaña del mapa
+        tabButtons.forEach(b => b.classList.remove("active"));
+        
+        // 2. Añadir la clase active al botón presionado
+        btn.classList.add("active");
+
+        // 3. Evaluar qué pestaña se presionó usando el atributo data-tab
+        const targetTab = btn.getAttribute("data-tab");
+
+        if (targetTab === "detalles") {
+          // Muestra el panel lateral y oculta el mapa (en móvil)
+          mapWrapper.classList.add("show-details");
+        } else {
+          // Regresa a la vista del mapa original
+          mapWrapper.classList.remove("show-details");
+          
+          // Corrección Leaflet: Si el mapa estuvo oculto, hay que recalcular el tamaño
+          if (typeof mapImpresoras !== 'undefined' && mapImpresoras !== null) {
+            setTimeout(() => {
+              mapImpresoras.invalidateSize();
+            }, 100);
+          }
+        }
+      });
+    });
+  }
+});
+
 document.addEventListener("DOMContentLoaded", initAgroIdeas);
+
