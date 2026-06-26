@@ -24,14 +24,14 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 7rem; 
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 body {
   font-family: 'Inter', sans-serif;
   background: var(--bg);
   color: var(--text);
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 img {
@@ -1607,4 +1607,153 @@ button, input, select, textarea {
   .hero-tag, .section-badge { font-size: .75rem; }
   .idea-card-body { padding: 1rem; }
   .idea-short-desc { min-height: auto; }
+}
+
+/* =========================================================
+   MODAL PREMIUM DE AGROIDEAS
+========================================================= */
+
+/* Caja contenedora principal */
+#ideaModal .idea-modal-box {
+  background: #ffffff;
+  width: 100%;
+  max-width: 850px;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+  position: relative;
+  overflow: hidden; /* Evita que la imagen se salga de los bordes redondeados */
+  animation: modalScaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalScaleUp {
+  from { transform: scale(0.96) translateY(10px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Botón de cerrar estilizado */
+#ideaModal .modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+#ideaModal .modal-close:hover {
+  background: #f1f5f9;
+  transform: rotate(90deg);
+  color: #ef4444;
+}
+
+/* Maquetación del contenido dinámico (Grid de 2 columnas) */
+.idea-modal-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  min-height: 450px;
+}
+
+/* Columna Izquierda: Contenedor de la Imagen */
+.idea-modal-cover {
+  position: relative;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-right: 1px solid #f1f5f9;
+}
+
+.idea-modal-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+
+/* Columna Derecha: Información */
+.idea-modal-info {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Empuja los botones de acción al fondo */
+}
+
+/* Chip de categoría */
+.modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f0fdf4; /* Verde suave por defecto */
+  color: #16a34a;
+  padding: 0.35rem 0.85rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  align-self: flex-start;
+  margin-bottom: 1rem;
+}
+
+/* Título */
+.idea-modal-info h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+/* Descripción del recurso */
+.modal-desc-paragraph {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  white-space: pre-wrap; /* Mantiene saltos de línea si los hay */
+}
+
+/* Grupo de botones o enlaces de acción al fondo */
+.modal-footer-actions {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  gap: 1rem;
+}
+
+/* Adaptación Responsiva para Celulares */
+@media (max-width: 768px) {
+  #ideaModal .idea-modal-box {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  
+  .idea-modal-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .idea-modal-cover {
+    height: 240px;
+  }
+  
+  .idea-modal-cover img {
+    position: relative;
+  }
+  
+  .idea-modal-info {
+    padding: 1.5rem;
+  }
 }
