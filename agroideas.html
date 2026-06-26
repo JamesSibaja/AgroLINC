@@ -300,31 +300,26 @@
           </div>
         </div>
 
-        <div class="map-tabs-mobile" id="mapTabsMobile">
-          <button id="btnVerMapa" class="map-tab-btn active">
-            <i class="fa-solid fa-map"></i> Ver Mapa
+        <div class="map-tabs-mobile">
+          <button class="map-tab-btn active" data-tab="mapa">
+            <i class="fas fa-map"></i> Ver Mapa
           </button>
-          <button id="btnVerDetalles" class="map-tab-btn">
-            <i class="fa-solid fa-circle-info"></i> Ver Detalles
+          <button class="map-tab-btn" data-tab="detalles">
+            <i class="fas fa-list"></i> Ver Detalles
           </button>
         </div>
         
-        <div class="map-layout" id="mapLayoutWrapper">
-        
+        <div class="map-layout" id="mapWrapper">
+          
           <div class="map-card">
-            <div id="mapImpresoras" class="leaflet-map"></div>
+            <div id="mapImpresoras"></div>
           </div>
-
-          <div class="map-details-sidebar" id="mapDetailsSidebar">
-            <div class="map-details-placeholder" id="mapSidebarPlaceholder">
-              <i class="fa-solid fa-map-location-dot"></i>
-              <p class="txt-desktop">Pasa el mouse sobre un punto para ver su nombre.<br><strong>Haz clic</strong> para cargar sus especificaciones aquí.</p>
-              <p class="txt-mobile">Toca un punto en el mapa para cargar sus especificaciones aquí.</p>
+          
+          <div class="map-details-sidebar" id="mapSidebar">
+            <h3>Detalles de la Red</h3>
+            <p>Selecciona un punto en el mapa para ver la información detallada aquí.</p>
             </div>
-            <div class="map-details-content d-none" id="mapSidebarContent">
-            </div>
-          </div>
-
+        
         </div>
       
       </section>
