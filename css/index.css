@@ -1634,19 +1634,14 @@ button, input, select, textarea {
   .ticker-item { padding: 0 1.5rem; }
 
   /* Ajustes en AgroIdeas Explorador */
-  .ideas-explorer {
+  /* .ideas-explorer {
     display: flex;
     flex-direction: column;
     width: 100%;
     padding: 0;
     overflow: hidden; 
-  }
-  .explorer-sidebar {
-    width: 100%;
-    position: static;
-    margin-bottom: 2rem;
-    padding: 1rem;
-  }
+  } */
+  
   .explorer-content {
     width: 100%;
     padding: 0 1rem;
