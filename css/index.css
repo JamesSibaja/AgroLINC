@@ -1577,10 +1577,6 @@ button, input, select, textarea {
   .hero-grid, .main-wrapper, .ideas-explorer, .territory-box {
     grid-template-columns: 1fr;
   }
-  .explorer-sidebar {
-    position: relative;
-    top: auto;
-  }
 }
 
 @media (max-width: 992px) {
