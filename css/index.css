@@ -936,102 +936,7 @@ button, input, select, textarea {
 .filter-btn.active, .catalog-filter.active { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; }
 
 /* =========================================================
-   ESTILOS BASE: SIDEBAR (ESCRITORIO)
-========================================================= */
-.ideas-explorer { 
-  max-width: 1500px; 
-  margin-top: -70px; 
-  margin-inline: auto; 
-  padding: 0 5% 5rem; 
-  position: relative; 
-  z-index: 10; 
-  display: grid; 
-  grid-template-columns: 300px 1fr; 
-  gap: 2rem; 
-}
-
-.explorer-sidebar { 
-  position: sticky; 
-  top: 120px; /* Separación estética debajo de la topbar */
-  height: fit-content; 
-  padding: 2rem; 
-  border-radius: 30px; 
-  background: white; 
-  box-shadow: 0 20px 60px rgba(15, 23, 42, .08); 
-  z-index: 400; /* Debajo de los 500/999 de la topbar */
-}
-
-.explorer-menu { 
-  display: flex; 
-  flex-direction: column; 
-  gap: .8rem; 
-  margin-top: 1.5rem; 
-}
-
-.explorer-link { 
-  display: flex; 
-  align-items: center; 
-  gap: .9rem; 
-  width: 100%; 
-  border: none; 
-  padding: 1rem 1.1rem; 
-  border-radius: 18px; 
-  background: #f8fafc; 
-  color: #475569; 
-  font-weight: 600; 
-  cursor: pointer; 
-  transition: .25s ease; 
-  text-decoration: none;
-}
-
-.explorer-link.active { 
-  background: linear-gradient(135deg, var(--primary), var(--accent)); 
-  color: white; 
-}
-
-/* Componente de búsqueda en Sidebar */
-.sidebar-search-block {
-  margin-bottom: 1rem;
-}
-
-.sidebar-search-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.sidebar-search-wrapper .search-icon {
-  position: absolute;
-  left: 1.1rem;
-  color: #94a3b8;
-  font-size: 1rem;
-}
-
-.sidebar-search-wrapper input {
-  width: 100%;
-  padding: 1rem 1rem 1rem 2.8rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  background: #f8fafc;
-  font-size: 0.95rem;
-  color: #0f172a;
-  outline: none;
-  transition: all 0.2s ease;
-}
-
-.sidebar-search-wrapper input:focus {
-  background: #ffffff;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1);
-}
-
-/* =========================================================
-   COMPORTAMIENTO STICKY ULTRACOMPACTO (MÓVIL / TABLET)
-========================================================= */
-@media (max-width: 1200px) {
-
-/* =========================================================
-   ESTILOS BASE: SIDEBAR DE NAVEGACIÓN (ESCRITORIO)
+   1. ESTILOS BASE: SIDEBAR DE NAVEGACIÓN (ESCRITORIO)
 ========================================================= */
 .ideas-explorer { 
   max-width: 1500px; 
@@ -1053,6 +958,7 @@ button, input, select, textarea {
   border-radius: 30px; 
   background: white; 
   box-shadow: 0 20px 60px rgba(15, 23, 42, .08); 
+  z-index: 400; /* Por debajo de la barra topbar */
 }
 
 .explorer-menu { 
@@ -1083,18 +989,45 @@ button, input, select, textarea {
   color: white; 
 }
 
-/* Componente de búsqueda interno */
-.sidebar-search-block { margin-bottom: 1rem; }
-.sidebar-search-wrapper { position: relative; display: flex; align-items: center; }
-.sidebar-search-wrapper .search-icon { position: absolute; left: 1.1rem; color: #94a3b8; font-size: 1rem; }
+/* Componente de búsqueda interno (Escritorio) */
+.sidebar-search-block { 
+  margin-bottom: 1rem; 
+}
+
+.sidebar-search-wrapper { 
+  position: relative; 
+  display: flex; 
+  align-items: center; 
+}
+
+.sidebar-search-wrapper .search-icon { 
+  position: absolute; 
+  left: 1.1rem; 
+  color: #94a3b8; 
+  font-size: 1rem; 
+}
+
 .sidebar-search-wrapper input {
-  width: 100%; padding: 1rem 1rem 1rem 2.8rem; border: 1px solid #e2e8f0;
-  border-radius: 18px; background: #f8fafc; font-size: 0.95rem; color: #0f172a; outline: none; transition: all 0.2s ease;
+  width: 100%; 
+  padding: 1rem 1rem 1rem 2.8rem; 
+  border: 1px solid #e2e8f0;
+  border-radius: 18px; 
+  background: #f8fafc; 
+  font-size: 0.95rem; 
+  color: #0f172a; 
+  outline: none; 
+  transition: all 0.2s ease;
 }
-.sidebar-search-wrapper input:focus { background: #ffffff; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1); }
+
+.sidebar-search-wrapper input:focus { 
+  background: #ffffff; 
+  border-color: var(--primary); 
+  box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1); 
 }
+
+
 /* =========================================================
-   BARRA INTERACTIVA FLOTANTE INFERIOR (MÓVIL Y TABLET)
+   2. CONTROL FLOTANTE INFERIOR DE DOBLE RENGLÓN (MÓVIL Y TABLET)
 ========================================================= */
 @media (max-width: 1200px) {
   .ideas-explorer {
@@ -1103,96 +1036,90 @@ button, input, select, textarea {
     gap: 1rem;
   }
 
-  /* 1. LA SIDEBAR DEJA DE SER RIGIDA (Libera la búsqueda para que se quede arriba) */
-  .explorer-sidebar {
-    position: static; /* Se queda arriba en su posición natural del flujo */
-    width: 100%;
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-    border-radius: 0;
-  }
-
   .hide-on-mobile {
     display: none !important;
   }
 
-  /* Estilos para el bloque de búsqueda estático arriba */
-  .sidebar-search-block {
-    width: 100%;
-    margin-bottom: 1.5rem;
-    position: relative;
-  }
-  
-  .sidebar-search-wrapper input {
-    background: #ffffff; /* Sólido para resaltar bien al inicio */
-    border: 1px solid #cbd5e1;
-  }
-
-  /* 2. REGLA MAESTRA: Únicamente el menú se vuelve fijo abajo de lado a lado */
-  .explorer-menu {
+  /* REGLA MAESTRA: Toda la sidebar se vuelve la barra flotante en el fondo */
+  .explorer-sidebar {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    margin-top: 0;
-    background: rgba(255, 255, 255, 0.92); /* Transparencia premium sobre el mapa */
+    top: auto; /* Desactiva comportamientos sticky superiores */
+    width: 100%;
+    height: auto;
+    background: rgba(255, 255, 255, 0.94); /* Fondo translúcido premium */
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(15, 23, 42, 0.08);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Divide la pantalla en 3 columnas iguales */
-    padding: 0.75rem 1rem;
-    gap: 0.5rem;
-    z-index: 3000; /* Flota de forma absoluta sobre mapas, popups y tarjetas */
-    box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.1);
+    box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.12);
+    border-radius: 24px 24px 0 0; /* Bordes superiores curvos tipo app móvil */
+    padding: 0.85rem 1.25rem;
+    z-index: 4000; /* Prioridad absoluta por encima del mapa de Leaflet y capas táctiles */
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem; /* Separación compacta entre el renglón 1 y el renglón 2 */
   }
 
-  /* Estilos compactos para los botones inferiores táctiles */
+  /* RENGLÓN 1: El Buscador ocupando la parte superior del control */
+  .sidebar-search-block {
+    width: 100%;
+    margin-bottom: 0; /* Eliminamos márgenes residuales */
+  }
+
+  .sidebar-search-wrapper input {
+    background: #f1f5f9; /* Fondo grisáceo suave para contrastar con la barra blanca */
+    border: 1px solid #e2e8f0;
+    padding: 0.65rem 1rem 0.65rem 2.5rem; /* Ajuste más bajo y compacto */
+    border-radius: 12px;
+    font-size: 0.9rem;
+  }
+  
+  .sidebar-search-wrapper .search-icon {
+    left: 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  /* RENGLÓN 2: Menú en bloque horizontal justo debajo del buscador */
+  .explorer-menu {
+    margin-top: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Divide horizontalmente el ancho en 3 secciones perfectas */
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  /* Botones adaptados para una excelente ergonomía táctil */
   .explorer-link {
-    flex-direction: column; /* Icono arriba, texto abajo */
-    gap: 0.25rem;
-    padding: 0.5rem;
-    border-radius: 14px;
+    flex-direction: column; /* Ícono arriba, texto abajo */
+    gap: 0.15rem;
+    padding: 0.4rem 0.25rem;
+    border-radius: 12px;
     font-size: 0.75rem;
     text-align: center;
     justify-content: center;
-    background: transparent; /* Máxima limpieza visual */
+    background: transparent; /* Diseño unificado sin cajones individuales */
     width: 100%;
   }
 
   .explorer-link i {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 
   .explorer-link.active {
     background: linear-gradient(135deg, var(--primary), var(--accent));
     color: white;
   }
-
-  /* Limpieza de scroll por si acaso */
-  .explorer-menu::-webkit-scrollbar {
-    display: none;
-  }
 }
 
-@media (max-width: 600px) {
-  /* En pantallas extremadamente angostas, ocultamos el texto de los botones 
-     y dejamos solo los íconos para un look ultracompacto */
+/* Optimización extra para teléfonos de pantallas angostas o pequeñas */
+@media (max-width: 480px) {
+  .explorer-sidebar {
+    padding: 0.75rem 0.85rem;
+  }
+  
   .explorer-link span {
-    display: none;
-  }
-  
-  .explorer-menu {
-    justify-content: space-around;
-  }
-  
-  .explorer-link {
-    padding: 0.75rem;
-    border-radius: 50%;
-    width: 42px;
-    height: 42px;
-    justify-content: center;
+    font-size: 0.7rem; /* Reduce de forma quirúrgica el texto para que no desborde */
   }
 }
 
