@@ -3,6 +3,7 @@
 ========================================= */
 
 const DEBUG = true;
+const diplomaTotal = 7;
 
 function debugLog(title, data) {
 
@@ -398,14 +399,14 @@ async function consultarRuta() {
       eventosCompletados
     );
 
-    const cursosCompletadosIds =
-      eventosCompletados.map(ev =>
-        ev.idCurso
-      );
+    const cursosCompletadosTuplas = eventosCompletados.map(ev => [
+      ev.idCurso, 
+      ev.fecha
+    ]);
 
     debugLog(
       "CURSOS COMPLETADOS IDS",
-      cursosCompletadosIds
+      cursosCompletadosTuplas
     );
 
     /* =====================================
@@ -428,22 +429,30 @@ async function consultarRuta() {
        PROGRESO
     ===================================== */
 
-    const completados =
-      cursosRuta.filter(c =>
-        cursosCompletadosIds.includes(c.id)
-      ).length;
+    const cursosFiltradosConFecha = cursosRuta
+      .map(c => {
+        // Buscamos si existe una tupla para este curso
+        const tuplaAsociada = cursosCompletadosTuplas.find(tupla => tupla[0] === c.id);
+        
+        if (tuplaAsociada) {
+          // Si se completó, le agregamos la propiedad 'fechaCompletado' al objeto del curso
+          return { ...c, fechaCompletado: tuplaAsociada[1] };
+        }
+        return null;
+      })
+      .filter(c => c !== null); // Filtramos para dejar solo los que sí se completaron
 
-    const porcentaje =
-      cursosRuta.length > 0
-        ? (completados / cursosRuta.length) * 100
-        : 0;
+    // Para obtener el total de completados:
+    const completados = cursosFiltradosConFecha.length;
+
+    const porcentaje = (completados / diplomaTotal) * 100;
 
     console.log("COMPLETADOS:", completados);
-    console.log("TOTAL:", cursosRuta.length);
+    console.log("TOTAL:", diplomaTotal);
     console.log("PORCENTAJE:", porcentaje);
 
     document.getElementById("progressText").textContent =
-      `${completados}/${cursosRuta.length}`;
+      `${completados}/${diplomaTotal}`;
 
     document.getElementById("progressFill").style.width =
       `${porcentaje}%`;
@@ -463,70 +472,68 @@ async function consultarRuta() {
 
       let estadoClase = "locked";
       let estadoTexto = "Bloqueado";
-
-      const completado =
-        cursosCompletadosIds.includes(curso.id);
-
+      let fechaTextoHTML = ""; // Variable para renderizar la fecha si aplica
+    
+      // OPICÓN 2: Buscamos si el curso actual tiene una tupla asociada en los completados
+      const tuplaCurso = cursosCompletadosTuplas.find(tupla => tupla[0] === curso.id);
+      const completado = !!tuplaCurso; // true si encontró la tupla, false si no
+    
       if (completado) {
-
+    
         estadoClase = "completed";
         estadoTexto = "Completado";
-
+        
+        // Extraemos la fecha de la tupla (posición 1) y preparamos el HTML
+        const fechaCompletado = tuplaCurso[1]; 
+        fechaTextoHTML = `<div class="course-date">Completado el: ${fechaCompletado}</div>`;
+    
       } else {
-
+    
         let disponible = false;
-
         const r1 = curso.requisito1;
         const r2 = curso.requisito2;
-        const esFinal = curso.cursoFinal;
-
-        if (!r1 && !r2 && !esFinal) {
+        
+        // Normalizamos el string a minúsculas y quitamos tildes para evaluar de forma segura
+        const esFinal = curso.cursoFinal ? curso.cursoFinal.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") : "";
+    
+        if (!r1 && !r2 && esFinal !== "si") {
           disponible = true;
         }
-
+    
+        // Evaluación de Requisito 1 usando las tuplas (.some)
         if (
           r1 &&
           !r2 &&
-          cursosCompletadosIds.includes(r1)
+          cursosCompletadosTuplas.some(tupla => tupla[0] === r1)
         ) {
           disponible = true;
         }
-
+    
+        // Evaluación de Requisito 1 y Requisito 2 usando las tuplas (.some)
         if (
           r1 &&
           r2 &&
-          cursosCompletadosIds.includes(r1) &&
-          cursosCompletadosIds.includes(r2)
+          cursosCompletadosTuplas.some(tuple => tuple[0] === r1) &&
+          cursosCompletadosTuplas.some(tuple => tuple[0] === r2)
         ) {
           disponible = true;
         }
-
-        
-
-        if (
-          esFinal === "sí" ||
-          esFinal === "si"||
-          esFinal === "Si"||
-          esFinal === "Si"
-        ) {
-
+    
+        // Evaluación del curso final (completados viene del conteo previo de la Opción 2)
+        if (esFinal === "si") {
           if (completados >= 6) {
             disponible = true;
           }
-
         }
-
+    
         if (disponible) {
-
           estadoClase = "available";
           estadoTexto = "Disponible";
-
           disponibles++;
-
         }
-
+    
       }
-
+    
       console.log({
         curso: curso.nombre,
         id: curso.id,
@@ -534,39 +541,27 @@ async function consultarRuta() {
         requisito1: curso.requisito1,
         requisito2: curso.requisito2
       });
-
-      const card =
-        document.createElement("div");
-
-      card.className =
-        `course-card ${estadoClase}`;
-
+    
+      const card = document.createElement("div");
+      card.className = `course-card ${estadoClase}`;
+    
       card.innerHTML = `
-
         <div class="course-top">
-
           <span class="course-stage">
             Etapa ${curso.etapa}
           </span>
-
           <span class="course-status ${estadoClase}">
             ${estadoTexto}
           </span>
-
         </div>
-
         <h4>
           ${curso.nombre}
         </h4>
-
-        <p class="course-id">
-          ${curso.id}
-        </p>
-
+        ${fechaTextoHTML} <!-- Se inyectará la fecha dinámicamente solo si está completado -->
       `;
-
+    
       grid.appendChild(card);
-
+    
     });
 
     document.getElementById("completedCount").textContent =
