@@ -74,44 +74,51 @@
 
 </header>
 
-  <section class="dashboard-hero">
+<!-- DASHBOARD HERO MODIFICADO -->
+<section class="dashboard-hero">
+  <div class="dashboard-overlay"></div>
+  <div class="dashboard-content">
+    <span class="hero-tag">Ruta formativa AgroLINC</span>
+    <h1>Consulta tu progreso y próximos cursos</h1>
+    <p>Visualiza cursos completados, tecnologías habilitadas y próximos pasos.</p>
 
-    <div class="dashboard-overlay"></div>
-
-    <div class="dashboard-content">
-
-      <span class="hero-tag">
-        Ruta formativa AgroLINC
-      </span>
-
-      <h1>
-        Consulta tu progreso
-        y próximos cursos
-      </h1>
-
-      <p>
-        Visualiza cursos completados,
-        tecnologías habilitadas
-        y próximos pasos.
-      </p>
-
-      <div class="search-box">
-
+    <div class="search-box">
+      <div class="input-loader-container" style="position: relative; flex: 1; display: flex; align-items: center;">
         <input
           id="cedulaInput"
           type="text"
           placeholder="Ingresa tu identificación (Cédula o DIMEX)"
+          style="width: 100%;"
         />
-
-        <button id="consultarBtn">
-          Consultar ruta
-        </button>
-
+        <!-- INTERFAZ DE CARGA DISCRETA (Punto 1) -->
+        <div id="searchLoader" class="search-inline-loader" style="display: none;">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </div>
       </div>
-
+      <button id="consultarBtn">Consultar ruta</button>
     </div>
+  </div>
+</section>
 
-  </section>
+<!-- AGREGAR AL FINAL DE RUTA.HTML (Antes de cerrar el body) -->
+
+<!-- MODAL COMPARTIDO DE DETALLES (Punto 3) -->
+<div class="course-modal" id="courseModal">
+  <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="modal-content">
+    <button class="modal-close" id="closeModal">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <span class="modal-stage" id="modalStage">Etapa 1</span>
+    <h3 id="modalTitle">Curso</h3>
+    <div class="modal-description" id="modalDescription">
+      <!-- El contenido dinámico se inyectará aquí -->
+    </div>
+  </div>
+</div>
+
+<!-- LIBRERÍA HTML2CANVAS PARA LA DESCARGA (Punto 4) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <main class="main-wrapper">
 

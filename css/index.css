@@ -1931,3 +1931,142 @@ button, input, select, textarea {
   }
 }
 
+/* =========================================================
+   MEJORAS RUTA FORMATIVA AGROLINC
+========================================================= */
+
+/* 1. Loader Discreto en Buscador */
+.search-inline-loader {
+  position: absolute;
+  right: 20px;
+  color: var(--primary);
+  font-size: 1.2rem;
+  z-index: 10;
+}
+
+/* 2. Iconos Minimalistas en Tarjetas e interactividad */
+.course-card-icon {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+.course-card.completed .course-card-icon { color: var(--success); }
+.course-card.locked .course-card-icon { color: var(--muted); }
+
+.course-card {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s ease;
+}
+.course-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+}
+
+/* 3. Estilos de Requisitos e imágenes dentro del Modal */
+.modal-requirement-box {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 1rem;
+  border-radius: 14px;
+  margin-top: 1rem;
+}
+.req-item-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.req-item-link:hover {
+  background: #f1f5f9;
+  border-color: var(--primary);
+}
+.modal-image-content {
+  width: 100%;
+  border-radius: 14px;
+  margin-top: 1rem;
+  box-shadow: var(--shadow);
+}
+
+/* 4. Tarjeta Exclusiva Descargable para Redes (Hidden en UI, Renderizada en Canvas) */
+#linkedinShareCard {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 800px;
+  height: 450px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  color: white;
+  padding: 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-start: space-between;
+  font-family: 'Inter', sans-serif;
+}
+.share-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 20px;
+}
+.share-logo { height: 50px; }
+.share-user-info h2 { font-size: 2rem; margin-bottom: 5px; color: #ffffff; }
+.share-user-info p { color: #38bdf8; font-weight: 600; font-size: 1.1rem; }
+.share-body {
+  margin-top: 30px;
+  flex-grow: 1;
+}
+.share-courses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 15px;
+}
+.share-course-box {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: 5px solid #10b981;
+  padding: 12px;
+  border-radius: 10px;
+}
+.share-course-box h4 { font-size: 0.95rem; margin-bottom: 5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.share-course-box span { font-size: 0.75rem; color: #94a3b8; }
+.share-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+/* Botón de descarga en el Perfil */
+.download-share-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #0077b5, #00a0dc);
+  color: white;
+  border: none;
+  padding: 0.85rem;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s;
+}
+.download-share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 119, 181, 0.3);
+}
