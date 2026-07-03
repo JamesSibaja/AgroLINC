@@ -2059,7 +2059,6 @@ button, input, select, textarea {
   padding: 0.95rem 1.5rem;
   border-radius: 16px;
   font-weight: 700;
-  font-size: 0.95rem;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -2135,6 +2134,12 @@ button, input, select, textarea {
 
 .share-logo-inst {
   height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+.share-logo-inst {
+  height: 55px;
   width: auto;
   object-fit: contain;
 }

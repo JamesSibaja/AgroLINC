@@ -392,7 +392,7 @@ async function consultarRuta() {
 }
 
 /* =========================================================
-   MODIFICACIÓN: MOTOR DINÁMICO DE SUB-MODALES (PUNTO 1)
+   MOTOR DINÁMICO DE SUB-MODALES
 ========================================================= */
 function abrirModalDetallado(curso, estado) {
   const modal = document.getElementById('courseModal');
@@ -440,13 +440,11 @@ function abrirModalDetallado(curso, estado) {
           let reqEstadoClase = 'locked';
           let reqIcono = 'fa-lock';
 
-          // Verificar si el requisito está aprobado o si al menos está disponible para cursar
           if (esAprobado) {
             reqEstadoTexto = 'Completo';
             reqEstadoClase = 'completed';
             reqIcono = 'fa-circle-check';
           } else {
-            // Evaluar disponibilidad interna del requisito previo
             let reqDisponible = false;
             const r1 = reqCurso.requisito1;
             const r2 = reqCurso.requisito2;
@@ -463,7 +461,6 @@ function abrirModalDetallado(curso, estado) {
             }
           }
           
-          // Render estructurado presionable con bádges dinámicos estilizados en CSS
           htmlRequisitos += `
             <div class="req-item-link" onclick="cambiarFocoModal('${reqCurso.id}')" role="button" title="Haga clic para evaluar este curso">
               <div class="req-text-container">
@@ -533,7 +530,7 @@ function cambiarFocoModal(cursoId) {
 }
 
 /* =========================================================
-   MODIFICACIÓN: GENERADOR Y TARJETA COMPARTIBLE (PUNTOS 2 Y 3)
+   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA
 ========================================================= */
 function inyectarBotonCompartir() {
   const profileCard = document.querySelector('.profile-card');
@@ -542,7 +539,6 @@ function inyectarBotonCompartir() {
   const btnShare = document.createElement('button');
   btnShare.id = 'btnDownloadShare';
   btnShare.className = 'download-share-btn';
-  // Texto genérico limpio sin referencias explícitas a marcas externas
   btnShare.innerHTML = `<i class="fa-solid fa-cloud-download-alt"></i> Descargar Tarjeta de Progreso`;
   
   btnShare.addEventListener('click', generarImagenRedesSociales);
@@ -552,7 +548,7 @@ function inyectarBotonCompartir() {
 function generarImagenRedesSociales() {
   if (!estudianteGlobal) return;
 
-  // 1. Validar u obtener el contenedor base fuera de pantalla
+  // 1. Validar u obtener el contenedor base
   let shareContainer = document.getElementById('linkedinShareCard');
   if (!shareContainer) {
     shareContainer = document.createElement('div');
@@ -573,15 +569,14 @@ function generarImagenRedesSociales() {
     }
   }
 
-  // 3. Inyección limpia de contenido (Corregida la ruta de logos y marcado de íconos)
+  // 3. Inyección limpia de contenido sin filtros agresivos que rompan los logos
   shareContainer.innerHTML = `
     <div class="share-header">
       <div class="share-branding">
-        <!-- Render nativo sin filtros CSS para respetar el diseño de marca visible en photo_2026-07-03_11-16-42.jpg -->
         <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main" onerror="this.style.display='none'">
       </div>
       <div class="share-institution-logos">
-        <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-inst" onerror="this.style.display='none'">
+        <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-instm" onerror="this.style.display='none'">
         <img src="assets/images/iica-azul.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
       </div>
     </div>
@@ -589,41 +584,37 @@ function generarImagenRedesSociales() {
     <div class="share-body">
       <div class="share-user-info">
         <h2>${estudianteGlobal.nombre}</h2>
-        <p><i class="fa-solid fa-award"></i> Especialización en Ruta ${estudianteGlobal.ruta}</p>
+        <p><i class="fa-solid fa-award"></i> Hitos de Aprendizaje Alcanzados:</p>
       </div>
       
-      <h3>Hitos de Aprendizaje Alcanzados:</h3>
       <div class="share-courses-grid">
         <div class="share-course-box">
-          <h4>${cursosNombres[0]}</h4>
+          <h5>${cursosNombres[0]}</h5>
           <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
         </div>
         <div class="share-course-box">
-          <h4>${cursosNombres[1]}</h4>
+          <h5>${cursosNombres[1]}</h5>
           <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
         </div>
-        <div class="share-course-box">
-          <h4>${cursosNombres[2]}</h4>
-          <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
-        </div>
+       
       </div>
     </div>
 
     <div class="share-footer">
       <span>Ruta de Aprendizaje Oficial • Laboratorios de Innovación Comunitaria</span>
-      <span class="share-footer-url">agrolinc.iica.int</span>
+      <span class="share-footer-url">fablab@iica.int</span>
     </div>
   `;
 
-  // 4. Captura fotográfica con holgura de tiempo para inicializar fuentes e imágenes fluidas
+  // 4. Captura fotográfica estable fijando las dimensiones de salida[cite: 12]
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
       allowTaint: true,
       backgroundColor: null,
-      scale: 2,           // Forzar renderizado en 2K (Alta nitidez sin pixelado)
-      width: 1200,        // Congelar ancho exacto del bloque de render
-      height: 630         // Congelar alto exacto del bloque de render
+      scale: 2,           // Renderizado 2K nítido sin pixelado
+      width: 1200,        // Congela el ancho nativo para evitar colapsos
+      height: 630         // Congela el alto nativo 1.91:1
     }).then(canvas => {
       const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
       const link = document.createElement('a');
@@ -633,7 +624,7 @@ function generarImagenRedesSociales() {
     }).catch(err => {
       console.error("Error generando la tarjeta de progreso: ", err);
     });
-  }, 500); // 500ms da estabilidad total al procesamiento gráfico latente
+  }, 500); // Latencia controlada para inicializar fuentes externas en la imagen
 }
 
 /* =========================================
