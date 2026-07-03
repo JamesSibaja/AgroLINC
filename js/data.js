@@ -57,7 +57,7 @@ function getCourseIcon(courseName) {
     { keywords: ['intermedio'], icon: 'fa-cubes' }, 
     { keywords: ['laser', 'corte', 'cnc'], icon: 'fa-scissors' }, 
     { keywords: ['geoespacial', 'mapa', 'gps', 'kobo', 'territorio'], icon: 'fa-map-location-dot' },
-    { keywords: ['microcontrolador', 'sensor', 'actuador', 'electronico', 'electricidad'], icon: 'fa-microchip' },
+    { keywords: ['microcontrolador', 'sensor', 'actuador'], icon: 'fa-microchip' },
     { keywords: [ 'electronico', 'electricidad'], icon: 'fa-bolt' },
     { keywords: ['iot', 'internet de las cosas'], icon: 'fa-wifi' },
     { keywords: ['automatizacion', 'robot', 'programacion'], icon: 'fa-robot' },
@@ -605,7 +605,7 @@ function generarImagenRedesSociales() {
       </div>
       <div class="share-institution-logos">
         <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-instm" onerror="this.style.display='none'">
-        <img src="assets/images/iica.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
+        <img src="assets/images/iica-azul.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
       </div>
     </div>
     
@@ -631,9 +631,9 @@ function generarImagenRedesSociales() {
     </div>
 
     <div class="share-footer">
-      <span><i class="fa-solid fa-certificate"></i> Registro Oficial de Habilidades • Laboratorios de Innovación Comunitaria</span>
+      <span><i class="fa-solid fa-certificate"></i> Registro de Cursos del Programa AgroLINC • FabLab del IICA</span>
       <img src="assets/images/fablab.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
-      <span class="share-footer-url">fablab@iica.int</span>
+      
     </div>
   `;
 

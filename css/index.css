@@ -2089,7 +2089,7 @@ button, input, select, textarea {
   top: 0;
   background-color: #0b1120;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(6, 212, 167, 0.411) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, rgba(212, 140, 6, 0.473) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(30, 27, 75, 0.4) 0px, transparent 50%);
   color: #f8fafc;
   display: flex;
