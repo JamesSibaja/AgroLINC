@@ -548,7 +548,7 @@ function inyectarBotonCompartir() {
 }
 
 /* =========================================================
-   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (CON QR Y AUTO-FIT)
+   GENERADOR DE TARJETA COMPARTIBLE - DARK PREMIUM (1200x630)
 ========================================================= */
 function generarImagenRedesSociales() {
   if (!estudianteGlobal) return;
@@ -561,7 +561,7 @@ function generarImagenRedesSociales() {
     document.body.appendChild(shareContainer);
   }
 
-  // 2. Extraer los módulos aprobados con sus fechas cruzadas reales
+  // 2. Extraer los módulos aprobados reales
   const aprobadosReales = cursosRutaGlobal
     .map(c => {
       const tuplaAsociada = tuplasGlobales.find(t => t[0] === c.id);
@@ -579,103 +579,116 @@ function generarImagenRedesSociales() {
     year: 'numeric'
   });
 
-  // 3. Generar dinámicamente las cajas HTML con control estricto de truncado de texto
+  // 3. Mapeo de iconos comunes para el FabLab / AgroLINC
+  const getCourseIcon = (nombre) => {
+    const n = nombre.toLowerCase();
+    if (n.includes('fabricación') || n.includes('cnc')) return 'fa-industry';
+    if (n.includes('electricidad') || n.includes('microcon')) return 'fa-bolt';
+    if (n.includes('3d')) return 'fa-cube';
+    if (n.includes('corte láser')) return 'fa-scissors';
+    if (n.includes('drone')) return 'fa-helicopter';
+    if (n.includes('iot') || n.includes('sensores')) return 'fa-wifi';
+    if (n.includes('automatización')) return 'fa-robot';
+    return 'fa-graduation-cap';
+  };
+
+  // 4. Construcción de las cajas de cursos con prevención de desborde
   const cursosHTML = aprobadosReales.map(curso => {
     return `
-      <div class="share-course-box">
-        <div class="share-box-top">
-          <i class="fa-solid ${getCourseIcon(curso.nombre)} share-box-icon"></i>
-          <span class="share-badge-success"><i class="fa-solid fa-circle-check"></i> Aprobado</span>
+      <div class="share-course-box-dark">
+        <div class="share-box-top-dark">
+          <i class="fa-solid ${getCourseIcon(curso.nombre)} share-box-icon-dark"></i>
+          <span class="share-badge-success-dark"><i class="fa-solid fa-circle-check"></i> Aprobado</span>
         </div>
         <h4 title="${curso.nombre}">${curso.nombre}</h4>
-        <span class="share-course-date">Completado: ${curso.fechaCompletado || '---'}</span>
+        <span class="share-course-date-dark">Completado: ${curso.fechaCompletado || '---'}</span>
       </div>
     `;
   }).join('');
 
-  // 4. Ajuste inteligente de densidad de la rejilla según volumen real de cursos
-  let claseDensidad = 'grid-vacio';
-  if (totalCursosLogrados >= 7) {
-    claseDensidad = 'alta-densidad';
-  } else if (totalCursosLogrados >= 4) {
-    claseDensidad = 'media-densidad';
-  } else if (totalCursosLogrados >= 1) {
-    claseDensidad = 'baja-densidad';
+  // 5. Ajuste de rejilla inteligente (Evita deformaciones en bajas o altas cantidades)
+  let claseDensidad = 'grid-alta';
+  if (totalCursosLogrados <= 3) {
+    claseDensidad = 'grid-baja';
+  } else if (totalCursosLogrados <= 8) {
+    claseDensidad = 'grid-media';
   }
 
-  // 5. Definir la URL de la plataforma para el código QR
-  const urlPlataforma = `https://tu-plataforma-agrolinc.com/verificar?cedula=${estudianteGlobal.cedula}`;
-  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlPlataforma)}&color=07152d`;
+  // 6. Endpoint de verificación QR (Color personalizado para combinar con el modo oscuro)
+  const urlPlataforma = `https://plataforma.agrolinc.com/verificar?cedula=${estudianteGlobal.cedula}`;
+  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlPlataforma)}&color=0b1329&bgcolor=ffffff`;
 
   shareContainer.innerHTML = `
-    <!-- Franja Blanca Premium Superior Obligatoria para Logos -->
-    <div class="share-branding-strip">
-      <div class="share-strip-left">
-        <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main" onerror="this.style.display='none'">
+    <!-- Encabezado de marcas integrado al flujo oscuro -->
+    <div class="share-header-dark">
+      <div class="share-brand-left">
+        <span class="share-logo-text">Agro<span>LINC</span></span>
+        <p class="share-logo-subtext">Innovación y Tecnologías Aplicadas</p>
       </div>
-      <div class="share-strip-right">
-        <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-instm" onerror="this.style.display='none'">
-        <img src="assets/images/iica-azul.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
-        <img src="assets/images/fablab.png" alt="FabLab" class="share-logo-inst" onerror="this.style.display='none'">
+      <div class="share-brand-right">
+        <span class="brand-badge">LINC</span>
+        <span class="brand-badge iica">IICA</span>
+        <span class="brand-badge fablab">FABLAB</span>
       </div>
     </div>
     
-    <div class="share-body">
-      <div class="share-user-meta">
-        <div class="share-user-details">
-          <h2>${estudianteGlobal.nombre}</h2>
-          <p class="share-user-sub">
+    <!-- Contenido Principal -->
+    <div class="share-body-dark">
+      <div class="share-user-row-dark">
+        <div class="share-user-info">
+          <h2>${estudianteGlobal.nombre.toUpperCase()}</h2>
+          <div class="share-user-meta-dark">
             <span><i class="fa-solid fa-id-card"></i> Identificación: <b>${estudianteGlobal.cedula}</b></span>
-            <span class="share-separator">•</span>
-            <span><i class="fa-solid fa-route"></i> Ruta: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
-          </p>
+            <span class="dot-splitter">•</span>
+            <span><i class="fa-solid fa-route"></i> Ruta: <b class="highlight-cyan">${estudianteGlobal.ruta.toUpperCase()}</b></span>
+          </div>
         </div>
-        <div class="share-user-stats">
-          <span class="share-stat-badge"><i class="fa-solid fa-award"></i> ${totalCursosLogrados} Módulos Logrados</span>
-          <span class="share-date-badge"><i class="fa-solid fa-calendar-day"></i> ${fechaEmision}</span>
+        <div class="share-badges-row">
+          <span class="stat-badge-dark"><i class="fa-solid fa-award"></i> ${totalCursosLogrados} Módulos Logrados</span>
+          <span class="date-badge-dark"><i class="fa-solid fa-calendar-alt"></i> Emitido: ${fechaEmision}</span>
         </div>
       </div>
       
-      <!-- Contenedor con distribución elástica e inteligente para evitar vacíos -->
-      <div class="share-courses-container ${claseDensidad}">
+      <!-- Rejilla con auto-ajuste de densidad -->
+      <div class="share-grid-dark ${claseDensidad}">
         ${totalCursosLogrados === 0 
-          ? `<div class="share-empty-state"><i class="fa-solid fa-graduation-cap"></i><p>Iniciando ruta de aprendizaje formativa.</p></div>`
+          ? `<div class="share-empty-dark"><i class="fa-solid fa-user-astronaut"></i><p>Ruta iniciada. Módulos en desarrollo.</p></div>`
           : cursosHTML
         }
       </div>
     </div>
 
-    <!-- Pie de página con integración del Código QR e información de credenciales -->
-    <div class="share-footer">
-      <div class="share-footer-text">
-        <span><i class="fa-solid fa-certificate"></i> Registro de Cursos del Programa AgroLINC • FabLab del IICA</span>
-        <p>Escanea el código QR de la derecha para validar las credenciales en la plataforma en tiempo real.</p>
+    <!-- Pie de página con integración de QR e Identidad de Marca -->
+    <div class="share-footer-dark">
+      <div class="share-footer-left">
+        <p class="footer-title"><i class="fa-solid fa-shield-halved"></i> Credencial Digital Verificable</p>
+        <p class="footer-desc">Registro oficial de competencias del Programa AgroLINC coordinado a través del FabLab del IICA.</p>
       </div>
-      <div class="share-footer-qr">
-        <img src="${qrApiUrl}" alt="Código QR de Verificación" class="share-qr-image">
+      <div class="share-footer-right">
+        <div class="qr-container-dark">
+          <img src="${qrApiUrl}" alt="QR de Verificación" class="qr-img-dark">
+        </div>
       </div>
     </div>
   `;
 
-  // 6. Captura fotográfica estable fijando las dimensiones de salida
+  // 7. Renderizado fotográfico de alta fidelidad
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
       allowTaint: true,
-      backgroundColor: "#f4f7fb",
-      scale: 2,           // Renderizado nítido de alta definición
-      width: 1200,        
-      height: 630         
+      backgroundColor: "#060b19",
+      scale: 2, // Garantiza nitidez en pantallas Retina y posts de LinkedIn
+      width: 1200,
+      height: 630
     }).then(canvas => {
-      const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
+      const safeName = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
       const link = document.createElement('a');
-      link.download = `AgroLINC_Progreso_${nombreArchivoSafe}.png`;
+      link.download = `AgroLINC_Cert_Dark_${safeName}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
-    }).catch(err => {
-      console.error("Error generando la tarjeta de progreso: ", err);
-    });
-  }, 600); 
+    }).catch(err => console.error("Error en renderizado de tarjeta:", err));
+  }, 600);
 }
 
 /* =========================================
