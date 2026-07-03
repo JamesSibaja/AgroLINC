@@ -605,7 +605,7 @@ function generarImagenRedesSociales() {
       </div>
       <div class="share-institution-logos">
         <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-instm" onerror="this.style.display='none'">
-        <img src="assets/images/iica-azul.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
+        <img src="assets/images/iica.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
       </div>
     </div>
     
@@ -632,6 +632,7 @@ function generarImagenRedesSociales() {
 
     <div class="share-footer">
       <span><i class="fa-solid fa-certificate"></i> Registro Oficial de Habilidades • Laboratorios de Innovación Comunitaria</span>
+      <img src="assets/images/fablab.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
       <span class="share-footer-url">fablab@iica.int</span>
     </div>
   `;
