@@ -558,7 +558,7 @@ function generarImagenRedesSociales() {
     document.body.appendChild(shareContainer);
   }
 
-  // 2. Extraer los módulos aprobados con sus fechas cruzadas reales
+  // 2. Extraer los módulos aprobados con sus fechas
   const aprobadosReales = cursosRutaGlobal
     .map(c => {
       const tuplaAsociada = tuplasGlobales.find(t => t[0] === c.id);
@@ -576,7 +576,7 @@ function generarImagenRedesSociales() {
     year: 'numeric'
   });
 
-  // Generar dinámicamente las cajas HTML con soporte para múltiples líneas y fecha interna
+  // Generar dinámicamente las cajas HTML
   const cursosHTML = aprobadosReales.map(curso => {
     return `
       <div class="share-course-box">
@@ -590,22 +590,32 @@ function generarImagenRedesSociales() {
     `;
   }).join('');
 
-  // Ajuste inteligente de densidad según volumen real de cursos de la ruta
+  // 3. Configuración del QR Dinámico
+  // Puedes cambiar esta URL por el dominio oficial de tu plataforma o sistema de verificación
+  const urlPlataforma = "https://forms.gle/3hsVm6HF35N531JG7"; 
+  const qrCodeURL = `https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl=${encodeURIComponent(urlPlataforma)}&choe=UTF-8`;
+
+  // Clasificación de densidad agresiva para evitar desbordamientos en 630px de alto
   let claseDensidad = 'baja-densidad';
-  if (totalCursosLogrados > 8) {
+  if (totalCursosLogrados > 10) {
+    claseDensidad = 'maxima-densidad'; // Para casos extremos como el de Carlos (12 cursos)
+  } else if (totalCursosLogrados > 7) {
     claseDensidad = 'alta-densidad';
   } else if (totalCursosLogrados > 4) {
     claseDensidad = 'media-densidad';
   }
 
   shareContainer.innerHTML = `
-    <div class="share-header">
-      <div class="share-branding">
-        <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main" onerror="this.style.display='none'">
-      </div>
-      <div class="share-institution-logos">
-        <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-instm" onerror="this.style.display='none'">
-        <img src="assets/images/iica-azul.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
+    <!-- Nueva Franja Blanca Superior Protegida para Logos -->
+    <div class="share-header-wrapper">
+      <div class="share-header">
+        <div class="share-branding">
+          <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main" onerror="this.style.display='none'">
+        </div>
+        <div class="share-institution-logos">
+          <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-instm" onerror="this.style.display='none'">
+          <img src="assets/images/iica-azul.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
+        </div>
       </div>
     </div>
     
@@ -620,7 +630,7 @@ function generarImagenRedesSociales() {
           </p>
         </div>
         <div class="share-user-stats">
-          <span class="share-stat-badge"><i class="fa-solid fa-award"></i> ${totalCursosLogrados} Módulos</span>
+          <span class="share-stat-badge"><i class="fa-solid fa-award"></i> ${totalCursosLogrados} Módulos Aprobados</span>
           <span class="share-date-badge"><i class="fa-solid fa-calendar-day"></i> Emitido: ${fechaEmision}</span>
         </div>
       </div>
@@ -630,20 +640,26 @@ function generarImagenRedesSociales() {
       </div>
     </div>
 
+    <!-- Footer Integrado con Código QR -->
     <div class="share-footer">
-      <span><i class="fa-solid fa-certificate"></i> Registro de Cursos del Programa AgroLINC • FabLab del IICA</span>
-      <img src="assets/images/fablab.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
-      
+      <div class="share-footer-info">
+        <span><i class="fa-solid fa-certificate"></i> Registro Oficial de Habilidades • Laboratorios de Innovación Comunitaria</span>
+        <span class="share-footer-url">fablab@iica.int</span>
+      </div>
+      <div class="share-footer-qr">
+        <span class="qr-label">Validar Progreso</span>
+        <img src="${qrCodeURL}" alt="Código QR de Verificación" class="share-qr-img">
+      </div>
     </div>
   `;
 
-  // 4. Captura fotográfica estable fijando las dimensiones de salida[cite: 12]
+  // 4. Captura fotográfica estable fijando las dimensiones de salida
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
       allowTaint: true,
       backgroundColor: null,
-      scale: 2,           // Renderizado nítido de alta definición
+      scale: 2,           
       width: 1200,        
       height: 630         
     }).then(canvas => {
@@ -655,7 +671,7 @@ function generarImagenRedesSociales() {
     }).catch(err => {
       console.error("Error generando la tarjeta de progreso: ", err);
     });
-  }, 500); 
+  }, 600); // Se incrementa levemente para asegurar la descarga completa del QR desde la API externa
 }
 
 /* =========================================
