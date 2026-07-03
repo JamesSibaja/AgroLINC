@@ -569,7 +569,24 @@ function generarImagenRedesSociales() {
     }
   }
 
-  // 3. Inyección limpia de contenido sin filtros agresivos que rompan los logos
+  // 3. Inyección limpia de contenido dinámico adaptado al volumen de cursos
+  
+  // Generar dinámicamente las cajas HTML para cada curso aprobado real
+  const totalCursosLogrados = aprobadosReales.length;
+  
+  const cursosHTML = aprobadosReales.map(curso => {
+    return `
+      <div class="share-course-box">
+        <i class="fa-solid ${getCourseIcon(curso.nombre)} share-box-icon"></i>
+        <h4>${curso.nombre}</h4>
+        <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
+      </div>
+    `;
+  }).join('');
+
+  // Determinar una clase de densidad para ajustar fuentes en CSS si son demasiados cursos
+  const claseDensidad = totalCursosLogrados > 8 ? 'alta-densidad' : totalCursosLogrados > 4 ? 'media-densidad' : 'baja-densidad';
+
   shareContainer.innerHTML = `
     <div class="share-header">
       <div class="share-branding">
@@ -581,22 +598,14 @@ function generarImagenRedesSociales() {
       </div>
     </div>
     
-    <div class="share-body">
+    <div class="share-body ${claseDensidad}">
       <div class="share-user-info">
         <h2>${estudianteGlobal.nombre}</h2>
-        <p><i class="fa-solid fa-award"></i> Hitos de Aprendizaje Alcanzados:</p>
+        <p><i class="fa-solid fa-award"></i> Hitos de Aprendizaje Alcanzados (${totalCursosLogrados}):</p>
       </div>
       
       <div class="share-courses-grid">
-        <div class="share-course-box">
-          <h5>${cursosNombres[0]}</h5>
-          <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
-        </div>
-        <div class="share-course-box">
-          <h4>${cursosNombres[1]}</h4>
-          <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
-        </div>
-       
+        ${cursosHTML}
       </div>
     </div>
 
