@@ -53,10 +53,12 @@ function getCourseIcon(courseName) {
 
   const iconRules = [
     { keywords: ['drone', 'vant', 'vuelo', 'vehiculo aereo'], icon: 'fa-helicopter-symbol' }, 
-    { keywords: ['3d', 'impresion'], icon: 'fa-cubes' }, 
+    { keywords: ['basico'], icon: 'fa-cube' }, 
+    { keywords: ['intermedio'], icon: 'fa-cubes' }, 
     { keywords: ['laser', 'corte', 'cnc'], icon: 'fa-scissors' }, 
     { keywords: ['geoespacial', 'mapa', 'gps', 'kobo', 'territorio'], icon: 'fa-map-location-dot' },
     { keywords: ['microcontrolador', 'sensor', 'actuador', 'electronico', 'electricidad'], icon: 'fa-microchip' },
+    { keywords: [ 'electronico', 'electricidad'], icon: 'fa-bolt' },
     { keywords: ['iot', 'internet de las cosas'], icon: 'fa-wifi' },
     { keywords: ['automatizacion', 'robot', 'programacion'], icon: 'fa-robot' },
     { keywords: ['fabricacion digital'], icon: 'fa-industry' },
@@ -556,36 +558,45 @@ function generarImagenRedesSociales() {
     document.body.appendChild(shareContainer);
   }
 
-  // 2. Extraer y procesar los módulos aprobados por el estudiante
-  const aprobadosReales = cursosRutaGlobal.filter(c => tuplasGlobales.some(t => t[0] === c.id));
-  const cursosNombres = aprobadosReales.map(c => c.nombre);
+  // 2. Extraer los módulos aprobados con sus fechas cruzadas reales
+  const aprobadosReales = cursosRutaGlobal
+    .map(c => {
+      const tuplaAsociada = tuplasGlobales.find(t => t[0] === c.id);
+      if (tuplaAsociada) {
+        return { ...c, fechaCompletado: tuplaAsociada[1] };
+      }
+      return null;
+    })
+    .filter(c => c !== null);
 
-  // Lógica inteligente de placeholders simétricos
-  while (cursosNombres.length < 3) {
-    if (cursosNombres.length === 0) {
-      cursosNombres.push("Primeros pasos en la plataforma AgroLINC");
-    } else {
-      cursosNombres.push("Próximo módulo de especialización tecnológica");
-    }
-  }
-
-  // 3. Inyección limpia de contenido dinámico adaptado al volumen de cursos
-  
-  // Generar dinámicamente las cajas HTML para cada curso aprobado real
   const totalCursosLogrados = aprobadosReales.length;
-  
+  const fechaEmision = new Date().toLocaleDateString('es-CR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+
+  // Generar dinámicamente las cajas HTML con soporte para múltiples líneas y fecha interna
   const cursosHTML = aprobadosReales.map(curso => {
     return `
       <div class="share-course-box">
-        <i class="fa-solid ${getCourseIcon(curso.nombre)} share-box-icon"></i>
+        <div class="share-box-top">
+          <i class="fa-solid ${getCourseIcon(curso.nombre)} share-box-icon"></i>
+          <span class="share-badge-success"><i class="fa-solid fa-circle-check"></i> Aprobado</span>
+        </div>
         <h4>${curso.nombre}</h4>
-        <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
+        <span class="share-course-date">Completado: ${curso.fechaCompletado || '---'}</span>
       </div>
     `;
   }).join('');
 
-  // Determinar una clase de densidad para ajustar fuentes en CSS si son demasiados cursos
-  const claseDensidad = totalCursosLogrados > 8 ? 'alta-densidad' : totalCursosLogrados > 4 ? 'media-densidad' : 'baja-densidad';
+  // Ajuste inteligente de densidad según volumen real de cursos de la ruta
+  let claseDensidad = 'baja-densidad';
+  if (totalCursosLogrados > 8) {
+    claseDensidad = 'alta-densidad';
+  } else if (totalCursosLogrados > 4) {
+    claseDensidad = 'media-densidad';
+  }
 
   shareContainer.innerHTML = `
     <div class="share-header">
@@ -599,9 +610,19 @@ function generarImagenRedesSociales() {
     </div>
     
     <div class="share-body ${claseDensidad}">
-      <div class="share-user-info">
-        <h2>${estudianteGlobal.nombre}</h2>
-        <p><i class="fa-solid fa-award"></i> Hitos de Aprendizaje Alcanzados (${totalCursosLogrados}):</p>
+      <div class="share-user-meta">
+        <div class="share-user-details">
+          <h2>${estudianteGlobal.nombre}</h2>
+          <p class="share-user-sub">
+            <span><i class="fa-solid fa-id-card"></i> Identificación: <b>${estudianteGlobal.cedula}</b></span>
+            <span class="share-separator">•</span>
+            <span><i class="fa-solid fa-route"></i> Ruta: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
+          </p>
+        </div>
+        <div class="share-user-stats">
+          <span class="share-stat-badge"><i class="fa-solid fa-award"></i> ${totalCursosLogrados} Módulos</span>
+          <span class="share-date-badge"><i class="fa-solid fa-calendar-day"></i> Emitido: ${fechaEmision}</span>
+        </div>
       </div>
       
       <div class="share-courses-grid">
@@ -610,7 +631,7 @@ function generarImagenRedesSociales() {
     </div>
 
     <div class="share-footer">
-      <span>Ruta de Aprendizaje Oficial • Laboratorios de Innovación Comunitaria</span>
+      <span><i class="fa-solid fa-certificate"></i> Registro Oficial de Habilidades • Laboratorios de Innovación Comunitaria</span>
       <span class="share-footer-url">fablab@iica.int</span>
     </div>
   `;
@@ -621,9 +642,9 @@ function generarImagenRedesSociales() {
       useCORS: true,
       allowTaint: true,
       backgroundColor: null,
-      scale: 2,           // Renderizado 2K nítido sin pixelado
-      width: 1200,        // Congela el ancho nativo para evitar colapsos
-      height: 630         // Congela el alto nativo 1.91:1
+      scale: 2,           // Renderizado nítido de alta definición
+      width: 1200,        
+      height: 630         
     }).then(canvas => {
       const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
       const link = document.createElement('a');
@@ -633,7 +654,7 @@ function generarImagenRedesSociales() {
     }).catch(err => {
       console.error("Error generando la tarjeta de progreso: ", err);
     });
-  }, 500); // Latencia controlada para inicializar fuentes externas en la imagen
+  }, 500); 
 }
 
 /* =========================================
