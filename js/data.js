@@ -587,7 +587,7 @@ function generarImagenRedesSociales() {
           <i class="fa-solid ${getCourseIcon(curso.nombre)} share-box-icon"></i>
           <span class="share-badge-success"><i class="fa-solid fa-circle-check"></i> Aprobado</span>
         </div>
-        <h5 title="${curso.nombre}">${curso.nombre}</h5>
+        <h4 title="${curso.nombre}">${curso.nombre}</h5>
         <span class="share-course-date">Completado: ${curso.fechaCompletado || '---'}</span>
       </div>
     `;
