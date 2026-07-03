@@ -587,7 +587,7 @@ function generarImagenRedesSociales() {
           <i class="fa-solid ${getCourseIcon(curso.nombre)} share-box-icon"></i>
           <span class="share-badge-success"><i class="fa-solid fa-circle-check"></i> Aprobado</span>
         </div>
-        <h4 title="${curso.nombre}">${curso.nombre}</h4>
+        <h5 title="${curso.nombre}">${curso.nombre}</h5>
         <span class="share-course-date">Completado: ${curso.fechaCompletado || '---'}</span>
       </div>
     `;
@@ -604,7 +604,7 @@ function generarImagenRedesSociales() {
   }
 
   // 5. Definir la URL de la plataforma para el código QR
-  const urlPlataforma = `https://tu-plataforma-agrolinc.com/verificar?cedula=${estudianteGlobal.cedula}`;
+  const urlPlataforma = `https://thttps://fablabiica.github.io/AgroLINC/`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlPlataforma)}&color=07152d`;
 
   shareContainer.innerHTML = `
@@ -616,7 +616,6 @@ function generarImagenRedesSociales() {
       <div class="share-strip-right">
         <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-instm" onerror="this.style.display='none'">
         <img src="assets/images/iica-azul.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
-        <img src="assets/images/fablab.png" alt="FabLab" class="share-logo-inst" onerror="this.style.display='none'">
       </div>
     </div>
     
@@ -648,7 +647,8 @@ function generarImagenRedesSociales() {
     <!-- Pie de página con integración del Código QR e información de credenciales -->
     <div class="share-footer">
       <div class="share-footer-text">
-        <span><i class="fa-solid fa-certificate"></i> Registro de Cursos del Programa AgroLINC • FabLab del IICA</span>
+        <span><i class="fa-solid fa-certificate"></i> Registro de Cursos Aprobados del Programa AgroLINC </span>
+        <img src="assets/images/fablab.png" alt="FabLab" class="share-logo-inst" onerror="this.style.display='none'">
         <p>Escanea el código QR de la derecha para validar las credenciales en la plataforma en tiempo real.</p>
       </div>
       <div class="share-footer-qr">

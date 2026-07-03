@@ -2086,7 +2086,8 @@ button, input, select, textarea {
   top: -9999px;
   width: 1200px;
   height: 630px;
-  background: #f4f7fb;
+  background: #0b0f2e;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -2108,6 +2109,18 @@ button, input, select, textarea {
 
 .share-strip-left .share-logo-main {
   height: 52px;
+  width: auto;
+  object-fit: contain;
+}
+
+.share-logo-inst {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+.share-logo-instm {
+  height: 70px;
   width: auto;
   object-fit: contain;
 }
@@ -2168,6 +2181,7 @@ button, input, select, textarea {
   background: #ede9fe;
   color: #6d28d9;
   padding: 8px 16px;
+  padding-bottom: 16px;
   border-radius: 12px;
   font-weight: 700;
   font-size: 0.9rem;
@@ -2209,7 +2223,7 @@ button, input, select, textarea {
 
 /* Caja de cada Módulo Individual */
 .share-course-box {
-  background: #ffffff;
+  background: #ffffff3a;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 16px;
@@ -2217,7 +2231,7 @@ button, input, select, textarea {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  height: 115px; /* Altura controlada estricta */
+  height: 140px; /* Altura controlada estricta */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
@@ -2233,7 +2247,7 @@ button, input, select, textarea {
 }
 
 .share-badge-success {
-  background: #d1fae5;
+  
   color: #065f46;
   font-size: 0.72rem;
   font-weight: 800;
@@ -2246,7 +2260,7 @@ button, input, select, textarea {
 .share-course-box h4 {
   font-size: 1rem;
   font-weight: 700;
-  color: #1e293b;
+  color: #ffffff;
   margin: 8px 0 4px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2; /* Corta exactamente en la segunda línea si es muy largo */
