@@ -593,7 +593,7 @@ function generarImagenRedesSociales() {
           <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
         </div>
         <div class="share-course-box">
-          <h5>${cursosNombres[1]}</h5>
+          <h4>${cursosNombres[1]}</h4>
           <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
         </div>
        
