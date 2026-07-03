@@ -2079,217 +2079,244 @@ button, input, select, textarea {
 }
 
 /* =========================================================
-   REDISEÑO CON FRANJA BLANCA, CONTROL DE FLUJO Y QR (1200x630)
+   ESTRUCTURA DE EXPORTACIÓN: TARJETA COMPARTIBLE PREMIUM (1200x630)
 ========================================================= */
 #linkedinShareCard {
-  width: 1200px;
-  height: 630px;
   position: absolute;
   left: -9999px;
-  top: 0;
-  background-color: #0b1120;
-  background-image: radial-gradient(at 100% 100%, rgba(30, 27, 75, 0.4) 0px, transparent 50%);
-  color: #f8fafc;
+  top: -9999px;
+  width: 1200px;
+  height: 630px;
+  background: #f4f7fb;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 0 0 25px 0; /* Quitamos padding superior para dejar que la franja blanca linde con el borde */
   box-sizing: border-box;
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: 'Inter', sans-serif;
   overflow: hidden;
 }
 
-/* Franja Blanca Superior */
-.share-header-wrapper {
+/* 1. Franja Blanca Pura Obligatoria para Logos */
+.share-branding-strip {
+  height: 85px;
   background: #ffffff;
-  width: 100%;
-  padding: 20px 45px;
-  box-sizing: border-box;
-  border-bottom: 4px solid #22d3ee; /* Línea de acento cian */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-}
-
-.share-header {
+  border-bottom: 2px solid #e2e8f0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 45px;
+  box-sizing: border-box;
 }
-.share-logo-main { height: 42px; }
-.share-institution-logos { display: flex; align-items: center; gap: 25px; }
-.share-logo-instm { height: 38px; }
-.share-logo-inst { height: 32px; }
 
-/* Cuerpo Interno con Padding Aislado */
+.share-strip-left .share-logo-main {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+}
+
+.share-strip-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.share-strip-right img {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* 2. Cuerpo Central */
 .share-body {
   flex: 1;
+  padding: 30px 45px 15px 45px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  padding: 0 45px;
-  margin-top: 15px;
-  margin-bottom: 10px;
-  gap: 15px;
-  overflow: hidden;
+  box-sizing: border-box;
 }
 
-/* Área de Usuario */
 .share-user-meta {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  padding-bottom: 10px;
+  align-items: center;
+  margin-bottom: 25px;
 }
+
 .share-user-details h2 {
-  font-size: 2.1rem;
-  color: #22d3ee;
-  margin: 0 0 4px 0;
+  font-size: 2rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  color: #0f172a;
+  margin-bottom: 4px;
 }
+
 .share-user-sub {
   font-size: 0.95rem;
-  color: #94a3b8;
-  margin: 0;
+  color: #64748b;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
-.share-user-sub b { color: #e2e8f0; font-weight: 600; }
 
-.share-user-stats {
-  display: flex;
-  gap: 10px;
-}
-.share-stat-badge, .share-date-badge {
-  background: rgba(34, 211, 238, 0.08);
-  border: 1px solid rgba(34, 211, 238, 0.2);
-  color: #22d3ee;
-  padding: 5px 12px;
-  border-radius: 30px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-.share-date-badge {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.share-separator {
   color: #cbd5e1;
 }
 
-/* =========================================================
-   COMPORTAMIENTO DE GRILLAS SEGÚN CANTIDAD DE CURSOS
-========================================================= */
-
-/* Base por defecto (Pocos cursos: 1 a 4) */
-.share-courses-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.share-user-stats {
+  display: flex;
   gap: 12px;
-  overflow: hidden;
 }
 
-.share-course-box {
-  background: rgba(30, 41, 59, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.share-stat-badge {
+  background: #ede9fe;
+  color: #6d28d9;
+  padding: 8px 16px;
   border-radius: 12px;
-  padding: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.share-date-badge {
+  background: #e2e8f0;
+  color: #334155;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* 3. Rejilla Inteligente de Cursos (Evita desbordes y vacíos) */
+.share-courses-container {
+  display: grid;
+  gap: 16px;
+  flex: 1;
+  align-content: start;
+}
+
+/* Distribución según cantidad de elementos */
+.share-courses-container.grid-vacio {
+  grid-template-columns: 1fr;
+}
+
+.share-courses-container.baja-densidad {
+  grid-template-columns: repeat(2, 1fr); /* Elementos grandes si son pocos */
+}
+
+.share-courses-container.media-densidad {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.share-courses-container.alta-densidad {
+  grid-template-columns: repeat(4, 1fr); /* Elementos compactos si son muchos */
+}
+
+/* Caja de cada Módulo Individual */
+.share-course-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 95px;
   box-sizing: border-box;
+  height: 115px; /* Altura controlada estricta */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
-.share-box-top { display: flex; justify-content: space-between; align-items: center; }
-.share-box-icon { font-size: 1.1rem; color: #38bdf8; }
-.share-badge-success { font-size: 0.7rem; color: #34d399; font-weight: 700; }
+.share-box-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.share-box-icon {
+  font-size: 1.2rem;
+  color: #6d28d9;
+}
+
+.share-badge-success {
+  background: #d1fae5;
+  color: #065f46;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+/* Prevención Quirúrgica de Desborde o pérdida de texto */
 .share-course-box h4 {
-  font-size: 0.88rem;
-  line-height: 1.3;
-  margin: 6px 0;
-  color: #f1f5f9;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 8px 0 4px 0;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2; /* Corta exactamente en la segunda línea si es muy largo */
   -webkit-box-orient: vertical;
   overflow: hidden;
-  height: 2.6em;
-}
-.share-course-date { font-size: 0.72rem; color: #64748b; padding-top: 4px; border-top: 1px solid rgba(255, 255, 255, 0.04); }
-
-/* Densidad Media (5 a 7 cursos) */
-.share-body.media-densidad .share-courses-grid { grid-template-columns: repeat(4, 1fr); }
-
-/* Densidad Alta (8 a 10 cursos) */
-.share-body.alta-densidad .share-courses-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.share-body.alta-densidad .share-course-box { min-height: 85px; padding: 10px; }
-.share-body.alta-densidad .share-course-box h4 { font-size: 0.82rem; }
-
-/* Densidad Máxima (11 a 15 cursos - CASO FOTO ACTUAL) */
-.share-body.maxima-densidad .share-courses-grid {
-  grid-template-columns: repeat(6, 1fr); /* Pasamos a 6 columnas para partir en dos filas exactas de 6 */
-  gap: 8px;
-}
-.share-body.maxima-densidad .share-course-box {
-  min-height: 82px;
-  padding: 8px 10px;
-  border-radius: 10px;
-}
-.share-body.maxima-densidad .share-course-box h4 {
-  font-size: 0.75rem;
-  margin: 4px 0;
-  height: 2.6em;
-}
-.share-body.maxima-densidad .share-course-date {
-  font-size: 0.68rem;
-}
-.share-body.maxima-densidad .share-badge-success {
-  font-size: 0.65rem;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+  height: 2.5em; /* Asegura espacio fijo para el texto */
 }
 
-/* Footer de la Imagen + Alineación QR */
+.share-course-date {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.share-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  color: #94a3b8;
+  gap: 12px;
+}
+
+.share-empty-state i {
+  font-size: 3rem;
+}
+
+/* 4. Pie de Página con Integración de Código QR */
 .share-footer {
+  height: 110px;
+  background: #07152d;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding-top: 12px;
-  margin: 0 45px;
+  padding: 0 45px;
+  box-sizing: border-box;
+  color: #ffffff;
 }
-.share-footer-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-size: 0.8rem;
-  color: #475569;
-}
-.share-footer-url { color: #22d3ee; font-weight: 600; }
 
-/* Contenedor del QR */
+.share-footer-text span {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.share-footer-text p {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
 .share-footer-qr {
+  background: #ffffff;
+  padding: 6px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 6px 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  justify-content: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  transform: translateY(-15px); /* Efecto flotante elegante sobre el pie de página */
+  border: 1px solid #e2e8f0;
 }
-.qr-label {
-  font-size: 0.7rem;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 700;
-  text-align: right;
-  max-width: 60px;
-  line-height: 1.2;
-}
-.share-qr-img {
-  width: 50px;
-  height: 50px;
-  background: #ffffff;
-  padding: 3px;
-  border-radius: 6px;
+
+.share-qr-image {
+  width: 78px;
+  height: 78px;
+  display: block;
 }
