@@ -2086,7 +2086,7 @@ button, input, select, textarea {
   top: -9999px;
   width: 1200px;
   height: 630px;
-  background: #0b0f2e;
+  background: #05081f;
   color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -2156,7 +2156,7 @@ button, input, select, textarea {
 .share-user-details h2 {
   font-size: 2rem;
   font-weight: 800;
-  color: #1fa1c2;
+  color: #24c1e9;
   margin-bottom: 4px;
 }
 
@@ -2178,7 +2178,7 @@ button, input, select, textarea {
 }
 
 .share-stat-badge {
-  background: #ede9fe;
+  background: #e2e8f07c;
   color: #6d28d9;
   padding: 8px 16px;
   padding-bottom: 16px;
@@ -2188,7 +2188,7 @@ button, input, select, textarea {
 }
 
 .share-date-badge {
-  background: #e2e8f0;
+  background: #e2e8f07c;
   color: #334155;
   padding: 8px 16px;
   border-radius: 12px;
@@ -2231,7 +2231,7 @@ button, input, select, textarea {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  height: 110px; /* Altura controlada estricta */
+  height: 90px; /* Altura controlada estricta */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
@@ -2242,14 +2242,14 @@ button, input, select, textarea {
 }
 
 .share-box-icon {
-  font-size: 1.2rem;
-  color: #1fa1c2;
+  font-size: 0.7rem;
+  color: #24c1e9;
 }
 
 .share-badge-success {
   
-  color: #0aad7f;
-  font-size: 0.72rem;
+  color: #09c45d;
+  font-size: 0.5rem;
   font-weight: 800;
   padding: 3px 8px;
   border-radius: 999px;
@@ -2258,7 +2258,7 @@ button, input, select, textarea {
 
 /* Prevención Quirúrgica de Desborde o pérdida de texto */
 .share-course-box h4 {
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: #ffffff;
   margin: 8px 0 4px 0;
