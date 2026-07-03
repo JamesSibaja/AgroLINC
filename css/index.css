@@ -2088,8 +2088,8 @@ button, input, select, textarea {
   transform: translateX(-120%); /* Ocultamiento limpio sin romper dimensiones del viewport */
   width: 1200px;  /* Proporción estándar de alta resolución 1.91:1 */
   height: 630px;
-  background: radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.18), transparent 45%),
-              linear-gradient(135deg, #0b0f19 0%, #17153a 100%);
+  background: radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.03), transparent 40%),
+            linear-gradient(135deg, #0d111c 0%, #121424 100%);
   color: #ffffff;
   padding: 50px 60px;
   box-sizing: border-box;
