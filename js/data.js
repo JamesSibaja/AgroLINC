@@ -547,9 +547,6 @@ function inyectarBotonCompartir() {
   profileCard.appendChild(btnShare);
 }
 
-/* =========================================================
-   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (CON QR Y AUTO-FIT)
-========================================================= */
 function generarImagenRedesSociales() {
   if (!estudianteGlobal) return;
 
@@ -579,7 +576,7 @@ function generarImagenRedesSociales() {
     year: 'numeric'
   });
 
-  // 3. Generar dinámicamente las cajas HTML con control estricto de truncado de texto
+  // Generar dinámicamente las cajas HTML con soporte para múltiples líneas y fecha interna
   const cursosHTML = aprobadosReales.map(curso => {
     return `
       <div class="share-course-box">
@@ -587,40 +584,32 @@ function generarImagenRedesSociales() {
           <i class="fa-solid ${getCourseIcon(curso.nombre)} share-box-icon"></i>
           <span class="share-badge-success"><i class="fa-solid fa-circle-check"></i> Aprobado</span>
         </div>
-        <h4 title="${curso.nombre}">${curso.nombre}</h4>
+        <h4>${curso.nombre}</h4>
         <span class="share-course-date">Completado: ${curso.fechaCompletado || '---'}</span>
       </div>
     `;
   }).join('');
 
-  // 4. Ajuste inteligente de densidad de la rejilla según volumen real de cursos
-  let claseDensidad = 'grid-vacio';
-  if (totalCursosLogrados >= 7) {
+  // Ajuste inteligente de densidad según volumen real de cursos de la ruta
+  let claseDensidad = 'baja-densidad';
+  if (totalCursosLogrados > 8) {
     claseDensidad = 'alta-densidad';
-  } else if (totalCursosLogrados >= 4) {
+  } else if (totalCursosLogrados > 4) {
     claseDensidad = 'media-densidad';
-  } else if (totalCursosLogrados >= 1) {
-    claseDensidad = 'baja-densidad';
   }
 
-  // 5. Definir la URL de la plataforma para el código QR
-  const urlPlataforma = `https://tu-plataforma-agrolinc.com/verificar?cedula=${estudianteGlobal.cedula}`;
-  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlPlataforma)}&color=07152d`;
-
   shareContainer.innerHTML = `
-    <!-- Franja Blanca Premium Superior Obligatoria para Logos -->
-    <div class="share-branding-strip">
-      <div class="share-strip-left">
+    <div class="share-header">
+      <div class="share-branding">
         <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main" onerror="this.style.display='none'">
       </div>
-      <div class="share-strip-right">
+      <div class="share-institution-logos">
         <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-instm" onerror="this.style.display='none'">
         <img src="assets/images/iica-azul.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
-        <img src="assets/images/fablab.png" alt="FabLab" class="share-logo-inst" onerror="this.style.display='none'">
       </div>
     </div>
     
-    <div class="share-body">
+    <div class="share-body ${claseDensidad}">
       <div class="share-user-meta">
         <div class="share-user-details">
           <h2>${estudianteGlobal.nombre}</h2>
@@ -631,38 +620,29 @@ function generarImagenRedesSociales() {
           </p>
         </div>
         <div class="share-user-stats">
-          <span class="share-stat-badge"><i class="fa-solid fa-award"></i> ${totalCursosLogrados} Módulos Logrados</span>
-          <span class="share-date-badge"><i class="fa-solid fa-calendar-day"></i> ${fechaEmision}</span>
+          <span class="share-stat-badge"><i class="fa-solid fa-award"></i> ${totalCursosLogrados} Módulos</span>
+          <span class="share-date-badge"><i class="fa-solid fa-calendar-day"></i> Emitido: ${fechaEmision}</span>
         </div>
       </div>
       
-      <!-- Contenedor con distribución elástica e inteligente para evitar vacíos -->
-      <div class="share-courses-container ${claseDensidad}">
-        ${totalCursosLogrados === 0 
-          ? `<div class="share-empty-state"><i class="fa-solid fa-graduation-cap"></i><p>Iniciando ruta de aprendizaje formativa.</p></div>`
-          : cursosHTML
-        }
+      <div class="share-courses-grid">
+        ${cursosHTML}
       </div>
     </div>
 
-    <!-- Pie de página con integración del Código QR e información de credenciales -->
     <div class="share-footer">
-      <div class="share-footer-text">
-        <span><i class="fa-solid fa-certificate"></i> Registro de Cursos del Programa AgroLINC • FabLab del IICA</span>
-        <p>Escanea el código QR de la derecha para validar las credenciales en la plataforma en tiempo real.</p>
-      </div>
-      <div class="share-footer-qr">
-        <img src="${qrApiUrl}" alt="Código QR de Verificación" class="share-qr-image">
-      </div>
+      <span><i class="fa-solid fa-certificate"></i> Registro de Cursos del Programa AgroLINC • FabLab del IICA</span>
+      <img src="assets/images/fablab.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
+      
     </div>
   `;
 
-  // 6. Captura fotográfica estable fijando las dimensiones de salida
+  // 4. Captura fotográfica estable fijando las dimensiones de salida[cite: 12]
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
       allowTaint: true,
-      backgroundColor: "#f4f7fb",
+      backgroundColor: null,
       scale: 2,           // Renderizado nítido de alta definición
       width: 1200,        
       height: 630         
@@ -675,7 +655,7 @@ function generarImagenRedesSociales() {
     }).catch(err => {
       console.error("Error generando la tarjeta de progreso: ", err);
     });
-  }, 600); 
+  }, 500); 
 }
 
 /* =========================================

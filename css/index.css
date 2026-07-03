@@ -2079,7 +2079,7 @@ button, input, select, textarea {
 }
 
 /* =========================================================
-   LIENZO COMPARTIBLE: GLOW DARK INTERFACES (1200x630)
+   ESTRUCTURA DE EXPORTACIÓN: TARJETA COMPARTIBLE PREMIUM (1200x630)
 ========================================================= */
 #linkedinShareCard {
   position: absolute;
@@ -2087,18 +2087,19 @@ button, input, select, textarea {
   top: -9999px;
   width: 1200px;
   height: 630px;
-  background: radial-gradient(circle at top right, #0b1528, #060b19);
+  background: #f4f7fb;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', sans-serif;
   overflow: hidden;
 }
 
-/* 1. Encabezado de Marcas */
-.share-header-dark {
-  height: 80px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+/* 1. Franja Blanca Pura Obligatoria para Logos */
+.share-branding-strip {
+  height: 85px;
+  background: #ffffff;
+  border-bottom: 2px solid #e2e8f0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2106,222 +2107,216 @@ button, input, select, textarea {
   box-sizing: border-box;
 }
 
-.share-logo-text {
-  font-size: 1.4rem;
+.share-strip-left .share-logo-main {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+}
+
+.share-strip-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.share-strip-right img {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* 2. Cuerpo Central */
+.share-body {
+  flex: 1;
+  padding: 30px 45px 15px 45px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.share-user-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.share-user-details h2 {
+  font-size: 2rem;
   font-weight: 800;
-  color: #ffffff;
-  letter-spacing: -0.5px;
+  color: #0f172a;
+  margin-bottom: 4px;
 }
 
-.share-logo-text span {
-  color: #06b6d4; /* Cian AgroLINC */
-}
-
-.share-logo-subtext {
-  font-size: 0.72rem;
+.share-user-sub {
+  font-size: 0.95rem;
   color: #64748b;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.share-brand-right {
+.share-separator {
+  color: #cbd5e1;
+}
+
+.share-user-stats {
   display: flex;
   gap: 12px;
 }
 
-.brand-badge {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #94a3b8;
-  padding: 5px 12px;
-  border-radius: 6px;
-  font-size: 0.75rem;
+.share-stat-badge {
+  background: #ede9fe;
+  color: #6d28d9;
+  padding: 8px 16px;
+  border-radius: 12px;
   font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.brand-badge.iica { color: #38bdf8; }
-.brand-badge.fablab { color: #a855f7; }
-
-/* 2. Cuerpo del Certificado */
-.share-body-dark {
-  flex: 1;
-  padding: 25px 45px 15px 45px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-.share-user-row-dark {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 22px;
-}
-
-.share-user-info h2 {
-  font-size: 1.9rem;
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: -0.5px;
-  margin: 0 0 4px 0;
-}
-
-.share-user-meta-dark {
   font-size: 0.9rem;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
-.dot-splitter { color: rgba(255, 255, 255, 0.2); }
-.highlight-cyan { color: #06b6d4; }
-
-.share-badges-row {
-  display: flex;
-  gap: 10px;
+.share-date-badge {
+  background: #e2e8f0;
+  color: #334155;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
-.stat-badge-dark {
-  background: rgba(6, 182, 212, 0.1);
-  border: 1px solid rgba(6, 182, 212, 0.2);
-  color: #22d3ee;
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 0.85rem;
-}
-
-.date-badge-dark {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #cbd5e1;
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-weight: 500;
-  font-size: 0.85rem;
-}
-
-/* 3. Rejilla Dinámica Inteligente */
-.share-grid-dark {
+/* 3. Rejilla Inteligente de Cursos (Evita desbordes y vacíos) */
+.share-courses-container {
   display: grid;
-  gap: 14px;
+  gap: 16px;
   flex: 1;
   align-content: start;
 }
 
-.share-grid-dark.grid-baja { grid-template-columns: repeat(2, 1fr); }
-.share-grid-dark.grid-media { grid-template-columns: repeat(3, 1fr); }
-.share-grid-dark.grid-alta { grid-template-columns: repeat(4, 1fr); }
+/* Distribución según cantidad de elementos */
+.share-courses-container.grid-vacio {
+  grid-template-columns: 1fr;
+}
 
-/* Cajas de los Módulos Individuales */
-.share-course-box-dark {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-  padding: 14px;
+.share-courses-container.baja-densidad {
+  grid-template-columns: repeat(2, 1fr); /* Elementos grandes si son pocos */
+}
+
+.share-courses-container.media-densidad {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.share-courses-container.alta-densidad {
+  grid-template-columns: repeat(4, 1fr); /* Elementos compactos si son muchos */
+}
+
+/* Caja de cada Módulo Individual */
+.share-course-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  height: 105px; /* Altura fija matemática absoluta */
+  height: 115px; /* Altura controlada estricta */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
-.share-box-top-dark {
+.share-box-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.share-box-icon-dark {
-  color: #38bdf8;
-  font-size: 1.1rem;
+.share-box-icon {
+  font-size: 1.2rem;
+  color: #6d28d9;
 }
 
-.share-badge-success-dark {
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  color: #34d399;
-  font-size: 0.68rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 6px;
+.share-badge-success {
+  background: #d1fae5;
+  color: #065f46;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
   text-transform: uppercase;
 }
 
-/* Solución definitiva al corte de fuentes inferior */
-.share-course-box-dark h4 {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #f1f5f9;
-  margin: 6px 0 2px 0;
+/* Prevención Quirúrgica de Desborde o pérdida de texto */
+.share-course-box h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 8px 0 4px 0;
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* Corta limpiamente si supera dos líneas */
+  -webkit-line-clamp: 2; /* Corta exactamente en la segunda línea si es muy largo */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.3;
-  height: 2.6em; /* Mantiene la consistencia del bloque de texto */
+  line-height: 1.25;
+  height: 2.5em; /* Asegura espacio fijo para el texto */
 }
 
-.share-course-date-dark {
-  font-size: 0.75rem;
-  color: #64748b;
+.share-course-date {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-weight: 500;
 }
 
-.share-empty-dark {
-  grid-column: 1 / -1;
-  text-align: center;
-  color: #475569;
-  padding-top: 40px;
+.share-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  color: #94a3b8;
+  gap: 12px;
 }
 
-/* 4. Pie de Página de la Tarjeta */
-.share-footer-dark {
-  height: 95px;
-  background: #030712;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+.share-empty-state i {
+  font-size: 3rem;
+}
+
+/* 4. Pie de Página con Integración de Código QR */
+.share-footer {
+  height: 110px;
+  background: #07152d;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 45px;
   box-sizing: border-box;
+  color: #ffffff;
 }
 
-.footer-title {
-  font-size: 0.85rem;
+.share-footer-text span {
+  display: block;
+  font-size: 0.9rem;
   font-weight: 700;
-  color: #f8fafc;
-  margin: 0 0 2px 0;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
 }
 
-.footer-title i {
-  color: #34d399;
-  margin-right: 4px;
+.share-footer-text p {
+  font-size: 0.8rem;
+  color: #94a3b8;
 }
 
-.footer-desc {
-  font-size: 0.78rem;
-  color: #64748b;
-  margin: 0;
-  max-width: 750px;
-}
-
-.qr-container-dark {
+.share-footer-qr {
   background: #ffffff;
-  padding: 5px;
-  border-radius: 10px;
+  padding: 6px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-20px); /* Flota elegantemente sobre la línea del footer */
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  transform: translateY(-15px); /* Efecto flotante elegante sobre el pie de página */
+  border: 1px solid #e2e8f0;
 }
 
-.qr-img-dark {
-  width: 72px;
-  height: 72px;
+.share-qr-image {
+  width: 78px;
+  height: 78px;
   display: block;
 }
