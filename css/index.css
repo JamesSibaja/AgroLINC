@@ -2098,7 +2098,7 @@ button, input, select, textarea {
 /* 1. Franja Blanca Pura Obligatoria para Logos */
 .share-branding-strip {
   height: 85px;
-  background: #ffffff;
+  background: #ffffff4f;
   border-bottom: 2px solid #e2e8f0;
   display: flex;
   justify-content: space-between;
@@ -2156,7 +2156,7 @@ button, input, select, textarea {
 .share-user-details h2 {
   font-size: 2rem;
   font-weight: 800;
-  color: #0f172a;
+  color: #1fa1c2;
   margin-bottom: 4px;
 }
 
@@ -2223,15 +2223,15 @@ button, input, select, textarea {
 
 /* Caja de cada Módulo Individual */
 .share-course-box {
-  background: #ffffff3a;
-  border: 1px solid #e2e8f0;
+  background: #ffffff13;
+  border: 1px solid #a8a8a8;
   border-radius: 16px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  height: 140px; /* Altura controlada estricta */
+  height: 110px; /* Altura controlada estricta */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
@@ -2243,12 +2243,12 @@ button, input, select, textarea {
 
 .share-box-icon {
   font-size: 1.2rem;
-  color: #6d28d9;
+  color: #1fa1c2;
 }
 
 .share-badge-success {
   
-  color: #065f46;
+  color: #0aad7f;
   font-size: 0.72rem;
   font-weight: 800;
   padding: 3px 8px;
