@@ -445,7 +445,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const btnInstalar = document.getElementById("btnInstalar");
     if (btnInstalar) {
-      btnCalendario.addEventListener("click", (e) => {
+      btnInstalar.addEventListener("click", (e) => {
         e.preventDefault();
         const imgSrc = btnInstalar.getAttribute("data-img");
         openImageModal("Indicaciones para Instalar App", imgSrc);
