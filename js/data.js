@@ -44,15 +44,30 @@ function clean(value) {
     .toLowerCase();
 }
 
-// FUNCIÓN AUXILIAR AUTOMATIZADA: Asigna iconos minimalistas por palabra clave (Punto 2)
+// FUNCIÓN AUXILIAR AUTOMATIZADA: Asigna iconos minimalistas por palabra clave
 function getCourseIcon(courseName) {
-  const name = courseName.toLowerCase();
-  if (name.includes('3d') || name.includes('impresión')) return 'fa-cube';
-  if (name.includes('láser') || name.includes('corte')) return 'fa-vector-square';
-  if (name.includes('drone') || name.includes('vuelo')) return 'fa-helicopter';
-  if (name.includes('iot') || name.includes('sensor')) return 'fa-wifi';
-  if (name.includes('automatización') || name.includes('robot')) return 'fa-robot';
-  if (name.includes('sig') || name.includes('mapa') || name.includes('territorio')) return 'fa-map-location-dot';
+  const name = String(courseName || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  const iconRules = [
+    { keywords: ['drone', 'vant', 'vuelo', 'vehiculo aereo'], icon: 'fa-helicopter-symbol' }, 
+    { keywords: ['3d', 'impresion'], icon: 'fa-cubes' }, 
+    { keywords: ['laser', 'corte', 'cnc'], icon: 'fa-scissors' }, 
+    { keywords: ['geoespacial', 'mapa', 'gps', 'kobo', 'territorio'], icon: 'fa-map-location-dot' },
+    { keywords: ['microcontrolador', 'sensor', 'actuador', 'electronico', 'electricidad'], icon: 'fa-microchip' },
+    { keywords: ['iot', 'internet de las cosas'], icon: 'fa-wifi' },
+    { keywords: ['automatizacion', 'robot', 'programacion'], icon: 'fa-robot' },
+    { keywords: ['fabricacion digital'], icon: 'fa-industry' },
+    { keywords: ['innovacion', 'canvas', 'modelo', 'soluciones'], icon: 'fa-lightbulb' }
+  ];
+
+  for (const rule of iconRules) {
+    if (rule.keywords.some(keyword => name.includes(keyword))) {
+      return rule.icon;
+    }
+  }
   return 'fa-graduation-cap'; 
 }
 
@@ -195,13 +210,13 @@ async function fetchEventos() {
   return data;
 }
 
-// Variables Globales Persistentes para la interacción de Submodales y Redes (Puntos 3 y 4)
+// Variables Globales Persistentes
 let estudianteGlobal = null;
 let cursosRutaGlobal = [];
 let tuplasGlobales = [];
 
 /* =========================================
-   CONSULTA (CON TODAS LAS MEJORAS INTEGRADAS)
+   CONSULTA
 ========================================= */
 
 async function consultarRuta() {
@@ -211,7 +226,6 @@ async function consultarRuta() {
     return;
   }
 
-  // 1. ACTIVAR INTERFAZ DE CARGA DISCRETA (Punto 1)
   const loader = document.getElementById('searchLoader');
   if (loader) loader.style.display = 'block';
 
@@ -234,7 +248,6 @@ async function consultarRuta() {
       return;
     }
 
-    // Guardar en la persistencia global para uso del generador de imágenes y submodales
     estudianteGlobal = estudiante;
 
     /* =====================================
@@ -265,7 +278,7 @@ async function consultarRuta() {
       ev.fecha
     ]);
     
-    tuplasGlobales = cursosCompletadosTuplas; // Guardado global
+    tuplasGlobales = cursosCompletadosTuplas; 
 
     /* =====================================
        CURSOS DE LA RUTA
@@ -274,7 +287,7 @@ async function consultarRuta() {
       .filter(c => c.ruta === estudiante.ruta)
       .sort((a, b) => Number(a.etapa) - Number(b.etapa));
 
-    cursosRutaGlobal = cursosRuta; // Guardado global
+    cursosRutaGlobal = cursosRuta; 
 
     /* =====================================
        PROGRESO
@@ -296,7 +309,7 @@ async function consultarRuta() {
     document.getElementById("progressFill").style.width = `${porcentaje}%`;
 
     /* =====================================
-       GRID DE TARJETAS (Punto 2 y Punto 3 integrado)
+       GRID DE TARJETAS
     ===================================== */
     const grid = document.getElementById("coursesGrid");
     grid.innerHTML = "";
@@ -340,7 +353,6 @@ async function consultarRuta() {
         }
       }
     
-      // Renderizado dinámico incluyendo Iconografía Minimalista Avanzada (Punto 2)
       const card = document.createElement("div");
       card.className = `course-card ${estadoClase}`;
     
@@ -358,7 +370,6 @@ async function consultarRuta() {
         ${fechaTextoHTML}
       `;
     
-      // ASIGNACIÓN DE MODAL INTERACTIVO AL HACER CLICK (Punto 3)
       card.addEventListener("click", () => {
         abrirModalDetallado(curso, estadoClase);
       });
@@ -369,20 +380,19 @@ async function consultarRuta() {
     document.getElementById("completedCount").textContent = completados;
     document.getElementById("availableCount").textContent = disponibles;
 
-    // 4. INYECTAR BOTÓN DE DESCARGA LINKEDIN EN EL PERFIL (Punto 4)
+    // Inyectar el botón renovado de descarga en el perfil
     inyectarBotonCompartir();
 
   } catch (error) {
     console.error("ERROR GENERAL", error);
     alert("Error cargando datos");
   } finally {
-    // DESACTIVAR INTERFAZ DE CARGA DISCRETA SIEMPRE (Punto 1)
     if (loader) loader.style.display = 'none';
   }
 }
 
 /* =========================================================
-   3. LOGICA MOTOR DINÁMICO DE SUB-MODALES (Punto 3)
+   MODIFICACIÓN: MOTOR DINÁMICO DE SUB-MODALES (PUNTO 1)
 ========================================================= */
 function abrirModalDetallado(curso, estado) {
   const modal = document.getElementById('courseModal');
@@ -400,14 +410,16 @@ function abrirModalDetallado(curso, estado) {
       <div class="modal-requirement-box" style="border-left: 5px solid var(--primary);">
         <h4><i class="fa-solid fa-calendar-check"></i> Convocatoria Disponible</h4>
         <p>¡Cumples con los prerrequisitos! Puedes matricularte de forma directa en este módulo usando el enlace oficial:</p>
-        <a href="https://forms.gle/3hsVm6HF35N531JG7" target="_blank" class="req-item-link" style="justify-content: center; background: var(--primary); color: white; font-weight: bold; border-radius:8px;">
-          <i class="fa-solid fa-file-signature"></i> &nbsp; Formulario de Matrícula AgroLINC
+        <a href="https://forms.gle/3hsVm6HF35N531JG7" target="_blank" class="req-item-link" style="justify-content: center; background: var(--primary); color: white; font-weight: bold; border-radius:12px;">
+          <div class="req-text-container" style="color: white;">
+            <i class="fa-solid fa-file-signature"></i>
+            <span>Formulario de Matrícula AgroLINC</span>
+          </div>
         </a>
       </div>
     `;
   } 
   else if (estado === 'completed') {
-    // Si está completado inyecta un banner ilustrativo de contenidos aprobados
     container.innerHTML = `
       <p><strong>¡Felicitaciones! Has completado y aprobado con éxito este módulo.</strong></p>
       <p>${curso.descripcion || ''}</p>
@@ -418,21 +430,49 @@ function abrirModalDetallado(curso, estado) {
   else if (estado === 'locked') {
     let htmlRequisitos = '';
     
-    // Mapear los requisitos para convertirlos en hipervínculos interactivos internos
     [curso.requisito1, curso.requisito2].forEach(reqId => {
       if (reqId && reqId !== '-') {
         const reqCurso = cursosRutaGlobal.find(c => c.id === reqId);
         if (reqCurso) {
           const esAprobado = tuplasGlobales.some(t => t[0] === reqCurso.id);
-          const reqEstado = esAprobado ? 'COMPLETADO' : 'BLOQUEADO';
-          const iconReq = esAprobado ? 'fa-circle-check' : 'fa-lock';
-          const colorReq = esAprobado ? 'color: var(--success);' : 'color: var(--muted);';
           
-          // El atributo onclick llama recursivamente a cambiarFocoModal()
+          let reqEstadoTexto = 'Bloqueado';
+          let reqEstadoClase = 'locked';
+          let reqIcono = 'fa-lock';
+
+          // Verificar si el requisito está aprobado o si al menos está disponible para cursar
+          if (esAprobado) {
+            reqEstadoTexto = 'Completo';
+            reqEstadoClase = 'completed';
+            reqIcono = 'fa-circle-check';
+          } else {
+            // Evaluar disponibilidad interna del requisito previo
+            let reqDisponible = false;
+            const r1 = reqCurso.requisito1;
+            const r2 = reqCurso.requisito2;
+            const esFinalReq = reqCurso.cursoFinal ? reqCurso.cursoFinal.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") : "";
+
+            if (!r1 && !r2 && esFinalReq !== "si") reqDisponible = true;
+            if (r1 && !r2 && tuplasGlobales.some(t => t[0] === r1)) reqDisponible = true;
+            if (r1 && r2 && tuplasGlobales.some(t => t[0] === r1) && tuplasGlobales.some(t => t[0] === r2)) reqDisponible = true;
+
+            if (reqDisponible) {
+              reqEstadoTexto = 'Disponible';
+              reqEstadoClase = 'available';
+              reqIcono = 'fa-unlock';
+            }
+          }
+          
+          // Render estructurado presionable con bádges dinámicos estilizados en CSS
           htmlRequisitos += `
-            <div class="req-item-link" onclick="cambiarFocoModal('${reqCurso.id}')" title="Haga clic para ver este curso">
-              <span><i class="fa-solid ${getCourseIcon(reqCurso.nombre)}"></i> &nbsp; ${reqCurso.nombre}</span>
-              <strong style="${colorReq}">${reqEstado} <i class="fa-solid ${iconReq}"></i></strong>
+            <div class="req-item-link" onclick="cambiarFocoModal('${reqCurso.id}')" role="button" title="Haga clic para evaluar este curso">
+              <div class="req-text-container">
+                <i class="fa-solid ${getCourseIcon(reqCurso.nombre)}"></i>
+                <span>${reqCurso.nombre}</span>
+              </div>
+              <span class="req-status-badge ${reqEstadoClase}">
+                <i class="fa-solid ${reqIcono}" style="font-size:0.7rem; margin-right:2px;"></i> ${reqEstadoTexto}
+              </span>
             </div>
           `;
         }
@@ -466,7 +506,6 @@ function abrirModalDetallado(curso, estado) {
   modal.classList.add('active');
 }
 
-// Permite saltar recursivamente entre cursos padres e hijos dentro del mismo modal sin cerrarlo
 function cambiarFocoModal(cursoId) {
   const curso = cursosRutaGlobal.find(c => c.id === cursoId);
   if (curso) {
@@ -494,7 +533,7 @@ function cambiarFocoModal(cursoId) {
 }
 
 /* =========================================================
-   4. GENERADOR Y RENDERS EXCLUSIVOS PARA REDES (Punto 4)
+   MODIFICACIÓN: GENERADOR Y TARJETA COMPARTIBLE (PUNTOS 2 Y 3)
 ========================================================= */
 function inyectarBotonCompartir() {
   const profileCard = document.querySelector('.profile-card');
@@ -503,7 +542,8 @@ function inyectarBotonCompartir() {
   const btnShare = document.createElement('button');
   btnShare.id = 'btnDownloadShare';
   btnShare.className = 'download-share-btn';
-  btnShare.innerHTML = `<i class="fa-brands fa-linkedin"></i> Descargar Tarjeta LinkedIn`;
+  // Texto genérico limpio sin referencias explícitas a marcas externas
+  btnShare.innerHTML = `<i class="fa-solid fa-cloud-download-alt"></i> Descargar Tarjeta de Progreso`;
   
   btnShare.addEventListener('click', generarImagenRedesSociales);
   profileCard.appendChild(btnShare);
@@ -519,55 +559,75 @@ function generarImagenRedesSociales() {
     document.body.appendChild(shareContainer);
   }
 
-  // Filtrar los módulos completados reales usando las tuplas guardadas
+  // Extraer los cursos completados reales
   const aprobadosReales = cursosRutaGlobal.filter(c => tuplasGlobales.some(t => t[0] === c.id));
-  let boxesHtml = '';
-  
-  aprobadosReales.slice(0, 6).forEach(curso => {
-    boxesHtml += `
-      <div class="share-course-box">
-        <h4 style="color:white; margin:0; font-size:0.95rem;">${curso.nombre}</h4>
-        <span style="color:#10b981; font-size:0.75rem;"><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
-      </div>
-    `;
-  });
+  const cursosNombres = aprobadosReales.map(c => c.nombre);
 
-  const porcentajeProgreso = Math.round((aprobadosReales.length / cursosRutaGlobal.length) * 100) || 0;
+  // Lógica de placeholders para garantizar siempre 3 cajas simétricas en la tarjeta premium
+  while (cursosNombres.length < 3) {
+    if (cursosNombres.length === 0) {
+      cursosNombres.push("Primeros pasos en AgroLINC");
+    } else {
+      cursosNombres.push("Próximo módulo formativo de especialización");
+    }
+  }
 
-  // Maquetación limpia en alta resolución para el Canvas
+  // Re-maquetación completa con la estructura visual corporativa premium
   shareContainer.innerHTML = `
     <div class="share-header">
+      <div class="share-branding">
+        <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main">
+      </div>
+      <div class="share-institution-logos">
+        <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-inst">
+        <img src="assets/images/iica-azul.png" alt="IICA" class="share-logo-inst">
+      </div>
+    </div>
+    
+    <div class="share-body">
       <div class="share-user-info">
         <h2>${estudianteGlobal.nombre}</h2>
-        <p>Ruta Tecnológica: ${estudianteGlobal.ruta.toUpperCase()}</p>
+        <p><i class="fa-solid fa-award"></i> Especialización en Ruta ${estudianteGlobal.ruta}</p>
       </div>
-      <div style="color:#38bdf8; font-weight:bold; font-size:1.4rem;">AgroLINC</div>
-    </div>
-    <div class="share-body">
-      <h3 style="color: #38bdf8; margin: 0 0 10px 0; font-size:1.2rem;">Progreso de Capacitación Digital</h3>
-      <div style="background: rgba(255,255,255,0.1); height: 8px; border-radius:4px; margin-bottom: 20px; position:relative;">
-        <div style="background:linear-gradient(90deg, #6d28d9, #06b6d4); width: ${porcentajeProgreso}%; height:100%; border-radius:4px;"></div>
-      </div>
+      
+      <h3>Hitos de Aprendizaje Alcanzados:</h3>
       <div class="share-courses-grid">
-        ${boxesHtml || '<p style="color:#64748b;">Iniciando la ruta de aprendizaje tecnológico en AgroLINC.</p>'}
+        <div class="share-course-box">
+          <h4>${cursosNombres[0]}</h4>
+          <span><i class="fa-solid fa-check-circle"></i> Completado</span>
+        </div>
+        <div class="share-course-box">
+          <h4>${cursosNombres[1]}</h4>
+          <span><i class="fa-solid fa-check-circle"></i> Completado</span>
+        </div>
+        <div class="share-course-box">
+          <h4>${cursosNombres[2]}</h4>
+          <span><i class="fa-solid fa-check-circle"></i> Completado</span>
+        </div>
       </div>
     </div>
+
     <div class="share-footer">
-      <span>Plataforma de Innovación y Agricultura Digital — Costa Rica</span>
-      <span>Progreso Global: ${porcentajeProgreso}%</span>
+      <span>Ruta de Aprendizaje Oficial • Laboratorios de Innovación Comunitaria</span>
+      <span class="share-footer-url">agrolinc.iica.int</span>
     </div>
   `;
 
-  // Renderizar a imagen descargable PNG
+  // Renderizado a imagen descargable en alta resolución usando CORS para los logos externos
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
+      allowTaint: true,
+      backgroundColor: null,
       scale: 2 
     }).then(canvas => {
+      const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
       const link = document.createElement('a');
-      link.download = `AgroLINC_Progreso_${estudianteGlobal.cedula}.png`;
+      link.download = `AgroLINC_Progreso_${nombreArchivoSafe}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
+    }).catch(err => {
+      console.error("Error generando la tarjeta de progreso: ", err);
     });
   }, 400);
 }
