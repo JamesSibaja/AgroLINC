@@ -2080,133 +2080,164 @@ button, input, select, textarea {
 }
 
 /* =========================================================
-   ESTRUCTURA DE LA TARJETA COMPARTIBLE (PUNTO 3)
+   ESTRUCTURA PREMIUM COMPARTIBLE (CORREGIDA PARA CANVAS)
 ========================================================= */
 #linkedinShareCard {
-  position: absolute;
-  left: -9999px;
-  top: -9999px;
-  width: 800px;
-  height: 450px;
-  background: radial-gradient(circle at 90% 10%, rgba(6, 182, 212, 0.15), transparent 40%),
-              linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-  color: white;
-  padding: 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translateX(-120%); /* Ocultamiento limpio sin romper dimensiones del viewport */
+  width: 1200px;  /* Proporción estándar de alta resolución 1.91:1 */
+  height: 630px;
+  background: radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.18), transparent 45%),
+              linear-gradient(135deg, #0b0f19 0%, #17153a 100%);
+  color: #ffffff;
+  padding: 50px 60px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-family: 'Inter', sans-serif;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: -9999;
 }
 
+/* Cabecera balanceada */
 .share-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 30px;
+  height: 90px; /* Altura fija para evitar colapsos visuales */
 }
 
 .share-branding {
   display: flex;
   align-items: center;
-  gap: 16px;
 }
 
 .share-logo-main {
-  height: 45px;
-  filter: brightness(0) invert(1); /* Pone el SVG blanco */
+  height: 55px;
+  width: auto;
+  object-fit: contain;
 }
 
 .share-institution-logos {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 6px 12px;
-  border-radius: 12px;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .share-logo-inst {
-  height: 28px;
+  height: 38px;
+  width: auto;
+  object-fit: contain;
 }
 
-.share-user-info h2 {
-  font-size: 2.1rem;
-  font-weight: 800;
-  margin-bottom: 4px;
-  color: #ffffff;
-  letter-spacing: -0.02em;
-}
-
-.share-user-info p {
-  color: #38bdf8;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
+/* Cuerpo y Datos del Usuario */
 .share-body {
-  margin-top: 24px;
+  margin-top: 35px;
   flex-grow: 1;
-}
-
-.share-body h3 {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #94a3b8;
-  margin-bottom: 12px;
-  font-weight: 700;
-}
-
-.share-courses-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-
-.share-course-box {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-left: 4px solid #10b981;
-  padding: 14px;
-  border-radius: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.share-course-box h4 {
-  font-size: 0.95rem;
-  color: #f8fafc;
-  margin-bottom: 4px;
+.share-user-info {
+  margin-bottom: 30px;
+}
+
+.share-user-info h2 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.share-user-info p {
+  color: #38bdf8;
   font-weight: 600;
-  white-space: nowrap;
+  font-size: 1.3rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.share-body h3 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #94a3b8;
+  margin: 0 0 16px 0;
+  font-weight: 700;
+}
+
+/* Rejilla de Cursos Optimizada */
+.share-courses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.share-course-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 5px solid #10b981;
+  padding: 22px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 120px; /* Caja fija para perfecta simetría */
+  box-sizing: border-box;
+}
+
+.share-course-box h4 {
+  font-size: 1.05rem;
+  color: #f8fafc;
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.4;
+  /* Reemplazo de nowrap por multilínea controlado (Evita cortes feos) */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .share-course-box span {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: #10b981;
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  margin-top: 8px;
 }
 
+/* Pie de Tarjeta Estilizado */
 .share-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 16px;
-  font-size: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 24px;
+  font-size: 0.95rem;
   color: #64748b;
+  margin-top: 20px;
 }
 
 .share-footer-url {
-  color: #6d28d9;
+  color: #a855f7;
   font-weight: 700;
+  letter-spacing: 0.05em;
 }

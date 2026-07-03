@@ -552,6 +552,7 @@ function inyectarBotonCompartir() {
 function generarImagenRedesSociales() {
   if (!estudianteGlobal) return;
 
+  // 1. Validar u obtener el contenedor base fuera de pantalla
   let shareContainer = document.getElementById('linkedinShareCard');
   if (!shareContainer) {
     shareContainer = document.createElement('div');
@@ -559,28 +560,29 @@ function generarImagenRedesSociales() {
     document.body.appendChild(shareContainer);
   }
 
-  // Extraer los cursos completados reales
+  // 2. Extraer y procesar los módulos aprobados por el estudiante
   const aprobadosReales = cursosRutaGlobal.filter(c => tuplasGlobales.some(t => t[0] === c.id));
   const cursosNombres = aprobadosReales.map(c => c.nombre);
 
-  // Lógica de placeholders para garantizar siempre 3 cajas simétricas en la tarjeta premium
+  // Lógica inteligente de placeholders simétricos
   while (cursosNombres.length < 3) {
     if (cursosNombres.length === 0) {
-      cursosNombres.push("Primeros pasos en AgroLINC");
+      cursosNombres.push("Primeros pasos en la plataforma AgroLINC");
     } else {
-      cursosNombres.push("Próximo módulo formativo de especialización");
+      cursosNombres.push("Próximo módulo de especialización tecnológica");
     }
   }
 
-  // Re-maquetación completa con la estructura visual corporativa premium
+  // 3. Inyección limpia de contenido (Corregida la ruta de logos y marcado de íconos)
   shareContainer.innerHTML = `
     <div class="share-header">
       <div class="share-branding">
-        <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main">
+        <!-- Render nativo sin filtros CSS para respetar el diseño de marca visible en photo_2026-07-03_11-16-42.jpg -->
+        <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main" onerror="this.style.display='none'">
       </div>
       <div class="share-institution-logos">
-        <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-inst">
-        <img src="assets/images/iica-azul.png" alt="IICA" class="share-logo-inst">
+        <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-inst" onerror="this.style.display='none'">
+        <img src="assets/images/iica-azul.png" alt="IICA" class="share-logo-inst" onerror="this.style.display='none'">
       </div>
     </div>
     
@@ -594,15 +596,15 @@ function generarImagenRedesSociales() {
       <div class="share-courses-grid">
         <div class="share-course-box">
           <h4>${cursosNombres[0]}</h4>
-          <span><i class="fa-solid fa-check-circle"></i> Completado</span>
+          <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
         </div>
         <div class="share-course-box">
           <h4>${cursosNombres[1]}</h4>
-          <span><i class="fa-solid fa-check-circle"></i> Completado</span>
+          <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
         </div>
         <div class="share-course-box">
           <h4>${cursosNombres[2]}</h4>
-          <span><i class="fa-solid fa-check-circle"></i> Completado</span>
+          <span><i class="fa-solid fa-circle-check"></i> Módulo Completado</span>
         </div>
       </div>
     </div>
@@ -613,13 +615,15 @@ function generarImagenRedesSociales() {
     </div>
   `;
 
-  // Renderizado a imagen descargable en alta resolución usando CORS para los logos externos
+  // 4. Captura fotográfica con holgura de tiempo para inicializar fuentes e imágenes fluidas
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
       allowTaint: true,
       backgroundColor: null,
-      scale: 2 
+      scale: 2,           // Forzar renderizado en 2K (Alta nitidez sin pixelado)
+      width: 1200,        // Congelar ancho exacto del bloque de render
+      height: 630         // Congelar alto exacto del bloque de render
     }).then(canvas => {
       const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
       const link = document.createElement('a');
@@ -629,7 +633,7 @@ function generarImagenRedesSociales() {
     }).catch(err => {
       console.error("Error generando la tarjeta de progreso: ", err);
     });
-  }, 400);
+  }, 500); // 500ms da estabilidad total al procesamiento gráfico latente
 }
 
 /* =========================================
