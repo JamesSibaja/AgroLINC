@@ -141,7 +141,7 @@ async function consultarRuta() {
   try {
     const estudiantes = await fetchEstudiantes();
     const cursos = await fetchCursos();
-    const eventos = await fetchEventEventos;
+    const eventos = await fetchEventos();
 
     const estudiante = estudiantes.find(e => e.cedula === cedula);
     if (!estudiante) {
