@@ -2546,7 +2546,7 @@ button, input, select, textarea {
 
 /* Estilo para las medallas que SÍ posee (Protagonismo total del símbolo) */
 .medal-unlocked .compact-medal-circle {
-  background: linear-gradient(135deg, #80b9c460, #67c2d460);
+  
   color: #0891b2;
   border: 2px solid #ffffff;
 }
