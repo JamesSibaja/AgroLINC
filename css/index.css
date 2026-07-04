@@ -2099,8 +2099,8 @@ button, input, select, textarea {
 .share-branding-strip {
   height: 85px;
   background: #ffffffd7;
-  border-bottom: 3px solid #07152d;
-  border-top: 3px solid #07152d;
+  border-bottom: 3px solid #072e72;
+  border-top: 3px solid #072e72;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2260,7 +2260,7 @@ button, input, select, textarea {
 
 /* Prevención Quirúrgica de Desborde o pérdida de texto */
 .share-course-box h4 {
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: #ffffff;
   display: -webkit-box;
@@ -2269,7 +2269,7 @@ button, input, select, textarea {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.25;
-  height: 2.5em; /* Asegura espacio fijo para el texto */
+  height: 1.7em; /* Asegura espacio fijo para el texto */
 }
 
 .share-course-date {
@@ -2295,7 +2295,7 @@ button, input, select, textarea {
 /* 4. Pie de Página con Integración de Código QR */
 .share-footer {
   height: 110px;
-  background: #07152d;
+  background: #072e72;
   display: flex;
   justify-content: space-between;
   align-items: center;
