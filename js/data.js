@@ -709,7 +709,7 @@ function generarImagenRedesSociales() {
       <div class="share-footer-text">
         <span><i class="fa-solid fa-certificate"></i> Registro de Cursos Aprobados del Programa AgroLINC </span>
         <img src="assets/images/fablab.png" alt="FabLab" class="share-logo-inst" onerror="this.style.display='none'">
-        <p>Escanea el código QR de la derecha para validar las credenciales en la plataforma en tiempo real.</p>
+        <p>Escanea el código QR de la derecha para validar en la plataforma de AgroLINC</p>
       </div>
       <div class="share-footer-qr">
         <img src="${qrApiUrl}" alt="Código QR de Verificación" class="share-qr-image">
