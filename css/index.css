@@ -2376,3 +2376,139 @@ button, input, select, textarea {
   height: 78px;
   display: block;
 }
+
+/* =========================================================
+   SISTEMA DE ESTUCHE DE MEDALLAS POKÉMON (COMPARTIBLE REDES)
+========================================================= */
+
+/* Caja contenedora que simula el estuche */
+.pokemon-medal-case {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Distribución simétrica y ordenada */
+  gap: 1.2rem;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Espacio de cada medalla */
+.medal-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.2rem 0.8rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* El anillo contenedor del ícono (Medalla física) */
+.medal-ring {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  background: #f1f5f9;
+  border: 2px dashed #cbd5e1;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.medal-gem {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  color: #94a3b8;
+  background: #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+/* --- ESTADO: MEDALLA GANADA/UNLOCKED --- */
+.medal-unlocked {
+  border-color: rgba(16, 185, 129, 0.25);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.06);
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.02), #ffffff);
+}
+
+.medal-unlocked .medal-ring {
+  background: rgba(16, 185, 129, 0.1);
+  border: 2px solid #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+}
+
+.medal-unlocked .medal-gem {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(5, 150, 105, 0.3);
+}
+
+/* --- ESTADO: MEDALLA BLOQUEADA/LOCKED --- */
+.medal-locked {
+  opacity: 0.6;
+  background: #f8fafc;
+}
+.medal-locked .medal-gem i {
+  opacity: 0.3; /* Atenúa los iconos no obtenidos haciéndolo limpio */
+}
+
+/* --- DETALLES TIPOGRÁFICOS --- */
+.medal-index {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.2rem;
+}
+
+.medal-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+  margin-bottom: 0.4rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 2.2em; /* Mantiene la alineación de textos de manera estricta */
+}
+
+.medal-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #10b981;
+}
+
+.medal-date.locked-text {
+  color: #94a3b8;
+}
+
+/* Badge de logro premium en la cabecera */
+.badge-logro-premium {
+  background: linear-gradient(135deg, #eab308, #ca8a04);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(202, 138, 4, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
