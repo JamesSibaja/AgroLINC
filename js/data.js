@@ -592,24 +592,45 @@ function cambiarFocoModal(cursoId) {
 }
 
 /* =========================================================
-   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA
+   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (DISEÑO DOBLE HILERA DE 7)
 ========================================================= */
-function inyectarBotonCompartir() {
-  const profileCard = document.querySelector('.profile-card');
-  if (!profileCard || document.getElementById('btnDownloadShare')) return;
 
-  const btnShare = document.createElement('button');
-  btnShare.id = 'btnDownloadShare';
-  btnShare.className = 'download-share-btn';
-  btnShare.innerHTML = `<i class="fa-solid fa-cloud-download-alt"></i> Descargar Tarjeta de Progreso`;
+// FUNCIÓN AUXILIAR AUTOMATIZADA: Simplifica los nombres largos de los cursos para la tarjeta compacta
+function obtenerNombreCortoCurso(courseName) {
+  const name = String(courseName || "").trim().toLowerCase();
   
-  btnShare.addEventListener('click', generarImagenRedesSociales);
-  profileCard.appendChild(btnShare);
+  if (name.includes("impresion 3d") || name.includes("impresión 3d")) {
+    return name.includes("intermedio") ? "Impresión 3D II" : "Impresión 3D I";
+  }
+  if (name.includes("drone") || name.includes("vant") || name.includes("vuelo")) {
+    return name.includes("intermedio") ? "Drones II" : "Drones I";
+  }
+  if (name.includes("corte laser") || name.includes("corte láser") || name.includes("cnc")) {
+    return "Corte Láser / CNC";
+  }
+  if (name.includes("iot") || name.includes("internet de las cosas")) {
+    return "Internet de las Cosas (IoT)";
+  }
+  if (name.includes("microcontrolador") || name.includes("sensor")) {
+    return "Microcontroladores";
+  }
+  if (name.includes("automatizacion") || name.includes("automatización") || name.includes("robot")) {
+    return "Automatización";
+  }
+  if (name.includes("geoespacial") || name.includes("mapa") || name.includes("kobo")) {
+    return "Herramientas Geoespaciales";
+  }
+  if (name.includes("innovacion") || name.includes("innovación") || name.includes("canvas")) {
+    return "Modelos de Innovación";
+  }
+  if (name.includes("fabricacion digital") || name.includes("fabricación digital")) {
+    return "Fabricación Digital";
+  }
+  
+  // Si no entra en ninguna regla, devuelve el nombre original truncado discretamente
+  return courseName.length > 22 ? courseName.substring(0, 20) + "..." : courseName;
 }
 
-/* =========================================================
-   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (DISEÑO ULTRACOMPACTO)
-========================================================= */
 function generarImagenRedesSociales() {
   if (!estudianteGlobal) return;
 
@@ -626,33 +647,35 @@ function generarImagenRedesSociales() {
     .filter(c => tuplasGlobales.some(t => t[0] === c.id));
 
   const totalCursosLogrados = aprobadosReales.length;
+  const totalCasillasTarjeta = 14; // Nueva estructura de 2 hileras de 7
 
-  // 3. Renderizar los 7 campos fijos rellenando secuencialmente primero los completados
+  // 3. Renderizar las 14 casillas (Secuencialmente los aprobados, luego los candados)
   let medallasHTML = "";
-  for (let i = 0; i < diplomaTotal; i++) {
+  for (let i = 0; i < totalCasillasTarjeta; i++) {
     if (i < totalCursosLogrados) {
-      // Campos llenos con los cursos que SÍ tiene (El símbolo es el protagonista)
       const curso = aprobadosReales[i];
+      const nombreAbreviado = obtenerNombreCortoCurso(curso.nombre);
       medallasHTML += `
         <div class="compact-medal-slot medal-unlocked" title="${curso.nombre}">
           <div class="compact-medal-circle">
-            <i class="fa-solid ${getCourseIcon(curso.nombre)}" style="padding-top : -35px"></i>
+            <i class="fa-solid ${getCourseIcon(curso.nombre)}"></i>
           </div>
+          <span class="medal-course-title">${nombreAbreviado}</span>
         </div>
       `;
     } else {
-      // Campos restantes: círculos discretos con candado
       medallasHTML += `
         <div class="compact-medal-slot medal-locked">
           <div class="compact-medal-circle discrete-lock">
-            <i class="fa-solid fa-lock" style="padding-top : -15px"></i>
+            <i class="fa-solid fa-lock"></i>
           </div>
+          <span class="medal-course-title locked-title">Pendiente</span>
         </div>
       `;
     }
   }
 
-  // 5. Definir la URL de la plataforma para el código QR
+  // 4. Definir la URL de la plataforma para el código QR
   const urlPlataforma = `https://fablabiica.github.io/AgroLINC/`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(urlPlataforma)}&color=07152d`;
 
@@ -680,15 +703,14 @@ function generarImagenRedesSociales() {
           </p>
         </div>
         <div class="share-user-stats">
-          <!-- Recuperada la etiqueta anterior: X módulos logrados con medalla morada -->
           <span class="badge-logro-purple">
             <i class="fa-solid fa-medal"></i> ${totalCursosLogrados} Módulos Completados
           </span>
         </div>
       </div>
       
-      <!-- ESTUCHE ULTRACOMPACTO DE CIRCULOS CON POCA SEPARACIÓN -->
-      <div class="compact-medal-case">
+      <!-- ESTUCHE ADAPTADO A GRID TÁCTIL DE 2 HILERAS DE 7 -->
+      <div class="compact-medal-case matrix-7x2">
         ${medallasHTML}
       </div>
     </div>
@@ -705,7 +727,7 @@ function generarImagenRedesSociales() {
     </div>
   `;
 
-  // 6. Captura fotográfica estable fijando las dimensiones de salida
+  // 5. Captura fotográfica estable fijando las dimensiones de salida HD
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
@@ -713,7 +735,7 @@ function generarImagenRedesSociales() {
       backgroundColor: "#f4f7fb",
       scale: 2,           
       width: 1200,        
-      height: 630         
+      height: 670 // Un pequeño incremento de altura para dar soporte holgado al texto inferior sin colisiones         
     }).then(canvas => {
       const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
       const link = document.createElement('a');
@@ -725,6 +747,7 @@ function generarImagenRedesSociales() {
     });
   }, 600); 
 }
+
 
 /* =========================================
    EVENTOS PRINCIPALES
