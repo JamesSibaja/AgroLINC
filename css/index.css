@@ -2269,7 +2269,7 @@ button, input, select, textarea {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.25;
-  height: 1.7em; /* Asegura espacio fijo para el texto */
+  height: 1.7rem; /* Asegura espacio fijo para el texto */
 }
 
 .share-course-date {
