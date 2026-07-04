@@ -2099,8 +2099,8 @@ button, input, select, textarea {
 .share-branding-strip {
   height: 85px;
   background: #ffffffd7;
-  border-bottom: 2px solid #07041d;
-  border-top: 2px solid #07041d;
+  border-bottom: 3px solid #07152d;
+  border-top: 3px solid #07152d;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2233,7 +2233,7 @@ button, input, select, textarea {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  height: 80px; /* Altura controlada estricta */
+  height: 75px; /* Altura controlada estricta */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
@@ -2244,7 +2244,7 @@ button, input, select, textarea {
 }
 
 .share-box-icon {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: #24c1e9;
 }
 
@@ -2313,7 +2313,7 @@ button, input, select, textarea {
 }
 
 .share-footer-text p {
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: #94a3b8;
 }
 
