@@ -2510,7 +2510,7 @@ button, input, select, textarea {
   padding: 0.6rem 1.2rem;
   padding-bottom: 1.2rem;
   border-radius: 999px;
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: 700;
   box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
 }
@@ -2520,7 +2520,7 @@ button, input, select, textarea {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 12px; /* Poca separación entre elementos */
+  gap: 20px; /* Poca separación entre elementos */
   background: transparent;
   padding: 10px 0;
   margin-top: 1.5rem;
@@ -2534,22 +2534,22 @@ button, input, select, textarea {
 }
 
 .compact-medal-circle {
-  width: 120px;
-  height: 120px;
+  width: 135px;
+  height: 135px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 4rem;
   transition: transform 0.2s;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* Estilo para las medallas que SÍ posee (Protagonismo total del símbolo) */
 .medal-unlocked .compact-medal-circle {
-  
-  color: #0891b2;
-  border: 2px solid #ffffff;
+background-color: #00d9ff3f;
+  color: #00d9ff;
+  border: 2px solid #00d9ff;
 }
 
 /* Estilo para círculos discretos con candado (Cursos que no llevó) */

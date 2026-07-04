@@ -636,7 +636,7 @@ function generarImagenRedesSociales() {
       medallasHTML += `
         <div class="compact-medal-slot medal-unlocked" title="${curso.nombre}">
           <div class="compact-medal-circle">
-            <i class="fa-solid ${getCourseIcon(curso.nombre)}" style="padding-top : 0px"></i>
+            <i class="fa-solid ${getCourseIcon(curso.nombre)}" style="padding-top : -15px"></i>
           </div>
         </div>
       `;
@@ -645,7 +645,7 @@ function generarImagenRedesSociales() {
       medallasHTML += `
         <div class="compact-medal-slot medal-locked">
           <div class="compact-medal-circle discrete-lock">
-            <i class="fa-solid fa-lock" style="padding-top : 0px"></i>
+            <i class="fa-solid fa-lock" style="padding-top : -15px"></i>
           </div>
         </div>
       `;
@@ -682,7 +682,7 @@ function generarImagenRedesSociales() {
         <div class="share-user-stats">
           <!-- Recuperada la etiqueta anterior: X módulos logrados con medalla morada -->
           <span class="badge-logro-purple">
-            <i class="fa-solid fa-medal"></i> ${totalCursosLogrados} módulos logrados
+            <i class="fa-solid fa-medal"></i> ${totalCursosLogrados} Módulos Completados
           </span>
         </div>
       </div>
