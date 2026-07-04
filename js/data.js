@@ -608,7 +608,7 @@ function inyectarBotonCompartir() {
 }
 
 /* =========================================================
-   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (CON QR Y AUTO-FIT)
+   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (DISEÑO ULTRACOMPACTO)
 ========================================================= */
 function generarImagenRedesSociales() {
   if (!estudianteGlobal) return;
@@ -621,49 +621,36 @@ function generarImagenRedesSociales() {
     document.body.appendChild(shareContainer);
   }
 
-  // 2. Extraer los módulos aprobados con sus fechas cruzadas reales
+  // 2. Extraer y contar módulos aprobados reales
   const aprobadosReales = cursosRutaGlobal
-    .map(c => {
-      const tuplaAsociada = tuplasGlobales.find(t => t[0] === c.id);
-      if (tuplaAsociada) {
-        return { ...c, fechaCompletado: tuplaAsociada[1] };
-      }
-      return null;
-    })
-    .filter(c => c !== null);
+    .filter(c => tuplasGlobales.some(t => t[0] === c.id));
 
   const totalCursosLogrados = aprobadosReales.length;
-  const fechaEmision = new Date().toLocaleDateString('es-CR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  });
 
-  // 3. Generar el "Estuche de Medallas" minimalista
-  // Mapeamos los 7 cursos fijos de la ruta para renderizar el estuche completo, sin dejar vacíos
-  const medallasHTML = cursosRutaGlobal.map((curso, index) => {
-    const tuplaAsociada = tuplasGlobales.find(t => t[0] === curso.id);
-    const completado = !!tuplaAsociada;
-    const fechaBadge = tuplaAsociada ? tuplaAsociada[1] : '';
-
-    return `
-      <div class="medal-slot ${completado ? 'medal-unlocked' : 'medal-locked'}">
-        <div class="medal-ring">
-          <div class="medal-gem">
+  // 3. Renderizar los 7 campos fijos rellenando secuencialmente primero los completados
+  let medallasHTML = "";
+  for (let i = 0; i < diplomaTotal; i++) {
+    if (i < totalCursosLogrados) {
+      // Campos llenos con los cursos que SÍ tiene (El símbolo es el protagonista)
+      const curso = aprobadosReales[i];
+      medallasHTML += `
+        <div class="compact-medal-slot medal-unlocked" title="${curso.nombre}">
+          <div class="compact-medal-circle">
             <i class="fa-solid ${getCourseIcon(curso.nombre)}"></i>
           </div>
         </div>
-        <div class="medal-info">
-          <span class="medal-index">Medalla 0${index + 1}</span>
-          <h4 class="medal-title" title="${curso.nombre}">${curso.nombre}</h4>
-          ${completado 
-            ? `<span class="medal-date"><i class="fa-solid fa-circle-check"></i> ${fechaBadge}</span>` 
-            : `<span class="medal-date locked-text"><i class="fa-solid fa-lock"></i> Pendiente</span>`
-          }
+      `;
+    } else {
+      // Campos restantes: círculos discretos con candado
+      medallasHTML += `
+        <div class="compact-medal-slot medal-locked">
+          <div class="compact-medal-circle discrete-lock">
+            <i class="fa-solid fa-lock"></i>
+          </div>
         </div>
-      </div>
-    `;
-  }).join('');
+      `;
+    }
+  }
 
   // 5. Definir la URL de la plataforma para el código QR
   const urlPlataforma = `https://fablabiica.github.io/AgroLINC/`;
@@ -681,11 +668,11 @@ function generarImagenRedesSociales() {
       </div>
     </div>
     
-    <!-- Meta del Estudiante -->
+    <!-- Meta del Estudiante y Progreso -->
     <div class="share-body">
       <div class="share-user-meta">
         <div class="share-user-details">
-          <h2>${estudianteGlobal.nombre}</h2>
+          <h2 class="compact-white-name">${estudianteGlobal.nombre}</h2>
           <p class="share-user-sub">
             <span><i class="fa-solid fa-id-card"></i> <b>${estudianteGlobal.cedula}</b></span>
             <span class="share-separator">•</span>
@@ -693,12 +680,15 @@ function generarImagenRedesSociales() {
           </p>
         </div>
         <div class="share-user-stats">
-          <span class="badge-logro-premium"><i class="fa-solid fa-trophy"></i> Logro de Ruta</span>
+          <!-- Recuperada la etiqueta anterior: X módulos logrados con medalla morada -->
+          <span class="badge-logro-purple">
+            <i class="fa-solid fa-medal"></i> ${totalCursosLogrados} módulos logrados
+          </span>
         </div>
       </div>
       
-      <!-- ESTUCHE DE MEDALAS POKÉMON (UI LIMPIA) -->
-      <div class="pokemon-medal-case">
+      <!-- ESTUCHE ULTRACOMPACTO DE CIRCULOS CON POCA SEPARACIÓN -->
+      <div class="compact-medal-case">
         ${medallasHTML}
       </div>
     </div>
@@ -721,7 +711,7 @@ function generarImagenRedesSociales() {
       useCORS: true,
       allowTaint: true,
       backgroundColor: "#f4f7fb",
-      scale: 2,           // Renderizado nítido de alta definición
+      scale: 2,           
       width: 1200,        
       height: 630         
     }).then(canvas => {
