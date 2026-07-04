@@ -636,7 +636,7 @@ function generarImagenRedesSociales() {
       medallasHTML += `
         <div class="compact-medal-slot medal-unlocked" title="${curso.nombre}">
           <div class="compact-medal-circle">
-            <i class="fa-solid${getCourseIcon(curso.nombre)}" style="padding-top : 0px"></i>
+            <i class="fa-solid ${getCourseIcon(curso.nombre)}" style="padding-top : 0px"></i>
           </div>
         </div>
       `;
