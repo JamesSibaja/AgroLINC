@@ -610,65 +610,38 @@ function inyectarBotonCompartir() {
 /* =========================================================
    GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (CON QR Y AUTO-FIT)
 ========================================================= */
-function generarImagenRedesSociales() {
-  if (!estudianteGlobal) return;
+// 3. Generar el "Estuche de Medallas" minimalista
+  // Mapeamos los 7 cursos fijos de la ruta para renderizar el estuche completo, sin dejar vacíos
+  const medallasHTML = cursosRutaGlobal.map((curso, index) => {
+    const tuplaAsociada = tuplasGlobales.find(t => t[0] === curso.id);
+    const completado = !!tuplaAsociada;
+    const fechaBadge = tuplaAsociada ? tuplaAsociada[1] : '';
 
-  // 1. Validar u obtener el contenedor base
-  let shareContainer = document.getElementById('linkedinShareCard');
-  if (!shareContainer) {
-    shareContainer = document.createElement('div');
-    shareContainer.id = 'linkedinShareCard';
-    document.body.appendChild(shareContainer);
-  }
-
-  // 2. Extraer los módulos aprobados con sus fechas cruzadas reales
-  const aprobadosReales = cursosRutaGlobal
-    .map(c => {
-      const tuplaAsociada = tuplasGlobales.find(t => t[0] === c.id);
-      if (tuplaAsociada) {
-        return { ...c, fechaCompletado: tuplaAsociada[1] };
-      }
-      return null;
-    })
-    .filter(c => c !== null);
-
-  const totalCursosLogrados = aprobadosReales.length;
-  const fechaEmision = new Date().toLocaleDateString('es-CR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  });
-
-  // 3. Generar dinámicamente las cajas HTML con control estricto de truncado de texto
-  const cursosHTML = aprobadosReales.map(curso => {
     return `
-      <div class="share-course-box">
-        <div class="share-box-top">
-          <i class="fa-solid ${getCourseIcon(curso.nombre)} share-box-icon"></i>
-          <span class="share-badge-success"><i class="fa-solid fa-circle-check"></i> Aprobado</span>
+      <div class="medal-slot ${completado ? 'medal-unlocked' : 'medal-locked'}">
+        <div class="medal-ring">
+          <div class="medal-gem">
+            <i class="fa-solid ${getCourseIcon(curso.nombre)}"></i>
+          </div>
         </div>
-        <h4 title="${curso.nombre}">${curso.nombre}</h4>
-        <span class="share-course-date">Completado: ${curso.fechaCompletado || '---'}</span>
+        <div class="medal-info">
+          <span class="medal-index">Medalla 0${index + 1}</span>
+          <h4 class="medal-title" title="${curso.nombre}">${curso.nombre}</h4>
+          ${completado 
+            ? `<span class="medal-date"><i class="fa-solid fa-circle-check"></i> ${fechaBadge}</span>` 
+            : `<span class="medal-date locked-text"><i class="fa-solid fa-lock"></i> Pendiente</span>`
+          }
+        </div>
       </div>
     `;
   }).join('');
 
-  // 4. Ajuste inteligente de densidad de la rejilla según volumen real de cursos
-  let claseDensidad = 'grid-vacio';
-  if (totalCursosLogrados >= 7) {
-    claseDensidad = 'alta-densidad';
-  } else if (totalCursosLogrados >= 4) {
-    claseDensidad = 'media-densidad';
-  } else if (totalCursosLogrados >= 1) {
-    claseDensidad = 'baja-densidad';
-  }
-
   // 5. Definir la URL de la plataforma para el código QR
   const urlPlataforma = `https://fablabiica.github.io/AgroLINC/`;
-  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlPlataforma)}&color=07152d`;
+  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(urlPlataforma)}&color=07152d`;
 
   shareContainer.innerHTML = `
-    <!-- Franja Blanca Premium Superior Obligatoria para Logos -->
+    <!-- Encabezado Limpio / Identidad Corporativa -->
     <div class="share-branding-strip">
       <div class="share-strip-left">
         <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main" onerror="this.style.display='none'">
@@ -679,64 +652,39 @@ function generarImagenRedesSociales() {
       </div>
     </div>
     
+    <!-- Meta del Estudiante -->
     <div class="share-body">
       <div class="share-user-meta">
         <div class="share-user-details">
           <h2>${estudianteGlobal.nombre}</h2>
           <p class="share-user-sub">
-            <span><i class="fa-solid fa-id-card"></i> Identificación: <b>${estudianteGlobal.cedula}</b></span>
+            <span><i class="fa-solid fa-id-card"></i> <b>${estudianteGlobal.cedula}</b></span>
             <span class="share-separator">•</span>
             <span><i class="fa-solid fa-route"></i> Ruta: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
           </p>
         </div>
         <div class="share-user-stats">
-          <span class="share-stat-badge"><i class="fa-solid fa-award"></i> ${totalCursosLogrados} Módulos Logrados</span>
-          <span class="share-date-badge"><i class="fa-solid fa-calendar-day"></i> ${fechaEmision}</span>
+          <span class="badge-logro-premium"><i class="fa-solid fa-trophy"></i> Logro de Ruta</span>
         </div>
       </div>
       
-      <!-- Contenedor con distribución elástica e inteligente para evitar vacíos -->
-      <div class="share-courses-container ${claseDensidad}">
-        ${totalCursosLogrados === 0 
-          ? `<div class="share-empty-state"><i class="fa-solid fa-graduation-cap"></i><p>Iniciando ruta de aprendizaje formativa.</p></div>`
-          : cursosHTML
-        }
+      <!-- ESTUCHE DE MEDALAS POKÉMON (UI LIMPIA) -->
+      <div class="pokemon-medal-case">
+        ${medallasHTML}
       </div>
     </div>
 
-    <!-- Pie de página con integración del Código QR e información de credenciales -->
+    <!-- Pie de Validación Minimalista -->
     <div class="share-footer">
       <div class="share-footer-text">
-        <span><i class="fa-solid fa-certificate"></i> Registro de Cursos Aprobados del Programa AgroLINC </span>
-        <img src="assets/images/fablab.png" alt="FabLab" class="share-logo-inst" onerror="this.style.display='none'">
-        <p>Escanea el código QR de la derecha para validar en la plataforma de AgroLINC</p>
+        <span><i class="fa-solid fa-certificate"></i> Colección de Competencias AgroLINC </span>
+        <p>Escanea para verificar las credenciales y el estado real de la ruta de aprendizaje.</p>
       </div>
       <div class="share-footer-qr">
         <img src="${qrApiUrl}" alt="Código QR de Verificación" class="share-qr-image">
       </div>
     </div>
   `;
-
-  // 6. Captura fotográfica estable fijando las dimensiones de salida
-  setTimeout(() => {
-    html2canvas(shareContainer, {
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: "#f4f7fb",
-      scale: 2,           // Renderizado nítido de alta definición
-      width: 1200,        
-      height: 630         
-    }).then(canvas => {
-      const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
-      const link = document.createElement('a');
-      link.download = `AgroLINC_Progreso_${nombreArchivoSafe}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }).catch(err => {
-      console.error("Error generando la tarjeta de progreso: ", err);
-    });
-  }, 600); 
-}
 
 /* =========================================
    EVENTOS PRINCIPALES
