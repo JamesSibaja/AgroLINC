@@ -2222,18 +2222,17 @@ button, input, select, textarea {
   grid-template-columns: repeat(4, 1fr); /* Elementos compactos si son muchos */
 }
 
-/* Caja de cada Módulo Individual */
+/* Caja de cada Módulo Individual (Dinámica) */
 .share-course-box {
   background: #ffffff13;
   border: 1px solid #a8a8a8;
   border-radius: 16px;
-  padding: 16px;
-  padding-top: 5px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  height: 75px; /* Altura controlada estricta */
+  min-height: 75px; /* Se cambia height fijo por min-height para permitir escalado */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
@@ -2249,7 +2248,6 @@ button, input, select, textarea {
 }
 
 .share-badge-success {
-  
   color: #09c45d;
   font-size: 0.5rem;
   font-weight: 800;
@@ -2270,6 +2268,7 @@ button, input, select, textarea {
   text-overflow: ellipsis;
   line-height: 1.25;
   height: 1.7rem; /* Asegura espacio fijo para el texto */
+  margin: 5px 0;
 }
 
 .share-course-date {
@@ -2277,6 +2276,53 @@ button, input, select, textarea {
   color: #94a3b8;
   font-weight: 500;
 }
+
+/* =========================================================
+   ADAPTACIÓN DINÁMICA POR BAJO VOLUMEN (EVITA ESPACIOS VACÍOS)
+========================================================= */
+
+/* Ajustes cuando la densidad es BAJA (1 a 3 cursos) */
+.baja-densidad .share-course-box {
+  padding: 22px 24px;
+  min-height: 125px;
+}
+.baja-densidad .share-course-box h4 {
+  font-size: 1.05rem;
+  height: 2.6rem;
+  line-height: 1.3;
+}
+.baja-densidad .share-box-icon {
+  font-size: 1.2rem;
+}
+.baja-densidad .share-badge-success {
+  font-size: 0.7rem;
+  padding: 4px 8px;
+}
+.baja-densidad .share-course-date {
+  font-size: 0.75rem;
+}
+
+/* Ajustes cuando la densidad es MEDIA (4 a 6 cursos) */
+.media-densidad .share-course-box {
+  padding: 18px 20px;
+  min-height: 95px;
+}
+.media-densidad .share-course-box h4 {
+  font-size: 0.85rem;
+  height: 2.1rem;
+}
+.media-densidad .share-box-icon {
+  font-size: 1rem;
+}
+.media-densidad .share-badge-success {
+  font-size: 0.6rem;
+  padding: 3px 6px;
+}
+.media-densidad .share-course-date {
+  font-size: 0.65rem;
+}
+
+/* ========================================================= */
 
 .share-empty-state {
   display: flex;

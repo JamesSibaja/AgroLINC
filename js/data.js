@@ -394,9 +394,9 @@ async function consultarRuta() {
 }
 
 /* =========================================================
-   MOTOR DINÁMICO DE SUB-MODALES
+   MOTOR DINÁMICO DE SUB-MODALES (ACTUALIZADO PARA DISPONIBLES)
 ========================================================= */
-function abrirModalDetallado(curso, estado) {
+async function abrirModalDetallado(curso, estado) {
   const modal = document.getElementById('courseModal');
   if (!modal) return;
 
@@ -406,21 +406,81 @@ function abrirModalDetallado(curso, estado) {
   const container = document.getElementById('modalDescription');
   container.innerHTML = ''; 
 
+  // MODIFICACIÓN EXCLUSIVA PARA EL ESTADO AVAILABLE (ESTILO INDEX ORIGINAL)
   if (estado === 'available') {
-    container.innerHTML = `
-      <p>${curso.descripcion || 'Sin descripción disponible por el momento.'}</p>
-      <div class="modal-requirement-box" style="border-left: 5px solid var(--primary);">
-        <h4><i class="fa-solid fa-calendar-check"></i> Convocatoria Disponible</h4>
-        <p>¡Cumples con los prerrequisitos! Puedes matricularte de forma directa en este módulo usando el enlace oficial:</p>
-        <a href="https://forms.gle/3hsVm6HF35N531JG7" target="_blank" class="req-item-link" style="justify-content: center; background: var(--primary); color: white; font-weight: bold; border-radius:12px;">
-          <div class="req-text-container" style="color: white;">
-            <i class="fa-solid fa-file-signature"></i>
-            <span>Formulario de Matrícula AgroLINC</span>
+    const calendario = await fetchCalendario();
+    const eventosCurso = calendario.filter(e => e.id === curso.id);
+    let eventosHTML = "";
+
+    if (eventosCurso.length === 0) {
+      eventosHTML = `
+        <div class="course-event event-closed">
+          <div class="event-status status-closed">Próximamente</div>
+          <p>No hay convocatorias publicadas para este curso.</p>
+        </div>
+      `;
+    } else {
+      eventosCurso.forEach(evento => {
+        const cuposDisponibles = evento.max - evento.inscritos - evento.espera + evento.cancelados;
+        const cumpleMinimo = evento.inscritos + evento.espera - evento.cancelados >= evento.min;
+
+        let clase = "";
+        let estadoClase = "";
+        let estadoTexto = "";
+        let detalle = "";
+        let boton = "";
+
+        if (!evento.enlace) {
+          clase = "event-closed";
+          estadoClase = "status-closed";
+          estadoTexto = "Grupo cerrado";
+          detalle = "Esta convocatoria se gestiona mediante un grupo específico.";
+        }
+        else if (cuposDisponibles <= 0) {
+          clase = "event-waiting";
+          estadoClase = "status-waiting";
+          estadoTexto = "Lista de espera";
+          detalle = `<br><span class="event-note">No hay cupos disponibles. Puede registrarse en la lista de espera...</span>`;
+          boton = `<a class="event-btn" href="${evento.enlace}" target="_blank">Unirse a lista de espera</a>`;
+        }
+        else if (cumpleMinimo) {
+          clase = "event-confirmed";
+          estadoClase = "status-confirmed";
+          estadoTexto = "Convocatoria confirmada";
+          detalle = `<div class="event-slots status-confirmed">${cuposDisponibles} cupos disponibles</div>`;
+          boton = `<a class="event-btn" href="${evento.enlace}" target="_blank">Solicitar inscripción</a>`;
+        }
+        else {
+          clase = "event-pending";
+          estadoClase = "status-pending";
+          estadoTexto = "Convocatoria abierta";
+          detalle = `
+            <div class="event-note status-pending">Pendiente de alcanzar el cupo mínimo.</div>
+            <div class="event-slots status-pending">${cuposDisponibles} cupos disponibles</div>
+          `;
+          boton = `<a class="event-btn" href="${evento.enlace}" target="_blank">Solicitar inscripción</a>`;
+        }
+
+        eventosHTML += `
+          <div class="course-event ${clase}">
+            <div class="event-date">${evento.fecha}</div>
+            <div class="event-status ${estadoClase}">${estadoTexto}</div>
+            ${detalle}
+            ${boton}
           </div>
-        </a>
+        `;
+      });
+    }
+
+    container.innerHTML = `
+      <p>${curso.descripcion || "Próximamente disponible."}</p>
+      <div class="modal-events">
+        <h4>Próximas convocatorias</h4>
+        ${eventosHTML}
       </div>
     `;
   } 
+  // EL RESTO DEL CÓDIGO PERMANECE INTACTO Y TOTALMENTE INALTERADO
   else if (estado === 'completed') {
     container.innerHTML = `
       <p><strong>¡Felicitaciones! Has completado y aprobado con éxito este módulo.</strong></p>
