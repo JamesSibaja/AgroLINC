@@ -2099,8 +2099,8 @@ button, input, select, textarea {
 .share-branding-strip {
   height: 85px;
   background: #ffffffd7;
-  border-bottom: 2px solid #24c1e9;
-  border-top: 2px solid #24c1e9;
+  border-bottom: 2px solid #07041d;
+  border-top: 2px solid #07041d;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2179,7 +2179,7 @@ button, input, select, textarea {
 }
 
 .share-stat-badge {
-  background: #e2e8f007;
+  background: #e2e8f015;
   color: #8031ff;
   padding: 8px 16px;
   padding-bottom: 16px;
@@ -2189,7 +2189,7 @@ button, input, select, textarea {
 }
 
 .share-date-badge {
-  background: #e2e8f007;
+  background: #e2e8f015;
   color: #80a1ce;
   padding: 8px 16px;
   border-radius: 12px;
@@ -2233,7 +2233,7 @@ button, input, select, textarea {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  height: 85px; /* Altura controlada estricta */
+  height: 80px; /* Altura controlada estricta */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
@@ -2244,7 +2244,7 @@ button, input, select, textarea {
 }
 
 .share-box-icon {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: #24c1e9;
 }
 
@@ -2253,7 +2253,7 @@ button, input, select, textarea {
   color: #09c45d;
   font-size: 0.5rem;
   font-weight: 800;
-  padding: 3px 8px;
+  padding: 2px 4px;
   border-radius: 999px;
   text-transform: uppercase;
 }
@@ -2263,7 +2263,6 @@ button, input, select, textarea {
   font-size: 0.6rem;
   font-weight: 700;
   color: #ffffff;
-  margin: 8px 0 4px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2; /* Corta exactamente en la segunda línea si es muy largo */
   -webkit-box-orient: vertical;
