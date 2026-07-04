@@ -592,6 +592,21 @@ function cambiarFocoModal(cursoId) {
 }
 
 /* =========================================================
+   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA
+========================================================= */
+function inyectarBotonCompartir() {
+  const profileCard = document.querySelector('.profile-card');
+  if (!profileCard || document.getElementById('btnDownloadShare')) return;
+
+  const btnShare = document.createElement('button');
+  btnShare.id = 'btnDownloadShare';
+  btnShare.className = 'download-share-btn';
+  btnShare.innerHTML = `<i class="fa-solid fa-cloud-download-alt"></i> Descargar Tarjeta de Progreso`;
+  
+  btnShare.addEventListener('click', generarImagenRedesSociales);
+  profileCard.appendChild(btnShare);
+}
+/* =========================================================
    GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (DISEÑO DOBLE HILERA DE 7)
 ========================================================= */
 
@@ -747,7 +762,6 @@ function generarImagenRedesSociales() {
     });
   }, 600); 
 }
-
 
 /* =========================================
    EVENTOS PRINCIPALES
