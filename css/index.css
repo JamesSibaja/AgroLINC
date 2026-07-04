@@ -2508,8 +2508,9 @@ button, input, select, textarea {
   background: linear-gradient(135deg, #7c3aed, #6d28d9);
   color: #ffffff !important;
   padding: 0.6rem 1.2rem;
+  padding-bottom: 1.2rem;
   border-radius: 999px;
-  font-size: 0.9rem;
+  font-size: 2rem;
   font-weight: 700;
   box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
 }
