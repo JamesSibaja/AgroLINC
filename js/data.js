@@ -646,17 +646,6 @@ function obtenerNombreCortoCurso(courseName) {
   return courseName.length > 22 ? courseName.substring(0, 20) + "..." : courseName;
 }
 
-/* =========================================================
-   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (DISEÑO INTEGRAL 14 CASILLAS)
-========================================================= */
-
-// FUNCIÓN AUXILIAR AUTOMATIZADA: Optimiza los nombres largos sin cortarlos bruscamente
-function obtenerNombreAdaptadoCurso(courseName) {
-  const name = String(courseName || "").trim();
-  // Retorna el nombre completo, manejaremos el ajuste de texto mediante CSS estructurado
-  return name;
-}
-
 function generarImagenRedesSociales() {
   if (!estudianteGlobal) return;
 
@@ -668,27 +657,25 @@ function generarImagenRedesSociales() {
     document.body.appendChild(shareContainer);
   }
 
-  // 2. Extraer módulos aprobados reales
+  // 2. Extraer y contar módulos aprobados reales
   const aprobadosReales = cursosRutaGlobal
     .filter(c => tuplasGlobales.some(t => t[0] === c.id));
 
   const totalCursosLogrados = aprobadosReales.length;
-  const totalCasillasTarjeta = 14; // Estructura fija de 14 optativas solicitadas
+  const totalCasillasTarjeta = 14; // Nueva estructura de 2 hileras de 7
 
-  // 3. Renderizar las 14 casillas (Aprobadas con diseño moderno e imponente, y las pendientes)
+  // 3. Renderizar las 14 casillas (Secuencialmente los aprobados, luego los candados)
   let medallasHTML = "";
   for (let i = 0; i < totalCasillasTarjeta; i++) {
     if (i < totalCursosLogrados) {
       const curso = aprobadosReales[i];
-      const nombreCompleto = obtenerNombreAdaptadoCurso(curso.nombre);
-      const esInnovacion = curso.nombre.toLowerCase().includes("innovac");
-
+      const nombreAbreviado = obtenerNombreCortoCurso(curso.nombre);
       medallasHTML += `
-        <div class="compact-medal-slot medal-unlocked ${esInnovacion ? 'medal-innovation-special' : ''}" title="${curso.nombre}">
+        <div class="compact-medal-slot medal-unlocked" title="${curso.nombre}">
           <div class="compact-medal-circle">
             <i class="fa-solid ${getCourseIcon(curso.nombre)}"></i>
           </div>
-          <span class="medal-course-title">${nombreCompleto}</span>
+          <span class="medal-course-title">${nombreAbreviado}</span>
         </div>
       `;
     } else {
@@ -697,7 +684,7 @@ function generarImagenRedesSociales() {
           <div class="compact-medal-circle discrete-lock">
             <i class="fa-solid fa-lock"></i>
           </div>
-          <span class="medal-course-title locked-title">Módulo Pendiente</span>
+          <span class="medal-course-title locked-title">Pendiente</span>
         </div>
       `;
     }
@@ -712,7 +699,6 @@ function generarImagenRedesSociales() {
     <div class="share-branding-strip">
       <div class="share-strip-left">
         <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main" onerror="this.style.display='none'">
-        <span class="program-badge-title">Ruta del Conocimiento</span>
       </div>
       <div class="share-strip-right">
         <img src="assets/images/micitt.png" alt="MICITT" class="share-logo-instm" onerror="this.style.display='none'">
@@ -733,32 +719,22 @@ function generarImagenRedesSociales() {
         </div>
         <div class="share-user-stats">
           <span class="badge-logro-purple">
-            <i class="fa-solid fa-trophy"></i> ${totalCursosLogrados} / 14 Módulos Acreditados
+            <i class="fa-solid fa-medal"></i> ${totalCursosLogrados} Módulos Completados
           </span>
         </div>
       </div>
       
-      <!-- ESTUCHE DE MEDALLAS GRANDES Y MODERNAS (REDISEÑO MATRIX 7x2) -->
+      <!-- ESTUCHE ADAPTADO A GRID TÁCTIL DE 2 HILERAS DE 7 -->
       <div class="compact-medal-case matrix-7x2">
         ${medallasHTML}
-      </div>
-
-      <!-- REGLA EXPLICATIVA CLARA PARA REDES SOCIALES -->
-      <div class="share-rule-clarification-box">
-        <div class="clarification-icon">
-          <i class="fa-solid fa-circle-info"></i>
-        </div>
-        <div class="clarification-text">
-          <strong>Estructura del Programa AgroLINC:</strong> El programa cuenta con 14 módulos optativos. Una persona puede cursar la cantidad que desee (1, 5, 10 o los 14). Completando **6 módulos cualesquiera + el Módulo Final de Innovación**, se consolida el programa completo y se otorga el **Certificado Final de AgroLINC**.
-        </div>
       </div>
     </div>
 
     <!-- Pie de Validación Minimalista -->
     <div class="share-footer">
       <div class="share-footer-text">
-        <span><i class="fa-solid fa-certificate"></i> Verificación Oficial de Competencias AgroLINC</span>
-        <p>Escanea el código QR para validar las credenciales del participante en tiempo real desde la plataforma.</p>
+        <span><i class="fa-solid fa-certificate"></i> Colección de Competencias AgroLINC </span>
+        <p>Escanea para verificar las credenciales y el estado real de la ruta de aprendizaje.</p>
       </div>
       <div class="share-footer-qr">
         <img src="${qrApiUrl}" alt="Código QR de Verificación" class="share-qr-image">
@@ -766,7 +742,7 @@ function generarImagenRedesSociales() {
     </div>
   `;
 
-  // 5. Captura fotográfica estable fijando las dimensiones de salida HD en base a las 14 medallas y la nueva caja
+  // 5. Captura fotográfica estable fijando las dimensiones de salida HD
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
@@ -774,7 +750,7 @@ function generarImagenRedesSociales() {
       backgroundColor: "#f4f7fb",
       scale: 2,           
       width: 1200,        
-      height: 760 // Altura calibrada para dar soporte holgado a las medallas grandes y el bloque aclaratorio
+      height: 670 // Un pequeño incremento de altura para dar soporte holgado al texto inferior sin colisiones         
     }).then(canvas => {
       const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
       const link = document.createElement('a');
