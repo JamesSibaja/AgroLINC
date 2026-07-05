@@ -2515,3 +2515,48 @@ button, input, select, textarea {
   box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
 }
 
+/* Contenedor lineal ultracompacto sin cajas generales pesadas */
+.compact-medal-case {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 25px; /* Poca separación entre elementos */
+  background: transparent;
+  padding: 10px 0;
+  margin-top: 1.5rem;
+}
+
+/* Slots de medallas en forma de círculos limpios */
+.compact-medal-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compact-medal-circle {
+  width: 135px;
+  height: 135px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo para las medallas que SÍ posee (Protagonismo total del símbolo) */
+.medal-unlocked .compact-medal-circle {
+background-color: #00d9ff3f;
+  color: #00d9ff;
+  border: 2px solid #00d9ff;
+}
+
+/* Estilo para círculos discretos con candado (Cursos que no llevó) */
+.compact-medal-circle.discrete-lock {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.3);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  font-size: 1.2rem;
+  box-shadow: none;
+}
