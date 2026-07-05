@@ -2180,3 +2180,189 @@ button, input, select, textarea {
   color: rgba(255, 255, 255, 0.25);
   margin-top: 4px;
 }
+
+/* =========================================================
+   ESTILOS PREMIUM PARA LA TARJETA DE COMPARTIR AgroLINC (7x2)
+========================================================= */
+
+#linkedinShareCard {
+  width: 1200px;
+  height: 670px;
+  position: absolute;
+  left: -9999px; /* Oculto fuera de la pantalla de render */
+  background: #f4f7fb;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.share-branding-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 15px;
+}
+
+.share-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.share-user-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.compact-white-name {
+  font-size: 2.2rem;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.share-user-sub {
+  color: #64748b;
+  font-size: 1.05rem;
+  margin-top: 5px;
+}
+
+.share-separator {
+  margin: 0 8px;
+  color: #cbd5e1;
+}
+
+.badge-logro-purple {
+  background: linear-gradient(135deg, #6d28d9, #581c87);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* MATRIZ SIMÉTRICA DE 2 HILERAS DE 7 */
+.compact-medal-case.matrix-7x2 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+  border: 1px solid #e2e8f0;
+  align-items: center;
+}
+
+/* ESTILO INDIVIDUAL DE CADA CASILLA DE MEDALLA */
+.compact-medal-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 5px;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  transition: all 0.3s ease;
+}
+
+.compact-medal-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* Estados desbloqueados */
+.medal-unlocked .compact-medal-circle {
+  background: linear-gradient(135deg, #06b6d4, #6d28d9);
+  color: white;
+  box-shadow: 0 6px 15px rgba(109, 40, 217, 0.2);
+}
+
+.medal-course-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #334155;
+  line-height: 1.2;
+}
+
+/* Estados bloqueados */
+.medal-locked .compact-medal-circle.discrete-lock {
+  background: #e2e8f0;
+  color: #94a3b8;
+}
+
+.medal-locked-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+/* REGLA DE DESTACADO MAESTRA: EFECTO ÚNICO EN LA PRIMERA MEDALLA */
+.compact-medal-slot.medal-featured {
+  background: linear-gradient(180deg, #fef08a, #ffffff); /* Fondo cálido oro suave */
+  border: 2px solid #eab308;
+  transform: scale(1.08); /* Crece discretamente sobre el resto */
+  box-shadow: 0 10px 20px rgba(234, 179, 8, 0.15);
+  z-index: 10;
+}
+
+.compact-medal-slot.medal-featured .compact-medal-circle {
+  width: 68px; /* Círculo ligeramente mayor */
+  height: 68px;
+  font-size: 1.7rem;
+}
+
+.compact-medal-slot.medal-featured.medal-unlocked .compact-medal-circle {
+  background: linear-gradient(135deg, #ca8a04, #eab308); /* Oro vibrante */
+  box-shadow: 0 6px 15px rgba(234, 179, 8, 0.4);
+}
+
+.compact-medal-slot.medal-featured .medal-course-title {
+  color: #713f12; /* Texto en armonía con el destaque dorado */
+  font-weight: 800;
+}
+
+/* PIE DE PÁGINA DE LA TARJETA */
+.share-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 15px;
+}
+
+.share-footer-text span {
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 1rem;
+}
+
+.share-footer-text p {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-top: 3px;
+}
+
+.share-qr-image {
+  width: 75px;
+  height: 75px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 3px;
+  background: white;
+}

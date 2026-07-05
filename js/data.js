@@ -646,6 +646,10 @@ function obtenerNombreCortoCurso(courseName) {
   return courseName.length > 22 ? courseName.substring(0, 20) + "..." : courseName;
 }
 
+/* =========================================================
+   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (DISEÑO 7x2)
+========================================================= */
+
 function generarImagenRedesSociales() {
   if (!estudianteGlobal) return;
 
@@ -662,19 +666,20 @@ function generarImagenRedesSociales() {
     .filter(c => tuplasGlobales.some(t => t[0] === c.id));
 
   const totalCursosLogrados = aprobadosReales.length;
-  const totalCasillasTarjeta = 14; // Nueva estructura de 2 hileras de 7
+  const totalCasillasTarjeta = 14; // Estructura fija de 14 medallas (2 hileras de 7)
 
-  // 3. Renderizar las 14 casillas (Secuencialmente los aprobados, luego los candados)
+  // 3. Renderizar las 14 casillas (Secuencialmente los aprobados, luego los candados discretos)
   let medallasHTML = "";
   for (let i = 0; i < totalCasillasTarjeta; i++) {
-    // 3. Renderizar las 14 casillas (Secuencialmente los aprobados, luego los candados)
-  let medallasHTML = "";
-  for (let i = 0; i < totalCasillasTarjeta; i++) {
+    // Definimos si es la primera medalla para asignarle la clase de destaque premium
+    const esDestacada = (i === 0) ? "medal-featured" : "";
+
     if (i < totalCursosLogrados) {
       const curso = aprobadosReales[i];
       const nombreAbreviado = obtenerNombreCortoCurso(curso.nombre);
+      
       medallasHTML += `
-        <div class="compact-medal-slot medal-unlocked" title="${curso.nombre}">
+        <div class="compact-medal-slot medal-unlocked ${esDestacada}" title="${curso.nombre}">
           <div class="compact-medal-circle">
             <i class="fa-solid ${getCourseIcon(curso.nombre)}"></i>
           </div>
@@ -683,7 +688,7 @@ function generarImagenRedesSociales() {
       `;
     } else {
       medallasHTML += `
-        <div class="compact-medal-slot medal-locked">
+        <div class="compact-medal-slot medal-locked ${esDestacada}">
           <div class="compact-medal-circle discrete-lock">
             <i class="fa-solid fa-lock"></i>
           </div>
@@ -691,7 +696,6 @@ function generarImagenRedesSociales() {
         </div>
       `;
     }
-  }
   }
 
   // 4. Definir la URL de la plataforma para el código QR
@@ -728,7 +732,7 @@ function generarImagenRedesSociales() {
         </div>
       </div>
       
-      <!-- ESTUCHE ADAPTADO A GRID TÁCTIL DE 2 HILERAS DE 7 -->
+      <!-- ESTUCHE DINÁMICO AJUSTADO EN MATRIZ DE 2 HILERAS DE 7 -->
       <div class="compact-medal-case matrix-7x2">
         ${medallasHTML}
       </div>
@@ -746,7 +750,7 @@ function generarImagenRedesSociales() {
     </div>
   `;
 
-  // 5. Captura fotográfica estable fijando las dimensiones de salida HD
+  // 5. Captura fotográfica estable en HD (1200x670)
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
@@ -754,7 +758,7 @@ function generarImagenRedesSociales() {
       backgroundColor: "#f4f7fb",
       scale: 2,           
       width: 1200,        
-      height: 670 // Un pequeño incremento de altura para dar soporte holgado al texto inferior sin colisiones         
+      height: 670         
     }).then(canvas => {
       const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
       const link = document.createElement('a');
