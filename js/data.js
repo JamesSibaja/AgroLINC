@@ -679,7 +679,7 @@ function generarImagenRedesSociales() {
       const nombreAbreviado = obtenerNombreCortoCurso(curso.nombre);
       
       medallasHTML += `
-        <div class="compact-medal-slot medal-unlocked ${esDestacada}" title="${curso.nombre}">
+        <div class="compact-medal-slot medal-unlocked " title="${curso.nombre}">
           <div class="compact-medal-circle">
             <i class="fa-solid ${getCourseIcon(curso.nombre)}"></i>
           </div>
@@ -688,11 +688,11 @@ function generarImagenRedesSociales() {
       `;
     } else {
       medallasHTML += `
-        <div class="compact-medal-slot medal-locked ${esDestacada}">
+        <div class="compact-medal-slot medal-locked ">
           <div class="compact-medal-circle discrete-lock">
             <i class="fa-solid fa-lock"></i>
           </div>
-          <span class="medal-locked-title">Pendiente</span>
+         
         </div>
       `;
     }
