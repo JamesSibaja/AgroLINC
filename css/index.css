@@ -2129,8 +2129,8 @@ button, input, select, textarea {
 
 /* Círculos perfectos y responsivos dentro de la rejilla */
 .compact-medal-circle {
-  width: 90px;                           /* Reducido ligeramente para que 7 entren perfecto en 1200px */
-  height: 90px;
+  width: 120px;                           /* Reducido ligeramente para que 7 entren perfecto en 1200px */
+  height: 120px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2138,16 +2138,12 @@ button, input, select, textarea {
   font-size: 2.5rem;                     /* Tamaño de ícono proporcional al nuevo círculo */
   transition: transform 0.2s;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  margin-bottom: 8px;                    /* Separación con su respectivo texto inferior */
+                     /* Separación con su respectivo texto inferior */
   flex-shrink: 0;                        /* Evita que html2canvas lo deforme */
 }
 
 /* Estilo para las medallas que SÍ posee */
-.medal-unlocked .compact-medal-circle {
-  background-color: rgba(0, 217, 255, 0.15);
-  color: #00d9ff;
-  border: 3px solid #00d9ff;
-}
+
 
 /* Estilo para círculos discretos con candado */
 .compact-medal-circle.discrete-lock {
@@ -2272,10 +2268,12 @@ button, input, select, textarea {
 }
 
 /* Estados desbloqueados */
+
+
 .medal-unlocked .compact-medal-circle {
-  background: linear-gradient(135deg, #06b6d4, #6d28d9);
-  color: white;
-  box-shadow: 0 6px 15px rgba(109, 40, 217, 0.2);
+  background-color: rgba(0, 217, 255, 0.15);
+  color: #00d9ff;
+  border: 3px solid #00d9ff;
 }
 
 .medal-course-title {
