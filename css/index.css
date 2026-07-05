@@ -2522,7 +2522,7 @@ button, input, select, textarea {
   align-items: center;
   gap: 25px; /* Poca separación entre elementos */
   background: transparent;
-  padding: 10px 0;
+ 
   margin-top: 1.5rem;
 }
 
@@ -2547,9 +2547,8 @@ button, input, select, textarea {
 
 /* Estilo para las medallas que SÍ posee (Protagonismo total del símbolo) */
 .medal-unlocked .compact-medal-circle {
-background-color: #00d9ff3f;
+background-color: #00d9ff25;
   color: #00d9ff;
-  border: 2px solid #00d9ff;
 }
 
 /* Estilo para círculos discretos con candado (Cursos que no llevó) */
