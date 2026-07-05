@@ -667,6 +667,9 @@ function generarImagenRedesSociales() {
   // 3. Renderizar las 14 casillas (Secuencialmente los aprobados, luego los candados)
   let medallasHTML = "";
   for (let i = 0; i < totalCasillasTarjeta; i++) {
+    // 3. Renderizar las 14 casillas (Secuencialmente los aprobados, luego los candados)
+  let medallasHTML = "";
+  for (let i = 0; i < totalCasillasTarjeta; i++) {
     if (i < totalCursosLogrados) {
       const curso = aprobadosReales[i];
       const nombreAbreviado = obtenerNombreCortoCurso(curso.nombre);
@@ -684,10 +687,11 @@ function generarImagenRedesSociales() {
           <div class="compact-medal-circle discrete-lock">
             <i class="fa-solid fa-lock"></i>
           </div>
-          <span class="medal-course-title locked-title">Pendiente</span>
+          <span class="medal-locked-title">Pendiente</span>
         </div>
       `;
     }
+  }
   }
 
   // 4. Definir la URL de la plataforma para el código QR

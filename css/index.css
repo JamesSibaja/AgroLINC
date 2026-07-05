@@ -2078,417 +2078,7 @@ button, input, select, textarea {
   transform: translateY(-1px);
 }
 /* =========================================================
-   ESTRUCTURA DE EXPORTACIÓN: TARJETA COMPARTIBLE PREMIUM (1200x630)
-========================================================= */
-#linkedinShareCard {
-  position: absolute;
-  left: -9999px;
-  top: -9999px;
-  width: 1200px;
-  height: 630px;
-  background: #05081f;
-  color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-  overflow: hidden;
-}
-
-/* 1. Franja Blanca Pura Obligatoria para Logos */
-.share-branding-strip {
-  height: 85px;
-  background: #ffffffd7;
-  border-bottom: 3px solid #072e72;
-  border-top: 3px solid #072e72;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 45px;
-  box-sizing: border-box;
-}
-
-.share-strip-left .share-logo-main {
-  height: 52px;
-  width: auto;
-  object-fit: contain;
-}
-
-.share-logo-inst {
-  height: 38px;
-  width: auto;
-  object-fit: contain;
-}
-
-.share-logo-instm {
-  height: 70px;
-  width: auto;
-  object-fit: contain;
-}
-
-.share-strip-right {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
-
-
-
-/* 2. Cuerpo Central */
-.share-body {
-  flex: 1;
-  padding: 10px 45px 15px 45px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-.share-user-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.share-user-details h2 {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #24c1e9;
-  margin-bottom: 4px;
-}
-
-.share-user-sub {
-  font-size: 0.95rem;
-  color: #64748b;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.share-separator {
-  color: #cbd5e1;
-}
-
-.share-user-stats {
-  display: flex;
-  gap: 12px;
-}
-
-.share-stat-badge {
-  background: #e2e8f015;
-  color: #8031ff;
-  padding: 8px 16px;
-  padding-bottom: 16px;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 0.9rem;
-}
-
-.share-date-badge {
-  background: #e2e8f015;
-  color: #80a1ce;
-  padding: 8px 16px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-/* 3. Rejilla Inteligente de Cursos (Evita desbordes y vacíos) */
-.share-courses-container {
-  display: grid;
-  gap: 16px;
-  flex: 1;
-  align-content: start;
-}
-
-/* Distribución según cantidad de elementos */
-.share-courses-container.grid-vacio {
-  grid-template-columns: 1fr;
-}
-
-.share-courses-container.baja-densidad {
-  grid-template-columns: repeat(2, 1fr); /* Elementos grandes si son pocos */
-}
-
-.share-courses-container.media-densidad {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.share-courses-container.alta-densidad {
-  grid-template-columns: repeat(4, 1fr); /* Elementos compactos si son muchos */
-}
-
-/* Caja de cada Módulo Individual (Dinámica) */
-.share-course-box {
-  background: #ffffff13;
-  border: 1px solid #a8a8a8;
-  border-radius: 16px;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-sizing: border-box;
-  min-height: 75px; /* Se cambia height fijo por min-height para permitir escalado */
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-}
-
-.share-box-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.share-box-icon {
-  font-size: 0.8rem;
-  color: #24c1e9;
-}
-
-.share-badge-success {
-  color: #09c45d;
-  font-size: 0.5rem;
-  font-weight: 800;
-  padding: 2px 4px;
-  border-radius: 999px;
-  text-transform: uppercase;
-}
-
-/* Prevención Quirúrgica de Desborde o pérdida de texto */
-.share-course-box h4 {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #ffffff;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Corta exactamente en la segunda línea si es muy largo */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.25;
-  height: 1.7rem; /* Asegura espacio fijo para el texto */
-  margin: 5px 0;
-}
-
-.share-course-date {
-  font-size: 0.5rem;
-  color: #94a3b8;
-  font-weight: 500;
-}
-
-/* =========================================================
-   ADAPTACIÓN DINÁMICA POR BAJO VOLUMEN (EVITA ESPACIOS VACÍOS)
-========================================================= */
-
-/* Ajustes cuando la densidad es BAJA (1 a 3 cursos) */
-.baja-densidad .share-course-box {
-  padding: 22px 24px;
-  min-height: 125px;
-}
-.baja-densidad .share-course-box h4 {
-  font-size: 1.05rem;
-  height: 2.6rem;
-  line-height: 1.3;
-}
-.baja-densidad .share-box-icon {
-  font-size: 1.2rem;
-}
-.baja-densidad .share-badge-success {
-  font-size: 0.7rem;
-  padding: 4px 8px;
-}
-.baja-densidad .share-course-date {
-  font-size: 0.75rem;
-}
-
-/* Ajustes cuando la densidad es MEDIA (4 a 6 cursos) */
-.media-densidad .share-course-box {
-  padding: 18px 20px;
-  min-height: 95px;
-}
-.media-densidad .share-course-box h4 {
-  font-size: 0.85rem;
-  height: 2.1rem;
-}
-.media-densidad .share-box-icon {
-  font-size: 1rem;
-}
-.media-densidad .share-badge-success {
-  font-size: 0.6rem;
-  padding: 3px 6px;
-}
-.media-densidad .share-course-date {
-  font-size: 0.65rem;
-}
-
-/* ========================================================= */
-
-.share-empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 150px;
-  color: #94a3b8;
-  gap: 12px;
-}
-
-.share-empty-state i {
-  font-size: 3rem;
-}
-
-/* 4. Pie de Página con Integración de Código QR */
-.share-footer {
-  height: 110px;
-  background: #072e72;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 45px;
-  box-sizing: border-box;
-  color: #ffffff;
-}
-
-.share-footer-text span {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
-}
-
-.share-footer-text p {
-  font-size: 0.6rem;
-  color: #94a3b8;
-}
-
-.share-footer-qr {
-  background: #ffffff;
-  padding: 6px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-  transform: translateY(-15px); /* Efecto flotante elegante sobre el pie de página */
-  border: 1px solid #e2e8f0;
-}
-
-.share-qr-image {
-  width: 78px;
-  height: 78px;
-  display: block;
-}
-
-/* =========================================================
-   SISTEMA DE ESTUCHE DE MEDALLAS POKÉMON (COMPARTIBLE REDES)
-========================================================= */
-
-/* Caja contenedora que simula el estuche */
-.pokemon-medal-case {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Distribución simétrica y ordenada */
-  gap: 1.2rem;
-  background: rgba(255, 255, 255, 0.4);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 20px;
-  padding: 1.5rem;
-  margin-top: 1rem;
-}
-
-/* Espacio de cada medalla */
-.medal-slot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 1.2rem 0.8rem;
-  border: 1px solid #e2e8f0;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-/* El anillo contenedor del ícono (Medalla física) */
-.medal-ring {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.75rem;
-  background: #f1f5f9;
-  border: 2px dashed #cbd5e1;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.medal-gem {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.35rem;
-  color: #94a3b8;
-  background: #e2e8f0;
-  transition: all 0.3s ease;
-}
-
-
-
-/* --- DETALLES TIPOGRÁFICOS --- */
-.medal-index {
-  display: block;
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 0.2rem;
-}
-
-.medal-title {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #0f172a;
-  line-height: 1.3;
-  margin-bottom: 0.4rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  height: 2.2em; /* Mantiene la alineación de textos de manera estricta */
-}
-
-.medal-date {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: #10b981;
-}
-
-.medal-date.locked-text {
-  color: #94a3b8;
-}
-
-/* Badge de logro premium en la cabecera */
-.badge-logro-premium {
-  background: linear-gradient(135deg, #eab308, #ca8a04);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  box-shadow: 0 4px 10px rgba(202, 138, 4, 0.25);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-/* =========================================================
-   MEJORAS ULTRACOMPACTAS PARA LA TARJETA COMPARTIBLE
+   MEJORAS ULTRACOMPACTAS PARA LA TARJETA COMPARTIBLE (MATRIZ 7x2)
 ========================================================= */
 
 /* Nombre del estudiante blanco y compacto */
@@ -2508,54 +2098,85 @@ button, input, select, textarea {
   background: linear-gradient(135deg, #7c3aed, #6d28d9);
   color: #ffffff !important;
   padding: 0.6rem 1.2rem;
-  padding-bottom: 1.2rem;
   border-radius: 999px;
   font-size: 1rem;
   font-weight: 700;
   box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
 }
 
-/* Contenedor lineal ultracompacto sin cajas generales pesadas */
-.compact-medal-case {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 25px; /* Poca separación entre elementos */
+/* Rejilla estricta de 7 columnas y 2 filas */
+.compact-medal-case.matrix-7x2 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 Columnas exactas */
+  grid-template-rows: repeat(2, auto);    /* 2 Filas balanceadas */
+  gap: 20px 15px;                        /* Espaciado controlado */
   background: transparent;
- 
   margin-top: 1.5rem;
+  width: 100%;                           /* Ocupa el ancho disponible */
+  box-sizing: border-box;
 }
 
-/* Slots de medallas en forma de círculos limpios */
+/* Slots orientados VERTICALMENTE */
 .compact-medal-slot {
   display: flex;
+  flex-direction: column;                /* Fuerza a que el texto vaya ABAJO */
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  text-align: center;
+  box-sizing: border-box;
+  width: 100%;
 }
 
+/* Círculos perfectos y responsivos dentro de la rejilla */
 .compact-medal-circle {
-  width: 135px;
-  height: 135px;
+  width: 90px;                           /* Reducido ligeramente para que 7 entren perfecto en 1200px */
+  height: 90px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 4rem;
+  font-size: 2.5rem;                     /* Tamaño de ícono proporcional al nuevo círculo */
   transition: transform 0.2s;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  margin-bottom: 8px;                    /* Separación con su respectivo texto inferior */
+  flex-shrink: 0;                        /* Evita que html2canvas lo deforme */
 }
 
-/* Estilo para las medallas que SÍ posee (Protagonismo total del símbolo) */
+/* Estilo para las medallas que SÍ posee */
 .medal-unlocked .compact-medal-circle {
-background-color: #00d9ff25;
+  background-color: rgba(0, 217, 255, 0.15);
   color: #00d9ff;
+  border: 3px solid #00d9ff;
 }
 
-/* Estilo para círculos discretos con candado (Cursos que no llevó) */
+/* Estilo para círculos discretos con candado */
 .compact-medal-circle.discrete-lock {
   background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.3);
   border: 1px dashed rgba(255, 255, 255, 0.2);
   font-size: 1.2rem;
   box-shadow: none;
+}
+
+/* Texto del curso ubicado debajo de la medalla */
+.medal-course-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.2;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;                 /* Máximo 2 líneas de texto */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;                      /* Evita desbordar la celda */
+}
+
+/* Texto para las casillas bloqueadas */
+.medal-locked-title {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.25);
+  margin-top: 4px;
 }
