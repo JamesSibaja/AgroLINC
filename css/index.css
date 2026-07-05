@@ -2520,9 +2520,8 @@ button, input, select, textarea {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 25px; /* Poca separación entre elementos */
+  gap: 25px;
   background: transparent;
- 
   margin-top: 1.5rem;
 }
 
@@ -2547,12 +2546,13 @@ button, input, select, textarea {
 
 /* Estilo para las medallas que SÍ posee (Protagonismo total del símbolo) */
 .medal-unlocked .compact-medal-circle {
-background-color: #00d9ff25;
+  /* Cambiado a RGBA para evitar problemas con hex de 8 dígitos */
+  background-color: rgba(0, 217, 255, 0.15); 
   color: #00d9ff;
   border: 3px solid #00d9ff;
 }
 
-/* Estilo para círculos discretos con candado (Cursos que no llevó) */
+/* Estilo para círculos discretos con candado */
 .compact-medal-circle.discrete-lock {
   background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.3);
