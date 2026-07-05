@@ -2366,3 +2366,36 @@ button, input, select, textarea {
   padding: 3px;
   background: white;
 }
+
+/* =========================================================
+   ESTILOS DE LOGOS INSTITUCIONALES (ENCABEZADO DERECHO)
+========================================================= */
+
+.share-strip-left .share-logo-main {
+  height: 60px; /* Tamaño del logo principal de AgroLINC */
+  width: auto;
+  display: block;
+}
+
+.share-strip-right {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Espaciado interno entre los logos de los ministerios/cooperantes */
+}
+
+/* Estilo para el logo del MICITT u otros ministerios (Mediano) */
+.share-logo-instm {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.9;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.02));
+}
+
+/* Estilo para el logo del IICA u otros organismos (Estándar) */
+.share-logo-inst {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.95;
+}
