@@ -2202,7 +2202,8 @@ button, input, select, textarea {
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid #e2e8f0;
-  padding-bottom: 15px;
+  
+  max-height: 70;
 }
 
 .share-body {
@@ -2247,18 +2248,7 @@ button, input, select, textarea {
 }
 
 /* MATRIZ SIMÉTRICA DE 2 HILERAS DE 7 */
-.compact-medal-case.matrix-7x2 {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 20px;
-  background: #ffffff;
-  padding: 25px;
-  border-radius: 24px;
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
-  border: 1px solid #e2e8f0;
-  align-items: center;
-}
+
 
 /* ESTILO INDIVIDUAL DE CADA CASILLA DE MEDALLA */
 .compact-medal-slot {
@@ -2267,10 +2257,6 @@ button, input, select, textarea {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 12px 5px;
-  border-radius: 16px;
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
   transition: all 0.3s ease;
 }
 
