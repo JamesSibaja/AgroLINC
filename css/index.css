@@ -2248,8 +2248,8 @@ button, input, select, textarea {
 
 /* CONTENEDOR SEGURO: Posicionamiento relativo estricto */
 .compact-medal-circle {
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   box-sizing: border-box;
   position: relative; /* Clave para el centrado absoluto del hijo */
