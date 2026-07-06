@@ -787,7 +787,7 @@ function generarImagenRedesSociales() {
         const iconos = clonedDoc.querySelectorAll('.compact-medal-circle i, .trophy-badge i');
         iconos.forEach(icono => {
           icono.style.position = 'absolute';
-          icono.style.top = '50%';
+          icono.style.top = '30%';
           icono.style.left = '50%';
           icono.style.transform = 'translate(-50%, -70%)';
         });
