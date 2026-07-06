@@ -2134,11 +2134,13 @@ button, input, select, textarea {
 
 /* Estilo para círculos discretos con candado */
 .compact-medal-circle.discrete-lock {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.185);
   color: rgba(255, 255, 255, 0.3);
   border: 1px dashed rgba(255, 255, 255, 0.2);
   font-size: 1.2rem;
   box-shadow: none;
+  height: 40px;
+  width: 40px;
 }
 
 /* Texto del curso ubicado debajo de la medalla */
@@ -2146,8 +2148,8 @@ button, input, select, textarea {
   font-size: 0.7rem;
   font-weight: 600;
   color: #e2e8f0;
-  line-height: 1.2;
-  margin-top: 4px;
+  line-height: 1.4;
+  margin: 0px;
   display: -webkit-box;
   -webkit-line-clamp: 2;                 /* Máximo 2 líneas de texto */
   -webkit-box-orient: vertical;
@@ -2173,7 +2175,7 @@ button, input, select, textarea {
   height: 670px;
   position: absolute;
   left: -9999px; /* Oculto fuera de la pantalla de render */
-  background: #f4f7fb;
+  background: #081d38;
   display: flex;
   flex-direction: column;
   padding: 30px;
@@ -2195,7 +2197,6 @@ button, input, select, textarea {
   flex-direction: column;
   justify-content: center;
   margin-top: 20px;
-  background: #070b33;
 }
 
 .share-user-meta {
@@ -2251,7 +2252,12 @@ button, input, select, textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 3rem;
+}
+
+.compact-medal-circle i {
+  padding: 0px;
+  margin: 0px;
 }
 
 /* Estados desbloqueados */
@@ -2263,18 +2269,9 @@ button, input, select, textarea {
   border: 3px solid #00d9ff;
 }
 
-.medal-course-title {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.2;
-}
 
-/* Estados bloqueados */
-.medal-locked .compact-medal-circle.discrete-lock {
-  background: #e2e8f0;
-  color: #94a3b8;
-}
+
+
 
 .medal-locked-title {
   font-size: 0.8rem;

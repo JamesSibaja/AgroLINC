@@ -690,7 +690,7 @@ function generarImagenRedesSociales() {
       medallasHTML += `
         <div class="compact-medal-slot medal-locked ">
           <div class="compact-medal-circle discrete-lock">
-            <i class="fa-solid fa-lock"></i>
+            
           </div>
          
         </div>
