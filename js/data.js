@@ -773,36 +773,62 @@ function generarImagenRedesSociales() {
   // Modifica únicamente el paso de la captura al final de tu JS existente:
   
   // 5. Captura fotográfica estable y perfectamente centrada
-  setTimeout(() => {
-    html2canvas(shareContainer, {
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: "#081d38",
-      scale: 2,           // Mantiene la alta definición (HD)
-      width: 1200,        
-      height: 670,
-      logging: false,     // Desactiva logs redundantes para acelerar proceso
-      onclone: (clonedDoc) => {
-        // Forzamos a que en el documento clonado por html2canvas los iconos mantengan el centrado absoluto estricto
-        const iconos = clonedDoc.querySelectorAll('.compact-medal-circle i, .trophy-badge i');
-        iconos.forEach(icono => {
-          icono.style.position = 'absolute';
-          icono.style.top = '30%';
-          icono.style.left = '50%';
-          icono.style.transform = 'translate(-50%, -50%)';
-        });
-      }
-    }).then(canvas => {
-      const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
-      const link = document.createElement('a');
-      link.download = `AgroLINC_Logros_${nombreArchivoSafe}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }).catch(err => {
-      console.error("Error en la captura de la tarjeta: ", err);
-    });
-  }, 600); // 600ms es el tiempo ideal de espera para renderizado
+// 5. Captura fotográfica estable, con scroll congelado e inmunidad a desfases
+setTimeout(() => {
+  // Obtenemos la posición exacta del contenedor antes de capturar
+  const rect = shareContainer.getBoundingClientRect();
 
+  html2canvas(shareContainer, {
+    useCORS: true,
+    allowTaint: true,
+    backgroundColor: "#081d38",
+    scale: 2,           // Mantiene la alta definición (HD)
+    width: 1200,        
+    height: 670,
+    logging: false,     
+
+    /* =========================================================
+       SOLUCIÓN AL DESFASE GENERAL DE TEXTOS: CONGELAR EL SCROLL
+    ========================================================= */
+    scrollX: 0,
+    scrollY: 0,
+    x: 0, // Fuerza el origen de coordenadas de renderizado al inicio de la caja
+    y: 0,
+    windowWidth: 1200,  // Simula una ventana perfecta para que las fuentes no escalen mal
+    windowHeight: 670,
+
+    onclone: (clonedDoc) => {
+      // Buscamos la tarjeta clonada en el DOM virtual de html2canvas
+      const clonedCard = clonedDoc.getElementById('linkedinShareCard');
+      if (clonedCard) {
+        // Forzamos a que la tarjeta clonada esté visible en el punto cero absoluto para el renderizador
+        clonedCard.style.position = 'static';
+        clonedCard.style.top = '0px';
+        clonedCard.style.left = '0px';
+        clonedCard.style.margin = '0px';
+      }
+
+      // Devolvemos los iconos a su centrado matemático real (-50%, -50%)
+      // ya que el scroll congelado corregirá el desfase general.
+      const iconos = clonedDoc.querySelectorAll('.compact-medal-circle i, .trophy-badge i');
+      iconos.forEach(icono => {
+        icono.style.position = 'absolute';
+        icono.style.top = '50%';
+        icono.style.left = '50%';
+        icono.style.transform = 'translate(-50%, -50%)'; 
+        icono.style.lineHeight = '1';
+      });
+    }
+  }).then(canvas => {
+    const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
+    const link = document.createElement('a');
+    link.download = `AgroLINC_Logros_${nombreArchivoSafe}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }).catch(err => {
+    console.error("Error en la captura de la tarjeta: ", err);
+  });
+}, 600); 
 }
 
 /* =========================================
