@@ -2089,10 +2089,10 @@ button, input, select, textarea {
   align-items: center;
   background: #ffffff;
   padding: 15px 40px;
-  height: 90px;
+  height: 75px;
   box-sizing: border-box;
-  border-top: 4px solid #350f5f;
-  border-bottom: 4px solid #041124;
+  border-top: 5px solid #07058f;
+  border-bottom: 5px solid #07058f;
 }
 
 .share-logo-main { height: 70px; width: auto; }

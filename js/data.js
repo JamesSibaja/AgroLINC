@@ -812,10 +812,10 @@ setTimeout(() => {
         // Aplicamos una compensación hacia arriba para contrarrestar el desfase del renderizador.
         // -4px o -5px suele ser el estándar de error de html2canvas con fuentes del sistema.
         texto.style.position = 'relative';
-        texto.style.top = '10px'; 
+        texto.style.top = '-10px'; 
         
         // Opcional: Si notas que algún texto largo se corta, aseguramos que su contenedor tenga holgura
-        texto.style.lineHeight = '1.2';
+        texto.style.lineHeight = '2';
       });
 
       // 2. Ajuste específico para el Badge Premium de horas si fuera necesario elevarlo más
