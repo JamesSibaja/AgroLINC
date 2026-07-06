@@ -727,7 +727,7 @@ function generarImagenRedesSociales() {
         </div>
         <div class="share-user-stats">
           <span class="badge-logro-purple">
-            <i class="fa-solid fa-medal"></i> ${totalCursosLogrados} Módulos Completados
+            <i class="fa-solid fa-medal" style="font-size: 2rem;"></i> ${totalCursosLogrados} Cursos Completados
           </span>
         </div>
       </div>

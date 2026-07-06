@@ -2186,9 +2186,9 @@ button, input, select, textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #e2e8f0;
-  
+  background: #e2e8f0;
   max-height: 70;
+  margin:0px;
 }
 
 .share-body {
@@ -2227,6 +2227,7 @@ button, input, select, textarea {
   background: linear-gradient(135deg, #6d28d9, #581c87);
   color: white;
   padding: 10px 20px;
+  padding-bottom: 20px;
   border-radius: 999px;
   font-weight: 700;
   font-size: 1.1rem;
@@ -2267,9 +2268,14 @@ button, input, select, textarea {
   background-color: rgba(0, 217, 255, 0.15);
   color: #00d9ff;
   border: 3px solid #00d9ff;
+  padding: 0px;
+  margin: 0;
 }
 
-
+.medal-unlocked i {
+  padding: 0px;
+  margin: 0;
+}
 
 
 
@@ -2316,7 +2322,7 @@ button, input, select, textarea {
 
 .share-footer-text span {
   font-weight: 700;
-  color: #0f172a;
+  color: #ffffff;
   font-size: 1rem;
 }
 
