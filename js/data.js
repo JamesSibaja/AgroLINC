@@ -750,6 +750,27 @@ function generarImagenRedesSociales() {
   `;
 }
 
+  // 5. Captura fotográfica estable en HD (1200x670)
+  setTimeout(() => {
+    html2canvas(shareContainer, {
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: "#f4f7fb",
+      scale: 2,           
+      width: 1200,        
+      height: 670         
+    }).then(canvas => {
+      const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
+      const link = document.createElement('a');
+      link.download = `AgroLINC_Progreso_${nombreArchivoSafe}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }).catch(err => {
+      console.error("Error generando la tarjeta de progreso: ", err);
+    });
+  }, 600); 
+}
+
 /* =========================================
    EVENTOS PRINCIPALES
 ========================================= */
