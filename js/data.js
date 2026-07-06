@@ -591,6 +591,60 @@ function cambiarFocoModal(cursoId) {
   }
 }
 
+/* =========================================================
+   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA
+========================================================= */
+function inyectarBotonCompartir() {
+  const profileCard = document.querySelector('.profile-card');
+  if (!profileCard || document.getElementById('btnDownloadShare')) return;
+
+  const btnShare = document.createElement('button');
+  btnShare.id = 'btnDownloadShare';
+  btnShare.className = 'download-share-btn';
+  btnShare.innerHTML = `<i class="fa-solid fa-cloud-download-alt"></i> Descargar Tarjeta de Progreso`;
+  
+  btnShare.addEventListener('click', generarImagenRedesSociales);
+  profileCard.appendChild(btnShare);
+}
+/* =========================================================
+   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (DISEÑO DOBLE HILERA DE 7)
+========================================================= */
+
+// FUNCIÓN AUXILIAR AUTOMATIZADA: Simplifica los nombres largos de los cursos para la tarjeta compacta
+function obtenerNombreCortoCurso(courseName) {
+  const name = String(courseName || "").trim().toLowerCase();
+  
+  if (name.includes("impresion 3d") || name.includes("impresión 3d")) {
+    return name.includes("intermedio") ? "Impresión 3D II" : "Impresión 3D I";
+  }
+  if (name.includes("drone") || name.includes("vant") || name.includes("vuelo")) {
+    return name.includes("intermedio") ? "Drones II" : "Drones I";
+  }
+  if (name.includes("corte laser") || name.includes("corte láser") || name.includes("cnc")) {
+    return "Corte Láser / CNC";
+  }
+  if (name.includes("iot") || name.includes("internet de las cosas")) {
+    return "Internet de las Cosas (IoT)";
+  }
+  if (name.includes("microcontrolador") || name.includes("sensor")) {
+    return "Microcontroladores";
+  }
+  if (name.includes("automatizacion") || name.includes("automatización") || name.includes("robot")) {
+    return "Automatización";
+  }
+  if (name.includes("geoespacial") || name.includes("mapa") || name.includes("kobo")) {
+    return "Herramientas Geoespaciales";
+  }
+  if (name.includes("innovacion") || name.includes("innovación") || name.includes("canvas")) {
+    return "Modelos de Innovación";
+  }
+  if (name.includes("fabricacion digital") || name.includes("fabricación digital")) {
+    return "Fabricación Digital";
+  }
+  
+  // Si no entra en ninguna regla, devuelve el nombre original truncado discretamente
+  return courseName.length > 22 ? courseName.substring(0, 20) + "..." : courseName;
+}
 function generarImagenRedesSociales() {
   if (!estudianteGlobal) return;
 
