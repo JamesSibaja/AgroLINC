@@ -695,9 +695,9 @@ function generarImagenRedesSociales() {
       medallasHTML += `
         <div class="compact-medal-slot medal-locked">
           <div class="compact-medal-circle">
-            <i class="fa-solid fa-circle-dot" style="font-size: 1rem; opacity: 0.4;"></i>
+            <i class="fa-solid fa-lock" style="font-size: 1rem; opacity: 0.2;"></i>
           </div>
-          <span class="medal-locked-title">Optativo</span>
+          
         </div>
       `;
     }
