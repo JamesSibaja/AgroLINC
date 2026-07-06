@@ -770,14 +770,28 @@ function generarImagenRedesSociales() {
   `;
 
   // 5. Captura en Alta Definición Limpia
+  // Modifica únicamente el paso de la captura al final de tu JS existente:
+  
+  // 5. Captura fotográfica estable y perfectamente centrada
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
       allowTaint: true,
       backgroundColor: "#081d38",
-      scale: 2,           
+      scale: 2,           // Mantiene la alta definición (HD)
       width: 1200,        
-      height: 670         
+      height: 670,
+      logging: false,     // Desactiva logs redundantes para acelerar proceso
+      onclone: (clonedDoc) => {
+        // Forzamos a que en el documento clonado por html2canvas los iconos mantengan el centrado absoluto estricto
+        const iconos = clonedDoc.querySelectorAll('.compact-medal-circle i, .trophy-badge i');
+        iconos.forEach(icono => {
+          icono.style.position = 'absolute';
+          icono.style.top = '50%';
+          icono.style.left = '50%';
+          icono.style.transform = 'translate(-50%, -50%)';
+        });
+      }
     }).then(canvas => {
       const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
       const link = document.createElement('a');
@@ -787,7 +801,8 @@ function generarImagenRedesSociales() {
     }).catch(err => {
       console.error("Error en la captura de la tarjeta: ", err);
     });
-  }, 600); 
+  }, 600); // 600ms es el tiempo ideal de espera para renderizado
+
 }
 
 /* =========================================
