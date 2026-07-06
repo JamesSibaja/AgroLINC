@@ -695,7 +695,7 @@ function generarImagenRedesSociales() {
       medallasHTML += `
         <div class="compact-medal-slot medal-locked">
           <div class="compact-medal-circle">
-            <i class="fa-solid fa-lock" style="font-size: 1rem; opacity: 0.2;"></i>
+            <i class="fa-solid fa-lock" style="font-size: 2rem; opacity: 0.3;"></i>
           </div>
           
         </div>
@@ -739,11 +739,20 @@ function generarImagenRedesSociales() {
           </p>
         </div>
         <div class="share-user-stats">
-          <div class="badge-logro-premium">
-            <i class="fa-solid fa-bolt"></i> ${horasAcumuladas} Horas Prácticas
-            <span>${totalCursosLogrados} Competencias Desarrolladas</span>
+        <div class="badge-logro-premium">
+          <div class="badge-premium-icon">
+            <i class="fa-solid fa-medal"></i>
+          </div>
+          <div class="badge-premium-content">
+            <div class="badge-premium-title">
+              <span class="badge-hours-highlight">${horasAcumuladas} Horas</span> Prácticas
+            </div>
+            <div class="badge-premium-subtitle">
+              ${totalCursosLogrados} Competencias Desarrolladas
+            </div>
           </div>
         </div>
+      </div>
       </div>
       
       <!-- CONTENEDOR DEL ESTUCHE MIXTO -->

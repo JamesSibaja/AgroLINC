@@ -2139,24 +2139,78 @@ button, input, select, textarea {
 
 .share-separator { color: #475569; font-weight: bold; }
 
-/* Nuevo Badge de Impacto Semántico */
+/* =========================================================
+   NUEVO BADGE PREMIUM: MEDALLA DE HONOR Y HORAS ACUMULADAS
+========================================================= */
 .badge-logro-premium {
-  background: linear-gradient(135deg, #059669, #047857);
-  color: #ffffff;
-  padding: 14px 28px;
-  border-radius: 14px;
-  font-size: 1.2rem;
-  font-weight: 800;
-  text-align: right;
-  line-height: 1.2;
-  box-shadow: 0 4px 15px rgba(5, 150, 105, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  /* Fondo gris-azul muy transparente estilo cristal premium */
+  background: rgba(255, 255, 255, 0.03); 
+  /* Borde sutil que le da estructura y soporte visual */
+  border: 1px solid rgba(255, 255, 255, 0.08); 
+  padding: 14px 22px;
+  border-radius: 16px;
+  box-sizing: border-box;
+  /* Sombra profunda pero suave para despegarlo del fondo */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
 }
-.badge-logro-premium span {
-  display: block;
+
+/* Contenedor del Icono de la Medalla */
+.badge-premium-icon {
+  width: 50px;
+  height: 50px;
+  /* Fondo morado tecnológico con baja opacidad */
+  background: rgba(139, 92, 246, 0.12); 
+  border-radius: 12px;
+  position: relative; /* Clave para el truco de html2canvas */
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* Icono Medalla: El núcleo visual morado */
+.badge-premium-icon i {
+  position: absolute;
+  top: 40%; /* Tu ajuste perfecto contra el desfase de la librería */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Color Morado/Violeta de alta intensidad */
+  color: #a78bfa; 
+  font-size: 1.7rem;
+  line-height: 1 !important;
+}
+
+/* Contenedor de Textos */
+.badge-premium-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+/* Título de Horas */
+.badge-premium-title {
+  color: #e2e8f0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+/* Resalte específico para la cifra numérica */
+.badge-hours-highlight {
+  color: #c084fc; /* Morado claro brillante para los números */
+  font-weight: 800;
+}
+
+/* Subtítulo de Competencias */
+.badge-premium-subtitle {
+  color: #94a3b8; /* Gris sofisticado discreto */
   font-size: 0.85rem;
   font-weight: 500;
-  color: #a7f3d0;
-  margin-top: 2px;
+  margin-top: 3px;
+  letter-spacing: 0.01em;
 }
 
 /* =========================================================
@@ -2207,7 +2261,7 @@ button, input, select, textarea {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); /* Centrado absoluto real sin depender de fuentes */
-  font-size: 2.3rem;
+  font-size: 3rem;
   line-height: 1 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -2227,13 +2281,11 @@ button, input, select, textarea {
   background: rgba(255, 255, 255, 0.03);
   color: rgba(255, 255, 255, 0.12);
   border: 2px dashed rgba(255, 255, 255, 0.12);
-  width: 50px;
-  height: 50px;
+  width: 65px;
+  height: 65px;
 }
 
-.medal-locked .compact-medal-circle i {
-  font-size: 2rem; /* Candado o punto más discreto */
-}
+
 
 /* Títulos de los Cursos */
 .medal-course-title {
