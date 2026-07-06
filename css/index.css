@@ -2116,16 +2116,6 @@ button, input, select, textarea {
   box-sizing: border-box;
 }
 
-/* Slots orientados VERTICALMENTE */
-.compact-medal-slot {
-  display: flex;
-  flex-direction: column;                /* Fuerza a que el texto vaya ABAJO */
-  align-items: center;
-  justify-content: flex-start;
-  text-align: center;
-  box-sizing: border-box;
-  width: 100%;
-}
 
 
 
@@ -2144,18 +2134,29 @@ button, input, select, textarea {
 }
 
 /* Texto del curso ubicado debajo de la medalla */
+/* Texto del curso ubicado de forma simétrica debajo de la medalla */
 .medal-course-title {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 600;
   color: #e2e8f0;
-  line-height: 1.4;
-  margin: 0px;
+  line-height: 1.3;
+  margin-top: 8px;                     /* Separa el texto del círculo de la medalla */
+  margin-bottom: 0px;
+  padding: 0 4px;                      /* Pequeño cojín lateral interno */
+  width: 100%;                         /* Ocupa el ancho total del slot asignado */
+  max-width: 95px;                     /* Ajuste quirúrgico para que no desborde en 7 columnas */
+  text-align: center;
+  
+  /* Sistema de control multi-línea inteligente */
   display: -webkit-box;
-  -webkit-line-clamp: 2;                 /* Máximo 2 líneas de texto */
+  -webkit-line-clamp: 2;                 /* Muestra máximo 2 líneas; si es más largo coloca "..." */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 110px;                      /* Evita desbordar la celda */
+  
+  /* Evita rupturas feas de palabras a la mitad */
+  word-break: break-word; 
+  hyphens: auto;
 }
 
 /* Texto para las casillas bloqueadas */
@@ -2178,8 +2179,10 @@ button, input, select, textarea {
   background: #081d38;
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 0px;
   box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .share-branding-strip {
@@ -2189,6 +2192,7 @@ button, input, select, textarea {
   background: #e2e8f0;
   max-height: 70;
   margin:0px;
+  
 }
 
 .share-body {
@@ -2196,7 +2200,6 @@ button, input, select, textarea {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 20px;
 }
 
 .share-user-meta {
@@ -2236,14 +2239,18 @@ button, input, select, textarea {
 /* MATRIZ SIMÉTRICA DE 2 HILERAS DE 7 */
 
 
+
+
 /* ESTILO INDIVIDUAL DE CADA CASILLA DE MEDALLA */
 .compact-medal-slot {
   display: flex;
-  flex-direction: column;
+  flex-direction: column;                /* El texto siempre va abajo */
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;           /* Alinea desde arriba para mantener los círculos nivelados */
   text-align: center;
-  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;                      /* Contiene cualquier desborde */
 }
 
 .compact-medal-circle {
