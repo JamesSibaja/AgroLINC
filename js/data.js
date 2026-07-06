@@ -591,63 +591,6 @@ function cambiarFocoModal(cursoId) {
   }
 }
 
-/* =========================================================
-   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA
-========================================================= */
-function inyectarBotonCompartir() {
-  const profileCard = document.querySelector('.profile-card');
-  if (!profileCard || document.getElementById('btnDownloadShare')) return;
-
-  const btnShare = document.createElement('button');
-  btnShare.id = 'btnDownloadShare';
-  btnShare.className = 'download-share-btn';
-  btnShare.innerHTML = `<i class="fa-solid fa-cloud-download-alt"></i> Descargar Tarjeta de Progreso`;
-  
-  btnShare.addEventListener('click', generarImagenRedesSociales);
-  profileCard.appendChild(btnShare);
-}
-
-// FUNCIÓN AUXILIAR: Normaliza y acorta de forma limpia nombres muy largos
-function obtenerNombreCortoCurso(courseName) {
-  const name = String(courseName || "").trim().toLowerCase();
-  
-  if (name.includes("impresion 3d") || name.includes("impresión 3d")) {
-    return name.includes("intermedio") ? "Impresión 3D II" : "Impresión 3D I";
-  }
-  if (name.includes("drone") || name.includes("vant") || name.includes("vuelo")) {
-    return name.includes("intermedio") ? "Drones II" : "Drones I";
-  }
-  if (name.includes("corte laser") || name.includes("corte láser") || name.includes("cnc")) {
-    return "Corte Láser / CNC";
-  }
-  if (name.includes("iot") || name.includes("internet de las cosas")) {
-    return "IoT Agrícola";
-  }
-  if (name.includes("microcontrolador") || name.includes("sensor")) {
-    return "Microcontroladores";
-  }
-  if (name.includes("automatizacion") || name.includes("automatización") || name.includes("robot")) {
-    return "Automatización";
-  }
-  if (name.includes("geoespacial") || name.includes("mapa") || name.includes("kobo")) {
-    return "Geoespaciales";
-  }
-  if (name.includes("innovacion") || name.includes("innovación") || name.includes("canvas")) {
-    return "Módulo Innovación";
-  }
-  if (name.includes("fabricacion digital") || name.includes("fabricación digital")) {
-    return "Fabricación Digital";
-  }
-  if (name.includes("electricidad")) {
-    return "Electricidad Práctica";
-  }
-  
-  return courseName.length > 22 ? courseName.substring(0, 20) + "..." : courseName;
-}
-
-/* =========================================================
-   PROCESADOR DE RENDERIZADO DE MATRIZ DE LOGROS
-========================================================= */
 function generarImagenRedesSociales() {
   if (!estudianteGlobal) return;
 
@@ -658,18 +601,30 @@ function generarImagenRedesSociales() {
     document.body.appendChild(shareContainer);
   }
 
-  // Filtrar los cursos que realmente posee aprobados el alumno
+  // 1. Extraer aprobados reales
   const aprobadosReales = cursosRutaGlobal.filter(c => 
     tuplasGlobales.some(t => t[0] === c.id)
   );
 
   const totalCursosLogrados = aprobadosReales.length;
-  const totalCasillasTarjeta = 14; // Estructura fija simétrica de 7x2
-  let medallasHTML = "";
+  const horasAcumuladas = totalCursosLogrados * 4; // Cada curso sumará 4 horas de valor
 
-  for (let i = 0; i < totalCasillasTarjeta; i++) {
+  // Verificar si ya completó el módulo de innovación final (suponiendo que su nombre contenga 'innovacion')
+  const tieneModuloFinal = aprobadosReales.some(c => c.nombre.toLowerCase().includes("innovacion"));
+  
+  /* 
+     2. LÓGICA COGNITIVA DEL MEDALLERO: 
+     Si el alumno lleva 6 cursos o menos, le mostramos un estuche optimizado de solo 6 espacios.
+     Si lleva más, el estuche se redimensiona a la cantidad real que tiene o a 12 si queremos holgura.
+  */
+  const slotsOrdinariosVisibles = totalCursosLogrados <= 6 ? 6 : Math.max(totalCursosLogrados, 12);
+  
+  // Decidir estructura de columnas de la rejilla de forma balanceada
+  const columnasGrid = totalCursosLogrados <= 6 ? 6 : Math.ceil(slotsOrdinariosVisibles / 2);
+
+  let medallasHTML = "";
+  for (let i = 0; i < slotsOrdinariosVisibles; i++) {
     if (i < totalCursosLogrados) {
-      // Slot Desbloqueado con Medalla
       const curso = aprobadosReales[i];
       const nombreAbreviado = obtenerNombreCortoCurso(curso.nombre);
       
@@ -682,27 +637,33 @@ function generarImagenRedesSociales() {
         </div>
       `;
     } else {
-      // Slot Bloqueado / Espacio vacío del estuche Pokémon original
-      // Si es el slot número 7 (el de la meta final de innovación), podemos usar opcionalmente un destacado estético
-      const esCasillaEspecial = (i === 6) ? "medal-featured" : "";
-      const labelBloqueado = (i === 6) ? "Módulo Final" : `Espacio ${i + 1}`;
-
+      // Casillas vacías del estuche adaptativo
       medallasHTML += `
-        <div class="compact-medal-slot medal-locked ${esCasillaEspecial}">
+        <div class="compact-medal-slot medal-locked">
           <div class="compact-medal-circle">
-            <i class="fa-solid fa-lock"></i>
+            <i class="fa-solid fa-circle-dot" style="font-size: 1rem; opacity: 0.4;"></i>
           </div>
-          <span class="medal-locked-title">${labelBloqueado}</span>
+          <span class="medal-locked-title">Optativo</span>
         </div>
       `;
     }
   }
 
-  const urlPlataforma = `https://fablabiica.github.io/AgroLINC/`;
-  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(urlPlataforma)}&color=07152d`;
+  // 3. Estructura Premium independiente para el Gran Módulo Final (Trofeo)
+  const trofeoHTML = `
+    <div class="special-trophy-panel ${tieneModuloFinal ? 'trophy-unlocked' : 'trophy-locked'}">
+      <div class="trophy-badge">
+        <i class="fa-solid ${tieneModuloFinal ? 'fa-trophy' : 'fa-award'}"></i>
+      </div>
+      <div class="trophy-title">${tieneModuloFinal ? 'PROGRAMA COMPLETADO' : 'Módulo Innovación'}</div>
+    </div>
+  `;
 
+  const urlPlataforma = `https://fablabiica.github.io/AgroLINC/`;
+  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlPlataforma)}&color=041124`;
+
+  // 4. Inyección del Layout Estructural Nuevo
   shareContainer.innerHTML = `
-    <!-- Encabezado / Identidad del Programa -->
     <div class="share-branding-strip">
       <div class="share-strip-left">
         <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main" onerror="this.style.display='none'">
@@ -713,7 +674,6 @@ function generarImagenRedesSociales() {
       </div>
     </div>
     
-    <!-- Meta del Estudiante y Progreso -->
     <div class="share-body">
       <div class="share-user-meta">
         <div class="share-user-details">
@@ -721,52 +681,57 @@ function generarImagenRedesSociales() {
           <p class="share-user-sub">
             <span><i class="fa-solid fa-id-card"></i> <b>${estudianteGlobal.cedula}</b></span>
             <span class="share-separator">•</span>
-            <span><i class="fa-solid fa-route"></i> Ruta: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
+            <span><i class="fa-solid fa-route"></i> Ruta Tecnológica: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
           </p>
         </div>
         <div class="share-user-stats">
-          <span class="badge-logro-purple">
-            <i class="fa-solid fa-medal"></i> ${totalCursosLogrados} / 6 Cursos Completados
-          </span>
+          <div class="badge-logro-premium">
+            <i class="fa-solid fa-bolt"></i> ${horasAcumuladas} Horas Prácticas
+            <span>${totalCursosLogrados} Competencias Desarrolladas</span>
+          </div>
         </div>
       </div>
       
-      <!-- ESTUCHE DE MEDALLAS EN MATRIZ SIMÉTRICA -->
-      <div class="compact-medal-case matrix-7x2">
-        ${medallasHTML}
+      <!-- CONTENEDOR DEL ESTUCHE MIXTO -->
+      <div class="showcase-container">
+        <!-- Rejilla Dinámica Inyectada con estilo de columnas en línea -->
+        <div class="compact-medal-case-dynamic" style="grid-template-columns: repeat(${columnasGrid}, 1fr);">
+          ${medallasHTML}
+        </div>
+        
+        <!-- Bloque Destacado del Trofeo de Innovación -->
+        ${trofeoHTML}
       </div>
     </div>
 
-    <!-- Pie de Validación -->
     <div class="share-footer">
       <div class="share-footer-text">
-        <span><i class="fa-solid fa-certificate"></i> Colección de Competencias y Habilidades AgroLINC</span>
-        <p>Escanea el código QR para verificar la validez de los certificados emitidos en tiempo real (4 horas por curso autónomo).</p>
+        <span><i class="fa-solid fa-shield-halved"></i> Credencial Profesional Verificada • AgroLINC</span>
+        <p>Escanea el código QR para auditar los prototipos de innovación y el estado de la ruta académica del estudiante.</p>
       </div>
       <div class="share-footer-qr">
-        <img src="${qrApiUrl}" alt="Código QR" class="share-qr-image">
+        <img src="${qrApiUrl}" alt="Código QR de Verificación" class="share-qr-image">
       </div>
     </div>
   `;
 
-
-  // 5. Captura fotográfica estable en HD (1200x670)
+  // 5. Captura en Alta Definición Limpia
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
       allowTaint: true,
-      backgroundColor: "#f4f7fb",
+      backgroundColor: "#081d38",
       scale: 2,           
       width: 1200,        
       height: 670         
     }).then(canvas => {
       const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
       const link = document.createElement('a');
-      link.download = `AgroLINC_Progreso_${nombreArchivoSafe}.png`;
+      link.download = `AgroLINC_Logros_${nombreArchivoSafe}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
     }).catch(err => {
-      console.error("Error generando la tarjeta de progreso: ", err);
+      console.error("Error en la captura de la tarjeta: ", err);
     });
   }, 600); 
 }

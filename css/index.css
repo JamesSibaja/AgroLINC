@@ -2068,16 +2068,6 @@ button, input, select, textarea {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.download-share-btn:hover {
-  transform: translateY(-3px);
-  background: linear-gradient(135deg, #1d4ed8, #1e40af);
-  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
-}
-
-.download-share-btn:active {
-  transform: translateY(-1px);
-}
-
 /* =========================================================
    2. CONTENEDOR MAESTRO DE LA TARJETA (1200x670)
 ========================================================= */
@@ -2085,7 +2075,7 @@ button, input, select, textarea {
   width: 1200px;
   height: 670px;
   position: absolute;
-  left: -9999px; /* Oculto del viewport para renderizado de imagen */
+  left: -9999px;
   background: #081d38;
   display: flex;
   flex-direction: column;
@@ -2093,7 +2083,6 @@ button, input, select, textarea {
   font-family: system-ui, -apple-system, sans-serif;
 }
 
-/* Encabezado de Marcas */
 .share-branding-strip {
   display: flex;
   justify-content: space-between;
@@ -2104,17 +2093,8 @@ button, input, select, textarea {
   box-sizing: border-box;
 }
 
-.share-logo-main {
-  height: 50px;
-  width: auto;
-}
-
-.share-strip-right {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-}
-
+.share-logo-main { height: 50px; width: auto; }
+.share-strip-right { display: flex; align-items: center; gap: 25px; }
 .share-logo-instm { height: 55px; width: auto; object-fit: contain; }
 .share-logo-inst  { height: 45px; width: auto; object-fit: contain; }
 
@@ -2123,8 +2103,8 @@ button, input, select, textarea {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Distribuye equitativamente el espacio vertical */
-  padding: 40px;
+  justify-content: space-between;
+  padding: 35px 40px;
   box-sizing: border-box;
 }
 
@@ -2137,11 +2117,11 @@ button, input, select, textarea {
 }
 
 .compact-white-name {
-  color: #ffffff !important; /* Corregido: Forzado a blanco sobre el fondo oscuro */
-  font-size: 2.5rem;
+  color: #ffffff !important;
+  font-size: 2.6rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
 }
 
 .share-user-sub {
@@ -2150,42 +2130,56 @@ button, input, select, textarea {
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
-.share-separator {
-  color: #475569;
-  font-weight: bold;
-}
+.share-separator { color: #475569; font-weight: bold; }
 
-/* Badge de Contador General */
-.badge-logro-purple {
-  background: linear-gradient(135deg, #7c3aed, #5b21b6);
-  color: #ffffff !important;
-  padding: 12px 24px;
-  border-radius: 999px;
-  font-size: 1.15rem;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+/* Nuevo Badge de Impacto Semántico */
+.badge-logro-premium {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-align: right;
+  line-height: 1.2;
+  box-shadow: 0 4px 15px rgba(5, 150, 105, 0.25);
+}
+.badge-logro-premium span {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #a7f3d0;
+  margin-top: 2px;
 }
 
 /* =========================================================
-   3. ESTUCHE DE MEDALLAS (MATRIZ POKÉMON MULTI-RUTA)
+   3. ARQUITECTURA DEL ESTUCHE DE MEDALLAS MIXTO
 ========================================================= */
-.compact-medal-case.matrix-7x2 {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 30px 20px;
+.showcase-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
   width: 100%;
-  margin: 20px 0;
+  margin: 15px 0;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   box-sizing: border-box;
 }
 
-/* Base de cada espacio de Medalla */
+/* Rejilla Dinámica Adaptativa para Cursos */
+.compact-medal-case-dynamic {
+  flex: 1;
+  display: grid;
+  /* Se calcula dinámicamente en JS las columnas necesarias */
+  gap: 20px; 
+  box-sizing: border-box;
+}
+
 .compact-medal-slot {
   display: flex;
   flex-direction: column;
@@ -2196,72 +2190,113 @@ button, input, select, textarea {
   box-sizing: border-box;
 }
 
-/* El círculo contenedor de la medalla/candado */
+/* SOLUCIÓN AL DESCENTRADO EN HTML2CANVAS: Uso estricto de line-height y alturas controladas */
 .compact-medal-circle {
-  width: 90px;  /* Tamaño estandarizado para mantener simetría perfecta */
+  width: 90px;
   height: 90px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
   box-sizing: border-box;
-  transition: all 0.2s ease;
+  display: block;             
+  line-height: 84px;          /* Centrado vertical infalible para html2canvas */
+  text-align: center;
+  font-size: 2.3rem;
 }
 
-/* Estado: DESBLOQUEADA */
+.compact-medal-circle i {
+  vertical-align: middle;     /* Asegura estabilidad en el renderizado */
+}
+
+/* Estados de Cursos Ordinarios */
 .medal-unlocked .compact-medal-circle {
   background: rgba(0, 217, 255, 0.1);
   color: #00d9ff;
   border: 3px solid #00d9ff;
-  box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.15);
 }
 
-/* Estado: BLOQUEADA (Hueco del estuche estilo Pokémon) */
 .medal-locked .compact-medal-circle {
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.15);
-  border: 2px dashed rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.12);
+  border: 2px dashed rgba(255, 255, 255, 0.12);
 }
 
-/* Títulos de Cursos inferiores */
-.medal-course-title, .medal-locked-title {
+/* Títulos de los Cursos */
+.medal-course-title {
+  color: #e2e8f0;
   font-size: 0.8rem;
   font-weight: 600;
   line-height: 1.3;
   margin-top: 10px;
   width: 100%;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-.medal-course-title {
-  color: #e2e8f0;
-  /* Control inteligente de desborde sin romper palabras de forma fea */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .medal-locked-title {
   color: rgba(255, 255, 255, 0.25);
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 10px;
 }
 
 /* =========================================================
-   4. DESTACADO MAESTRO (PROYECTO FINAL / MÓDULO INNOVACIÓN)
+   4. PANEL EXCLUSIVO: MÓDULO FINAL DE INNOVACIÓN (EL TROFEO)
 ========================================================= */
-/* Si se desea destacar visualmente el último logro o el proyecto de innovación */
-.compact-medal-slot.medal-featured .compact-medal-circle {
-  transform: scale(1.05);
-  border: 3px dashed #eab308;
-  color: #eab308;
-  background: rgba(234, 179, 8, 0.05);
+.special-trophy-panel {
+  width: 180px;
+  height: 160px;
+  border-left: 2px dashed rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 25px;
+  box-sizing: border-box;
 }
 
+.trophy-badge {
+  width: 100px;
+  height: 100px;
+  border-radius: 18px; /* Diseño poligonal/tarjeta premium */
+  display: block;
+  line-height: 94px;
+  text-align: center;
+  font-size: 2.8rem;
+  box-sizing: border-box;
+}
+
+.trophy-badge i { vertical-align: middle; }
+
+/* Trofeo Bloqueado */
+.trophy-locked .trophy-badge {
+  background: rgba(255, 255, 255, 0.02);
+  border: 3px dashed rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.15);
+}
+
+/* Trofeo Completado */
+.trophy-unlocked .trophy-badge {
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(251, 191, 36, 0.2));
+  border: 3px solid #eab308;
+  color: #eab308;
+  box-shadow: 0 0 25px rgba(234, 179, 8, 0.3);
+  animation: pulseGlow 2s infinite alternate;
+}
+
+.trophy-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: 12px;
+  text-align: center;
+  color: #94a3b8;
+  letter-spacing: 0.03em;
+}
+.trophy-unlocked .trophy-title { color: #fef08a; }
+
 /* =========================================================
-   5. PIE DE PÁGINA (VERIFICACIÓN)
+   5. PIE DE PÁGINA CON QR POP-OUT EN RELATIVO
 ========================================================= */
 .share-footer {
   display: flex;
@@ -2272,12 +2307,13 @@ button, input, select, textarea {
   background: #041124;
   height: 100px;
   box-sizing: border-box;
+  position: relative; /* Base para el salto del QR */
 }
 
 .share-footer-text span {
   font-weight: 700;
   color: #ffffff;
-  font-size: 1rem;
+  font-size: 1.05rem;
   display: block;
 }
 
@@ -2287,10 +2323,21 @@ button, input, select, textarea {
   margin: 4px 0 0 0;
 }
 
+/* Contenedor del QR que sobresale del footer */
+.share-footer-qr {
+  position: absolute;
+  right: 40px;
+  bottom: 20px; /* Eleva el QR rompiendo la estructura rígida */
+  z-index: 50;
+}
+
 .share-qr-image {
-  width: 65px;
-  height: 65px;
-  border-radius: 6px;
+  width: 110px; /* Tamaño aumentado significativamente */
+  height: 110px;
+  border-radius: 12px;
   background: #ffffff;
-  padding: 4px;
+  padding: 6px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  display: block;
 }
