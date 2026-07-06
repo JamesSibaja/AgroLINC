@@ -606,11 +606,8 @@ function inyectarBotonCompartir() {
   btnShare.addEventListener('click', generarImagenRedesSociales);
   profileCard.appendChild(btnShare);
 }
-/* =========================================================
-   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (DISEÑO DOBLE HILERA DE 7)
-========================================================= */
 
-// FUNCIÓN AUXILIAR AUTOMATIZADA: Simplifica los nombres largos de los cursos para la tarjeta compacta
+// FUNCIÓN AUXILIAR: Normaliza y acorta de forma limpia nombres muy largos
 function obtenerNombreCortoCurso(courseName) {
   const name = String(courseName || "").trim().toLowerCase();
   
@@ -624,7 +621,7 @@ function obtenerNombreCortoCurso(courseName) {
     return "Corte Láser / CNC";
   }
   if (name.includes("iot") || name.includes("internet de las cosas")) {
-    return "Internet de las Cosas (IoT)";
+    return "IoT Agrícola";
   }
   if (name.includes("microcontrolador") || name.includes("sensor")) {
     return "Microcontroladores";
@@ -633,27 +630,27 @@ function obtenerNombreCortoCurso(courseName) {
     return "Automatización";
   }
   if (name.includes("geoespacial") || name.includes("mapa") || name.includes("kobo")) {
-    return "Herramientas Geoespaciales";
+    return "Geoespaciales";
   }
   if (name.includes("innovacion") || name.includes("innovación") || name.includes("canvas")) {
-    return "Modelos de Innovación";
+    return "Módulo Innovación";
   }
   if (name.includes("fabricacion digital") || name.includes("fabricación digital")) {
     return "Fabricación Digital";
   }
+  if (name.includes("electricidad")) {
+    return "Electricidad Práctica";
+  }
   
-  // Si no entra en ninguna regla, devuelve el nombre original truncado discretamente
   return courseName.length > 22 ? courseName.substring(0, 20) + "..." : courseName;
 }
 
 /* =========================================================
-   GENERADOR Y TARJETA COMPARTIBLE OPTIMIZADA (DISEÑO 7x2)
+   PROCESADOR DE RENDERIZADO DE MATRIZ DE LOGROS
 ========================================================= */
-
 function generarImagenRedesSociales() {
   if (!estudianteGlobal) return;
 
-  // 1. Validar u obtener el contenedor base
   let shareContainer = document.getElementById('linkedinShareCard');
   if (!shareContainer) {
     shareContainer = document.createElement('div');
@@ -661,25 +658,23 @@ function generarImagenRedesSociales() {
     document.body.appendChild(shareContainer);
   }
 
-  // 2. Extraer y contar módulos aprobados reales
-  const aprobadosReales = cursosRutaGlobal
-    .filter(c => tuplasGlobales.some(t => t[0] === c.id));
+  // Filtrar los cursos que realmente posee aprobados el alumno
+  const aprobadosReales = cursosRutaGlobal.filter(c => 
+    tuplasGlobales.some(t => t[0] === c.id)
+  );
 
   const totalCursosLogrados = aprobadosReales.length;
-  const totalCasillasTarjeta = 14; // Estructura fija de 14 medallas (2 hileras de 7)
-
-  // 3. Renderizar las 14 casillas (Secuencialmente los aprobados, luego los candados discretos)
+  const totalCasillasTarjeta = 14; // Estructura fija simétrica de 7x2
   let medallasHTML = "";
-  for (let i = 0; i < totalCasillasTarjeta; i++) {
-    // Definimos si es la primera medalla para asignarle la clase de destaque premium
-    const esDestacada = (i === 0) ? "medal-featured" : "";
 
+  for (let i = 0; i < totalCasillasTarjeta; i++) {
     if (i < totalCursosLogrados) {
+      // Slot Desbloqueado con Medalla
       const curso = aprobadosReales[i];
       const nombreAbreviado = obtenerNombreCortoCurso(curso.nombre);
       
       medallasHTML += `
-        <div class="compact-medal-slot medal-unlocked " title="${curso.nombre}">
+        <div class="compact-medal-slot medal-unlocked" title="${curso.nombre}">
           <div class="compact-medal-circle">
             <i class="fa-solid ${getCourseIcon(curso.nombre)}"></i>
           </div>
@@ -687,23 +682,27 @@ function generarImagenRedesSociales() {
         </div>
       `;
     } else {
+      // Slot Bloqueado / Espacio vacío del estuche Pokémon original
+      // Si es el slot número 7 (el de la meta final de innovación), podemos usar opcionalmente un destacado estético
+      const esCasillaEspecial = (i === 6) ? "medal-featured" : "";
+      const labelBloqueado = (i === 6) ? "Módulo Final" : `Espacio ${i + 1}`;
+
       medallasHTML += `
-        <div class="compact-medal-slot medal-locked ">
-          <div class="compact-medal-circle discrete-lock">
-            
+        <div class="compact-medal-slot medal-locked ${esCasillaEspecial}">
+          <div class="compact-medal-circle">
+            <i class="fa-solid fa-lock"></i>
           </div>
-         
+          <span class="medal-locked-title">${labelBloqueado}</span>
         </div>
       `;
     }
   }
 
-  // 4. Definir la URL de la plataforma para el código QR
   const urlPlataforma = `https://fablabiica.github.io/AgroLINC/`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(urlPlataforma)}&color=07152d`;
 
   shareContainer.innerHTML = `
-    <!-- Encabezado Limpio / Identidad Corporativa -->
+    <!-- Encabezado / Identidad del Programa -->
     <div class="share-branding-strip">
       <div class="share-strip-left">
         <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main" onerror="this.style.display='none'">
@@ -727,48 +726,28 @@ function generarImagenRedesSociales() {
         </div>
         <div class="share-user-stats">
           <span class="badge-logro-purple">
-            <i class="fa-solid fa-medal" style="font-size: 2rem;"></i> ${totalCursosLogrados} Cursos Completados
+            <i class="fa-solid fa-medal"></i> ${totalCursosLogrados} / 6 Cursos Completados
           </span>
         </div>
       </div>
       
-      <!-- ESTUCHE DINÁMICO AJUSTADO EN MATRIZ DE 2 HILERAS DE 7 -->
+      <!-- ESTUCHE DE MEDALLAS EN MATRIZ SIMÉTRICA -->
       <div class="compact-medal-case matrix-7x2">
         ${medallasHTML}
       </div>
     </div>
 
-    <!-- Pie de Validación Minimalista -->
+    <!-- Pie de Validación -->
     <div class="share-footer">
       <div class="share-footer-text">
-        <span><i class="fa-solid fa-certificate"></i> Colección de Competencias AgroLINC </span>
-        <p>Escanea para verificar las credenciales y el estado real de la ruta de aprendizaje.</p>
+        <span><i class="fa-solid fa-certificate"></i> Colección de Competencias y Habilidades AgroLINC</span>
+        <p>Escanea el código QR para verificar la validez de los certificados emitidos en tiempo real (4 horas por curso autónomo).</p>
       </div>
       <div class="share-footer-qr">
-        <img src="${qrApiUrl}" alt="Código QR de Verificación" class="share-qr-image">
+        <img src="${qrApiUrl}" alt="Código QR" class="share-qr-image">
       </div>
     </div>
   `;
-
-  // 5. Captura fotográfica estable en HD (1200x670)
-  setTimeout(() => {
-    html2canvas(shareContainer, {
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: "#f4f7fb",
-      scale: 2,           
-      width: 1200,        
-      height: 670         
-    }).then(canvas => {
-      const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
-      const link = document.createElement('a');
-      link.download = `AgroLINC_Progreso_${nombreArchivoSafe}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }).catch(err => {
-      console.error("Error generando la tarjeta de progreso: ", err);
-    });
-  }, 600); 
 }
 
 /* =========================================

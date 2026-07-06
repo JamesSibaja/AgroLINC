@@ -2048,13 +2048,13 @@ button, input, select, textarea {
 .req-status-badge.locked { background: #f1f5f9; color: #64748b; }
 
 /* =========================================================
-   REDISEÑO DEL BOTÓN DE DESCARGA (PUNTO 2)
+   1. BOTÓN DE DESCARGA (INTERFAZ WEB)
 ========================================================= */
 .download-share-btn {
   width: 100%;
   margin-top: 1.5rem;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: white;
+  color: #ffffff;
   border: none;
   padding: 0.95rem 1.5rem;
   border-radius: 16px;
@@ -2077,306 +2077,220 @@ button, input, select, textarea {
 .download-share-btn:active {
   transform: translateY(-1px);
 }
-/* =========================================================
-   MEJORAS ULTRACOMPACTAS PARA LA TARJETA COMPARTIBLE (MATRIZ 7x2)
-========================================================= */
-
-/* Nombre del estudiante blanco y compacto */
-.compact-white-name {
-  color: #ffffff !important;
-  font-size: 2rem !important;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.2rem;
-}
-
-/* Etiqueta de logro anterior: Medalla Morada */
-.badge-logro-purple {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
-  color: #ffffff !important;
-  padding: 0.6rem 1.2rem;
-  border-radius: 999px;
-  font-size: 1rem;
-  font-weight: 700;
-  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
-}
-
-/* Rejilla estricta de 7 columnas y 2 filas */
-.compact-medal-case.matrix-7x2 {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr); /* 7 Columnas exactas */
-  grid-template-rows: repeat(2, auto);    /* 2 Filas balanceadas */
-  gap: 20px 15px;                        /* Espaciado controlado */
-  background: transparent;
-  margin-top: 1.5rem;
-  width: 100%;                           /* Ocupa el ancho disponible */
-  box-sizing: border-box;
-}
-
-
-
-
-/* Estilo para las medallas que SÍ posee */
-
-
-/* Estilo para círculos discretos con candado */
-.compact-medal-circle.discrete-lock {
-  background: rgba(255, 255, 255, 0.185);
-  color: rgba(255, 255, 255, 0.3);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  font-size: 1.2rem;
-  box-shadow: none;
-  height: 40px;
-  width: 40px;
-}
-
-/* Texto del curso ubicado debajo de la medalla */
-/* Texto del curso ubicado de forma simétrica debajo de la medalla */
-.medal-course-title {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: #e2e8f0;
-  line-height: 1.3;
-  margin-top: 8px;                     /* Separa el texto del círculo de la medalla */
-  margin-bottom: 0px;
-  padding: 0 4px;                      /* Pequeño cojín lateral interno */
-  width: 100%;                         /* Ocupa el ancho total del slot asignado */
-  max-width: 95px;                     /* Ajuste quirúrgico para que no desborde en 7 columnas */
-  text-align: center;
-  
-  /* Sistema de control multi-línea inteligente */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;                 /* Muestra máximo 2 líneas; si es más largo coloca "..." */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  
-  /* Evita rupturas feas de palabras a la mitad */
-  word-break: break-word; 
-  hyphens: auto;
-}
-
-/* Texto para las casillas bloqueadas */
-.medal-locked-title {
-  font-size: 0.65rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.25);
-  margin-top: 4px;
-}
 
 /* =========================================================
-   ESTILOS PREMIUM PARA LA TARJETA DE COMPARTIR AgroLINC (7x2)
+   2. CONTENEDOR MAESTRO DE LA TARJETA (1200x670)
 ========================================================= */
-
 #linkedinShareCard {
   width: 1200px;
   height: 670px;
   position: absolute;
-  left: -9999px; /* Oculto fuera de la pantalla de render */
+  left: -9999px; /* Oculto del viewport para renderizado de imagen */
   background: #081d38;
   display: flex;
   flex-direction: column;
-  padding: 0px;
   box-sizing: border-box;
-  padding-left: 20px;
-  padding-right: 20px;
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
+/* Encabezado de Marcas */
 .share-branding-strip {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #e2e8f0;
-  max-height: 70;
-  margin:0px;
-  
+  background: #ffffff;
+  padding: 15px 40px;
+  height: 90px;
+  box-sizing: border-box;
 }
 
+.share-logo-main {
+  height: 50px;
+  width: auto;
+}
+
+.share-strip-right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.share-logo-instm { height: 55px; width: auto; object-fit: contain; }
+.share-logo-inst  { height: 45px; width: auto; object-fit: contain; }
+
+/* Cuerpo Principal */
 .share-body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between; /* Distribuye equitativamente el espacio vertical */
+  padding: 40px;
+  box-sizing: border-box;
 }
 
+/* Meta Datos del Alumno */
 .share-user-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  width: 100%;
 }
 
 .compact-white-name {
-  font-size: 2.2rem;
-  color: #0f172a;
+  color: #ffffff !important; /* Corregido: Forzado a blanco sobre el fondo oscuro */
+  font-size: 2.5rem;
   font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px 0;
 }
 
 .share-user-sub {
-  color: #64748b;
-  font-size: 1.05rem;
-  margin-top: 5px;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .share-separator {
-  margin: 0 8px;
-  color: #cbd5e1;
+  color: #475569;
+  font-weight: bold;
 }
 
+/* Badge de Contador General */
 .badge-logro-purple {
-  background: linear-gradient(135deg, #6d28d9, #581c87);
-  color: white;
-  padding: 10px 20px;
-  padding-bottom: 20px;
+  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+  color: #ffffff !important;
+  padding: 12px 24px;
   border-radius: 999px;
+  font-size: 1.15rem;
   font-weight: 700;
-  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
 }
 
-/* MATRIZ SIMÉTRICA DE 2 HILERAS DE 7 */
+/* =========================================================
+   3. ESTUCHE DE MEDALLAS (MATRIZ POKÉMON MULTI-RUTA)
+========================================================= */
+.compact-medal-case.matrix-7x2 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 30px 20px;
+  width: 100%;
+  margin: 20px 0;
+  box-sizing: border-box;
+}
 
-
-
-
-/* ESTILO INDIVIDUAL DE CADA CASILLA DE MEDALLA */
+/* Base de cada espacio de Medalla */
 .compact-medal-slot {
   display: flex;
-  flex-direction: column;                /* El texto siempre va abajo */
+  flex-direction: column;
   align-items: center;
-  justify-content: flex-start;           /* Alinea desde arriba para mantener los círculos nivelados */
+  justify-content: flex-start;
   text-align: center;
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden;                      /* Contiene cualquier desborde */
 }
 
+/* El círculo contenedor de la medalla/candado */
 .compact-medal-circle {
-  width: 100px;
-  height: 100px;
+  width: 90px;  /* Tamaño estandarizado para mantener simetría perfecta */
+  height: 90px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 2.5rem;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-.compact-medal-circle i {
-  padding: 0px;
-  margin: 0px;
-}
-
-/* Estados desbloqueados */
-
-
+/* Estado: DESBLOQUEADA */
 .medal-unlocked .compact-medal-circle {
-  background-color: rgba(0, 217, 255, 0.15);
+  background: rgba(0, 217, 255, 0.1);
   color: #00d9ff;
   border: 3px solid #00d9ff;
-  padding: 0px;
-  margin: 0;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
 }
 
-.medal-unlocked i {
-  padding: 0px;
-  margin: 0;
+/* Estado: BLOQUEADA (Hueco del estuche estilo Pokémon) */
+.medal-locked .compact-medal-circle {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.15);
+  border: 2px dashed rgba(255, 255, 255, 0.15);
 }
 
-
-
-.medal-locked-title {
+/* Títulos de Cursos inferiores */
+.medal-course-title, .medal-locked-title {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #94a3b8;
+  line-height: 1.3;
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
 }
 
-/* REGLA DE DESTACADO MAESTRA: EFECTO ÚNICO EN LA PRIMERA MEDALLA */
-.compact-medal-slot.medal-featured {
-  background: linear-gradient(180deg, #fef08a, #ffffff); /* Fondo cálido oro suave */
-  border: 2px solid #eab308;
-  transform: scale(1.08); /* Crece discretamente sobre el resto */
-  box-shadow: 0 10px 20px rgba(234, 179, 8, 0.15);
-  z-index: 10;
+.medal-course-title {
+  color: #e2e8f0;
+  /* Control inteligente de desborde sin romper palabras de forma fea */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+.medal-locked-title {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* =========================================================
+   4. DESTACADO MAESTRO (PROYECTO FINAL / MÓDULO INNOVACIÓN)
+========================================================= */
+/* Si se desea destacar visualmente el último logro o el proyecto de innovación */
 .compact-medal-slot.medal-featured .compact-medal-circle {
-  width: 68px; /* Círculo ligeramente mayor */
-  height: 68px;
-  font-size: 1.7rem;
+  transform: scale(1.05);
+  border: 3px dashed #eab308;
+  color: #eab308;
+  background: rgba(234, 179, 8, 0.05);
 }
 
-.compact-medal-slot.medal-featured.medal-unlocked .compact-medal-circle {
-  background: linear-gradient(135deg, #ca8a04, #eab308); /* Oro vibrante */
-  box-shadow: 0 6px 15px rgba(234, 179, 8, 0.4);
-}
-
-.compact-medal-slot.medal-featured .medal-course-title {
-  color: #713f12; /* Texto en armonía con el destaque dorado */
-  font-weight: 800;
-}
-
-/* PIE DE PÁGINA DE LA TARJETA */
+/* =========================================================
+   5. PIE DE PÁGINA (VERIFICACIÓN)
+========================================================= */
 .share-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 25px;
-  border-top: 1px solid #e2e8f0;
-  padding-top: 15px;
+  border-top: 1px solid #1e293b;
+  padding: 20px 40px;
+  background: #041124;
+  height: 100px;
+  box-sizing: border-box;
 }
 
 .share-footer-text span {
   font-weight: 700;
   color: #ffffff;
   font-size: 1rem;
+  display: block;
 }
 
 .share-footer-text p {
   color: #64748b;
-  font-size: 0.9rem;
-  margin-top: 3px;
+  font-size: 0.85rem;
+  margin: 4px 0 0 0;
 }
 
 .share-qr-image {
-  width: 75px;
-  height: 75px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  padding: 3px;
-  background: white;
-}
-
-/* =========================================================
-   ESTILOS DE LOGOS INSTITUCIONALES (ENCABEZADO DERECHO)
-========================================================= */
-
-.share-strip-left .share-logo-main {
-  height: 60px; /* Tamaño del logo principal de AgroLINC */
-  width: auto;
-  display: block;
-}
-
-.share-strip-right {
-  display: flex;
-  align-items: center;
-  gap: 20px; /* Espaciado interno entre los logos de los ministerios/cooperantes */
-}
-
-/* Estilo para el logo del MICITT u otros ministerios (Mediano) */
-.share-logo-instm {
-  height: 70px;
-  width: auto;
-  object-fit: contain;
-  opacity: 0.9;
-  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.02));
-}
-
-/* Estilo para el logo del IICA u otros organismos (Estándar) */
-.share-logo-inst {
-  height: 38px;
-  width: auto;
-  object-fit: contain;
-  opacity: 0.95;
+  width: 65px;
+  height: 65px;
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 4px;
 }
