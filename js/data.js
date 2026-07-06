@@ -789,7 +789,7 @@ function generarImagenRedesSociales() {
           icono.style.position = 'absolute';
           icono.style.top = '50%';
           icono.style.left = '50%';
-          icono.style.transform = 'translate(-50%, -50%)';
+          icono.style.transform = 'translate(-50%, -70%)';
         });
       }
     }).then(canvas => {
