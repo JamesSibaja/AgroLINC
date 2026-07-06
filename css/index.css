@@ -1,2195 +1,2382 @@
-/* ==========================================================================
+/* =========================================================
    1. ROOT, RESETS & VARIABLES GLOBALES
-   ========================================================================== */
-   :root {
-    --primary: #6d28d9;
-    --primary-dark: #581c87;
-    --accent: #06b6d4;
-    --success: #10b981;
-    --bg: #f4f7fb;
-    --surface: #ffffff;
-    --surface-2: #f8fafc;
-    --text: #0f172a;
-    --muted: #64748b;
-    --border: #e2e8f0;
-    --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+========================================================= */
+:root {
+  --primary: #6d28d9;
+  --primary-dark: #581c87;
+  --accent: #06b6d4;
+  --success: #10b981;
+  --bg: #f4f7fb;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem; 
+  /* overflow-x: hidden; */
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  /* overflow-x: hidden; */
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+/* =========================================================
+   2. COMPONENTES ESTRUCTURALES Y BOTONES
+========================================================= */
+.section {
+  padding: 6rem 5%;
+}
+
+.alt-section {
+  background: #eef3fa;
+}
+
+.section-title {
+  max-width: 760px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.section-title h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.section-title p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.section-badge {
+  display: inline-block;
+  background: #ede9fe;
+  color: var(--primary);
+  padding: .5rem .9rem;
+  border-radius: 999px;
+  font-size: .85rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .45rem .9rem;
+  border-radius: 999px;
+  background: rgba(115, 54, 185, .1);
+  color: #7a38d1;
+  font-size: .85rem;
+  font-weight: 600;
+}
+
+.primary-btn, .secondary-btn {
+  text-decoration: none;
+  padding: 1rem 1.5rem;
+  border-radius: 18px;
+  font-weight: 700;
+  transition: .25s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.primary-btn {
+  background: white;
+  color: var(--text);
+}
+
+.secondary-btn {
+  border: 1px solid rgba(255, 255, 255, .2);
+  color: white;
+}
+
+.primary-btn:hover, .secondary-btn:hover {
+  transform: translateY(-3px);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.agrolinc-card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 240px;
+  padding: 18px 28px;
+  background: transparent;
+  color: #cf7500;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 18px;
+  border: 2px solid #ffa735;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.agrolinc-card-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(88,28,135,.14);
+  border-color: #cf5300;
+}
+
+.agrolinc-card-link--principal {
+  background: linear-gradient(135deg, #cf5300, #ffa735);
+  color: white;
+  border: none;
+}
+
+.agrolinc-card-link--principal:hover {
+  box-shadow: 0 18px 40px rgba(88,28,135,.28);
+}
+
+/* =========================================================
+   3. BARRA INSTITUCIONAL Y NAVEGACIÓN EN CABECERA
+========================================================= */
+.institution-bar {
+  height: 57px;
+  background: rgba(255,255,255,.96);
+  border-bottom: 1px solid rgba(15,23,42,.08);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 5%;
+}
+
+
+
+/* =========================================================
+   TOPBAR STICKY (NAVEGACIÓN FIJA)
+========================================================= */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  height: 110px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px); /* Soporte para Safari */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.institution-logo {
+  height: auto;
+  max-height: 55px; 
+  object-fit: contain;
+  opacity: .9;
+  transition: .25s;
+}
+
+.institution-logo:hover { opacity: 1; }
+.agrolinc-logo { max-height: 65px; }
+.linc-logo { max-height: 67px; }
+.iica-logo { max-height: 40px; }
+
+.institution-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.institution-divider {
+  width: 1px;
+  height: 35px;
+  background-color: #cbd5e1;
+}
+
+.nav {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: .25s;
+}
+
+.nav a:hover, .nav a.active {
+  color: #6d28d9;
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 600;
+}
+
+.menu-toggle span {
+  width: 100%;
+  height: 3px;
+  background-color: #1e293b;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+.menu-toggle.open span:nth-child(2) { opacity: 0; }
+.menu-toggle.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+/* =========================================================
+   4. SECCIÓN HERO (PORTADA PRINCIPAL Y DINAMISMOS)
+========================================================= */
+.hero, .dashboard-hero {
+  position: relative;
+  overflow: hidden;
+  background-image: url("../assets/images/hero.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-overlay, .dashboard-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(15, 23, 42, .88), rgba(109, 40, 217, .68));
+}
+
+.hero {
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  padding: 5rem 5% 0 5%; 
+}
+
+.hero-grid {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 4rem;
+  align-items: center;
+  flex: 1; 
+  padding-bottom: 3rem;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: .7rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .14);
+  color: white;
+  font-size: .9rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+  line-height: 1.1;
+  margin-bottom: 1.4rem;
+  color: white;
+  font-weight: 800;
+}
+
+.hero p {
+  color: rgba(255, 255, 255, .85);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  max-width: 700px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* KPIs Interactivos (Hero Panel) - Efecto Cascada */
+.hero-panel {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.metric-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.4rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .12);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, .14);
+  animation: kpiFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background-color 0.3s ease;
+  cursor: default;
+}
+
+.hero-panel .metric-card:nth-child(1) { animation-delay: 0.2s; }
+.hero-panel .metric-card:nth-child(2) { animation-delay: 0.4s; }
+.hero-panel .metric-card:nth-child(3) { animation-delay: 0.6s; }
+.hero-panel .metric-card:nth-child(4) { animation-delay: 0.8s; }
+.hero-panel .metric-card:nth-child(5) { animation-delay: 1.0s; }
+.hero-panel .metric-card:nth-child(6) { animation-delay: 1.2s; }
+
+.metric-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 15px rgba(17, 199, 199, 0.3);
+}
+
+.metric-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .2), rgba(255, 255, 255, .08));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.3rem;
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.metric-card:hover .metric-icon {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.metric-card strong {
+  display: block;
+  color: white;
+  font-size: 1.8rem;
+}
+
+.metric-card span {
+  color: rgba(255, 255, 255, .8);
+}
+
+@keyframes kpiFadeUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(25px);
   }
-  
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
   }
-  
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 7rem; 
-  }
-  
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-  }
-  
-  img {
-    max-width: 100%;
-    display: block;
-  }
-  
-  button, input, select, textarea {
-    font-family: inherit;
-  }
-  
-  /* ==========================================================================
-     2. COMPONENTES ESTRUCTURALES, SECCIONES Y BOTONES
-     ========================================================================== */
-  .section {
-    padding: 6rem 5%;
-  }
-  
-  .alt-section {
-    background: #eef3fa;
-  }
-  
-  .section-title {
-    max-width: 760px;
-    margin: 0 auto 3rem;
-    text-align: center;
-  }
-  
-  .section-title h2 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-  
-  .section-title p {
-    color: var(--muted);
-    line-height: 1.7;
-  }
-  
-  .section-badge {
-    display: inline-block;
-    background: #ede9fe;
-    color: var(--primary);
-    padding: .5rem .9rem;
-    border-radius: 999px;
-    font-size: .85rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
-  
-  .section-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-    padding: .45rem .9rem;
-    border-radius: 999px;
-    background: rgba(115, 54, 185, .1);
-    color: #7a38d1;
-    font-size: .85rem;
-    font-weight: 600;
-  }
-  
-  /* Botones Base */
-  .primary-btn, .secondary-btn {
-    text-decoration: none;
-    padding: 1rem 1.5rem;
-    border-radius: 18px;
-    font-weight: 700;
-    transition: .25s ease;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .primary-btn {
-    background: white;
-    color: var(--text);
-  }
-  
-  .secondary-btn {
-    border: 1px solid rgba(255, 255, 255, .2);
-    color: white;
-  }
-  
-  .primary-btn:hover, .secondary-btn:hover {
-    transform: translateY(-3px);
-  }
-  
-  .acciones {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-    margin-top: 40px;
-  }
-  
-  /* Enlaces de Tarjetas AgroLINC */
-  .agrolinc-card-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 240px;
-    padding: 18px 28px;
-    background: transparent;
-    color: #cf7500;
-    text-decoration: none;
-    font-weight: 600;
-    border-radius: 18px;
-    border: 2px solid #ffa735;
-    box-shadow: 0 8px 24px rgba(0,0,0,.06);
-    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-  }
-  
-  .agrolinc-card-link:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 34px rgba(88,28,135,.14);
-    border-color: #cf5300;
-  }
-  
-  .agrolinc-card-link--principal {
-    background: linear-gradient(135deg, #cf5300, #ffa735);
-    color: white;
-    border: none;
-  }
-  
-  .agrolinc-card-link--principal:hover {
-    box-shadow: 0 18px 40px rgba(88,28,135,.28);
-  }
-  
-  /* Motores de Búsqueda Generales */
-  .search-box {
-    display: flex;
+}
+
+/* =========================================================
+   5. FRANJA MÓVIL DE CONVOCATORIAS (TICKER)
+========================================================= */
+.courses-ticker-wrap {
+  width: auto;
+  margin-left: -6%;           
+  margin-right: -6%;          
+  margin-top: auto;             
+  background: rgba(11, 19, 43, 0.96);
+  backdrop-filter: blur(10px);
+  border-top: 3px solid #17a3ad;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 30;
+  position: relative; 
+}
+
+.ticker-title {
+  background: #17a3ad;
+  color: #ffffff;
+  padding: 0 1.2rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;                  
+  font-weight: 800;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  z-index: 40;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+.ticker-action-btn {
+  margin-left: 0.8rem;
+  background: rgba(17, 199, 199, 0.15);
+  border: 1px solid #17a3ad;
+  color: #17a3ad;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.ticker-action-btn:hover {
+  background: #17a3ad;
+  color: #0f1229;
+  box-shadow: 0 0 10px rgba(17, 199, 199, 0.4);
+}
+
+.ticker-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+
+.ticker-content-loop {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: marqueeContinuous 40s linear infinite; 
+}
+
+.courses-ticker-wrap:hover .ticker-content-loop {
+  animation-play-state: paused;
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 3rem;
+  color: #f1f5f9;
+  font-size: 0.9rem;
+}
+
+.ticker-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  margin-right: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.ticker-badge.status-open { background: #159463; color: #ffffff; }
+.ticker-badge.status-danger { background: #df6706; color: #ffffff; }
+.ticker-badge.status-alert { background: #808080; color: #ffffff; }
+
+.ticker-course-name {
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.ticker-separator {
+  margin: 0 1.25rem;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.ticker-slots {
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+@keyframes marqueeContinuous {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+
+/* Search Box */
+.search-box {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  max-width: 700px;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 1rem 1.2rem;
+  border-radius: 18px;
+  font-size: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.search-box button {
+  border: none;
+  background: var(--primary);
+  color: white;
+  padding: 1rem 1.4rem;
+  border-radius: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .25s ease;
+}
+
+.search-box button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   6. LÓGICA DE RUTAS FORMATIVAS (ROUTES DESIGN)
+========================================================= */
+.routes-layout {
+  margin: 3rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.route-block {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  overflow: hidden;
+  border-radius: 32px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 30px rgba(15,23,42,.05);
+  transition: .3s ease;
+}
+
+.route-block:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(15,23,42,.08);
+}
+
+.route-side {
+  position: relative;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+  color: white;
+}
+
+.technical-side { background: linear-gradient(180deg, #562e6b, #44266d, #255995); }
+.territorial-side { background: linear-gradient(180deg, #122d12, #1c482d, #6b6f26); }
+
+.route-side i { font-size: 2.5rem; opacity: .95; }
+.route-side span { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+
+.route-main {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.route-main h3 { font-size: 2rem; margin-bottom: 1rem; color: #0f172a; }
+.route-main p { color: #64748b; line-height: 1.9; font-size: 1rem; max-width: 760px; }
+
+.route-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  margin-top: 2rem;
+}
+
+.route-tags span {
+  padding: .7rem 1rem;
+  border-radius: 999px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+.route-connector {
+  position: relative;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.connector-line {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(109,40,217,.25), rgba(34,197,94,.25));
+}
+
+.connector-center {
+  position: relative;
+  z-index: 2;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(15,23,42,.08);
+}
+
+.connector-center i { color: var(--primary); font-size: 1.1rem; }
+
+.routes-connection {
+  position: relative;
+  margin: 2rem;
+  padding: 5rem 6%;
+  border-radius: 36px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #241032, #1b2a46);
+}
+
+.connection-layout {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 4rem;
+  align-items: center;
+}
+
+.connection-content { max-width: 760px; }
+
+.connection-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: .65rem 1rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.08);
+  color: white;
+  font-size: .85rem;
+  font-weight: 600;
+  margin-bottom: 1.6rem;
+}
+
+.connection-content h2 {
+  color: rgba(255,255,255,.82);
+  font-size: 1.25rem;
+  line-height: 2;
+  margin-bottom: 1.5rem;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.tech-card {
+  background: white;
+  border-radius: 26px;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  transition: .3s ease;
+}
+
+.tech-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow);
+}
+
+.tech-card i { font-size: 2rem; color: var(--primary); margin-bottom: 1.2rem; }
+.tech-card h4 { margin-bottom: .8rem; font-size: 1.2rem; }
+.tech-card p { color: var(--muted); line-height: 1.6; }
+
+/* =========================================================
+   7. RENDERIZADO DE CAMINOS DE APRENDIZAJE (LEARNING PATH)
+========================================================= */
+.learning-path {
+  padding: 5rem 8%;
+  background: #f7f8fc;
+}
+
+.path-header { margin-bottom: 3rem; }
+.path-header h2 { font-size: 2.4rem; color: #2e1760; margin-top: .5rem; margin-bottom: .8rem; }
+.path-header p { color: #6d6d6d; line-height: 1.6; }
+
+.path-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+.path-stage { display: flex; flex-direction: column; gap: .8rem; }
+
+.stage-title {
+  margin: 0;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.path-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.course-node {
+  width: 100%;
+  min-height: 110px;
+  position: relative;
+  border: none;
+  background: #5b2ca0;
+  color: white;
+  padding: 1.4rem;
+  border-radius: 22px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .25s ease;
+  box-shadow: 0 10px 25px rgba(90,44,160,.18);
+}
+
+.course-node:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 35px rgba(90, 44, 160, .25);
+}
+
+.course-node::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 40%);
+}
+
+.course-node small { display: block; opacity: .8; margin-bottom: .4rem; font-size: .8rem; }
+.course-node strong { display: block; font-size: 1rem; line-height: 1.4; }
+.course-node p { color: rgb(210, 210, 210); }
+
+/* =========================================================
+   8. DASHBOARD / ARQUITECTURA DE PERFIL DE USUARIO
+========================================================= */
+.dashboard-hero {
+  min-height: 48vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-content { position: relative; z-index: 2; }
+.dashboard-hero h1 { color: white; font-size: 3.6rem; line-height: 1.05; margin-bottom: 1.4rem; }
+.dashboard-hero p { color: rgba(255, 255, 255, .85); font-size: 1.08rem; line-height: 1.7; max-width: 700px; }
+
+.main-wrapper {
+  max-width: 1400px;
+  margin: -70px auto 0;
+  padding: 0 2rem 4rem;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 2rem;
+  position: relative;
+  z-index: 5;
+}
+
+.profile-card, .courses-section {
+  background: white;
+  border-radius: 32px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.profile-top { display: flex; gap: 1rem; align-items: center; }
+
+.profile-avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.profile-label { color: var(--muted); font-size: .85rem; }
+.progress-wrap { margin-top: 2rem; }
+.progress-top { display: flex; justify-content: space-between; margin-bottom: .7rem; font-weight: 700; }
+
+.progress-bar {
+  height: 12px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: .5s ease;
+}
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+.mini-stat { background: #f8fafc; border: 1px solid var(--border); border-radius: 24px; padding: 1.3rem; text-align: center; }
+.mini-stat strong { display: block; color: var(--primary); font-size: 2rem; }
+
+.legend { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+.legend-item { display: flex; align-items: center; gap: .8rem; color: var(--muted); }
+.dot { width: 14px; height: 14px; border-radius: 50%; }
+.completed-dot { background: var(--success); }
+.available-dot { background: var(--primary); }
+.locked-dot { background: #cbd5e1; }
+
+.section-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 2rem; }
+.courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.3rem; }
+
+.course-card {
+  background: white;
+  border-radius: 26px;
+  padding: 1.4rem;
+  border: 1px solid var(--border);
+  transition: .3s ease;
+}
+
+.course-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.course-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.course-status { padding: .4rem .8rem; border-radius: 999px; font-size: .78rem; font-weight: 700; }
+
+.course-card.completed { border-color: rgba(16, 185, 129, .2); background: linear-gradient(180deg, rgba(16, 185, 129, .05), white); }
+.course-status.completed { background: rgba(16, 185, 129, .12); color: var(--success); }
+.course-card.available { border-color: rgba(109, 40, 217, .2); }
+.course-status.available { background: rgba(109, 40, 217, .12); color: var(--primary); }
+.course-card.locked { opacity: .55; }
+.course-status.locked { background: #f1f5f9; color: #64748b; }
+
+/* =========================================================
+   9. VISTA EXCLUSIVA DE AGROIDEAS
+========================================================= */
+.agroideas-page { background: linear-gradient(180deg, #f4f7fb 0%, #eef2ff 100%); }
+
+.ideas-hero {
+  position: relative;
+  min-height: 62vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7rem 5% 5rem;
+  overflow: hidden;
+  background: radial-gradient(circle at top left, rgba(91, 33, 182, .18), transparent 30%),
+              radial-gradient(circle at bottom right, rgba(6, 182, 212, .16), transparent 35%),
+              linear-gradient(135deg, #0f172a, #111827);
+}
+
+.ideas-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .03) 1px, transparent 1px);
+  background-size: 42px 42px;
+  opacity: .5;
+}
+
+.ideas-hero-content { position: relative; z-index: 2; width: 100%; max-width: 900px; text-align: center; }
+.ideas-hero h1 { font-size: 4.5rem; line-height: 1; color: white; margin-bottom: 1.5rem; }
+.ideas-hero p { max-width: 700px; margin: 0 auto; color: rgba(255, 255, 255, .78); font-size: 1.08rem; line-height: 1.8; }
+
+.ideas-search { display: flex; gap: 1rem; max-width: 760px; margin: 2.5rem auto 0; }
+.ideas-search-input { flex: 1; display: flex; align-items: center; gap: .9rem; padding: .4rem .5rem .4rem 1.2rem; border-radius: 22px; background: white; box-shadow: 0 12px 30px rgba(0, 0, 0, .18); }
+.ideas-search-input input { flex: 1; border: none; outline: none; background: transparent; font-size: 1rem; padding: 1rem 0; }
+
+#explorarBtn { border: none; padding: 1rem 1.5rem; border-radius: 22px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; font-weight: 700; cursor: pointer; }
+.ideas-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin-top: 2rem; margin-bottom: 2rem; }
+.ideas-tags span { padding: .65rem 1rem; border-radius: 999px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .08); color: #dbe4f0; font-size: .9rem; font-weight: 600; }
+
+.catalog-filters { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; justify-content: center; }
+.filter-btn, .catalog-filter { border: none; padding: .9rem 1.3rem; border-radius: 14px; background: rgba(255,255,255,.12); color: white; font-weight: 700; cursor: pointer; transition: .25s ease; backdrop-filter: blur(10px); }
+.filter-btn:hover, .catalog-filter:hover { transform: translateY(-2px); background: rgba(255,255,255,.2); }
+.filter-btn.active, .catalog-filter.active { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; }
+
+/* =========================================================
+   1. ESTILOS BASE: SIDEBAR DE NAVEGACIÓN (ESCRITORIO)
+========================================================= */
+.ideas-explorer { 
+  max-width: 1500px; 
+  margin-top: -70px; 
+  margin-inline: auto; 
+  padding: 0 5% 5rem; 
+  position: relative; 
+  z-index: 10; 
+  display: grid; 
+  grid-template-columns: 300px 1fr; 
+  gap: 2rem; 
+}
+
+.explorer-sidebar { 
+  position: sticky; 
+  top: 130px; 
+  height: fit-content; 
+  padding: 2rem; 
+  border-radius: 30px; 
+  background: white; 
+  box-shadow: 0 20px 60px rgba(15, 23, 42, .08); 
+  z-index: 400; /* Por debajo de la barra topbar */
+}
+
+.explorer-menu { 
+  display: flex; 
+  flex-direction: column; 
+  gap: .8rem; 
+  margin-top: 1.5rem; 
+}
+
+.explorer-link { 
+  display: flex; 
+  align-items: center; 
+  gap: .9rem; 
+  width: 100%; 
+  border: none; 
+  padding: 1rem 1.1rem; 
+  border-radius: 18px; 
+  background: #f8fafc; 
+  color: #475569; 
+  font-weight: 600; 
+  cursor: pointer; 
+  transition: .25s ease; 
+  text-decoration: none;
+}
+
+.explorer-link.active { 
+  background: linear-gradient(135deg, var(--primary), var(--accent)); 
+  color: white; 
+}
+
+/* Componente de búsqueda interno (Escritorio) */
+.sidebar-search-block { 
+  margin-bottom: 1rem; 
+}
+
+.sidebar-search-wrapper { 
+  position: relative; 
+  display: flex; 
+  align-items: center; 
+}
+
+.sidebar-search-wrapper .search-icon { 
+  position: absolute; 
+  left: 1.1rem; 
+  color: #94a3b8; 
+  font-size: 1rem; 
+}
+
+.sidebar-search-wrapper input {
+  width: 100%; 
+  padding: 1rem 1rem 1rem 2.8rem; 
+  border: 1px solid #e2e8f0;
+  border-radius: 18px; 
+  background: #f8fafc; 
+  font-size: 0.95rem; 
+  color: #0f172a; 
+  outline: none; 
+  transition: all 0.2s ease;
+}
+
+.sidebar-search-wrapper input:focus { 
+  background: #ffffff; 
+  border-color: var(--primary); 
+  box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1); 
+}
+
+
+/* =========================================================
+   2. CONTROL FLOTANTE INFERIOR DE DOBLE RENGLÓN (MÓVIL Y TABLET)
+========================================================= */
+@media (max-width: 1200px) {
+  .ideas-explorer {
+    grid-template-columns: 1fr;
+    margin-top: -20px;
     gap: 1rem;
-    margin-top: 2rem;
-    max-width: 700px;
   }
-  
-  .search-box input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 1rem 1.2rem;
-    border-radius: 18px;
-    font-size: 1rem;
-    box-shadow: var(--shadow);
+
+  .hide-on-mobile {
+    display: none !important;
   }
-  
-  .search-box button {
-    border: none;
-    background: var(--primary);
-    color: white;
-    padding: 1rem 1.4rem;
-    border-radius: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: .25s ease;
-  }
-  
-  .search-box button:hover {
-    background: var(--primary-dark);
-    transform: translateY(-2px);
-  }
-  
-  .search-inline-loader {
-    position: absolute;
-    right: 20px;
-    color: var(--primary);
-    font-size: 1.2rem;
-    z-index: 10;
-  }
-  
-  /* ==========================================================================
-     3. BARRA INSTITUCIONAL Y NAVEGACIÓN (TOPBAR)
-     ========================================================================== */
-  .institution-bar {
-    height: 57px;
-    background: rgba(255,255,255,.96);
-    border-bottom: 1px solid rgba(15,23,42,.08);
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0 5%;
-  }
-  
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 500;
-    height: 110px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 5%;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  }
-  
-  .logo-wrap {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .institution-logo {
+
+  /* REGLA MAESTRA: Toda la sidebar se vuelve la barra flotante en el fondo */
+  .explorer-sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto; /* Desactiva comportamientos sticky superiores */
+    width: 100%;
     height: auto;
-    max-height: 55px; 
-    object-fit: contain;
-    opacity: .9;
-    transition: .25s;
-  }
-  
-  .institution-logo:hover { opacity: 1; }
-  .agrolinc-logo { max-height: 65px; }
-  .linc-logo { max-height: 67px; }
-  .iica-logo { max-height: 40px; }
-  
-  .institution-right {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  
-  .institution-divider {
-    width: 1px;
-    height: 35px;
-    background-color: #cbd5e1;
-  }
-  
-  .nav {
-    display: flex;
-    gap: 2.5rem;
-  }
-  
-  .nav a {
-    text-decoration: none;
-    color: #64748b;
-    font-weight: 600;
-    font-size: 1.05rem;
-    transition: .25s;
-  }
-  
-  .nav a:hover, .nav a.active {
-    color: #6d28d9;
-  }
-  
-  /* Toggle Hamburguesa */
-  .menu-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 21px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 600;
-  }
-  
-  .menu-toggle span {
-    width: 100%;
-    height: 3px;
-    background-color: #1e293b;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-  }
-  
-  .menu-toggle.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-  .menu-toggle.open span:nth-child(2) { opacity: 0; }
-  .menu-toggle.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-  
-  /* ==========================================================================
-     4. SECCIÓN HERO (PORTADA PRINCIPAL Y DINAMISMOS)
-     ========================================================================== */
-  .hero, .dashboard-hero {
-    position: relative;
-    overflow: hidden;
-    background-image: url("../assets/images/hero.png");
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .hero-overlay, .dashboard-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, rgba(15, 23, 42, .88), rgba(109, 40, 217, .68));
-  }
-  
-  .hero {
-    min-height: 85vh;
-    display: flex;
-    flex-direction: column; 
-    justify-content: center;
-    padding: 5rem 5% 0 5%; 
-  }
-  
-  .hero-grid {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1.2fr .8fr;
-    gap: 4rem;
-    align-items: center;
-    flex: 1; 
-    padding-bottom: 3rem;
-  }
-  
-  .hero-content {
-    position: relative;
-    z-index: 2;
-  }
-  
-  .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: .7rem 1rem;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, .12);
-    border: 1px solid rgba(255, 255, 255, .14);
-    color: white;
-    font-size: .9rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-  }
-  
-  .hero h1 {
-    font-size: clamp(2.2rem, 5.5vw, 4.5rem);
-    line-height: 1.1;
-    margin-bottom: 1.4rem;
-    color: white;
-    font-weight: 800;
-  }
-  
-  .hero p {
-    color: rgba(255, 255, 255, .85);
-    font-size: 1.08rem;
-    line-height: 1.7;
-    max-width: 700px;
-  }
-  
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-  
-  /* KPIs Interactivos (Efecto Cascada) */
-  .hero-panel {
-    position: relative;
-    z-index: 2;
+    background: rgba(255, 255, 255, 0.94); /* Fondo translúcido premium */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.12);
+    border-radius: 24px 24px 0 0; /* Bordes superiores curvos tipo app móvil */
+    padding: 0.85rem 1.25rem;
+    z-index: 4000; /* Prioridad absoluta por encima del mapa de Leaflet y capas táctiles */
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 0.65rem; /* Separación compacta entre el renglón 1 y el renglón 2 */
   }
-  
-  .metric-card {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.4rem;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, .12);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, .14);
-    animation: kpiFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background-color 0.3s ease;
-    cursor: default;
-  }
-  
-  /* Delay escalonado de KPIs */
-  .hero-panel .metric-card:nth-child(1) { animation-delay: 0.2s; }
-  .hero-panel .metric-card:nth-child(2) { animation-delay: 0.4s; }
-  .hero-panel .metric-card:nth-child(3) { animation-delay: 0.6s; }
-  .hero-panel .metric-card:nth-child(4) { animation-delay: 0.8s; }
-  .hero-panel .metric-card:nth-child(5) { animation-delay: 1.0s; }
-  .hero-panel .metric-card:nth-child(6) { animation-delay: 1.2s; }
-  
-  .metric-card:hover {
-    transform: translateY(-6px) scale(1.03);
-    background-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 15px rgba(17, 199, 199, 0.3);
-  }
-  
-  .metric-icon {
-    width: 58px;
-    height: 58px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, .2), rgba(255, 255, 255, .08));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.3rem;
-    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-  
-  .metric-card:hover .metric-icon {
-    transform: scale(1.15) rotate(5deg);
-  }
-  
-  .metric-card strong {
-    display: block;
-    color: white;
-    font-size: 1.8rem;
-  }
-  
-  .metric-card span {
-    color: rgba(255, 255, 255, .8);
-  }
-  
-  @keyframes kpiFadeUp {
-    from { 
-      opacity: 0; 
-      transform: translateY(25px);
-    }
-    to { 
-      opacity: 1; 
-      transform: translateY(0); 
-    }
-  }
-  
-  /* ==========================================================================
-     5. FRANJA MÓVIL DE CONVOCATORIAS (TICKER MARQUEE)
-     ========================================================================== */
-  .courses-ticker-wrap {
-    width: auto;
-    margin-left: -6%;           
-    margin-right: -6%;          
-    margin-top: auto;             
-    background: rgba(11, 19, 43, 0.96);
-    backdrop-filter: blur(10px);
-    border-top: 3px solid #17a3ad;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    z-index: 30;
-    position: relative; 
-  }
-  
-  .ticker-title {
-    background: #17a3ad;
-    color: #ffffff;
-    padding: 0 1.2rem;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;                  
-    font-weight: 800;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    z-index: 40;
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
-    white-space: nowrap;
-  }
-  
-  .ticker-action-btn {
-    margin-left: 0.8rem;
-    background: rgba(17, 199, 199, 0.15);
-    border: 1px solid #17a3ad;
-    color: #17a3ad;
-    padding: 0.2rem 0.6rem;
-    border-radius: 6px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-  
-  .ticker-action-btn:hover {
-    background: #17a3ad;
-    color: #0f1229;
-    box-shadow: 0 0 10px rgba(17, 199, 199, 0.4);
-  }
-  
-  .ticker-track {
-    display: flex;
+
+  /* RENGLÓN 1: El Buscador ocupando la parte superior del control */
+  .sidebar-search-block {
     width: 100%;
-    height: 100%;
-    align-items: center;
+    margin-bottom: 0; /* Eliminamos márgenes residuales */
   }
-  
-  .ticker-content-loop {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    animation: marqueeContinuous 40s linear infinite; 
-  }
-  
-  .courses-ticker-wrap:hover .ticker-content-loop {
-    animation-play-state: paused;
-  }
-  
-  .ticker-item {
-    display: inline-flex;
-    align-items: center;
-    padding: 0 3rem;
-    color: #f1f5f9;
+
+  .sidebar-search-wrapper input {
+    background: #f1f5f9; /* Fondo grisáceo suave para contrastar con la barra blanca */
+    border: 1px solid #e2e8f0;
+    padding: 0.65rem 1rem 0.65rem 2.5rem; /* Ajuste más bajo y compacto */
+    border-radius: 12px;
     font-size: 0.9rem;
   }
   
-  .ticker-badge {
-    font-size: 0.7rem;
-    font-weight: 800;
-    padding: 0.25rem 0.65rem;
-    border-radius: 4px;
-    margin-right: 0.9rem;
-    letter-spacing: 0.5px;
+  .sidebar-search-wrapper .search-icon {
+    left: 0.9rem;
+    font-size: 0.9rem;
   }
-  
-  .ticker-badge.status-open { background: #159463; color: #ffffff; }
-  .ticker-badge.status-danger { background: #df6706; color: #ffffff; }
-  .ticker-badge.status-alert { background: #808080; color: #ffffff; }
-  
-  .ticker-course-name {
-    color: #ffffff;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-  }
-  
-  .ticker-track .ticker-separator {
-    margin: 0 1.25rem;
-    color: rgba(255, 255, 255, 0.25);
-  }
-  
-  .ticker-slots {
-    color: #cbd5e1;
-    font-size: 0.85rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-  }
-  
-  @keyframes marqueeContinuous {
-    0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(-100%, 0, 0); }
-  }
-  
-  /* ==========================================================================
-     6. LÓGICA DE RUTAS FORMATIVAS (ROUTES DESIGN)
-     ========================================================================== */
-  .routes-layout {
-    margin: 3rem auto 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .route-block {
+
+  /* RENGLÓN 2: Menú en bloque horizontal justo debajo del buscador */
+  .explorer-menu {
+    margin-top: 0;
     display: grid;
-    grid-template-columns: 280px 1fr;
-    overflow: hidden;
-    border-radius: 32px;
-    background: white;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 10px 30px rgba(15,23,42,.05);
-    transition: .3s ease;
-  }
-  
-  .route-block:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 50px rgba(15,23,42,.08);
-  }
-  
-  .route-side {
-    position: relative;
-    padding: 2.5rem 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 1rem;
-    color: white;
-  }
-  
-  .technical-side { background: linear-gradient(180deg, #562e6b, #44266d, #255995); }
-  .territorial-side { background: linear-gradient(180deg, #122d12, #1c482d, #6b6f26); }
-  
-  .route-side i { font-size: 2.5rem; opacity: .95; }
-  .route-side span { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
-  
-  .route-main {
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .route-main h3 { font-size: 2rem; margin-bottom: 1rem; color: #0f172a; }
-  .route-main p { color: #64748b; line-height: 1.9; font-size: 1rem; max-width: 760px; }
-  
-  .route-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .8rem;
-    margin-top: 2rem;
-  }
-  
-  .route-tags span {
-    padding: .7rem 1rem;
-    border-radius: 999px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    color: #334155;
-    font-size: .9rem;
-    font-weight: 600;
-  }
-  
-  /* Conectores Visuales de Rutas */
-  .route-connector {
-    position: relative;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .connector-line {
-    position: absolute;
-    width: 2px;
-    height: 100%;
-    background: linear-gradient(180deg, rgba(109,40,217,.25), rgba(34,197,94,.25));
-  }
-  
-  .connector-center {
-    position: relative;
-    z-index: 2;
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    background: white;
-    border: 1px solid #e2e8f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 25px rgba(15,23,42,.08);
-  }
-  
-  .connector-center i { color: var(--primary); font-size: 1.1rem; }
-  
-  .routes-connection {
-    position: relative;
-    margin: 2rem;
-    padding: 5rem 6%;
-    border-radius: 36px;
-    overflow: hidden;
-    background: linear-gradient(135deg, #241032, #1b2a46);
-  }
-  
-  .connection-layout {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 360px;
-    gap: 4rem;
-    align-items: center;
-  }
-  
-  .connection-content { max-width: 760px; }
-  
-  .connection-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: .65rem 1rem;
-    border-radius: 999px;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.08);
-    color: white;
-    font-size: .85rem;
-    font-weight: 600;
-    margin-bottom: 1.6rem;
-  }
-  
-  .connection-content h2 {
-    color: rgba(255,255,255,.82);
-    font-size: 1.25rem;
-    line-height: 2;
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Grilla de Tecnologías Integradas */
-  .tech-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .tech-card {
-    background: white;
-    border-radius: 26px;
-    padding: 2rem;
-    border: 1px solid var(--border);
-    transition: .3s ease;
-  }
-  
-  .tech-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow);
-  }
-  
-  .tech-card i { font-size: 2rem; color: var(--primary); margin-bottom: 1.2rem; }
-  .tech-card h4 { margin-bottom: .8rem; font-size: 1.2rem; }
-  .tech-card p { color: var(--muted); line-height: 1.6; }
-  
-  /* ==========================================================================
-     7. CAMINOS DE APRENDIZAJE (LEARNING PATH NODES)
-     ========================================================================== */
-  .learning-path {
-    padding: 5rem 8%;
-    background: #f7f8fc;
-  }
-  
-  .path-header { margin-bottom: 3rem; }
-  .path-header h2 { font-size: 2.4rem; color: #2e1760; margin-top: .5rem; margin-bottom: .8rem; }
-  .path-header p { color: #6d6d6d; line-height: 1.6; }
-  
-  .path-grid { display: flex; flex-direction: column; gap: 1.5rem; }
-  .path-stage { display: flex; flex-direction: column; gap: .8rem; }
-  
-  .stage-title {
-    margin: 0;
-    font-size: .95rem;
-    font-weight: 700;
-    color: var(--primary);
-    text-transform: uppercase;
-    letter-spacing: .08em;
-  }
-  
-  .path-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1rem;
-  }
-  
-  .course-node {
-    width: 100%;
-    min-height: 110px;
-    position: relative;
-    border: none;
-    background: #5b2ca0;
-    color: white;
-    padding: 1.4rem;
-    border-radius: 22px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform .25s ease, box-shadow .25s ease;
-    box-shadow: 0 10px 25px rgba(90,44,160,.18);
-  }
-  
-  .course-node:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 18px 35px rgba(90, 44, 160, .25);
-  }
-  
-  .course-node::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 40%);
-  }
-  
-  .course-node small { display: block; opacity: .8; margin-bottom: .4rem; font-size: .8rem; }
-  .course-node strong { display: block; font-size: 1rem; line-height: 1.4; }
-  .course-node p { color: rgb(210, 210, 210); }
-  
-  /* ==========================================================================
-     8. DASHBOARD / ARQUITECTURA DE PERFIL DE USUARIO
-     ========================================================================== */
-  .dashboard-hero {
-    min-height: 48vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4rem 2rem;
-    margin-bottom: 2rem;
-  }
-  
-  .dashboard-content { position: relative; z-index: 2; }
-  .dashboard-hero h1 { color: white; font-size: 3.6rem; line-height: 1.05; margin-bottom: 1.4rem; }
-  .dashboard-hero p { color: rgba(255, 255, 255, .85); font-size: 1.08rem; line-height: 1.7; max-width: 700px; }
-  
-  .main-wrapper {
-    max-width: 1400px;
-    margin: -70px auto 0;
-    padding: 0 2rem 4rem;
-    display: grid;
-    grid-template-columns: 340px 1fr;
-    gap: 2rem;
-    position: relative;
-    z-index: 5;
-  }
-  
-  .profile-card, .courses-section {
-    background: white;
-    border-radius: 32px;
-    padding: 2rem;
-    box-shadow: var(--shadow);
-  }
-  
-  .profile-top { display: flex; gap: 1rem; align-items: center; }
-  
-  .profile-avatar {
-    width: 84px;
-    height: 84px;
-    border-radius: 28px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 800;
-  }
-  
-  .profile-label { color: var(--muted); font-size: .85rem; }
-  .progress-wrap { margin-top: 2rem; }
-  .progress-top { display: flex; justify-content: space-between; margin-bottom: .7rem; font-weight: 700; }
-  
-  .progress-bar {
-    height: 12px;
-    border-radius: 999px;
-    background: #e2e8f0;
-    overflow: hidden;
-  }
-  
-  .progress-fill {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    transition: .5s ease;
-  }
-  
-  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
-  .mini-stat { background: #f8fafc; border: 1px solid var(--border); border-radius: 24px; padding: 1.3rem; text-align: center; }
-  .mini-stat strong { display: block; color: var(--primary); font-size: 2rem; }
-  
-  .legend { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
-  .legend-item { display: flex; align-items: center; gap: .8rem; color: var(--muted); }
-  .dot { width: 14px; height: 14px; border-radius: 50%; }
-  .completed-dot { background: var(--success); }
-  .available-dot { background: var(--primary); }
-  .locked-dot { background: #cbd5e1; }
-  
-  .section-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 2rem; }
-  .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.3rem; }
-  
-  /* Tarjetas de Cursos Internos */
-  .course-card {
-    cursor: pointer;
-    position: relative;
-    background: white;
-    border-radius: 26px;
-    padding: 1.4rem;
-    border: 1px solid var(--border);
-    transition: all 0.25s ease;
-  }
-  
-  .course-card:hover { 
-    transform: translateY(-5px); 
-    border-color: var(--primary);
-    box-shadow: var(--shadow); 
-  }
-  
-  .course-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-  .course-status { padding: .4rem .8rem; border-radius: 999px; font-size: .78rem; font-weight: 700; }
-  
-  .course-card-icon {
-    font-size: 1.5rem;
-    color: var(--primary);
-    margin-bottom: 0.5rem;
-    opacity: 0.8;
-  }
-  
-  /* Variaciones de Estado de Cursos */
-  .course-card.completed { border-color: rgba(16, 185, 129, .2); background: linear-gradient(180deg, rgba(16, 185, 129, .05), white); }
-  .course-card.completed .course-card-icon { color: var(--success); }
-  .course-status.completed { background: rgba(16, 185, 129, .12); color: var(--success); }
-  
-  .course-card.available { border-color: rgba(109, 40, 217, .2); }
-  .course-status.available { background: rgba(109, 40, 217, .12); color: var(--primary); }
-  
-  .course-card.locked { opacity: .55; }
-  .course-card.locked .course-card-icon { color: var(--muted); }
-  .course-status.locked { background: #f1f5f9; color: #64748b; }
-  
-  /* ==========================================================================
-     9. VISTA EXCLUSIVA DE AGROIDEAS & CATÁLOGO
-     ========================================================================== */
-  .agroideas-page { background: linear-gradient(180deg, #f4f7fb 0%, #eef2ff 100%); }
-  
-  .ideas-hero {
-    position: relative;
-    min-height: 62vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 7rem 5% 5rem;
-    overflow: hidden;
-    background: radial-gradient(circle at top left, rgba(91, 33, 182, .18), transparent 30%),
-                radial-gradient(circle at bottom right, rgba(6, 182, 212, .16), transparent 35%),
-                linear-gradient(135deg, #0f172a, #111827);
-  }
-  
-  .ideas-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .03) 1px, transparent 1px);
-    background-size: 42px 42px;
-    opacity: .5;
-  }
-  
-  .ideas-hero-content { position: relative; z-index: 2; width: 100%; max-width: 900px; text-align: center; }
-  .ideas-hero h1 { font-size: 4.5rem; line-height: 1; color: white; margin-bottom: 1.5rem; }
-  .ideas-hero p { max-width: 700px; margin: 0 auto; color: rgba(255, 255, 255, .78); font-size: 1.08rem; line-height: 1.8; }
-  
-  /* Buscador de Ideas Avanzado */
-  .ideas-search { display: flex; gap: 1rem; max-width: 760px; margin: 2.5rem auto 0; }
-  .ideas-search-input { flex: 1; display: flex; align-items: center; gap: .9rem; padding: .4rem .5rem .4rem 1.2rem; border-radius: 22px; background: white; box-shadow: 0 12px 30px rgba(0, 0, 0, .18); }
-  .ideas-search-input input { flex: 1; border: none; outline: none; background: transparent; font-size: 1rem; padding: 1rem 0; }
-  
-  #explorarBtn { border: none; padding: 1rem 1.5rem; border-radius: 22px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; font-weight: 700; cursor: pointer; }
-  .ideas-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin-top: 2rem; margin-bottom: 2rem; }
-  .ideas-tags span { padding: .65rem 1rem; border-radius: 999px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .08); color: #dbe4f0; font-size: .9rem; font-weight: 600; }
-  
-  .catalog-filters { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; justify-content: center; }
-  .filter-btn, .catalog-filter { border: none; padding: .9rem 1.3rem; border-radius: 14px; background: rgba(255,255,255,.12); color: white; font-weight: 700; cursor: pointer; transition: .25s ease; backdrop-filter: blur(10px); }
-  .filter-btn:hover, .catalog-filter:hover { transform: translateY(-2px); background: rgba(255,255,255,.2); }
-  .filter-btn.active, .catalog-filter.active { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; }
-  
-  /* Layout del Explorador */
-  .ideas-explorer { 
-    max-width: 1500px; 
-    margin-top: -70px; 
-    margin-inline: auto; 
-    padding: 0 5% 5rem; 
-    position: relative; 
-    z-index: 10; 
-    display: grid; 
-    grid-template-columns: 300px 1fr; 
-    gap: 2rem; 
-  }
-  
-  .explorer-sidebar { 
-    position: sticky; 
-    top: 130px; 
-    height: fit-content; 
-    padding: 2rem; 
-    border-radius: 30px; 
-    background: white; 
-    box-shadow: 0 20px 60px rgba(15, 23, 42, .08); 
-    z-index: 400;
-  }
-  
-  .explorer-menu { 
-    display: flex; 
-    flex-direction: column; 
-    gap: .8rem; 
-    margin-top: 1.5rem; 
-  }
-  
-  .explorer-link { 
-    display: flex; 
-    align-items: center; 
-    gap: .9rem; 
-    width: 100%; 
-    border: none; 
-    padding: 1rem 1.1rem; 
-    border-radius: 18px; 
-    background: #f8fafc; 
-    color: #475569; 
-    font-weight: 600; 
-    cursor: pointer; 
-    transition: .25s ease; 
-    text-decoration: none;
-  }
-  
-  .explorer-link.active { 
-    background: linear-gradient(135deg, var(--primary), var(--accent)); 
-    color: white; 
-  }
-  
-  /* Buscador Interno Sidebar */
-  .sidebar-search-block { 
-    margin-bottom: 1rem; 
-  }
-  
-  .sidebar-search-wrapper { 
-    position: relative; 
-    display: flex; 
-    align-items: center; 
-  }
-  
-  .sidebar-search-wrapper .search-icon { 
-    position: absolute; 
-    left: 1.1rem; 
-    color: #94a3b8; 
-    font-size: 1rem; 
-  }
-  
-  .sidebar-search-wrapper input {
-    width: 100%; 
-    padding: 1rem 1rem 1rem 2.8rem; 
-    border: 1px solid #e2e8f0;
-    border-radius: 18px; 
-    background: #f8fafc; 
-    font-size: 0.95rem; 
-    color: #0f172a; 
-    outline: none; 
-    transition: all 0.2s ease;
-  }
-  
-  .sidebar-search-wrapper input:focus { 
-    background: #ffffff; 
-    border-color: var(--primary); 
-    box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.1); 
-  }
-  
-  /* Tarjetas V2 de Ideas */
-  .explorer-content { display: flex; flex-direction: column; gap: 2rem; }
-  .ideas-section { background: white; border-radius: 34px; padding: 2rem; box-shadow: 0 20px 60px rgba(15, 23, 42, .06); }
-  .ideas-section-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 2rem; }
-  .ideas-section-top h2 { font-size: 2.1rem; }
-  
-  .ideas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; align-items: stretch; }
-  .idea-card-v2 { background: white; border-radius: 24px; overflow: hidden; border: 1px solid #e7ecef; transition: .25s; display: flex; flex-direction: column; height: 100%; }
-  .idea-card-v2:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0, 0, 0, .08); }
-  .idea-card-image { width: 100%; height: 220px; aspect-ratio: 16/10; overflow: hidden; background: #f1f5f9; }
-  .idea-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .idea-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #5b7c65; }
-  
-  .idea-card-body { padding: 1.4rem; display: flex; flex-direction: column; flex: 1; }
-  .idea-chip { display: inline-flex; padding: .35rem .8rem; border-radius: 999px; background: #eef5ef; color: #356245; font-size: .8rem; font-weight: 700; margin-bottom: 1rem; }
-  .idea-card-body h3 { font-size: 1.15rem; margin-bottom: .8rem; }
-  .idea-short-desc { color: #61707c; line-height: 1.6; margin-bottom: 1.2rem; min-height: 72px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  
-  .idea-actions { margin-top: auto; display: flex; gap: .8rem; flex-wrap: wrap; }
-  .resource-btn { display: inline-flex; align-items: center; justify-content: center; padding: .8rem 1.1rem; border-radius: 12px; background: #1e8449; color: white; text-decoration: none; font-weight: 600; }
-  .resource-btn.secondary { background: #eef3ef; color: #1e8449; }
-  
-  .ideas-pagination { display: flex; gap: .7rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
-  .page-btn { min-width: 42px; height: 42px; padding: 0 1rem; border-radius: 12px; border: none; background: #eef3ef; cursor: pointer; font-weight: 700; }
-  .page-btn.active { background: #1e8449; color: white; }
-  
-  /* Tarjeta de Contacto */
-  .contact-card { position: relative; padding: 2rem; border-radius: 28px; background: linear-gradient(135deg, rgba(123,56,209,.92), rgba(109,59,214,.88)); border: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,.18); }
-  .contact-label { display: inline-block; padding: .45rem .8rem; border-radius: 999px; background: rgba(255,255,255,.12); color: white; font-size: .78rem; font-weight: 700; margin-bottom: 1rem; }
-  .contact-card h3 { color: white; font-size: 2rem; margin-bottom: 1rem; }
-  .contact-card p { color: rgba(255,255,255,.84); line-height: 1.8; margin-bottom: 1.5rem; font-size: .98rem; }
-  .copy-mail { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 1rem; border-radius: 16px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.08); }
-  .copy-mail span { color: white; font-weight: 600; font-size: .95rem; }
-  .copy-btn { width: 42px; height: 42px; border: none; border-radius: 12px; background: white; color: #5b2ca0; cursor: pointer; transition: .2s ease; }
-  .copy-btn:hover { transform: scale(1.05); }
-  
-  /* ==========================================================================
-     10. MAPAS COSTA RICA (SISTEMA DE DISEÑO CON PANEL DETALLADO)
-     ========================================================================== */
-  .map-layout {
-    display: grid;
-    grid-template-columns: 1fr 360px;
-    gap: 1.75rem;
-    background: #ffffff;
-    border-radius: 32px;
-    padding: 1.25rem;
-    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.04);
-  }
-  
-  .map-card {
-    border-radius: 24px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-  }
-  
-  #mapImpresoras, .leaflet-map { 
-    width: 100%; 
-    height: 560px; 
-  }
-  
-  /* Sidebar Exclusivo del Mapa */
-  .map-details-sidebar {
-    background: var(--surface-2, #f8fafc);
-    border-radius: 24px;
-    padding: 2rem 1.5rem;
-    height: 560px;
-    overflow-y: auto;
-    border: 1px solid #e2e8f0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .map-details-sidebar::-webkit-scrollbar { width: 6px; }
-  .map-details-sidebar::-webkit-scrollbar-track { background: transparent; }
-  .map-details-sidebar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-  .map-details-sidebar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-  
-  .map-details-sidebar h3 {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: #0f172a;
-    letter-spacing: -0.02em;
-    display: flex;
-    align-items: center;
+    grid-template-columns: repeat(3, 1fr); /* Divide horizontalmente el ancho en 3 secciones perfectas */
     gap: 0.5rem;
-    margin-bottom: 0.25rem;
-  }
-  .map-details-sidebar h3 i { color: var(--primary); }
-  
-  /* Estados Internos del Mapa */
-  .map-sidebar-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 100%;
-    color: var(--muted);
-    gap: 1rem;
-    padding: 2rem;
-  }
-  
-  .map-sidebar-empty i {
-    font-size: 3rem;
-    color: #cbd5e1;
-    animation: pulseLight 2s infinite ease-in-out;
-  }
-  
-  .map-sidebar-empty p { font-size: 0.95rem; line-height: 1.6; }
-  
-  .sidebar-info-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    animation: fadeInDetailed 0.4s ease-out forwards;
-  }
-  
-  .sidebar-feature-img {
     width: 100%;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border: 1px solid rgba(0,0,0,0.05);
   }
-  
-  .sidebar-location-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #1e293b;
-    line-height: 1.3;
-  }
-  
-  .sidebar-data-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.85rem;
-    padding: 0.75rem 1rem;
-    background: #ffffff;
-    border-radius: 14px;
-    border: 1px solid #edf2f7;
-    transition: transform 0.2s ease;
-  }
-  
-  .sidebar-data-row:hover {
-    transform: translateX(4px);
-    border-color: #e2e8f0;
-  }
-  
-  .sidebar-data-row i {
-    font-size: 1.1rem;
-    color: var(--primary);
-    margin-top: 0.15rem;
-    width: 20px;
-    text-align: center;
-  }
-  
-  .sidebar-data-label {
-    display: block;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: var(--muted);
-    letter-spacing: 0.5px;
-    margin-bottom: 0.15rem;
-  }
-  
-  .sidebar-data-value {
-    font-size: 0.95rem;
-    color: #334155;
-    font-weight: 500;
-    line-height: 1.4;
-  }
-  
-  @keyframes pulseLight {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.05); }
-  }
-  
-  @keyframes fadeInDetailed {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  /* Clases Utilitarias de Control de Texto Multiplataforma */
-  .txt-desktop { display: block; }
-  .txt-mobile  { display: none; }
-  .map-tabs-mobile { display: none; }
-  
-  /* Contenidos Nativos de Leaflet Popups */
-  .leaflet-popup { width: 400px; }
-  .leaflet-popup-content { margin: 0 !important; width: 100% !important; }
-  .map-popup-compact { padding: 12px; text-align: center; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box; }
-  .popup-img-thumb { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; margin-bottom: 2px; display: block; }
-  .map-popup-compact h4.popup-title { margin: 4px 0 0 0 !important; font-size: 0.95rem !important; font-weight: 700; line-height: 1.3; color: #0f172a; }
-  .popup-region-sub { margin: 0 !important; font-size: 0.8rem; color: #64748b; }
-  .popup-modal-btn { background: #6d28d9; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; cursor: pointer; margin-top: 4px; width: 100%; transition: background 0.2s ease, transform 0.1s ease; }
-  .popup-modal-btn:hover { background: #5b21b6; transform: scale(1.02); }
-  .map-home-btn { background-color: #ffffff; color: #475569; width: 34px; height: 34px; border: 2px solid rgba(0, 0, 0, 0.2); border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: background-color 0.2s ease, color 0.2s ease; }
-  .map-home-btn i { font-size: 0.95rem; }
-  .map-home-btn:hover { background-color: #f8fafc; color: #0f172a; }
-  .leaflet-top.leaflet-left .map-home-btn { margin-top: 6px !important; }
-  
-  /* ==========================================================================
-     11. SECCIÓN SLIDERS / BLOG NOTICIAS AgroLINC
-     ========================================================================== */
-  #blogContainer { max-width: 1100px; margin: 0 auto; padding: 4rem 5%; display: flex; flex-direction: column; gap: 4rem; }
-  .blog-post { background: white; border-radius: 30px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06); }
-  .blog-slider { position: relative; width: 100%; height: clamp(320px, 55vw, 620px); overflow: hidden; background: #eef2f7; }
-  .blog-track { display: flex; position: relative; width: 100%; height: 100%; transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
-  .blog-slide { flex: 0 0 100%; width: 100%; height: 100%; position: relative; }
-  .blog-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .blog-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 52px; height: 52px; border: none; border-radius: 50%; background: rgba(255, 255, 255, 0.92); cursor: pointer; font-size: 1.1rem; transition: 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-  .blog-arrow:hover { transform: translateY(-50%) scale(1.08); background: white; }
-  .blog-arrow.left { left: 24px; }
-  .blog-arrow.right { right: 24px; }
-  .blog-dots { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); display: flex; gap: 0.6rem; z-index: 10; }
-  .blog-dot { width: 10px; height: 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.45); cursor: pointer; transition: all 0.3s ease; }
-  .blog-dot.active { width: 34px; background: white; }
-  .blog-body { padding: 2.8rem 3rem; }
-  .blog-date { display: inline-flex; padding: 0.6rem 1rem; border-radius: 999px; background: rgba(109, 40, 217, 0.08); color: var(--primary); font-weight: 700; margin-bottom: 1rem; font-size: 0.9rem; }
-  .blog-title { font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.15; margin-bottom: 1.4rem; color: #0f172a; }
-  .blog-text { font-size: 1.06rem; line-height: 2; color: #61707c; max-width: 850px; }
-  #blogPagination { display: flex; justify-content: center; gap: 1rem; margin: 0 auto 5rem; flex-wrap: wrap; }
-  #blogPagination button, #blogPagination .page-btn { width: 50px; height: 50px; border: none; border-radius: 16px; background: white; cursor: pointer; font-weight: 700; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08); transition: all 0.2s ease; }
-  #blogPagination button.active, #blogPagination .page-btn.active { background: var(--primary); color: white; }
-  
-  /* ==========================================================================
-     12. MODAL DIALOGS ENGINE (CURSOS, REQUISITOS E IDEAS)
-     ========================================================================== */
-  .course-modal, #ideaModal, #courseModal {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(4px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    padding: 1.5rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  
-  .course-modal.active, #ideaModal.open, #courseModal.active {
-    display: flex;
-    opacity: 1;
-    pointer-events: auto;
-  }
-  
-  .modal-content, .idea-modal-content, .modal-container {
-    position: relative;
-    background: white;
-    padding: 2.5rem;
-    border-radius: 24px;
-    max-width: 650px;
-    width: 100%;
-    max-height: 85vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    transform: translateY(20px);
-    transition: transform 0.3s ease, max-width 0.3s ease;
-    animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  @keyframes modalSlideUp {
-    to { transform: translateY(0); }
-  }
-  
-  #courseModal.modal-xl .modal-container,
-  .course-modal.modal-xl .modal-content {
-    max-width: 1200px;
-    width: 95%;
-  }
-  
-  .modal-stage {
-    display: inline-block;
-    margin-bottom: 1rem;
-    padding: .4rem .8rem;
-    border-radius: 999px;
-    background: rgba(125, 57, 216, .12);
-    color: #7d39d8;
-    font-size: .85rem;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-  
-  .modal-content h3, .idea-modal-content h3 {
-    font-size: 1.8rem;
-    color: #2e1760;
-    margin-bottom: 1rem;
-    flex-shrink: 0;
-  }
-  
-  .modal-close, .modal-close-btn {
-    position: absolute;
-    top: 1.25rem;
-    right: 1.25rem;
-    width: 38px;
-    height: 38px;
-    border: none;
-    border-radius: 50%;
-    background: #f1f5f9;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    color: #64748b;
-    z-index: 10;
-    transition: 0.2s;
-  }
-  
-  .modal-close:hover, .modal-close-btn:hover {
-    background: #e2e8f0;
-    color: #0f172a;
-  }
-  
-  .modal-description, #modalDescription {
-    color: #555;
-    line-height: 1.8;
-    flex-grow: 1;
-    overflow-y: auto;
-    padding-right: 0.75rem;
-    margin-top: 0.5rem;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  .modal-description::-webkit-scrollbar, #modalDescription::-webkit-scrollbar { width: 6px; }
-  .modal-description::-webkit-scrollbar-track, #modalDescription::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-  .modal-description::-webkit-scrollbar-thumb, #modalDescription::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-  
-  .modal-reqs {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background: #f6f8fa;
-    border-radius: 14px;
-  }
-  
-  .modal-requirement-box {
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    padding: 1rem;
-    border-radius: 14px;
-    margin-top: 1rem;
-  }
-  
-  .modal-image-content {
-    width: 100%;
-    border-radius: 14px;
-    margin-top: 1rem;
-    box-shadow: var(--shadow);
-  }
-  
-  .modal-reqs h4, .modal-events h4 { margin-bottom: .75rem; }
-  .modal-events { z-index: 1000; margin-top: 2rem; }
-  
-  /* Eventos y Convocatorias */
-  .course-event {
-    border-radius: 16px;
-    padding: .9rem 1rem;
-    margin-bottom: .75rem;
-    border-left: 6px solid #d0d7de;
-    background: #fafbfc;
-  }
-  
-  .event-open { border-left-color: #2ea44f; }
-  .event-waiting { border-left-color: #f39c12; }
-  .event-closed { border-left-color: #8b949e; }
-  
-  .event-date {
-    display: inline-block;
-    padding: .25rem .65rem;
-    border-radius: 999px;
-    background: #eef3ef;
-    font-size: .85rem;
-    font-weight: 600;
-    margin-bottom: .6rem;
-  }
-  
-  .event-status { display: inline-block; margin-bottom: .75rem; font-size: .85rem; font-weight: 600; }
-  
-  .event-btn {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: .7rem 1rem;
-    border-radius: 10px;
-    background: var(--primary);
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    transition: .2s ease;
-  }
-  
-  .event-btn:hover { opacity: .9; }
-  .event-slots { font-size: 1.1rem; font-weight: 700; margin-top: .4rem; }
-  
-  .status-confirmed { color: #1d9b50; font-weight: 700; }
-  .status-pending { color: #d28a00; font-weight: 700; }
-  .status-waiting { color: #2c77a0; font-weight: 700; }
-  .status-closed { color: #6b7280; font-weight: 700; }
-  
-  /* Requisitos Interactivos de Cursos */
-  .req-item-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.8rem 1.2rem;
-    background: #ffffff;
-    border: 1px solid var(--border);
+
+  /* Botones adaptados para una excelente ergonomía táctil */
+  .explorer-link {
+    flex-direction: column; /* Ícono arriba, texto abajo */
+    gap: 0.15rem;
+    padding: 0.4rem 0.25rem;
     border-radius: 12px;
-    margin-top: 0.6rem;
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .req-item-link::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--primary);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  
-  .req-item-link:hover {
-    transform: translateY(-2px);
-    border-color: var(--primary);
-    box-shadow: 0 4px 12px rgba(109, 40, 217, 0.08);
-  }
-  
-  .req-item-link:hover::after { opacity: 0.04; }
-  
-  .req-item-link .req-text-container {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: var(--text);
-    font-weight: 600;
-    font-size: 0.95rem;
-    z-index: 2;
-  }
-  
-  .req-item-link .req-status-badge {
-    padding: 0.35rem 0.75rem;
-    border-radius: 999px;
     font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    z-index: 2;
-  }
-  
-  .req-status-badge.completed { background: rgba(16, 185, 129, 0.12); color: var(--success); }
-  .req-status-badge.available { background: rgba(109, 40, 217, 0.12); color: var(--primary); }
-  .req-status-badge.locked { background: #f1f5f9; color: #64748b; }
-  
-  /* Botón de Descarga Global */
-  .download-share-btn {
+    text-align: center;
+    justify-content: center;
+    background: transparent; /* Diseño unificado sin cajones individuales */
     width: 100%;
-    margin-top: 1.5rem;
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  }
+
+  .explorer-link i {
+    font-size: 1.15rem;
+  }
+
+  .explorer-link.active {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
     color: white;
-    border: none;
-    padding: 0.95rem 1.5rem;
-    border-radius: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Optimización extra para teléfonos de pantallas angostas o pequeñas */
+@media (max-width: 480px) {
+  .explorer-sidebar {
+    padding: 0.75rem 0.85rem;
   }
   
-  .download-share-btn:hover {
-    transform: translateY(-3px);
-    background: linear-gradient(135deg, #1d4ed8, #1e40af);
-    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
+  .explorer-link span {
+    font-size: 0.7rem; /* Reduce de forma quirúrgica el texto para que no desborde */
   }
-  
-  .download-share-btn:active { transform: translateY(-1px); }
-  
-  /* Modal de Especificaciones AgroIdeas Premium */
-  #ideaModal .idea-modal-box {
-    background: #ffffff;
+}
+
+.explorer-content { display: flex; flex-direction: column; gap: 2rem; }
+.ideas-section { background: white; border-radius: 34px; padding: 2rem; box-shadow: 0 20px 60px rgba(15, 23, 42, .06); }
+.ideas-section-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 2rem; }
+.ideas-section-top h2 { font-size: 2.1rem; }
+
+.ideas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; align-items: stretch; }
+.idea-card-v2 { background: white; border-radius: 24px; overflow: hidden; border: 1px solid #e7ecef; transition: .25s; display: flex; flex-direction: column; height: 100%; }
+.idea-card-v2:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0, 0, 0, .08); }
+.idea-card-image { width: 100%; height: 220px; aspect-ratio: 16/10; overflow: hidden; background: #f1f5f9; }
+.idea-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.idea-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #5b7c65; }
+
+.idea-card-body { padding: 1.4rem; display: flex; flex-direction: column; flex: 1; }
+.idea-chip { display: inline-flex; padding: .35rem .8rem; border-radius: 999px; background: #eef5ef; color: #356245; font-size: .8rem; font-weight: 700; margin-bottom: 1rem; }
+.idea-card-body h3 { font-size: 1.15rem; margin-bottom: .8rem; }
+.idea-short-desc { color: #61707c; line-height: 1.6; margin-bottom: 1.2rem; min-height: 72px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+.idea-actions { margin-top: auto; display: flex; gap: .8rem; flex-wrap: wrap; }
+.resource-btn { display: inline-flex; align-items: center; justify-content: center; padding: .8rem 1.1rem; border-radius: 12px; background: #1e8449; color: white; text-decoration: none; font-weight: 600; }
+.resource-btn.secondary { background: #eef3ef; color: #1e8449; }
+
+.ideas-pagination { display: flex; gap: .7rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+.page-btn { min-width: 42px; height: 42px; padding: 0 1rem; border-radius: 12px; border: none; background: #eef3ef; cursor: pointer; font-weight: 700; }
+.page-btn.active { background: #1e8449; color: white; }
+
+/* Contacto */
+.contact-card { position: relative; padding: 2rem; border-radius: 28px; background: linear-gradient(135deg, rgba(123,56,209,.92), rgba(109,59,214,.88)); border: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+.contact-label { display: inline-block; padding: .45rem .8rem; border-radius: 999px; background: rgba(255,255,255,.12); color: white; font-size: .78rem; font-weight: 700; margin-bottom: 1rem; }
+.contact-card h3 { color: white; font-size: 2rem; margin-bottom: 1rem; }
+.contact-card p { color: rgba(255,255,255,.84); line-height: 1.8; margin-bottom: 1.5rem; font-size: .98rem; }
+.copy-mail { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 1rem; border-radius: 16px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.08); }
+.copy-mail span { color: white; font-weight: 600; font-size: .95rem; }
+.copy-btn { width: 42px; height: 42px; border: none; border-radius: 12px; background: white; color: #5b2ca0; cursor: pointer; transition: .2s ease; }
+.copy-btn:hover { transform: scale(1.05); }
+
+/* =========================================================
+   10. MAPAS COSTA RICA (SISTEMA DE DISEÑO ADAPTATIVO CON PANEL)
+========================================================= */
+/* =========================================================
+   10. MAPAS COSTA RICA (DISEÑO PREMIUM DE PANEL Y MAPA)
+========================================================= */
+.map-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px; /* Un poquito más ancho para dar aire al texto */
+  gap: 1.75rem;
+  background: #ffffff;
+  border-radius: 32px;
+  padding: 1.25rem; /* Margen interno para que el mapa y el panel no toquen el borde */
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.04);
+}
+
+.map-card {
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+#mapImpresoras, .leaflet-map { 
+  width: 100%; 
+  height: 560px; 
+}
+
+/* =========================================================
+   NUEVO ESTILO ADORNADO PARA EL PANEL DE DETALLES (SIDEBAR)
+========================================================= */
+.map-details-sidebar {
+  background: var(--surface-2, #f8fafc);
+  border-radius: 24px;
+  padding: 2rem 1.5rem;
+  height: 560px;
+  overflow-y: auto;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Scrollbar elegante y minimalista para el panel */
+.map-details-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.map-details-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.map-details-sidebar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+.map-details-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Encabezado del Panel */
+.map-details-sidebar h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.map-details-sidebar h3 i {
+  color: var(--primary);
+}
+
+/* Estado Inicial / Vacío ("Selecciona un punto...") */
+.map-sidebar-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  color: var(--muted);
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.map-sidebar-empty i {
+  font-size: 3rem;
+  color: #cbd5e1;
+  animation: pulseLight 2s infinite ease-in-out;
+}
+
+.map-sidebar-empty p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Contenedor de la información cuando ya está activa */
+.sidebar-info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: fadeInDetailed 0.4s ease-out forwards;
+}
+
+/* Imagen destacada de la sede dentro del panel lateral */
+.sidebar-feature-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Título de la sede seleccionada */
+.sidebar-location-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+/* Fila de Datos (Icono + Texto) */
+.sidebar-data-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #edf2f7;
+  transition: transform 0.2s ease;
+}
+
+.sidebar-data-row:hover {
+  transform: translateX(4px);
+  border-color: #e2e8f0;
+}
+
+.sidebar-data-row i {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-top: 0.15rem;
+  width: 20px;
+  text-align: center;
+}
+
+.sidebar-data-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 0.15rem;
+}
+
+.sidebar-data-value {
+  font-size: 0.95rem;
+  color: #334155;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Animaciones */
+@keyframes pulseLight {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes fadeInDetailed {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Clases Utilitarias para Textos Alternativos en Dispositivos */
+.txt-desktop { display: block; }
+.txt-mobile  { display: none; }
+.map-tabs-mobile { display: none; }
+
+
+/* Estilos de Contenidos Nativos de Leaflet Popups */
+.leaflet-popup { width: 400px; }
+.leaflet-popup-content { margin: 0 !important; width: 100% !important; }
+.map-popup-compact { padding: 12px; text-align: center; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box; }
+.popup-img-thumb { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; margin-bottom: 2px; display: block; }
+.map-popup-compact h4.popup-title { margin: 4px 0 0 0 !important; font-size: 0.95rem !important; font-weight: 700; line-height: 1.3; color: #0f172a; }
+.popup-region-sub { margin: 0 !important; font-size: 0.8rem; color: #64748b; }
+.popup-modal-btn { background: #6d28d9; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; cursor: pointer; margin-top: 4px; width: 100%; transition: background 0.2s ease, transform 0.1s ease; }
+.popup-modal-btn:hover { background: #5b21b6; transform: scale(1.02); }
+.map-home-btn { background-color: #ffffff; color: #475569; width: 34px; height: 34px; border: 2px solid rgba(0, 0, 0, 0.2); border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: background-color 0.2s ease, color 0.2s ease; }
+.map-home-btn i { font-size: 0.95rem; }
+.map-home-btn:hover { background-color: #f8fafc; color: #0f172a; }
+.leaflet-top.leaflet-left .map-home-btn { margin-top: 6px !important; }
+
+/* =========================================================
+   11. SECCIÓN SLIDERS / BLOG NOTICIAS AgroLINC
+========================================================= */
+#blogContainer { max-width: 1100px; margin: 0 auto; padding: 4rem 5%; display: flex; flex-direction: column; gap: 4rem; }
+.blog-post { background: white; border-radius: 30px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06); }
+.blog-slider { position: relative; width: 100%; height: clamp(320px, 55vw, 620px); overflow: hidden; background: #eef2f7; }
+.blog-track { display: flex; position: relative; width: 100%; height: 100%; transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
+.blog-slide { flex: 0 0 100%; width: 100%; height: 100%; position: relative; }
+.blog-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.blog-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 52px; height: 52px; border: none; border-radius: 50%; background: rgba(255, 255, 255, 0.92); cursor: pointer; font-size: 1.1rem; transition: 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.blog-arrow:hover { transform: translateY(-50%) scale(1.08); background: white; }
+.blog-arrow.left { left: 24px; }
+.blog-arrow.right { right: 24px; }
+.blog-dots { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); display: flex; gap: 0.6rem; z-index: 10; }
+.blog-dot { width: 10px; height: 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.45); cursor: pointer; transition: all 0.3s ease; }
+.blog-dot.active { width: 34px; background: white; }
+.blog-body { padding: 2.8rem 3rem; }
+.blog-date { display: inline-flex; padding: 0.6rem 1rem; border-radius: 999px; background: rgba(109, 40, 217, 0.08); color: var(--primary); font-weight: 700; margin-bottom: 1rem; font-size: 0.9rem; }
+.blog-title { font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.15; margin-bottom: 1.4rem; color: #0f172a; }
+.blog-text { font-size: 1.06rem; line-height: 2; color: #61707c; max-width: 850px; }
+#blogPagination { display: flex; justify-content: center; gap: 1rem; margin: 0 auto 5rem; flex-wrap: wrap; }
+#blogPagination button, #blogPagination .page-btn { width: 50px; height: 50px; border: none; border-radius: 16px; background: white; cursor: pointer; font-weight: 700; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08); transition: all 0.2s ease; }
+#blogPagination button.active, #blogPagination .page-btn.active { background: var(--primary); color: white; }
+
+/* =========================================================
+   12. MODAL DIALOGS ENGINE (CURSOS, IDEAS Y EXTRA GRANDE XL)
+========================================================= */
+.course-modal, #ideaModal, #courseModal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.course-modal.active, #ideaModal.open, #courseModal.active {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content, .idea-modal-content, .modal-container {
+  position: relative;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  max-width: 650px;
+  width: 100%;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transform: translateY(20px);
+  transition: transform 0.3s ease, max-width 0.3s ease;
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@keyframes modalSlideUp {
+  to { transform: translateY(0); }
+}
+
+#courseModal.modal-xl .modal-container,
+.course-modal.modal-xl .modal-content {
+  max-width: 1200px;
+  width: 95%;
+}
+
+.modal-stage {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: .4rem .8rem;
+  border-radius: 999px;
+  background: rgba(125, 57, 216, .12);
+  color: #7d39d8;
+  font-size: .85rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.modal-content h3, .idea-modal-content h3 {
+  font-size: 1.8rem;
+  color: #2e1760;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.modal-close, .modal-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: #f1f5f9;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #64748b;
+  z-index: 10;
+  transition: 0.2s;
+}
+
+.modal-close:hover, .modal-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.modal-description, #modalDescription {
+  color: #555;
+  line-height: 1.8;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 0.75rem;
+  margin-top: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-description::-webkit-scrollbar, #modalDescription::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-description::-webkit-scrollbar-track, #modalDescription::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+.modal-description::-webkit-scrollbar-thumb, #modalDescription::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.modal-reqs {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f6f8fa;
+  border-radius: 14px;
+}
+
+.modal-reqs h4, .modal-events h4 { margin-bottom: .75rem; }
+.modal-events { z-index: 1000; margin-top: 2rem; }
+
+.course-event {
+  border-radius: 16px;
+  padding: .9rem 1rem;
+  margin-bottom: .75rem;
+  border-left: 6px solid #d0d7de;
+  background: #fafbfc;
+}
+
+.event-open { border-left-color: #2ea44f; }
+.event-waiting { border-left-color: #f39c12; }
+.event-closed { border-left-color: #8b949e; }
+
+.event-date {
+  display: inline-block;
+  padding: .25rem .65rem;
+  border-radius: 999px;
+  background: #eef3ef;
+  font-size: .85rem;
+  font-weight: 600;
+  margin-bottom: .6rem;
+}
+
+.event-status { display: inline-block; margin-bottom: .75rem; font-size: .85rem; font-weight: 600; }
+
+.event-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: .7rem 1rem;
+  border-radius: 10px;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: .2s ease;
+}
+
+.event-btn:hover { opacity: .9; }
+.event-slots { font-size: 1.1rem; font-weight: 700; margin-top: .4rem; }
+
+.status-confirmed { color: #1d9b50; font-weight: 700; }
+.status-pending { color: #d28a00; font-weight: 700; }
+.status-waiting { color: #2c77a0; font-weight: 700; }
+.status-closed { color: #6b7280; font-weight: 700; }
+
+/* =========================================================
+   13. FOOTER (ESTILO OSCURO BASE)
+========================================================= */
+.footer {
+  background: #07152d;
+  color: white;
+  padding: 3rem 5%;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+}
+
+.footer-brand h3 { font-size: 2rem; margin-bottom: 1rem; }
+.footer-brand p { max-width: 460px; color: rgba(255,255,255,.72); line-height: 1.8; }
+.footer-institution { margin-top: 2rem; }
+.footer-institution span { display: block; margin-bottom: 1rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.45); }
+
+.footer-logos { display: flex; align-items: center; gap: 2rem; }
+.footer-logos img { height: 34px; width: auto; object-fit: contain; transition: .25s; }
+.footer-logos img:hover { opacity: 1; transform: translateY(-2px); }
+.footer-logos img:last-child { height: 42px; }
+
+.footer-col strong { display: block; margin-bottom: .9rem; }
+.footer-col p { color: rgba(255,255,255,.68); line-height: 1.8; }
+
+.footer-bottom {
+  background: #061024;
+  color: rgba(255,255,255,.4);
+  text-align: center;
+  padding: 1rem;
+  font-size: .85rem;
+}
+
+/* =========================================================
+   14. MEDIA QUERIES (SOPORTE RESPONSIVE INTEGRAL)
+========================================================= */
+@media (max-width: 1200px) {
+  .hero-grid, .main-wrapper, .ideas-explorer, .territory-box {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 992px) {
+  .institution-bar { justify-content: center; }
+  .topbar { height: 80px; padding: 0 12px; justify-content: space-between; align-items: center; gap: 8px; }
+  .agrolinc-logo { max-height: 40px; width: auto; }
+
+  .menu-toggle { display: flex; margin-left: 0.2rem; margin-right: 0.2rem; flex-shrink: 0; }
+
+  .nav {
+    position: fixed;
+    top: 80px;
+    left: 0;
     width: 100%;
-    max-width: 850px;
-    border-radius: 24px;
-    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
-    position: relative;
-    overflow: hidden;
-    animation: modalScaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #ffffff;
+    flex-direction: column;
+    gap: 0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 499;
   }
+
+  .nav.open { transform: translateY(0); }
+  .nav a { padding: 1.2rem 2rem; border-bottom: 1px solid #f1f5f9; width: 100%; box-sizing: border-box; text-align: left; }
+  .institution-right { gap: 0.5rem; flex-shrink: 1; display: flex; align-items: center; }
+  .iica-logo { max-height: 20px; width: auto; object-fit: contain; }
+  .linc-logo { max-height: 32px; width: auto; object-fit: contain; }
+  .institution-divider { display: none !important; }
+
+  .route-block { grid-template-columns: 1fr; }
+  .route-side { align-items: center; text-align: center; }
+  .footer { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-logos { gap: 1.2rem; flex-wrap: wrap; }
+}
+
+@media (max-width: 768px) {
+  html { scroll-padding-top: 4.5rem; }
+ 
+  .dashboard-hero h1 { font-size: 2.2rem; }
+  .section-title h2 { font-size: 2.4rem; }
   
-  @keyframes modalScaleUp {
-    from { transform: scale(0.96) translateY(10px); opacity: 0; }
-    to { transform: scale(1) translateY(0); opacity: 1; }
-  }
-  
-  #ideaModal .modal-close {
-    position: absolute;
-    top: 1.25rem;
-    right: 1.25rem;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #e2e8f0;
-    color: #0f172a;
+  .hero-grid { gap: 2rem; }
+
+  .hero-actions, .search-box, .ideas-search, .idea-actions { flex-direction: column; }
+  .ideas-search { margin-top: 2rem; }
+  #explorarBtn, .search-box button, .resource-btn, .course-node { width: 100%; }
+
+  .section { padding: 4rem 1rem; }
+
+  /* Ajustes en Ticker Marquee */
+  .ticker-title { padding: 0 0.8rem; }
+  .ticker-title span { display: none; }
+  .ticker-title i { font-size: 1.1rem; }
+  .ticker-item { padding: 0 1.5rem; }
+
+  /* Ajustes en AgroIdeas Explorador */
+  /* .ideas-explorer {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    overflow: hidden; 
+  } */
+  
+  .explorer-content {
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+
+  .ideas-section { padding: 1.2rem; border-radius: 24px; }
+  .ideas-section-top { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .ideas-section-top h2 { font-size: 1.7rem; }
+
+  .main-wrapper { padding: 0 1rem 3rem; }
+  .profile-card, .courses-section { padding: 1.4rem; }
+  .courses-grid, .ideas-grid, .tech-grid, .routes-grid, .path-row { grid-template-columns: 1fr; }
+
+  .route-main { padding: 2rem 1.5rem; }
+  .route-main h3 { font-size: 1.5rem; }
+  .routes-connection { padding: 3rem 1.5rem; }
+  .routes-connection h3 { font-size: 1.8rem; }
+  
+  .catalog-filters { justify-content: flex-start; }
+  .idea-card-image { aspect-ratio: 16/9; }
+  .modal-image { height: 220px; }
+  .connection-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .contact-card { width: 100%; }
+
+  #blogContainer { padding: 2rem 1rem; gap: 2.5rem; }
+  .blog-body { padding: 2rem 1.5rem; }
+  .blog-title { font-size: 1.6rem; }
+  .blog-arrow { width: 44px; height: 44px; }
+  .blog-arrow.left { left: 12px; }
+  .blog-arrow.right { right: 12px; }
+
+  /* =========================================================
+     ZONA CRÍTICA: CORRECCIONES DEL MAPA EN CELULAR
+  ========================================================= */
+  .txt-desktop { display: none !important; }
+  .txt-mobile  { display: block !important; }
+
+  /* Activamos la barra de pestañas en celular */
+  .map-tabs-mobile {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    background: #e2e8f0;
+    padding: 0.25rem;
+    border-radius: 12px;
+  }
+
+  .map-tab-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    background: transparent;
+    font-weight: 700;
+    color: var(--muted);
     cursor: pointer;
-    z-index: 10;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    font-size: 0.9rem;
+  }
+
+  .map-tab-btn.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(109, 40, 217, 0.2);
+  }
+
+  /* Forzamos el layout a bloque para apilar los elementos */
+  .map-layout {
+    display: block !important; 
+    width: 100%;
+  }
+
+  /* CONTROL DE VISIBILIDAD CRÍTICO INTERACTIVO */
+  /* Por defecto en móvil: se muestra el mapa, se oculta el panel lateral */
+  .map-layout .map-card {
+    display: block;
+    width: 100% !important;
+    height: 400px;
   }
   
-  #ideaModal .modal-close:hover {
-    background: #f1f5f9;
-    transform: rotate(90deg);
-    color: #ef4444;
+  .map-layout .map-details-sidebar {
+    display: none;
+    width: 100% !important;
+    height: 400px;
+  }
+
+  /* Cuando el contenedor tiene la clase 'show-details': se oculta el mapa, se muestra el panel */
+  .map-layout.show-details .map-card {
+    display: none !important;
+  }
+  
+  .map-layout.show-details .map-details-sidebar {
+    display: block !important;
+    background: white;
+  }
+
+  .map-home-btn { width: 38px; height: 38px; }
+  .map-home-btn i { font-size: 1.1rem; }
+}
+
+@media (max-width: 600px) {
+  .ideas-grid {
+    grid-template-columns: 1fr !important; 
+    gap: 1.5rem;
+    width: 100%;
+  }
+  .idea-card-v2 {
+    width: 100%; 
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 576px) {
+  .modal-content, .modal-container { width: 95%; max-height: 88vh; padding: 2rem 1.2rem 1.5rem 1.2rem; border-radius: 20px; }
+  .modal-content h3 { font-size: 1.4rem; margin-bottom: 0.5rem; padding-right: 2.5rem; }
+  .modal-close, .modal-close-btn { top: 0.75rem; right: 0.75rem; width: 36px; height: 36px; }
+}
+
+@media (max-width: 480px) {
+  .dashboard-hero h1 { font-size: 1.9rem; }
+  .hero-tag, .section-badge { font-size: .75rem; }
+  .idea-card-body { padding: 1rem; }
+  .idea-short-desc { min-height: auto; }
+}
+
+/* =========================================================
+   MODAL PREMIUM DE AGROIDEAS
+========================================================= */
+
+/* Caja contenedora principal */
+#ideaModal .idea-modal-box {
+  background: #ffffff;
+  width: 100%;
+  max-width: 850px;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+  position: relative;
+  overflow: hidden; /* Evita que la imagen se salga de los bordes redondeados */
+  animation: modalScaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalScaleUp {
+  from { transform: scale(0.96) translateY(10px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Botón de cerrar estilizado */
+#ideaModal .modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+#ideaModal .modal-close:hover {
+  background: #f1f5f9;
+  transform: rotate(90deg);
+  color: #ef4444;
+}
+
+/* Maquetación del contenido dinámico (Grid de 2 columnas) */
+.idea-modal-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  min-height: 450px;
+}
+
+/* Columna Izquierda: Contenedor de la Imagen */
+.idea-modal-cover {
+  position: relative;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-right: 1px solid #f1f5f9;
+}
+
+.idea-modal-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+
+/* Columna Derecha: Información */
+.idea-modal-info {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Empuja los botones de acción al fondo */
+}
+
+/* Chip de categoría */
+.modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f0fdf4; /* Verde suave por defecto */
+  color: #16a34a;
+  padding: 0.35rem 0.85rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  align-self: flex-start;
+  margin-bottom: 1rem;
+}
+
+/* Título */
+.idea-modal-info h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+/* Descripción del recurso */
+.modal-desc-paragraph {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  white-space: pre-wrap; /* Mantiene saltos de línea si los hay */
+}
+
+/* Grupo de botones o enlaces de acción al fondo */
+.modal-footer-actions {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  gap: 1rem;
+}
+
+/* Adaptación Responsiva para Celulares */
+@media (max-width: 768px) {
+  #ideaModal .idea-modal-box {
+    max-height: 85vh;
+    overflow-y: auto;
   }
   
   .idea-modal-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 1.3fr;
-    min-height: 450px;
+    grid-template-columns: 1fr;
   }
   
   .idea-modal-cover {
-    position: relative;
-    background: #f8fafc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-right: 1px solid #f1f5f9;
+    height: 240px;
   }
   
   .idea-modal-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    inset: 0;
+    position: relative;
   }
   
   .idea-modal-info {
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    padding: 1.5rem;
   }
-  
-  .modal-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: #f0fdf4;
-    color: #16a34a;
-    padding: 0.35rem 0.85rem;
-    border-radius: 100px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    align-self: flex-start;
-    margin-bottom: 1rem;
-  }
-  
-  .idea-modal-info h2 {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: #0f172a;
-    line-height: 1.25;
-    margin-bottom: 1rem;
-  }
-  
-  .modal-desc-paragraph {
-    font-size: 0.95rem;
-    color: #475569;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    white-space: pre-wrap;
-  }
-  
-  .modal-footer-actions {
-    margin-top: auto;
-    padding-top: 1.5rem;
-    border-top: 1px solid #f1f5f9;
-    display: flex;
-    gap: 1rem;
-  }
-  
-  /* ==========================================================================
-     13. COMPONENTES DE LA TARJETA COMPARTIBLE LINKEDIN (MATRIZ 7x2)
-     ========================================================================== */
-  #linkedinShareCard {
-    width: 1200px;
-    height: 670px;
-    position: absolute;
-    left: -9999px;
-    background: #081d38;
-    display: flex;
-    flex-direction: column;
-    padding: 0 20px;
-    box-sizing: border-box;
-  }
-  
-  .share-branding-strip {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #e2e8f0;
-    max-height: 70px;
-    margin: 0;
-  }
-  
-  .share-strip-left .share-logo-main {
-    height: 60px;
-    width: auto;
-    display: block;
-  }
-  
-  .share-strip-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .share-logo-instm {
-    height: 70px;
-    width: auto;
-    object-fit: contain;
-    opacity: 0.9;
-    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.02));
-  }
-  
-  .share-logo-inst {
-    height: 38px;
-    width: auto;
-    object-fit: contain;
-    opacity: 0.95;
-  }
-  
-  .share-logo { height: 50px; }
-  
-  .share-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .share-user-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-  }
-  
-  .compact-white-name {
-    color: #ffffff !important;
-    font-size: 2.2rem !important;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: 0.2rem;
-  }
-  
-  .share-user-sub {
-    color: #64748b;
-    font-size: 1.05rem;
-    margin-top: 5px;
-  }
-  
-  .share-separator {
-    margin: 0 8px;
-    color: #cbd5e1;
-  }
-  
-  .badge-logro-purple {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    background: linear-gradient(135deg, #6d28d9, #581c87);
-    color: white !important;
-    padding: 10px 20px 20px 20px;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
-  }
-  
-  /* Rejilla de Medallas Simétrica 7x2 */
-  .compact-medal-case.matrix-7x2 {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(2, auto);
-    gap: 20px 15px;
-    background: transparent;
-    margin-top: 1.5rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .compact-medal-slot {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    text-align: center;
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-  
-  .compact-medal-circle {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-  }
-  
-  .compact-medal-circle i {
-    padding: 0;
-    margin: 0;
-  }
-  
-  .medal-unlocked .compact-medal-circle {
-    background-color: rgba(0, 217, 255, 0.15);
-    color: #00d9ff;
-    border: 3px solid #00d9ff;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .medal-unlocked i {
-    padding: 0;
-    margin: 0;
-  }
-  
-  .compact-medal-circle.discrete-lock {
-    background: rgba(255, 255, 255, 0.185);
-    color: rgba(255, 255, 255, 0.3);
-    border: 1px dashed rgba(255, 255, 255, 0.2);
-    font-size: 1.2rem;
-    box-shadow: none;
-    height: 40px;
-    width: 40px;
-  }
-  
-  .medal-course-title {
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: #e2e8f0;
-    line-height: 1.3;
-    margin-top: 8px;
-    margin-bottom: 0;
-    padding: 0 4px;
-    width: 100%;
-    max-width: 95px;
-    text-align: center;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-word; 
-    hyphens: auto;
-  }
-  
-  .medal-locked-title {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #94a3b8;
-    margin-top: 4px;
-  }
-  
-  /* Efecto Único Oro en Medalla Destacada (First Node Highlight) */
-  .compact-medal-slot.medal-featured {
-    background: linear-gradient(180deg, #fef08a, #ffffff);
-    border: 2px solid #eab308;
-    transform: scale(1.08);
-    box-shadow: 0 10px 20px rgba(234, 179, 8, 0.15);
-    z-index: 10;
-  }
-  
-  .compact-medal-slot.medal-featured .compact-medal-circle {
-    width: 68px;
-    height: 68px;
-    font-size: 1.7rem;
-  }
-  
-  .compact-medal-slot.medal-featured.medal-unlocked .compact-medal-circle {
-    background: linear-gradient(135deg, #ca8a04, #eab308);
-    box-shadow: 0 6px 15px rgba(234, 179, 8, 0.4);
-  }
-  
-  .compact-medal-slot.medal-featured .medal-course-title {
-    color: #713f12;
-    font-weight: 800;
-  }
-  
-  /* Footer Compartible */
-  .share-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 25px;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 15px;
-  }
-  
-  .share-footer-text span {
-    font-weight: 700;
-    color: #ffffff;
-    font-size: 1rem;
-  }
-  
-  .share-footer-text p {
-    color: #64748b;
-    font-size: 0.9rem;
-    margin-top: 3px;
-  }
-  
-  .share-qr-image {
-    width: 75px;
-    height: 75px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    padding: 3px;
-    background: white;
-  }
-  
-  /* ==========================================================================
-     14. FOOTER GENERAL (SISTEMA DE DISEÑO OSCURO BASE)
-     ========================================================================== */
-  .footer {
-    background: #07152d;
-    color: white;
-    padding: 3rem 5%;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 3rem;
-  }
-  
-  .footer-brand h3 { font-size: 2rem; margin-bottom: 1rem; }
-  .footer-brand p { max-width: 460px; color: rgba(255,255,255,.72); line-height: 1.8; }
-  .footer-institution { margin-top: 2rem; }
-  .footer-institution span { display: block; margin-bottom: 1rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.45); }
-  
-  .footer-logos { display: flex; align-items: center; gap: 2rem; }
-  .footer-logos img { height: 34px; width: auto; object-fit: contain; transition: .25s; }
-  .footer-logos img:hover { opacity: 1; transform: translateY(-2px); }
-  .footer-logos img:last-child { height: 42px; }
-  
-  .footer-col strong { display: block; margin-bottom: .9rem; }
-  .footer-col p { color: rgba(255,255,255,.68); line-height: 1.8; }
-  
-  .footer-bottom {
-    background: #061024;
-    color: rgba(255,255,255,.4);
-    text-align: center;
-    padding: 1rem;
-    font-size: .85rem;
-  }
-  
-  /* ==========================================================================
-     15. SISTEMA DE RESPONSIVIDAD (MEDIA QUERIES)
-     ========================================================================== */
-  
-  /* --- TABLETS Y PANTALLAS MEDIANAS (1200px) --- */
-  @media (max-width: 1200px) {
-    .hero-grid, .main-wrapper, .territory-box {
-      grid-template-columns: 1fr;
-    }
-  
-    .ideas-explorer {
-      grid-template-columns: 1fr;
-      margin-top: -20px;
-      gap: 1rem;
-    }
-  
-    .hide-on-mobile {
-      display: none !important;
-    }
-  
-    /* Conversión de la Sidebar a Dock Inferior Flotante Premium */
-    .explorer-sidebar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      top: auto;
-      width: 100%;
-      height: auto;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.12);
-      border-radius: 24px 24px 0 0;
-      padding: 0.85rem 1.25rem;
-      z-index: 4000;
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-    }
-  
-    .sidebar-search-block {
-      width: 100%;
-      margin-bottom: 0;
-    }
-  
-    .sidebar-search-wrapper input {
-      background: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      padding: 0.65rem 1rem 0.65rem 2.5rem;
-      border-radius: 12px;
-      font-size: 0.9rem;
-    }
-    
-    .sidebar-search-wrapper .search-icon {
-      left: 0.9rem;
-      font-size: 0.9rem;
-    }
-  
-    .explorer-menu {
-      margin-top: 0;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-      width: 100%;
-    }
-  
-    .explorer-link {
-      flex-direction: column;
-      gap: 0.15rem;
-      padding: 0.4rem 0.25rem;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      text-align: center;
-      justify-content: center;
-      background: transparent;
-      width: 100%;
-    }
-  
-    .explorer-link i { font-size: 1.15rem; }
-  }
-  
-  /* --- DISPOSITIVOS MÓVILES PORTRAIT (992px) --- */
-  @media (max-width: 992px) {
-    .institution-bar { justify-content: center; }
-    
-    .topbar { 
-      height: 80px; 
-      padding: 0 12px; 
-      justify-content: space-between; 
-      align-items: center; 
-      gap: 8px; 
-    }
-    
-    .agrolinc-logo { max-height: 40px; width: auto; }
-    .menu-toggle { display: flex; margin-left: 0.2rem; margin-right: 0.2rem; flex-shrink: 0; }
-  
-    /* Despliegue de Menú de Navegación Mobile */
-    .nav {
-      position: fixed;
-      top: 80px;
-      left: 0;
-      width: 100%;
-      background: #ffffff;
-      flex-direction: column;
-      gap: 0;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      transform: translateY(-150%);
-      transition: transform 0.3s ease-in-out;
-      z-index: 499;
-    }
-  
-    .nav.open { transform: translateY(0); }
-    .nav a { padding: 1.2rem 2rem; border-bottom: 1px solid #f1f5f9; width: 100%; box-sizing: border-box; text-align: left; }
-    
-    .institution-right { gap: 0.5rem; flex-shrink: 1; display: flex; align-items: center; }
-    .iica-logo { max-height: 20px; width: auto; object-fit: contain; }
-    .linc-logo { max-height: 32px; width: auto; object-fit: contain; }
-    .institution-divider { display: none !important; }
-  
-    .route-block { grid-template-columns: 1fr; }
-    .route-side { align-items: center; text-align: center; }
-    .footer { grid-template-columns: 1fr; gap: 2rem; }
-    .footer-logos { gap: 1.2rem; flex-wrap: wrap; }
-  }
-  
-  /* --- SMARTPHONES ESTÁNDAR (768px) --- */
-  @media (max-width: 768px) {
-    html { scroll-padding-top: 4.5rem; }
-   
-    .dashboard-hero h1 { font-size: 2.2rem; }
-    .section-title h2 { font-size: 2.4rem; }
-    .hero-grid { gap: 2rem; }
-  
-    .hero-actions, .search-box, .ideas-search, .idea-actions { flex-direction: column; }
-    .ideas-search { margin-top: 2rem; }
-    #explorarBtn, .search-box button, .resource-btn, .course-node { width: 100%; }
-  
-    .section { padding: 4rem 1rem; }
-  
-    /* Ticker Marquee Movil */
-    .ticker-title { padding: 0 0.8rem; }
-    .ticker-title span { display: none; }
-    .ticker-title i { font-size: 1.1rem; }
-    .ticker-item { padding: 0 1.5rem; }
-  
-    /* Explorador AgroIdeas */
-    .explorer-content {
-      width: 100%;
-      padding: 0 1rem;
-      box-sizing: border-box;
-    }
-  
-    .ideas-section { padding: 1.2rem; border-radius: 24px; }
-    .ideas-section-top { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .ideas-section-top h2 { font-size: 1.7rem; }
-  
-    .main-wrapper { padding: 0 1rem 3rem; }
-    .profile-card, .courses-section { padding: 1.4rem; }
-    .courses-grid, .ideas-grid, .tech-grid, .routes-grid, .path-row { grid-template-columns: 1fr; }
-  
-    .route-main { padding: 2rem 1.5rem; }
-    .route-main h3 { font-size: 1.5rem; }
-    .routes-connection { padding: 3rem 1.5rem; }
-    .routes-connection h3 { font-size: 1.8rem; }
-    
-    .catalog-filters { justify-content: flex-start; }
-    .idea-card-image { aspect-ratio: 16/9; }
-    .connection-layout { grid-template-columns: 1fr; gap: 2rem; }
-    .contact-card { width: 100%; }
-  
-    /* Sliders & Blog */
-    #blogContainer { padding: 2rem 1rem; gap: 2.5rem; }
-    .blog-body { padding: 2rem 1.5rem; }
-    .blog-title { font-size: 1.6rem; }
-    .blog-arrow { width: 44px; height: 44px; }
-    .blog-arrow.left { left: 12px; }
-    .blog-arrow.right { right: 12px; }
-  
-    /* Modal Dialogs Engine Adaptativo */
-    #ideaModal .idea-modal-box { max-height: 85vh; overflow-y: auto; }
-    .idea-modal-grid { grid-template-columns: 1fr; }
-    .idea-modal-cover { height: 240px; }
-    .idea-modal-cover img { position: relative; }
-    .idea-modal-info { padding: 1.5rem; }
-  
-    /* Zona de Control del Mapa de Costa Rica */
-    .txt-desktop { display: none !important; }
-    .txt-mobile  { display: block !important; }
-  
-    .map-tabs-mobile {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      background: #e2e8f0;
-      padding: 0.25rem;
-      border-radius: 12px;
-    }
-  
-    .map-tab-btn {
-      flex: 1;
-      padding: 0.75rem;
-      border: none;
-      background: transparent;
-      font-weight: 700;
-      color: var(--muted);
-      cursor: pointer;
-      border-radius: 10px;
-      transition: all 0.25s ease;
-      font-size: 0.9rem;
-    }
-  
-    .map-tab-btn.active {
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.2);
-    }
-  
-    .map-layout { display: block !important; width: 100%; }
-    
-    .map-layout .map-card {
-      display: block;
-      width: 100% !important;
-      height: 400px;
-    }
-    
-    .map-layout .map-details-sidebar {
-      display: none;
-      width: 100% !important;
-      height: 400px;
-    }
-  
-    .map-layout.show-details .map-card { display: none !important; }
-    .map-layout.show-details .map-details-sidebar { display: block !important; background: white; }
-  
-    .map-home-btn { width: 38px; height: 38px; }
-    .map-home-btn i { font-size: 1.1rem; }
-  }
-  
-  /* --- DISPOSITIVOS ULTRA-SMALL / CELULARES PEQUEÑOS (600px - 480px) --- */
-  @media (max-width: 600px) {
-    .ideas-grid { grid-template-columns: 1fr !important; gap: 1.5rem; width: 100%; }
-    .idea-card-v2 { width: 100%; box-sizing: border-box; }
-  }
-  
-  @media (max-width: 576px) {
-    .modal-content, .modal-container { width: 95%; max-height: 88vh; padding: 2rem 1.2rem 1.5rem 1.2rem; border-radius: 20px; }
-    .modal-content h3 { font-size: 1.4rem; margin-bottom: 0.5rem; padding-right: 2.5rem; }
-    .modal-close, .modal-close-btn { top: 0.75rem; right: 0.75rem; width: 36px; height: 36px; }
-  }
-  
-  @media (max-width: 480px) {
-    .dashboard-hero h1 { font-size: 1.9rem; }
-    .hero-tag, .section-badge { font-size: .75rem; }
-    .idea-card-body { padding: 1rem; }
-    .idea-short-desc { min-height: auto; }
-    .explorer-sidebar { padding: 0.75rem 0.85rem; }
-    .explorer-link span { font-size: 0.7rem; }
-  }
+}
+
+/* =========================================================
+   MEJORAS RUTA FORMATIVA AGROLINC
+========================================================= */
+
+/* 1. Loader Discreto en Buscador */
+.search-inline-loader {
+  position: absolute;
+  right: 20px;
+  color: var(--primary);
+  font-size: 1.2rem;
+  z-index: 10;
+}
+
+/* 2. Iconos Minimalistas en Tarjetas e interactividad */
+.course-card-icon {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+.course-card.completed .course-card-icon { color: var(--success); }
+.course-card.locked .course-card-icon { color: var(--muted); }
+
+.course-card {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s ease;
+}
+.course-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+}
+
+/* 3. Estilos de Requisitos e imágenes dentro del Modal */
+.modal-requirement-box {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 1rem;
+  border-radius: 14px;
+  margin-top: 1rem;
+}
+
+.modal-image-content {
+  width: 100%;
+  border-radius: 14px;
+  margin-top: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.share-logo { height: 50px; }
+
+
+/* =========================================================
+   MEJORAS EN MODAL DE REQUISITOS (PUNTO 1)
+========================================================= */
+.req-item-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.2rem;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 0.6rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Indicador visual de que es un elemento interactivo */
+.req-item-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--primary);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.req-item-link:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.08);
+}
+
+.req-item-link:hover::after {
+  opacity: 0.04;
+}
+
+.req-item-link .req-text-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  z-index: 2;
+}
+
+.req-item-link .req-status-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 2;
+}
+
+/* Variantes de color según el estado real del requisito */
+.req-status-badge.completed { background: rgba(16, 185, 129, 0.12); color: var(--success); }
+.req-status-badge.available { background: rgba(109, 40, 217, 0.12); color: var(--primary); }
+.req-status-badge.locked { background: #f1f5f9; color: #64748b; }
+
+/* =========================================================
+   REDISEÑO DEL BOTÓN DE DESCARGA (PUNTO 2)
+========================================================= */
+.download-share-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  padding: 0.95rem 1.5rem;
+  border-radius: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.download-share-btn:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
+}
+
+.download-share-btn:active {
+  transform: translateY(-1px);
+}
+/* =========================================================
+   MEJORAS ULTRACOMPACTAS PARA LA TARJETA COMPARTIBLE (MATRIZ 7x2)
+========================================================= */
+
+/* Nombre del estudiante blanco y compacto */
+.compact-white-name {
+  color: #ffffff !important;
+  font-size: 2rem !important;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.2rem;
+}
+
+/* Etiqueta de logro anterior: Medalla Morada */
+.badge-logro-purple {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: #ffffff !important;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
+}
+
+/* Rejilla estricta de 7 columnas y 2 filas */
+.compact-medal-case.matrix-7x2 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 Columnas exactas */
+  grid-template-rows: repeat(2, auto);    /* 2 Filas balanceadas */
+  gap: 20px 15px;                        /* Espaciado controlado */
+  background: transparent;
+  margin-top: 1.5rem;
+  width: 100%;                           /* Ocupa el ancho disponible */
+  box-sizing: border-box;
+}
+
+
+
+
+/* Estilo para las medallas que SÍ posee */
+
+
+/* Estilo para círculos discretos con candado */
+.compact-medal-circle.discrete-lock {
+  background: rgba(255, 255, 255, 0.185);
+  color: rgba(255, 255, 255, 0.3);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  font-size: 1.2rem;
+  box-shadow: none;
+  height: 40px;
+  width: 40px;
+}
+
+/* Texto del curso ubicado debajo de la medalla */
+/* Texto del curso ubicado de forma simétrica debajo de la medalla */
+.medal-course-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.3;
+  margin-top: 8px;                     /* Separa el texto del círculo de la medalla */
+  margin-bottom: 0px;
+  padding: 0 4px;                      /* Pequeño cojín lateral interno */
+  width: 100%;                         /* Ocupa el ancho total del slot asignado */
+  max-width: 95px;                     /* Ajuste quirúrgico para que no desborde en 7 columnas */
+  text-align: center;
+  
+  /* Sistema de control multi-línea inteligente */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;                 /* Muestra máximo 2 líneas; si es más largo coloca "..." */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  /* Evita rupturas feas de palabras a la mitad */
+  word-break: break-word; 
+  hyphens: auto;
+}
+
+/* Texto para las casillas bloqueadas */
+.medal-locked-title {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.25);
+  margin-top: 4px;
+}
+
+/* =========================================================
+   ESTILOS PREMIUM PARA LA TARJETA DE COMPARTIR AgroLINC (7x2)
+========================================================= */
+
+#linkedinShareCard {
+  width: 1200px;
+  height: 670px;
+  position: absolute;
+  left: -9999px; /* Oculto fuera de la pantalla de render */
+  background: #081d38;
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.share-branding-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e2e8f0;
+  max-height: 70;
+  margin:0px;
+  
+}
+
+.share-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.share-user-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.compact-white-name {
+  font-size: 2.2rem;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.share-user-sub {
+  color: #64748b;
+  font-size: 1.05rem;
+  margin-top: 5px;
+}
+
+.share-separator {
+  margin: 0 8px;
+  color: #cbd5e1;
+}
+
+.badge-logro-purple {
+  background: linear-gradient(135deg, #6d28d9, #581c87);
+  color: white;
+  padding: 10px 20px;
+  padding-bottom: 20px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* MATRIZ SIMÉTRICA DE 2 HILERAS DE 7 */
+
+
+
+
+/* ESTILO INDIVIDUAL DE CADA CASILLA DE MEDALLA */
+.compact-medal-slot {
+  display: flex;
+  flex-direction: column;                /* El texto siempre va abajo */
+  align-items: center;
+  justify-content: flex-start;           /* Alinea desde arriba para mantener los círculos nivelados */
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;                      /* Contiene cualquier desborde */
+}
+
+.compact-medal-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.compact-medal-circle i {
+  padding: 0px;
+  margin: 0px;
+}
+
+/* Estados desbloqueados */
+
+
+.medal-unlocked .compact-medal-circle {
+  background-color: rgba(0, 217, 255, 0.15);
+  color: #00d9ff;
+  border: 3px solid #00d9ff;
+  padding: 0px;
+  margin: 0;
+}
+
+.medal-unlocked i {
+  padding: 0px;
+  margin: 0;
+}
+
+
+
+.medal-locked-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+/* REGLA DE DESTACADO MAESTRA: EFECTO ÚNICO EN LA PRIMERA MEDALLA */
+.compact-medal-slot.medal-featured {
+  background: linear-gradient(180deg, #fef08a, #ffffff); /* Fondo cálido oro suave */
+  border: 2px solid #eab308;
+  transform: scale(1.08); /* Crece discretamente sobre el resto */
+  box-shadow: 0 10px 20px rgba(234, 179, 8, 0.15);
+  z-index: 10;
+}
+
+.compact-medal-slot.medal-featured .compact-medal-circle {
+  width: 68px; /* Círculo ligeramente mayor */
+  height: 68px;
+  font-size: 1.7rem;
+}
+
+.compact-medal-slot.medal-featured.medal-unlocked .compact-medal-circle {
+  background: linear-gradient(135deg, #ca8a04, #eab308); /* Oro vibrante */
+  box-shadow: 0 6px 15px rgba(234, 179, 8, 0.4);
+}
+
+.compact-medal-slot.medal-featured .medal-course-title {
+  color: #713f12; /* Texto en armonía con el destaque dorado */
+  font-weight: 800;
+}
+
+/* PIE DE PÁGINA DE LA TARJETA */
+.share-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 15px;
+}
+
+.share-footer-text span {
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.share-footer-text p {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-top: 3px;
+}
+
+.share-qr-image {
+  width: 75px;
+  height: 75px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 3px;
+  background: white;
+}
+
+/* =========================================================
+   ESTILOS DE LOGOS INSTITUCIONALES (ENCABEZADO DERECHO)
+========================================================= */
+
+.share-strip-left .share-logo-main {
+  height: 60px; /* Tamaño del logo principal de AgroLINC */
+  width: auto;
+  display: block;
+}
+
+.share-strip-right {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Espaciado interno entre los logos de los ministerios/cooperantes */
+}
+
+/* Estilo para el logo del MICITT u otros ministerios (Mediano) */
+.share-logo-instm {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.9;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.02));
+}
+
+/* Estilo para el logo del IICA u otros organismos (Estándar) */
+.share-logo-inst {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.95;
+}
