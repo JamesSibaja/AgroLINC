@@ -2091,12 +2091,14 @@ button, input, select, textarea {
   padding: 15px 40px;
   height: 90px;
   box-sizing: border-box;
+  border-top: 3px solid #041124;
+  border-bottom: 3px solid #041124;
 }
 
-.share-logo-main { height: 50px; width: auto; }
+.share-logo-main { height: 70px; width: auto; }
 .share-strip-right { display: flex; align-items: center; gap: 25px; }
-.share-logo-instm { height: 55px; width: auto; object-fit: contain; }
-.share-logo-inst  { height: 45px; width: auto; object-fit: contain; }
+.share-logo-instm { height: 70px; width: auto; object-fit: contain; }
+.share-logo-inst  { height: 38px; width: auto; object-fit: contain; }
 
 /* Cuerpo Principal */
 .share-body {
@@ -2215,7 +2217,7 @@ button, input, select, textarea {
   background: rgba(0, 217, 255, 0.1);
   color: #00d9ff;
   border: 3px solid #00d9ff;
-  box-shadow: 0 0 15px rgba(0, 217, 255, 0.15);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.295);
 }
 
 /* Estado: BLOQUEADA */
