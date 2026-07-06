@@ -748,7 +748,7 @@ function generarImagenRedesSociales() {
       </div>
     </div>
   `;
-}
+
 
   // 5. Captura fotográfica estable en HD (1200x670)
   setTimeout(() => {
