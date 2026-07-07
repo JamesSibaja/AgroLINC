@@ -2408,6 +2408,7 @@ button, input, select, textarea {
   height: 100px;
   box-sizing: border-box;
   position: relative; 
+  margin-bottom: 0px;
 }
 
 .share-footer-text span {
