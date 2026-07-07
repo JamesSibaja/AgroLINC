@@ -179,7 +179,7 @@ button, input, select, textarea {
   position: sticky;
   top: 0;
   z-index: 500;
-  height: 90px;
+  height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2076,7 +2076,7 @@ button, input, select, textarea {
     height: 720px;
     position: absolute;
     left: -9999px;
-    background: #20242C;;
+    background: #131d2b;;;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -2457,7 +2457,7 @@ button, input, select, textarea {
     align-items: center;
     border-top: 1px solid #1e293b;
     padding: 20px 40px;
-    background:  #231C44;;
+    background:   #0A2342;
     height: 100px;
     box-sizing: border-box;
     position: relative; 
@@ -2552,3 +2552,18 @@ button, input, select, textarea {
   .one-row-case .share-footer {
     height: 120px !important;
   }
+
+.badge-premium-icon i,
+.badge-premium-icon span {
+  color: #a78bfa;            /* Morado/Violeta de alta intensidad */
+  font-size: 1.4rem;         /* Tamaño equilibrado para ir en pareja */
+  line-height: 1 !important;
+  font-weight: 800;
+  display: inline-block;
+  
+  /* PARCHE PARA HTML2CANVAS: 
+     En lugar de usar 'top: 40%' absoluto que causaba la superposición, 
+     usamos una elevación relativa para contrarrestar el desfase de la librería */
+  position: relative;
+  top: -2px; 
+}
