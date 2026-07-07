@@ -769,11 +769,12 @@ shareContainer.innerHTML = `
         <div class="share-user-stats">
           <div class="badge-logro-premium">
             <div class="badge-premium-icon">
-              <span class="badge-hours-highlight">${totalCursosLogrados === 1 ? 'Nuevo' : totalCursosLogrados}</span>
+              
               <i class="fa-solid fa-medal"></i>
             </div>
             <div class="badge-premium-content">
               <div class="badge-premium-title">
+              <span class="badge-hours-highlight">${totalCursosLogrados === 1 ? 'Nuevo' : totalCursosLogrados}</span>
                  ${totalCursosLogrados === 1 ? 'Logro de aprendizaje' : 'Logros de aprendizaje'}
               </div>
               <div class="badge-premium-subtitle">

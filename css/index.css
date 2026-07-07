@@ -2076,7 +2076,7 @@ button, input, select, textarea {
     height: 720px;
     position: absolute;
     left: -9999px;
-    background: #020416;
+    background: #081d38;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -2217,26 +2217,15 @@ button, input, select, textarea {
 /* =========================================================
    ELEMENTOS INTERNOS: Alineación basada en bloque de texto corrido
 ========================================================= */
-.badge-premium-icon i,
-.badge-premium-icon span {
-  color: #a78bfa;            
-  font-size: 1.35rem;         /* Reducido un pixel para máxima seguridad dentro de los 75px */
-  font-weight: 800;
-  display: inline;            /* Se comportan como texto fluido uno al lado del otro */
-  
-  /* EL TRUCO PARA EL CENTRADO VERTICAL:
-     Hacer que el line-height coincida con la altura de la caja (50px) 
-     fuerza al navegador y a html2canvas a clavarlos en el centro exacto vertical */
-  line-height: 50px !important; 
-  
-  /* PARCHE DE ELEVACIÓN: Ajustamos sutilmente el top si html2canvas tiende a bajarlos */
-  position: relative;
-  top: -2px; 
-}
-
-/* Espaciado controlado entre el número y el icono sin usar gap */
-.badge-premium-icon span {
-  margin-right: 4px;
+.badge-premium-icon i {
+  position: absolute;
+  top: 40%; /* Tu ajuste perfecto contra el desfase de la librería */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Color Morado/Violeta de alta intensidad */
+  color: #a78bfa; 
+  font-size: 1.7rem;
+  line-height: 1 !important;
 }
   
   .badge-premium-content {
@@ -2276,7 +2265,7 @@ button, input, select, textarea {
     gap: 30px;
     width: 100%;
     margin: 15px 0;
-    background: rgba(255, 255, 255, 0.02);
+    background: #02041683;
     padding: 25px;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -2493,7 +2482,7 @@ button, input, select, textarea {
     align-items: center;
     border-top: 1px solid #1e293b;
     padding: 20px 40px;
-    background:   #0A2342;
+    background:   #041124;
     height: 100px;
     box-sizing: border-box;
     position: relative; 
