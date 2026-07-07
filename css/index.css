@@ -2047,613 +2047,508 @@ button, input, select, textarea {
 .req-status-badge.available { background: rgba(109, 40, 217, 0.12); color: var(--primary); }
 .req-status-badge.locked { background: #f1f5f9; color: #64748b; }
 
-/* =========================================================
-   1. BOTÓN DE DESCARGA (INTERFAZ WEB)
-========================================================= */
-.download-share-btn {
-  width: 100%;
-  margin-top: 1.5rem;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #ffffff;
-  border: none;
-  padding: 0.95rem 1.5rem;
-  border-radius: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* =========================================================
-   2. CONTENEDOR MAESTRO DE LA TARJETA (1200x670)
-========================================================= */
-#linkedinShareCard {
-  width: 1200px;
-  height: 720px;
-  position: absolute;
-  left: -9999px;
-  background: #081d38;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-.share-branding-strip {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #ffffff;
-  padding: 15px 40px;
-  height: 75px;
-  box-sizing: border-box;
-  border-top: 5px solid;
-  border-bottom: 5px solid;
-  /* Aplicamos el degradado (el '1' al final es el slice, obligatorio para que funcione) */
- 
-}
-.share-branding-strip::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px; /* El grosor que tenías en tu borde */
-  background: linear-gradient(90deg, #54108b, #13aac5); /* Tus colores exactos */
-}
-
-
-.share-logo-main { height: 70px; width: auto; }
-.share-strip-right { display: flex; align-items: center; gap: 25px; }
-.share-logo-instm { height: 70px; width: auto; object-fit: contain; }
-.share-logo-inst  { height: 38px; width: auto; object-fit: contain; }
-
-/* Cuerpo Principal */
-.share-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 35px;
-  padding-top: 15px;
-  box-sizing: border-box;
+/* ==========================================================================
+   1. BOTÓN DE DESCARGA (INTERFAZ WEB PRINCIPAL)
+   ========================================================================== */
+   .download-share-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
+    border: none;
+    padding: 0.95rem 1.5rem;
+    border-radius: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
   
-  /* CLAVE: Rompe el contenedor y le da un marco de referencia al ::before */
-  position: relative; 
-}
-
-.share-body::before {
-  content: "";
-  position: absolute;
-  top: -5px;
-  left: 0;
-  width: 100%;
-  height: 5px; 
-  background: linear-gradient(90deg, #54108b, #13aac5); 
+  /* ==========================================================================
+     2. CONTENEDOR MAESTRO DE LA TARJETA (1200x720)
+     ========================================================================== */
+  #linkedinShareCard {
+    width: 1200px;
+    height: 720px;
+    position: absolute;
+    left: -9999px;
+    background: #20242C;;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
   
-  /* OPCIONAL: Asegura que html2canvas pinte la línea por encima de cualquier fondo oscuro */
-  z-index: 10; 
-}
-
-/* Meta Datos del Alumno */
-.share-user-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.compact-white-name {
-  color: #ffffff !important;
-  font-size: 2.6rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin: 0 0 6px 0;
-}
-
-.share-user-sub {
-  color: #94a3b8;
-  font-size: 1.1rem;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.share-separator { color: #475569; font-weight: bold; }
-
-/* =========================================================
-   NUEVO BADGE PREMIUM: MEDALLA DE HONOR Y HORAS ACUMULADAS
-========================================================= */
-.badge-logro-premium {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  /* Fondo gris-azul muy transparente estilo cristal premium */
-  background: rgba(255, 255, 255, 0.03); 
-  /* Borde sutil que le da estructura y soporte visual */
-  border: 1px solid rgba(255, 255, 255, 0.08); 
-  padding: 14px 22px;
-  border-radius: 16px;
-  box-sizing: border-box;
-  /* Sombra profunda pero suave para despegarlo del fondo */
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
-}
-
-/* Contenedor del Icono de la Medalla */
-.badge-premium-icon {
-  width: 50px;
-  height: 50px;
-  /* Fondo morado tecnológico con baja opacidad */
-  background: rgba(139, 92, 246, 0.12); 
-  border-radius: 12px;
-  position: relative; /* Clave para el truco de html2canvas */
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-/* Icono Medalla: El núcleo visual morado */
-/* =========================================================
-   CONTENEDOR DEL ICONO/BADGE PREMIUM (Eje de centrado)
-========================================================= */
-/* =========================================================
-   CONTENEDOR DEL BADGE PREMIUM (Ahora es un contenedor Flex)
-========================================================= */
-.badge-premium-icon {
-  display: flex;
-  align-items: center;      /* Alineación vertical perfecta */
-  justify-content: center;   /* Centrado horizontal del bloque */
-  gap: 8px;                  /* Espaciado exacto de separación entre el icono y el texto */
-  padding: 0 12px;           /* Colchón interno a los lados para que respiren */
-  height: 50px;
-  background: rgba(139, 92, 246, 0.12); 
-  border-radius: 12px;
-  flex-shrink: 0;
+  /* Cabecera de Marcas */
+  .share-branding-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 15px 40px;
+    height: 75px;
+    box-sizing: border-box;
+    border-top: 5px solid;
+    border-bottom: 5px solid;
+  }
   
-  /* IMPORTANTE: Quitamos el ancho fijo (width: 50px) para que la caja 
-     se estire suavemente a lo ancho según el contenido */
-  min-width: 50px; 
-}
-
-/* =========================================================
-   ESTILOS COMPARTIDOS PARA EL ICONO Y EL SPAN
-   (Ya no se superponen porque no usan position: absolute)
-========================================================= */
-.badge-premium-icon i,
-.badge-premium-icon span {
-  color: #a78bfa;            /* Morado/Violeta de alta intensidad */
-  font-size: 1.4rem;         /* Tamaño equilibrado para ir en pareja */
-  line-height: 1 !important;
-  font-weight: 800;
-  display: inline-block;
+  .share-branding-strip::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #54108b, #13aac5);
+  }
   
-  /* PARCHE PARA HTML2CANVAS: 
-     En lugar de usar 'top: 40%' absoluto que causaba la superposición, 
-     usamos una elevación relativa para contrarrestar el desfase de la librería */
-  position: relative;
-  top: -2px; 
-}
-
-/* Contenedor de Textos */
-.badge-premium-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: left;
-}
-
-/* Título de Horas */
-.badge-premium-title {
-  color: #e2e8f0;
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-}
-
-/* Resalte específico para la cifra numérica */
-.badge-hours-highlight {
-  color: #c084fc; /* Morado claro brillante para los números */
-  font-weight: 800;
-}
-
-/* Subtítulo de Competencias */
-.badge-premium-subtitle {
-  color: #94a3b8; /* Gris sofisticado discreto */
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin-top: 3px;
-  letter-spacing: 0.01em;
-}
-
-/* =========================================================
-   3. ARQUITECTURA DEL ESTUCHE DE MEDALLAS MIXTO (CORREGIDO)
-========================================================= */
-.showcase-container {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  width: 100%;
-  margin: 15px 0;
-  background: rgba(255, 255, 255, 0.02);
-  padding: 25px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-sizing: border-box;
-}
-
-.compact-medal-case-dynamic {
-  flex: 1;
-  display: grid;
-  gap: 5px; 
-  box-sizing: border-box;
-}
-
-.compact-medal-slot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  text-align: center;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* CONTENEDOR SEGURO: Posicionamiento relativo estricto */
-.compact-medal-circle {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  box-sizing: border-box;
-  position: relative; /* Clave para el centrado absoluto del hijo */
-}
-
-/* ICONO CENTRADO MATEMÁTICAMENTE: Esta es la solución al problema de html2canvas */
-.compact-medal-circle i {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Centrado absoluto real sin depender de fuentes */
-  font-size: 3rem;
-  line-height: 1 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block;
-}
-
-/* Estado: DESBLOQUEADA */
-/* =========================================================
-   MEDALLA DESBLOQUEADA: Eje del brillo y estilos web
-========================================================= */
-.medal-unlocked .compact-medal-circle {
-  background: rgba(0, 217, 255, 0.1);
-  color: #00d9ff;
-  border: 3px solid #00d9ff;
-  filter: drop-shadow(0px 0px 8px rgba(0, 217, 255, 0.349));
+  .share-logo-main { 
+    height: 70px; 
+    width: auto; 
+  }
   
-  /* IMPORTANTE: Necesario para que el aura se posicione detrás de la medalla */
-  position: relative;
-  z-index: 1; 
-}
-
-/* =========================================================
-   EL AURA FÍSICA PARA LAS MEDALLAS (Respaldo para html2canvas)
-========================================================= */
-.medal-unlocked .compact-medal-circle::before {
-  content: "";
-  position: absolute;
-  /* Expandimos el resplandor cian un poco hacia afuera del borde circular */
-  top: -12px;
-  left: -12px;
-  right: -12px;
-  bottom: -12px;
-  border-radius: 50%; /* Al ser un círculo perfecto, mantiene la simetría de la medalla */
+  .share-strip-right { 
+    display: flex; 
+    align-items: center; 
+    gap: 25px; 
+  }
   
-  /* Degradado radial cian de alta fidelidad: brilla al centro y se desvanece a transparente */
-  background: radial-gradient(circle, rgba(0, 217, 255, 0.4) 0%, rgba(0, 217, 255, 0) 72%);
+  .share-logo-instm { 
+    height: 70px; 
+    width: auto; 
+    object-fit: contain; 
+  }
   
-  z-index: -1; /* Se posiciona mágicamente por detrás del borde e icono cian */
-  pointer-events: none; /* Evita cualquier conflicto con eventos del mouse */
-}
-
-/* Estado: BLOQUEADA */
-.medal-locked .compact-medal-circle {
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.12);
-  border: 2px dashed rgba(255, 255, 255, 0.12);
-  width: 60%;
-  height: 60%;
-  margin-top: 10%;
-}
-
-
-
-/* Títulos de los Cursos */
-.medal-course-title {
-  color: #e2e8f0;
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1.3;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  width: 100%;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.medal-locked-title {
-  color: rgba(255, 255, 255, 0.25);
-  font-size: 0.75rem;
-  font-weight: 500;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-/* =========================================================
-   4. PANEL EXCLUSIVO: MÓDULO FINAL (EL TROFEO CORREGIDO)
-========================================================= */
-.special-trophy-panel {
-  width: 180px;
-  height: 160px;
-  border-left: 2px dashed rgba(255, 255, 255, 0.15);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-left: 25px;
-  box-sizing: border-box;
-}
-
-.trophy-badge {
-  width: 100px;
-  height: 100px;
-  border-radius: 18px;
-  position: relative; /* Centrado seguro para el trofeo */
-  box-sizing: border-box;
-}
-
-.trophy-badge i {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2.8rem;
-  line-height: 1 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Trofeo Bloqueado */
-.trophy-locked .trophy-badge {
-  background: rgba(255, 255, 255, 0.02);
-  border: 3px dashed rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.15);
-}
-
-/* Trofeo Completado */
-.trophy-unlocked .trophy-badge {
-  background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(251, 191, 36, 0.2));
-  border: 3px solid #eab308;
-  color: #eab308;
-  box-shadow: 0 0 25px rgba(234, 179, 8, 0.3);
-}
-
-.trophy-title {
-  font-size: 0.85rem;
-  font-weight: 700;
-  margin-top: 12px;
-  text-align: center;
-  color: #94a3b8;
-  letter-spacing: 0.03em;
-}
-.trophy-unlocked .trophy-title { color: #fef08a; }
-
-/* =========================================================
-   5. PIE DE PÁGINA CON QR POP-OUT
-========================================================= */
-.share-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #1e293b;
-  padding: 20px 40px;
-  background: #041124;
-  height: 100px;
-  box-sizing: border-box;
-  position: relative; 
-  margin-bottom: 0px;
-}
-
-.share-footer-text span {
-  font-weight: 700;
-  color: #ffffff;
-  font-size: 1.05rem;
-  display: block;
-}
-
-.share-footer-text p {
-  color: #64748b;
-  font-size: 0.85rem;
-  margin: 4px 0 0 0;
-}
-
-.share-footer-qr {
-  position: absolute;
-  right: 40px;
-  bottom: 20px; 
-  z-index: 50;
-}
-
-.share-qr-image {
-  width: 110px; 
-  height: 110px;
-  border-radius: 12px;
-  background: #ffffff;
-  padding: 6px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-  box-sizing: border-box;
-  display: block;
-}
-
-/* =========================================================
-   ACOMPAÑAMIENTO DE LA FECHA (CHIP DE EMISIÓN)
-========================================================= */
-.share-date-badge {
-  color: #38bdf8 !important; /* Color celeste brillante tecnológico */
-  background: rgba(56, 189, 248, 0.08);
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  border: 1px solid rgba(56, 189, 248, 0.15);
-}
-
-/* Corrección general del icono de candado en las bloqueadas */
-.medal-locked .compact-medal-circle i {
-  font-size: 1.8rem !important;
-  opacity: 0.3;
-}
-
-/* =========================================================
-   ESTILOS ADAPTATIVOS INTELIGENTES: CUANDO ES SÓLO UNA HILERA 
-========================================================= */
-
-/* Generamos un espacio de separación (margin) más elegante con la cabecera */
-.one-row-case {
-  margin: 40px 0 !important;
-  padding: 45px 35px !important; /* Más aire interno para llenar el vacío */
-  background: rgba(255, 255, 255, 0.035) !important;
-}
-
-/* Las medallas ganadas crecen un 20% para dominar la pantalla */
-.one-row-case .medal-unlocked .compact-medal-circle {
-  width: 132px !important;
-  height: 132px !important;
-  border-width: 4px !important;
-  filter: drop-shadow(0px 0px 14px rgba(0, 217, 255, 0.5));
-}
-
-/* Escalamos los iconos internos proporcionalmente al tamaño del círculo */
-.one-row-case .medal-unlocked .compact-medal-circle i {
-  font-size: 3.6rem !important;
-}
-
-
-
-/* Aumentamos el tamaño de la fuente de los textos de los cursos ganados */
-.one-row-case .medal-unlocked .medal-course-title {
-  font-size: 0.95rem !important;
-  margin-top: 12px !important;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-/* LAS MEDALLAS BLOQUEADAS SE QUEDAN DISCRETAS Y PEQUEÑAS 
-   Esto genera un contraste hermoso que resalta el mérito de lo que sí se ha ganado */
-/* .one-row-case .compact-medal-circle {
-  width: 75px !important;
-  height: 75px !important;
-  margin-top: 25px !important; /
-  opacity: 0.5;
-} */
-
-/* El panel del Trofeo Final crece en proporción para equilibrar el estuche alto */
-.one-row-case .special-trophy-panel {
-  height: 210px !important;
-  width: 210px !important;
-  padding-left: 35px !important;
-}
-
-.one-row-case .special-trophy-panel .trophy-badge {
-  width: 120px !important;
-  height: 120px !important;
-}
-
-.one-row-case .special-trophy-panel .trophy-badge i {
-  font-size: 3.5rem !important;
-}
-
-/* =========================================================
-   ESTILOS DE LAS FECHAS INDIVIDUALES POR CURSO
-========================================================= */
-.medal-course-date {
-  font-size: 0.72rem;
-  color: #7a7a7a81; /* Celeste tecnológico */
-  font-weight: 700;
-  margin-top: 2px;
-  letter-spacing: 0.02em;
-  opacity: 0.9;
-  display: block;
-  width: 100%;
-}
-
-.medal-locked-date {
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.2);
-  font-weight: 500;
-  margin-top: 6px;
-  display: block;
-  width: 100%;
-}
-
-/* Ajuste fino del candado */
-.medal-locked .compact-medal-circle i {
-  font-size: 1.6rem !important;
-  opacity: 0.25;
-}
-
-/* =========================================================
-   A JUSTE PARA UNA SOLA HILERA (CRECIMIENTO SUTIL)
-========================================================= */
-.one-row-case {
-  margin: 35px 0 !important;
-  padding: 40px 30px !important; /* Más colchón para evitar que el footer flote alto */
-  background: rgba(255, 255, 255, 0.03) !important;
-}
-
-/* Modificación de tamaño muy contenida y moderada (solo 8px más grande) */
-.one-row-case .medal-unlocked .compact-medal-circle {
-  width: 118px !important;
-  height: 118px !important;
-  border-width: 3px !important;
-  filter: drop-shadow(0px 0px 10px rgba(0, 217, 255, 0.4));
-}
-
-/* Iconos de las medallas de una hilera levemente escalados */
-.one-row-case .medal-unlocked .compact-medal-circle i {
-  font-size: 3.2rem !important;
-}
-
-/* Fuentes de títulos en una hilera con excelente lectura */
-.one-row-case .medal-unlocked .medal-course-title {
-  font-size: 0.85rem !important;
-  margin-top: 10px !important;
-  color: #ffffff;
-}
-
-/* Las medallas bloqueadas se quedan pequeñas para generar balance de pesos */
-.one-row-case .medal-locked .compact-medal-circle {
-  width: 70px !important;
-  height: 70px !important;
-  margin-top: 24px !important; 
-}
-
-/* El trofeo se estira ligeramente a lo alto para que la caja total quede simétrica */
-.one-row-case .special-trophy-panel {
-  height: 190px !important;
-  padding-left: 30px !important;
-}
-
-.one-row-case .share-footer {
-  height: 120px !important;
-}
-
-.one-row-case .share-body{
-  padding-left: 35px !important;
-}
+  .share-logo-inst { 
+    height: 38px; 
+    width: auto; 
+    object-fit: contain; 
+  }
+  
+  /* Cuerpo Principal */
+  .share-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 35px;
+    padding-top: 15px;
+    box-sizing: border-box;
+    position: relative; /* Eje de referencia indispensable para el ::before */
+  }
+  
+  .share-body::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #54108b, #13aac5);
+    z-index: 10; /* Parche de renderizado para html2canvas */
+  }
+  
+  /* Meta Datos del Alumno */
+  .share-user-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .compact-white-name {
+    color: #ffffff !important;
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px 0;
+  }
+  
+  .share-user-sub {
+    color: #94a3b8;
+    font-size: 1.1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .share-separator { 
+    color: #475569; 
+    font-weight: bold; 
+  }
+  
+  /* ==========================================================================
+     3. RECUADRO PREMIUM DE MÓDULOS (ESQUINA SUPERIOR DERECHA)
+     ========================================================================== */
+  .badge-logro-premium {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.03); 
+    border: 1px solid rgba(255, 255, 255, 0.08); 
+    padding: 14px 22px;
+    border-radius: 16px;
+    box-sizing: border-box;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
+  }
+  
+  /* Contenedor del Icono/Número (Alineación Flex Horizontal) */
+  .badge-premium-icon {
+    display: flex;
+    align-items: center;      
+    justify-content: center;   
+    gap: 8px;                  
+    padding: 0 12px;           
+    height: 50px;
+    background: rgba(139, 92, 246, 0.12); 
+    border-radius: 12px;
+    flex-shrink: 0;
+    min-width: 50px; /* Estira la caja armónicamente hacia los lados */
+  }
+  
+  /* Elementos Internos del Badge Premium (Parche Relativo html2canvas) */
+  .badge-premium-icon i,
+  .badge-premium-icon span {
+    color: #a78bfa;            
+    font-size: 1.4rem;         
+    line-height: 1 !important;
+    font-weight: 800;
+    display: inline-block;
+    position: relative;
+    top: -2px; 
+  }
+  
+  .badge-premium-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+  }
+  
+  .badge-premium-title {
+    color: #e2e8f0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+  
+  .badge-hours-highlight {
+    color: #c084fc; 
+    font-weight: 800;
+  }
+  
+  .badge-premium-subtitle {
+    color: #94a3b8; 
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 3px;
+    letter-spacing: 0.01em;
+  }
+  
+  /* ==========================================================================
+     4. ESTUCHE DE MEDALLAS DINÁMICO (LÍNEA DE CURSOS ORDINARIOS)
+     ========================================================================== */
+  .showcase-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    margin: 15px 0;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-sizing: border-box;
+  }
+  
+  .compact-medal-case-dynamic {
+    flex: 1;
+    display: grid;
+    gap: 5px; 
+    box-sizing: border-box;
+  }
+  
+  .compact-medal-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .compact-medal-circle {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    position: relative; /* Eje estricto para el centrado absoluto del icono */
+  }
+  
+  .compact-medal-circle i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centrado matemático puro para html2canvas */
+    font-size: 3rem;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block;
+  }
+  
+  /* Estado: MEDALLA DESBLOQUEADA */
+  .medal-unlocked .compact-medal-circle {
+    background: rgba(0, 217, 255, 0.1);
+    color: #00d9ff;
+    border: 3px solid #00d9ff;
+    filter: drop-shadow(0px 0px 8px rgba(0, 217, 255, 0.349));
+    position: relative;
+    z-index: 1; 
+  }
+  
+  /* Aura Física del Resplandor Cian */
+  .medal-unlocked .compact-medal-circle::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 217, 255, 0.4) 0%, rgba(0, 217, 255, 0) 72%);
+    z-index: -1;
+    pointer-events: none;
+  }
+  
+  /* Estado: MEDALLA BLOQUEADA */
+  .medal-locked .compact-medal-circle {
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.12);
+    border: 2px dashed rgba(255, 255, 255, 0.12);
+    width: 60%;
+    height: 60%;
+    margin-top: 10%;
+  }
+  
+  .medal-locked .compact-medal-circle i {
+    font-size: 1.6rem !important;
+    opacity: 0.25;
+  }
+  
+  /* Textos de los Cursos (Títulos y Fechas) */
+  .medal-course-title {
+    color: #e2e8f0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .medal-course-date {
+    font-size: 0.72rem;
+    color: #7a7a7a81; 
+    font-weight: 700;
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+    opacity: 0.9;
+    display: block;
+    width: 100%;
+  }
+  
+  .medal-locked-title {
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .medal-locked-date {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.2);
+    font-weight: 500;
+    margin-top: 6px;
+    display: block;
+    width: 100%;
+  }
+  
+  /* ==========================================================================
+     5. PANEL EXCLUSIVO: MÓDULO FINAL (EL TROFEO DE CIERRE)
+     ========================================================================== */
+  .special-trophy-panel {
+    width: 180px;
+    height: 160px;
+    border-left: 2px dashed rgba(255, 255, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 25px;
+    box-sizing: border-box;
+  }
+  
+  .trophy-badge {
+    width: 100px;
+    height: 100px;
+    border-radius: 18px;
+    position: relative; /* Ancla de centrado seguro */
+    box-sizing: border-box;
+  }
+  
+  .trophy-badge i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.8rem;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Trofeo: Estado Bloqueado */
+  .trophy-locked .trophy-badge {
+    background: rgba(255, 255, 255, 0.02);
+    border: 3px dashed rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.15);
+  }
+  
+  /* Trofeo: Estado Completado */
+  .trophy-unlocked .trophy-badge {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(251, 191, 36, 0.2));
+    border: 3px solid #eab308;
+    color: #eab308;
+    box-shadow: 0 0 25px rgba(234, 179, 8, 0.3);
+  }
+  
+  .trophy-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-top: 12px;
+    text-align: center;
+    color: #94a3b8;
+    letter-spacing: 0.03em;
+  }
+  
+  .trophy-unlocked .trophy-title { 
+    color: #fef08a; 
+  }
+  
+  /* ==========================================================================
+     6. PIE DE PÁGINA (FOOTER CON QR INTEGRADO Y BADGES TEMPORALES)
+     ========================================================================== */
+  .share-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #1e293b;
+    padding: 20px 40px;
+    background:  #231C44;;
+    height: 100px;
+    box-sizing: border-box;
+    position: relative; 
+    margin-bottom: 0px;
+  }
+  
+  .share-footer-text span {
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 1.05rem;
+    display: block;
+  }
+  
+  .share-footer-text p {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin: 4px 0 0 0;
+  }
+  
+  .share-footer-qr {
+    position: absolute;
+    right: 40px;
+    bottom: 20px; 
+    z-index: 50;
+  }
+  
+  .share-qr-image {
+    width: 110px; 
+    height: 110px;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 6px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    display: block;
+  }
+  
+  .share-date-badge {
+    color: #38bdf8 !important; 
+    background: rgba(56, 189, 248, 0.08);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid rgba(56, 189, 248, 0.15);
+  }
+  
+  /* ==========================================================================
+     7. COMPORTAMIENTO ADAPTATIVO: CASO DE UNA SOLA HILERA (.one-row-case)
+     ========================================================================== */
+  .one-row-case {
+    margin: 35px 0 !important;
+    padding: 40px 30px !important; /* Más colchón interno para equilibrar pesos */
+    background: rgba(255, 255, 255, 0.03) !important;
+  }
+  
+  .one-row-case .share-body {
+    padding-left: 35px !important;
+  }
+  
+  /* Escalado Contenido de Medallas Ganadas (Una sola Hilera) */
+  .one-row-case .medal-unlocked .compact-medal-circle {
+    width: 118px !important;
+    height: 118px !important;
+    border-width: 3px !important;
+    filter: drop-shadow(0px 0px 10px rgba(0, 217, 255, 0.4));
+  }
+  
+  .one-row-case .medal-unlocked .compact-medal-circle i {
+    font-size: 3.2rem !important;
+  }
+  
+  .one-row-case .medal-unlocked .medal-course-title {
+    font-size: 0.85rem !important;
+    margin-top: 10px !important;
+    color: #ffffff;
+  }
+  
+  /* Ajuste proporcional de Medallas Bloqueadas (Una sola Hilera) */
+  .one-row-case .medal-locked .compact-medal-circle {
+    width: 70px !important;
+    height: 70px !important;
+    margin-top: 24px !important; 
+  }
+  
+  /* Crecimiento del Bloque de Cierre/Trofeo (Una sola Hilera) */
+  .one-row-case .special-trophy-panel {
+    height: 190px !important;
+    padding-left: 30px !important;
+  }
+  
+  .one-row-case .share-footer {
+    height: 120px !important;
+  }
