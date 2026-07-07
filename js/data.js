@@ -765,7 +765,7 @@ function generarImagenRedesSociales() {
             </div>
             <div class="badge-premium-content">
               <div class="badge-premium-title">
-                <span class="badge-hours-highlight">${totalCursosLogrados === 1 ? 'Nuevo' : {totalCursosLogrados}}${totalCursosLogrados}</span> ${totalCursosLogrados === 1 ? 'Logro de aprendizaje' : 'Logros de aprendizaje'}
+                <span class="badge-hours-highlight">${totalCursosLogrados === 1 ? 'Nuevo' : totalCursosLogrados}</span> ${totalCursosLogrados === 1 ? 'Logro de aprendizaje' : 'Logros de aprendizaje'}
               </div>
               <div class="badge-premium-subtitle">
                  En innovación tecnológica

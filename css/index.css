@@ -2076,7 +2076,7 @@ button, input, select, textarea {
     height: 720px;
     position: absolute;
     left: -9999px;
-    background: #090422;
+    background: #020416;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -2304,29 +2304,49 @@ button, input, select, textarea {
     display: block;
   }
   
-  /* Estado: MEDALLA DESBLOQUEADA */
-  .medal-unlocked .compact-medal-circle {
-    background: rgba(0, 217, 255, 0.1);
-    color: #00d9ff;
-    border: 3px solid #00d9ff;
-    filter: drop-shadow(0px 0px 8px rgba(0, 217, 255, 0.349));
+/* ===========================
+   Medalla desbloqueada
+   =========================== */
+
+   .medal-unlocked .compact-medal-circle {
+    background: rgba(34, 211, 238, 0.10);
+    color: #22D3EE;
+    border: 2px solid #22D3EE;
+
+    /* Sombra muy sutil */
+    filter: drop-shadow(0 2px 6px rgba(34, 211, 238, 0.18));
+
     position: relative;
-    z-index: 1; 
-  }
-  
-  /* Aura Física del Resplandor Cian */
-  .medal-unlocked .compact-medal-circle::before {
+    z-index: 1;
+}
+
+/* Halo suave */
+.medal-unlocked .compact-medal-circle::before {
     content: "";
     position: absolute;
-    top: -12px;
-    left: -12px;
-    right: -12px;
-    bottom: -12px;
+    inset: -8px;
     border-radius: 50%;
-    background: radial-gradient(circle,  rgba(0, 217, 255, 0.281) 35%, rgba(0, 217, 255, 0) 75%);
+
+    background: radial-gradient(
+        circle,
+        rgba(34,211,238,.18) 0%,
+        rgba(34,211,238,.08) 45%,
+        rgba(34,211,238,0) 72%
+    );
+
     z-index: -1;
     pointer-events: none;
-  }
+}
+
+/* Aro interior para dar sensación de insignia */
+.medal-unlocked .compact-medal-circle::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.10);
+    pointer-events: none;
+}
   
   /* Estado: MEDALLA BLOQUEADA */
   .medal-locked .compact-medal-circle {
