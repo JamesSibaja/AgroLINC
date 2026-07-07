@@ -724,7 +724,7 @@ function generarImagenRedesSociales() {
       <div class="trophy-badge">
         <i class="fa-solid ${tieneModuloFinal ? 'fa-trophy' : 'fa-award'}"></i>
       </div>
-      <div class="trophy-title">${tieneModuloFinal ? 'PROGRAMA COMPLETADO' : 'Módulo Innovación'}</div>
+      <div class="trophy-title">${tieneModuloFinal ? 'AgroLINC COMPLETADO' : 'Programa AgroLINC'}</div>
     </div>
   `;
 
