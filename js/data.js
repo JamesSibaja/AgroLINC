@@ -732,7 +732,7 @@ function generarImagenRedesSociales() {
     </div>
   `;
 
-  const urlPlataforma = `https://fablabiica.github.io/AgroLINC/rutas.html`;
+  const urlPlataforma = `https://fablabiica.github.io/AgroLINC/ruta.html`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlPlataforma)}&color=041124`;
 
  // --- VALIDACIÓN DINÁMICA DE TAMAÑO PARA EL NOMBRE ---
@@ -764,7 +764,7 @@ shareContainer.innerHTML = `
             <span class="share-separator">•</span>
             <span><i class="fa-solid fa-route"></i> Ruta Tecnológica: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
             <span class="share-separator">•</span>
-            <span class="share-date-badge">
+            <span>
               <i class="fa-regular fa-calendar-check"></i> 
               <b>${new Date().toLocaleDateString('es-CR', { day: '2-digit', month: '2-digit', year: 'numeric' })}</b>
             </span>
