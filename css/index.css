@@ -2326,11 +2326,38 @@ button, input, select, textarea {
 }
 
 /* Estado: DESBLOQUEADA */
+/* =========================================================
+   MEDALLA DESBLOQUEADA: Eje del brillo y estilos web
+========================================================= */
 .medal-unlocked .compact-medal-circle {
   background: rgba(0, 217, 255, 0.1);
   color: #00d9ff;
   border: 3px solid #00d9ff;
   filter: drop-shadow(0px 0px 8px rgba(0, 217, 255, 0.349));
+  
+  /* IMPORTANTE: Necesario para que el aura se posicione detrás de la medalla */
+  position: relative;
+  z-index: 1; 
+}
+
+/* =========================================================
+   EL AURA FÍSICA PARA LAS MEDALLAS (Respaldo para html2canvas)
+========================================================= */
+.medal-unlocked .compact-medal-circle::before {
+  content: "";
+  position: absolute;
+  /* Expandimos el resplandor cian un poco hacia afuera del borde circular */
+  top: -12px;
+  left: -12px;
+  right: -12px;
+  bottom: -12px;
+  border-radius: 50%; /* Al ser un círculo perfecto, mantiene la simetría de la medalla */
+  
+  /* Degradado radial cian de alta fidelidad: brilla al centro y se desvanece a transparente */
+  background: radial-gradient(circle, rgba(0, 217, 255, 0.4) 0%, rgba(0, 217, 255, 0) 72%);
+  
+  z-index: -1; /* Se posiciona mágicamente por detrás del borde e icono cian */
+  pointer-events: none; /* Evita cualquier conflicto con eventos del mouse */
 }
 
 /* Estado: BLOQUEADA */
@@ -2557,7 +2584,7 @@ button, input, select, textarea {
 ========================================================= */
 .medal-course-date {
   font-size: 0.72rem;
-  color: #38bdf8; /* Celeste tecnológico */
+  color: #7a7a7a81; /* Celeste tecnológico */
   font-weight: 700;
   margin-top: 2px;
   letter-spacing: 0.02em;
