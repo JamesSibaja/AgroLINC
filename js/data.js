@@ -764,10 +764,10 @@ function generarImagenRedesSociales() {
             </div>
             <div class="badge-premium-content">
               <div class="badge-premium-title">
-                <span class="badge-hours-highlight">${horasAcumuladas} Horas</span> Prácticas
+                <span class="badge-hours-highlight">${totalCursosLogrados}</span> ${totalCursosLogrados === 1 ? 'Módulo de Formación' : 'Módulos de Formación'}
               </div>
               <div class="badge-premium-subtitle">
-                ${totalCursosLogrados} Competencias Desarrolladas
+                 En innovación tecnológica
               </div>
             </div>
           </div>
@@ -785,7 +785,7 @@ function generarImagenRedesSociales() {
 
     <div class="share-footer">
       <div class="share-footer-text">
-        <span><i class="fa-solid fa-shield-halved"></i> Habilidades Tecnológicas Verificadas • AgroLINC</span>
+        <span><i class="fa-solid fa-shield-halved"></i> Portafolio de Habilidades Digitales • AgroLINC</span>
         <p>¡Escanea el código QR para comprobar mis cursos aprobados, ver mis habilidades obtenidas y seguir mi avance en la plataforma!</p>
       </div>
       <div class="share-footer-qr">
