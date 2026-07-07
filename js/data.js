@@ -55,13 +55,17 @@ function getCourseIcon(courseName) {
     { keywords: ['drone', 'vant', 'vuelo', 'vehiculo aereo'], icon: 'fa-helicopter-symbol' }, 
     { keywords: ['basico'], icon: 'fa-cube' }, 
     { keywords: ['intermedio'], icon: 'fa-cubes' }, 
-    { keywords: ['laser', 'corte', 'cnc'], icon: 'fa-scissors' }, 
+    { keywords: ['laser', 'corte'], icon: 'fa-explosion' }, 
+    { keywords: ['cnc'], icon: 'fa-drill' }, 
     { keywords: ['geoespacial', 'mapa', 'gps', 'kobo', 'territorio'], icon: 'fa-map-location-dot' },
-    { keywords: ['microcontrolador', 'sensor', 'actuador'], icon: 'fa-microchip' },
+    { keywords: ['microcontrolador', 'arduino'], icon: 'fa-microchip' },
+
+    { keywords: ['microcontrolador', 'sensor', 'actuador'], icon: 'fa-tower-broadcast' },
     { keywords: [ 'electronico', 'electricidad'], icon: 'fa-bolt' },
     { keywords: ['iot', 'internet de las cosas'], icon: 'fa-wifi' },
-    { keywords: ['automatizacion', 'robot', 'programacion'], icon: 'fa-robot' },
-    { keywords: ['fabricacion digital'], icon: 'fa-industry' },
+    { keywords: ['automatizacion', 'robot'], icon: 'fa-robot' },
+    { keywords: ['programacion'], icon: 'fa-code' },
+    { keywords: ['fabricacion digital'], icon: 'fa-gear' },
     { keywords: ['innovacion', 'canvas', 'modelo', 'soluciones'], icon: 'fa-lightbulb' }
   ];
 
@@ -618,30 +622,41 @@ function obtenerNombreCortoCurso(courseName) {
     return name.includes("intermedio") ? "Impresión 3D II" : "Impresión 3D I";
   }
   if (name.includes("drone") || name.includes("vant") || name.includes("vuelo")) {
-    return name.includes("intermedio") ? "Drones II" : "Drones I";
+    return name.includes("intermedio") ? "Drones II" : "Drones";
   }
-  if (name.includes("corte laser") || name.includes("corte láser") || name.includes("cnc")) {
-    return "Corte Láser / CNC";
+  if (name.includes("programación") || name.includes("programacion") || name.includes("programar")) {
+    return "Programación";
+  }
+  if (name.includes("corte laser") || name.includes("corte láser") ) {
+    return "Corte Láser";
+  }
+  if (name.includes("cnc") || name.includes("router") ) {
+    return "Fresado CNC";
   }
   if (name.includes("iot") || name.includes("internet de las cosas")) {
-    return "Internet de las Cosas (IoT)";
+    return "IoT";
   }
-  if (name.includes("microcontrolador") || name.includes("sensor")) {
+  if (name.includes("microcontrolador") ) {
     return "Microcontroladores";
+  }
+  if (name.includes("actuadores") || name.includes("sensores")) {
+    return "Sensores";
   }
   if (name.includes("automatizacion") || name.includes("automatización") || name.includes("robot")) {
     return "Automatización";
   }
   if (name.includes("geoespacial") || name.includes("mapa") || name.includes("kobo")) {
-    return "Herramientas Geoespaciales";
+    return "Geotecnologías";
   }
   if (name.includes("innovacion") || name.includes("innovación") || name.includes("canvas")) {
-    return "Modelos de Innovación";
+    return "Innovación Aplicada";
   }
   if (name.includes("fabricacion digital") || name.includes("fabricación digital")) {
     return "Fabricación Digital";
   }
-  
+  if (name.includes("electricidad") || name.includes("electrotecnia")) {
+    return "Electrónica";
+  }
   // Si no entra en ninguna regla, devuelve el nombre original truncado discretamente
   return courseName.length > 22 ? courseName.substring(0, 20) + "..." : courseName;
 }
