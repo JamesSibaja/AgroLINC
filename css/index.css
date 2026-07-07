@@ -2465,14 +2465,25 @@ button, input, select, textarea {
 /* =========================================================
    TROFEO COMPLETADO: Eje de la insignia de oro
 ========================================================= */
+/* =========================================================
+   TROFEO COMPLETADO: Rediseño Premium Anti-Desborde
+========================================================= */
 .trophy-unlocked .trophy-badge {
-  width: 100px;  /* Aseguramos que herede o fije el tamaño plano */
+  width: 100px;
   height: 100px;
-  background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(251, 191, 36, 0.2));
-  border: 3px solid #eab308;
-  color: #eab308;
   border-radius: 18px;
+  color: #eab308;
   
+  /* MEJORA ESTÉTICA: Degradado de fondo más profundo para dar volumen */
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.25) 0%, rgba(251, 191, 36, 0.08) 100%);
+  border: 3px solid #eab308;
+  
+  /* MEJORA ESTÉTICA: Reemplazamos el ::after propenso a errores por un brillo interno impecable */
+  box-shadow: 
+    inset 0 0 12px rgba(255, 255, 255, 0.15), /* Reflejo de cristal interno superior */
+    0 4px 12px rgba(234, 179, 8, 0.2);       /* Sombra de apoyo base */
+
+  /* Filtro de caída suave para el navegador */
   filter: drop-shadow(0 2px 8px rgba(234, 179, 8, 0.25));
   
   position: relative;
@@ -2480,37 +2491,38 @@ button, input, select, textarea {
   box-sizing: border-box;
 }
 
-/* HALO SUAVE DE ORO (Fondo/Aura exterior) */
+/* HALO SUAVE DE ORO (Aura exterior expansiva) */
 .trophy-unlocked .trophy-badge::before {
   content: "";
   position: absolute;
-  inset: -8px; 
-  border-radius: 22px; 
+  inset: -10px; /* Un pelín más amplio para mejorar el resplandor */
+  border-radius: 24px; 
   background: radial-gradient(
     circle,
-    rgba(234, 179, 8, 0.22) 0%,
-    rgba(234, 179, 8, 0.08) 45%,
+    rgba(234, 179, 8, 0.25) 0%,
+    rgba(234, 179, 8, 0.08) 50%,
     rgba(234, 179, 8, 0) 75%
   );
   z-index: -1;
   pointer-events: none;
 }
 
-/* ARO INTERIOR DE CRISTAL: Parche definitivo anti-desborde */
+/* =========================================================
+   ELIMINAMOS EL ::after PARA EVITAR EL DESBORDE INFERIOR
+========================================================= */
 .trophy-unlocked .trophy-badge::after {
-  content: "";
-  position: absolute;
-  
-  /* Arreglo matemático estricto en lugar de inset */
-  top: 3px;
-  left: 3px;
-  width: calc(100% - 6px);  /* Resta exactamente 3px de cada lado (total 6px) */
-  height: calc(100% - 6px); /* Evita que html2canvas lo estire de más por debajo */
-  
-  border-radius: 13px; /* Ajuste fino para seguir la curvatura interna */
-  border: 1px solid rgba(255, 255, 255, 0.12); 
-  pointer-events: none;
-  box-sizing: border-box; /* Fuerza a que el borde se cuente por dentro */
+  display: none !important; /* Apagamos por completo el generador del error */
+}
+
+/* OPTIMIZACIÓN DEL ICONO INTERNO */
+.trophy-unlocked .trophy-badge i {
+  display: block;
+  font-size: 2.2rem; /* Tamaño ideal y equilibrado */
+  line-height: 94px; /* Centrado vertical matemático exacto (100px - 6px de bordes) */
+  text-align: center;
+  margin: 0;
+  /* Un sutil reflejo directo en el icono de oro */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)); 
 }
   .trophy-title {
     font-size: 0.85rem;
