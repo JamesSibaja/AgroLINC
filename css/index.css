@@ -2503,7 +2503,7 @@ button, input, select, textarea {
 .trophy-unlocked .trophy-badge::after {
   content: "";
   position: absolute;
-  inset: 3px; /* Colchón interno sutil */
+  inset: 3px !important; /* Colchón interno sutil */
   border-radius: 14px; /* Un poco menor a 18px para calzar simétricamente por dentro */
   border: 1px solid rgba(255, 255, 255, 0.12); /* Micro-línea brillante de cristalización */
   pointer-events: none;
