@@ -2084,8 +2084,8 @@ button, input, select, textarea {
       /* COLOR BASE + TEXTURA DE REJILLA TECNOLÓGICA */
       background-color: #081d38; /* El azul noche exacto de tu interfaz */
       background-image: 
-        linear-gradient(315deg,#030f20 1px, transparent 1px),
-        linear-gradient(135deg, #030f20 1px, transparent 1px);
+        linear-gradient(315deg,#ffffff24 1px, transparent 3px),
+        linear-gradient(135deg, #00000085 2px, transparent 2px);
       background-size: 24px 24px; /* Tamaño del cuadrante */
       background-position: center;
     }
@@ -2198,7 +2198,7 @@ button, input, select, textarea {
   gap: 16px;
   background: rgba(255, 255, 255, 0.03); 
   border: 1px solid rgba(255, 255, 255, 0.08); 
-  padding: 14px 22px;
+  padding: 14px 14px;
   border-radius: 16px;
   box-sizing: border-box;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
@@ -2600,4 +2600,5 @@ button, input, select, textarea {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis; /* Si es ridículamente largo, pone "..." al final para salvar el layout */
+    margin-right: 15px;
   }
