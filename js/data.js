@@ -799,14 +799,14 @@ shareContainer.innerHTML = `
       </div>
     </div>
 
-  <div class="share-footer">
-  <div class="share-footer-text-block">
-    <span><i class="fa-solid fa-shield-halved"></i> Portafolio de Habilidades Digitales • AgroLINC</span>
-    <p>¡Escanea el código QR para comprobar mis cursos aprobados y seguir mi avance en la plataforma!</p>
-  </div>
-  
-  <div class="share-footer-branding">
-    <img src="assets/images/fablab.png" alt="FABLAB" class="share-logo-footer-inst" onerror="this.style.display='none'">
+   <div class="share-footer">
+  <div class="share-footer-left-block">
+    <div class="share-footer-text">
+      <span><i class="fa-solid fa-shield-halved"></i> Portafolio de Habilidades Digitales • AgroLINC</span>
+      <p>¡Escanea el código QR para comprobar mis cursos aprobados y seguir mi avance en la plataforma!</p>
+    </div>
+    
+      <img src="assets/images/fablab.png" alt="FABAB" class="share-logo-footer-inst" onerror="this.style.display='none'">
   </div>
   
   <div class="share-footer-qr">
