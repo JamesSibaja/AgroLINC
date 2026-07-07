@@ -812,7 +812,7 @@ setTimeout(() => {
     x: 0, 
     y: 0,
     windowWidth: 1200,  
-    windowHeight: 670,
+    windowHeight: 720,
 
     onclone: (clonedDoc) => {
       // 1. Corregir los iconos con tu ajuste de 40% que funcionó perfecto
