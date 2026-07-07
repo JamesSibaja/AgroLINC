@@ -2081,13 +2081,14 @@ button, input, select, textarea {
       box-sizing: border-box;
       font-family: system-ui, -apple-system, sans-serif;
     
-      /* COLOR BASE + TEXTURA DE REJILLA TECNOLÓGICA */
-      background-color: #050c1a; /* El azul noche exacto de tu interfaz */
-      background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 24px 24px; /* Tamaño del cuadrante */
-      background-position: center;
+      /* COLOR BASE + TEXTURA DIAGONAL SATINADA */
+      background: repeating-linear-gradient(
+        45deg,
+        #050c1a,
+        #050c1a 10px,
+        #060e1f 10px,
+        #060e1f 20px /* Crea un sutil contraste alternado con un azul 1% más claro */
+      );
     }
   
   /* Cabecera de Marcas */
