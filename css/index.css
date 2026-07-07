@@ -2184,39 +2184,35 @@ button, input, select, textarea {
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
 }
 
-/* Contenedor del Icono de la Medalla */
-.badge-premium-icon {
-  width: 50px;
-  height: 50px;
-  /* Fondo morado tecnológico con baja opacidad */
-  background: rgba(139, 92, 246, 0.12); 
-  border-radius: 12px;
-  position: relative; /* Clave para el truco de html2canvas */
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-/* Icono Medalla: El núcleo visual morado */
 /* =========================================================
-   CONTENEDOR DEL ICONO/BADGE PREMIUM (Eje de centrado)
-========================================================= */
-/* =========================================================
-   CONTENEDOR DEL BADGE PREMIUM (Ahora es un contenedor Flex)
+   CONTENEDOR: Los alinea en fila y les da espacio
 ========================================================= */
 .badge-premium-icon {
   display: flex;
-  align-items: center;      /* Alineación vertical perfecta */
-  justify-content: center;   /* Centrado horizontal del bloque */
-  gap: 8px;                  /* Espaciado exacto de separación entre el icono y el texto */
-  padding: 0 12px;           /* Colchón interno a los lados para que respiren */
+  align-items: center;       /* Centrado vertical perfecto */
+  justify-content: center;    /* Centrado horizontal del bloque */
+  gap: 6px;                   /* Separación exacta entre el número y la medalla */
   height: 50px;
+  padding: 0 12px;            /* Colchón a los lados para que respiren */
   background: rgba(139, 92, 246, 0.12); 
   border-radius: 12px;
   flex-shrink: 0;
+  min-width: 50px;            /* Crece hacia los lados si el número es grande */
+}
+
+/* =========================================================
+   ELEMENTOS INTERNOS: Comparten estilo de por vida
+========================================================= */
+.badge-premium-icon .badge-hours-highlight,
+.badge-premium-icon i {
+  color: #a78bfa;             /* Morado/Violeta de alta intensidad */
+  font-size: 1.4rem;          /* Tamaño idéntico y equilibrado para ambos */
+  font-weight: 800;
+  line-height: 1 !important;
   
-  /* IMPORTANTE: Quitamos el ancho fijo (width: 50px) para que la caja 
-     se estire suavemente a lo ancho según el contenido */
-  min-width: 50px; 
+  /* Parche sutil para que html2canvas no los arrastre hacia abajo */
+  position: relative;
+  top: -2px; 
 }
 
 /* =========================================================
