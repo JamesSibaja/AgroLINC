@@ -764,7 +764,10 @@ shareContainer.innerHTML = `
             <span class="share-separator">•</span>
             <span><i class="fa-solid fa-route"></i> Ruta Tecnológica: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
             <span class="share-separator">•</span>
-            <span class="share-date-badge"><i class="fa-regular fa-calendar-check"></i> Emitido: <b>07/07/2026</b></span>
+            <span class="share-date-badge">
+              <i class="fa-regular fa-calendar-check"></i> 
+              <b>${new Date().toLocaleDateString('es-CR', { day: '2-digit', month: '2-digit', year: 'numeric' })}</b>
+            </span>
           </p>
         </div>
         
