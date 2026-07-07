@@ -763,6 +763,8 @@ shareContainer.innerHTML = `
             <span><i class="fa-solid fa-id-card"></i> <b>${estudianteGlobal.cedula}</b></span>
             <span class="share-separator">•</span>
             <span><i class="fa-solid fa-route"></i> Ruta Tecnológica: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
+            <span class="share-separator">•</span>
+            <span class="share-date-badge"><i class="fa-regular fa-calendar-check"></i> Emitido: <b>07/07/2026</b></span>
           </p>
         </div>
         
@@ -794,15 +796,21 @@ shareContainer.innerHTML = `
       </div>
     </div>
 
-    <div class="share-footer">
-      <div class="share-footer-text">
-        <span><i class="fa-solid fa-shield-halved"></i> Portafolio de Habilidades Digitales • AgroLINC</span>
-        <p>¡Escanea el código QR para comprobar mis cursos aprobados, ver mis habilidades originales y seguir mi avance en la plataforma!</p>
-      </div>
-      <div class="share-footer-qr">
-        <img src="${qrApiUrl}" alt="Código QR de Verificación" class="share-qr-image">
-      </div>
+   <div class="share-footer">
+  <div class="share-footer-left-block">
+    <div class="share-footer-text">
+      <span><i class="fa-solid fa-shield-halved"></i> Portafolio de Habilidades Digitales • AgroLINC</span>
+      <p>¡Escanea el código QR para comprobar mis cursos aprobados y seguir mi avance en la plataforma!</p>
     </div>
+    <div class="share-footer-branding">
+      <img src="assets/images/fabab.png" alt="FABAB" class="share-logo-footer-inst" onerror="this.style.display='none'">
+    </div>
+  </div>
+  
+  <div class="share-footer-qr">
+    <img src="${qrApiUrl}" alt="Código QR de Verificación" class="share-qr-image">
+  </div>
+</div>
   `;
 
 

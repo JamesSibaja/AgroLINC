@@ -2528,7 +2528,18 @@ button, input, select, textarea {
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
 }
 
+.trophy-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: 12px;
+  text-align: center;
+  color: #94a3b8;
+  letter-spacing: 0.03em;
+}
 
+.trophy-unlocked .trophy-title { 
+  color: #fef08a; 
+}
   
   /* ==========================================================================
      6. PIE DE PÁGINA (FOOTER CON QR INTEGRADO Y BADGES TEMPORALES)
@@ -2682,3 +2693,54 @@ button, input, select, textarea {
     text-overflow: ellipsis; /* Si es ridículamente largo, pone "..." al final para salvar el layout */
     margin-right: 15px;
   }
+
+  /* =========================================================
+   NUEVA ETIQUETA DE FECHA DE EMISIÓN
+========================================================= */
+.share-date-badge {
+  background: rgba(34, 211, 238, 0.08); /* Un toque sutil cian para amarrar con las medallas */
+  color: #22d3ee !important;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(34, 211, 238, 0.15);
+  font-size: 0.7rem; /* Ligeramente más pequeño para mantener discreción */
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.share-date-badge i {
+  color: #22d3ee !important;
+}
+
+/* =========================================================
+   ESTRUCTURA DEL FOOTER OPTIMIZADA PARA COEXISTENCIA
+========================================================= */
+.share-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; /* Alinea los bloques al fondo */
+  box-sizing: border-box;
+}
+
+/* Bloque contenedor que agrupa el texto y la nueva marca abajo */
+.share-footer-left-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Espacio controlado entre el texto descriptivo y el logo */
+  flex-grow: 1;
+}
+
+/* El nuevo espacio para el logotipo institucional del footer */
+.share-footer-branding {
+  display: block;
+  text-align: left;
+}
+
+.share-logo-footer-inst {
+  height: 28px; /* Altura discreta y elegante para que conviva en armonía */
+  width: auto;
+  opacity: 0.75; /* Sutil transparencia para que se fusione con el pie de página */
+  object-fit: contain;
+  display: inline-block;
+}
