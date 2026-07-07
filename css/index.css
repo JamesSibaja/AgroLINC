@@ -2487,6 +2487,10 @@ button, input, select, textarea {
   font-size: 3.6rem !important;
 }
 
+.one-row-case .share-body{
+  padding-left: 35px;
+}
+
 /* Aumentamos el tamaño de la fuente de los textos de los cursos ganados */
 .one-row-case .medal-unlocked .medal-course-title {
   font-size: 0.95rem !important;
@@ -2589,4 +2593,8 @@ button, input, select, textarea {
 .one-row-case .special-trophy-panel {
   height: 190px !important;
   padding-left: 30px !important;
+}
+
+.one-row-case .share-footer {
+  height: 120px;
 }
