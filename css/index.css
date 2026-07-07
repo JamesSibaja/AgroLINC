@@ -2499,12 +2499,12 @@ button, input, select, textarea {
 
 /* LAS MEDALLAS BLOQUEADAS SE QUEDAN DISCRETAS Y PEQUEÑAS 
    Esto genera un contraste hermoso que resalta el mérito de lo que sí se ha ganado */
-.one-row-case .medal-locked .compact-medal-circle {
+/* .one-row-case .compact-medal-circle {
   width: 75px !important;
   height: 75px !important;
   margin-top: 25px !important; /* Centrado visual respecto a las grandes */
   opacity: 0.5;
-}
+} */
 
 /* El panel del Trofeo Final crece en proporción para equilibrar el estuche alto */
 .one-row-case .special-trophy-panel {
@@ -2581,11 +2581,11 @@ button, input, select, textarea {
 }
 
 /* Las medallas bloqueadas se quedan pequeñas para generar balance de pesos */
-.one-row-case .medal-locked .compact-medal-circle {
+/* .one-row-case .compact-medal-circle {
   width: 70px !important;
   height: 70px !important;
   margin-top: 24px !important; 
-}
+} */
 
 /* El trofeo se estira ligeramente a lo alto para que la caja total quede simétrica */
 .one-row-case .special-trophy-panel {

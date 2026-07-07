@@ -716,7 +716,7 @@ function generarImagenRedesSociales() {
           <div class="compact-medal-circle">
             <i class="fa-solid fa-lock"></i>
           </div>
-          <span class="medal-locked-date">Pendiente</span>
+          
         </div>
       `;
     }
