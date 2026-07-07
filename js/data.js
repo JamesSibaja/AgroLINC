@@ -56,7 +56,7 @@ function getCourseIcon(courseName) {
     { keywords: ['basico'], icon: 'fa-cube' }, 
     { keywords: ['intermedio'], icon: 'fa-cubes' }, 
     { keywords: ['laser', 'corte'], icon: 'fa-explosion' }, 
-    { keywords: ['cnc'], icon: 'fa-drill' }, 
+    { keywords: ['cnc'], icon: 'fa-bore-hole' }, 
     { keywords: ['geoespacial', 'mapa', 'gps', 'kobo', 'territorio'], icon: 'fa-map-location-dot' },
     { keywords: ['microcontrolador', 'arduino'], icon: 'fa-microchip' },
 
@@ -728,7 +728,7 @@ function generarImagenRedesSociales() {
     </div>
   `;
 
-  const urlPlataforma = `https://fablabiica.github.io/AgroLINC/`;
+  const urlPlataforma = `https://fablabiica.github.io/AgroLINC/rutas.html`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlPlataforma)}&color=041124`;
 
   // 4. Inyección del Layout Estructural Nuevo
@@ -784,7 +784,7 @@ function generarImagenRedesSociales() {
 
     <div class="share-footer">
       <div class="share-footer-text">
-        <span><i class="fa-solid fa-shield-halved"></i> Credencial Profesional Verificada • AgroLINC</span>
+        <span><i class="fa-solid fa-shield-halved"></i> Habilidades Tecnológicas Verificadas • AgroLINC</span>
         <p>Escanea el código QR para auditar los prototipos de innovación y el estado de la ruta académica del estudiante.</p>
       </div>
       <div class="share-footer-qr">
