@@ -2502,7 +2502,7 @@ button, input, select, textarea {
 /* .one-row-case .compact-medal-circle {
   width: 75px !important;
   height: 75px !important;
-  margin-top: 25px !important; /* Centrado visual respecto a las grandes */
+  margin-top: 25px !important; /
   opacity: 0.5;
 } */
 
@@ -2581,11 +2581,11 @@ button, input, select, textarea {
 }
 
 /* Las medallas bloqueadas se quedan pequeñas para generar balance de pesos */
-/* .one-row-case .compact-medal-circle {
+.one-row-case .medal-locked .compact-medal-circle {
   width: 70px !important;
   height: 70px !important;
   margin-top: 24px !important; 
-} */
+}
 
 /* El trofeo se estira ligeramente a lo alto para que la caja total quede simétrica */
 .one-row-case .special-trophy-panel {
