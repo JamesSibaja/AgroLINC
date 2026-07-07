@@ -2308,8 +2308,9 @@ button, input, select, textarea {
   background: rgba(255, 255, 255, 0.03);
   color: rgba(255, 255, 255, 0.12);
   border: 2px dashed rgba(255, 255, 255, 0.12);
-  width: 65px;
-  height: 65px;
+  width: 60%;
+  height: 60%;
+  margin-top: 10%;
 }
 
 
@@ -2334,6 +2335,7 @@ button, input, select, textarea {
   font-size: 0.75rem;
   font-weight: 500;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /* =========================================================
