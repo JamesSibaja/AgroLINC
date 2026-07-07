@@ -2197,31 +2197,47 @@ button, input, select, textarea {
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
   }
   
-  /* Contenedor del Icono/Número (Alineación Flex Horizontal) */
-  .badge-premium-icon {
-    display: flex;
-    align-items: center;      
-    justify-content: center;   
-    gap: 8px;                  
-    padding: 0 12px;           
-    height: 50px;
-    background: rgba(139, 92, 246, 0.12); 
-    border-radius: 12px;
-    flex-shrink: 0;
-    min-width: 50px; /* Estira la caja armónicamente hacia los lados */
-  }
+/* =========================================================
+   CONTENEDOR: Cambiado a bloque con ancho fijo y seguro
+========================================================= */
+.badge-premium-icon {
+  display: block;             /* Cambiado de flex a block para evitar desborde en captura */
+  text-align: center;         /* Centrado horizontal garantizado para texto e iconos */
+  width: 75px;                /* Ancho fijo preventivo para albergar el número y la medalla juntos */
+  height: 50px;
+  background: rgba(139, 92, 246, 0.12); 
+  border-radius: 12px;
+  flex-shrink: 0;
+  box-sizing: border-box;
   
-  /* Elementos Internos del Badge Premium (Parche Relativo html2canvas) */
-  .badge-premium-icon i,
-  .badge-premium-icon span {
-    color: #a78bfa;            
-    font-size: 1.4rem;         
-    line-height: 1 !important;
-    font-weight: 800;
-    display: inline-block;
-    position: relative;
-    top: -2px; 
-  }
+  /* IMPORTANTE: Quitamos el padding lateral para evitar que empuje el contenido hacia afuera */
+  padding: 0; 
+}
+
+/* =========================================================
+   ELEMENTOS INTERNOS: Alineación basada en bloque de texto corrido
+========================================================= */
+.badge-premium-icon i,
+.badge-premium-icon span {
+  color: #a78bfa;            
+  font-size: 1.35rem;         /* Reducido un pixel para máxima seguridad dentro de los 75px */
+  font-weight: 800;
+  display: inline;            /* Se comportan como texto fluido uno al lado del otro */
+  
+  /* EL TRUCO PARA EL CENTRADO VERTICAL:
+     Hacer que el line-height coincida con la altura de la caja (50px) 
+     fuerza al navegador y a html2canvas a clavarlos en el centro exacto vertical */
+  line-height: 50px !important; 
+  
+  /* PARCHE DE ELEVACIÓN: Ajustamos sutilmente el top si html2canvas tiende a bajarlos */
+  position: relative;
+  top: -2px; 
+}
+
+/* Espaciado controlado entre el número y el icono sin usar gap */
+.badge-premium-icon span {
+  margin-right: 4px;
+}
   
   .badge-premium-content {
     display: flex;
@@ -2573,3 +2589,17 @@ button, input, select, textarea {
     height: 120px !important;
   }
 
+  .compact-white-name {
+    color: #ffffff !important;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px 0;
+    line-height: 1.15; /* Reduce el interlineado para que si pasa a dos hileras no empuje las medallas */
+  
+    /* ESCUDO DE SEGURIDAD CONTRA DESBORDES MULTILÍNEA */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Máximo absoluto de 2 hileras permitidas en la tarjeta */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Si es ridículamente largo, pone "..." al final para salvar el layout */
+  }

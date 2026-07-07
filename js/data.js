@@ -735,7 +735,15 @@ function generarImagenRedesSociales() {
   const urlPlataforma = `https://fablabiica.github.io/AgroLINC/rutas.html`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlPlataforma)}&color=041124`;
 
-  shareContainer.innerHTML = `
+ // --- VALIDACIÓN DINÁMICA DE TAMAÑO PARA EL NOMBRE ---
+// Si el nombre pasa de 25 caracteres, reducimos la fuente para prevenir que rompa el layout
+let fontSizeNombre = '2.6rem';
+if (estudianteGlobal.nombre && estudianteGlobal.nombre.length > 25) {
+  fontSizeNombre = '2.0rem'; // Se reduce lo suficiente para acomodarse en dos líneas compactas
+}
+
+// Ahora sí, inyectas tu plantilla usando la variable dinámicamente en el inline-style de la etiqueta h2
+shareContainer.innerHTML = `
     <div class="share-branding-strip">
       <div class="share-strip-left">
         <img src="assets/images/agrolinc.svg" alt="AgroLINC" class="share-logo-main" onerror="this.style.display='none'">
@@ -749,7 +757,8 @@ function generarImagenRedesSociales() {
     <div class="share-body">
       <div class="share-user-meta">
         <div class="share-user-details">
-          <h2 class="compact-white-name">${estudianteGlobal.nombre}</h2>
+          <!-- PARCHE DE REDUCCIÓN DE FUENTE IMPLEMENTADO AQUÍ -->
+          <h2 class="compact-white-name" style="font-size: ${fontSizeNombre} !important;">${estudianteGlobal.nombre}</h2>
           <p class="share-user-sub">
             <span><i class="fa-solid fa-id-card"></i> <b>${estudianteGlobal.cedula}</b></span>
             <span class="share-separator">•</span>
@@ -759,13 +768,13 @@ function generarImagenRedesSociales() {
         
         <div class="share-user-stats">
           <div class="badge-logro-premium">
-          
             <div class="badge-premium-icon">
+              <span class="badge-hours-highlight">${totalCursosLogrados === 1 ? 'Nuevo' : totalCursosLogrados}</span>
               <i class="fa-solid fa-medal"></i>
             </div>
             <div class="badge-premium-content">
               <div class="badge-premium-title">
-                <span class="badge-hours-highlight">${totalCursosLogrados === 1 ? 'Nuevo' : totalCursosLogrados}</span> ${totalCursosLogrados === 1 ? 'Logro de aprendizaje' : 'Logros de aprendizaje'}
+                 ${totalCursosLogrados === 1 ? 'Logro de aprendizaje' : 'Logros de aprendizaje'}
               </div>
               <div class="badge-premium-subtitle">
                  En innovación tecnológica
@@ -787,13 +796,14 @@ function generarImagenRedesSociales() {
     <div class="share-footer">
       <div class="share-footer-text">
         <span><i class="fa-solid fa-shield-halved"></i> Portafolio de Habilidades Digitales • AgroLINC</span>
-        <p>¡Escanea el código QR para comprobar mis cursos aprobados, ver mis habilidades obtenidas y seguir mi avance en la plataforma!</p>
+        <p>¡Escanea el código QR para comprobar mis cursos aprobados, ver mis habilidades originales y seguir mi avance en la plataforma!</p>
       </div>
       <div class="share-footer-qr">
         <img src="${qrApiUrl}" alt="Código QR de Verificación" class="share-qr-image">
       </div>
     </div>
   `;
+
 
   // 5. Captura con corrección tipográfica
   setTimeout(() => {
