@@ -2738,10 +2738,9 @@ button, input, select, textarea {
 }
 
 .share-logo-footer-inst {
-  height: 28px; /* Altura discreta y elegante para que conviva en armonía */
-  width: auto;
-  opacity: 0.8; /* Sutil transparencia para que se fusione con el pie de página */
+  height: 40px; /* Altura discreta y elegante para que conviva en armonía */
+  width: auto; /* Sutil transparencia para que se fusione con el pie de página */
   bottom: 20px;
-  left: 200px;
+  right: 350px;
   position: absolute;
 }
