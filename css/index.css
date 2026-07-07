@@ -2369,12 +2369,12 @@ button, input, select, textarea {
     border: 2px dashed rgba(255, 255, 255, 0.12);
     width: 75px;
     height: 75px;
-    margin-top: 24px;
+    margin-top: 40px;
   }
   
   .medal-locked .compact-medal-circle i {
     font-size: 1.6rem !important;
-    opacity: 0.25;
+    opacity: 0.40;
   }
   
   /* Textos de los Cursos (Títulos y Fechas) */
@@ -2738,9 +2738,9 @@ button, input, select, textarea {
 }
 
 .share-logo-footer-inst {
-  height: 40px; /* Altura discreta y elegante para que conviva en armonía */
+  height: 45px; /* Altura discreta y elegante para que conviva en armonía */
   width: auto; /* Sutil transparencia para que se fusione con el pie de página */
-  bottom: 20px;
-  right: 350px;
+  bottom: 35px;
+  right: 250px;
   position: absolute;
 }
