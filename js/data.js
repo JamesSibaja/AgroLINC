@@ -760,7 +760,7 @@ function generarImagenRedesSociales() {
         <div class="share-user-stats">
           <div class="badge-logro-premium">
             <div class="badge-premium-icon">
-              <span class="badge-hours-highlight">${totalCursosLogrados}</span> 
+              <span>${totalCursosLogrados}</span> 
               <i class="fa-solid fa-medal"></i>
             </div>
             <div class="badge-premium-content">
