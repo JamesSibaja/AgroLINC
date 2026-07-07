@@ -680,14 +680,10 @@ function generarImagenRedesSociales() {
 
   const tieneModuloFinal = aprobadosReales.some(c => c.nombre.toLowerCase().includes("innovación"));
   
-  // CONDICIÓN CLAVE: ¿Es una sola hilera?
+  // CONDICIÓN: Evaluar si es una sola hilera para aplicar espaciados de caja
   const esUnaHilera = totalCursosLogrados <= 6;
   const slotsOrdinariosVisibles = esUnaHilera ? 6 : Math.max(totalCursosLogrados, 12);
   const columnasGrid = esUnaHilera ? 6 : Math.ceil(slotsOrdinariosVisibles / 2);
-
-  // Generar la fecha actual con el formato local de Costa Rica
-  const opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
-  const fechaHoy = new Date().toLocaleDateString('es-CR', opcionesFecha);
 
   let medallasHTML = "";
   for (let i = 0; i < slotsOrdinariosVisibles; i++) {
@@ -695,20 +691,32 @@ function generarImagenRedesSociales() {
       const curso = aprobadosReales[i];
       const nombreAbreviado = obtenerNombreCortoCurso(curso.nombre);
       
+      // Intentar buscar la fecha de aprobación desde las tuplas globales de tu base de datos
+      const tuplaCorrespondiente = tuplasGlobales.find(t => t[0] === curso.id);
+      // Si la tupla tiene la fecha en la posición [1] o [2], la usamos; si no, dejamos un fallback ordenado
+      let fechaCursoFormateada = "Completado";
+      if (tuplaCorrespondiente && tuplaCorrespondiente[1]) {
+        // Asumiendo formato string o Date, lo ideal es mostrar algo corto como "Ene 2026" o "12/04/2026"
+        fechaCursoFormateada = tuplaCorrespondiente[1]; 
+      }
+      
       medallasHTML += `
         <div class="compact-medal-slot medal-unlocked" title="${curso.nombre}">
           <div class="compact-medal-circle">
             <i class="fa-solid ${getCourseIcon(curso.nombre)}"></i>
           </div>
           <span class="medal-course-title">${nombreAbreviado}</span>
+          <span class="medal-course-date">${fechaCursoFormateada}</span>
         </div>
       `;
     } else {
+      // Casilla bloqueada
       medallasHTML += `
         <div class="compact-medal-slot medal-locked">
           <div class="compact-medal-circle">
             <i class="fa-solid fa-lock"></i>
           </div>
+          <span class="medal-locked-date">Pendiente</span>
         </div>
       `;
     }
@@ -727,7 +735,6 @@ function generarImagenRedesSociales() {
   const urlPlataforma = `https://fablabiica.github.io/AgroLINC/rutas.html`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlPlataforma)}&color=041124`;
 
-  // 4. Inyección del Layout Estructural Nuevo (Clase dinámica añadida al estuche: ${esUnaHilera ? 'one-row-case' : ''})
   shareContainer.innerHTML = `
     <div class="share-branding-strip">
       <div class="share-strip-left">
@@ -746,9 +753,7 @@ function generarImagenRedesSociales() {
           <p class="share-user-sub">
             <span><i class="fa-solid fa-id-card"></i> <b>${estudianteGlobal.cedula}</b></span>
             <span class="share-separator">•</span>
-            <span><i class="fa-solid fa-route"></i> Ruta: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
-            <span class="share-separator">•</span>
-            <span class="share-date-badge"><i class="fa-solid fa-calendar-day"></i> Emitido: ${fechaHoy}</span>
+            <span><i class="fa-solid fa-route"></i> Ruta Tecnológica: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
           </p>
         </div>
         
@@ -769,7 +774,7 @@ function generarImagenRedesSociales() {
         </div>
       </div>
       
-      <!-- CONTENEDOR DEL ESTUCHE CON CLASE DINÁMICA SI ES SOLO UNA HILERA -->
+      <!-- CONTENEDOR CON LA CLASE ADAPTATIVA DE UNA SOLA HILERA -->
       <div class="showcase-container ${esUnaHilera ? 'one-row-case' : ''}">
         <div class="compact-medal-case-dynamic" style="grid-template-columns: repeat(${columnasGrid}, 1fr);">
           ${medallasHTML}
@@ -789,7 +794,7 @@ function generarImagenRedesSociales() {
     </div>
   `;
 
-  // 5. Captura Fotográfica Ajustada para Mantener Alturas Estrictas
+  // 5. Captura con corrección tipográfica
   setTimeout(() => {
     html2canvas(shareContainer, {
       useCORS: true,
@@ -807,7 +812,6 @@ function generarImagenRedesSociales() {
       windowHeight: 720,
 
       onclone: (clonedDoc) => {
-        // Corrección de posición de iconos para la captura
         const iconos = clonedDoc.querySelectorAll('.compact-medal-circle i, .trophy-badge i, .badge-premium-icon i');
         iconos.forEach(icono => {
           icono.style.position = 'absolute';
@@ -817,9 +821,8 @@ function generarImagenRedesSociales() {
           icono.style.lineHeight = '1';
         });
 
-        // Compensación tipográfica vertical para evitar el desfase de html2canvas
         const todosLosTextos = clonedDoc.querySelectorAll(
-          '.compact-white-name, .share-user-sub, .badge-logro-premium, .medal-course-title, .trophy-title, .share-footer-text span, .share-footer-text p'
+          '.compact-white-name, .share-user-sub, .badge-logro-premium, .medal-course-title, .medal-course-date, .medal-locked-date, .trophy-title, .share-footer-text span, .share-footer-text p'
         );
 
         todosLosTextos.forEach(texto => {
