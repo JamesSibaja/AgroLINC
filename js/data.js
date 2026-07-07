@@ -721,10 +721,11 @@ function generarImagenRedesSociales() {
   // 3. Estructura Premium independiente para el Gran Módulo Final (Trofeo)
   const trofeoHTML = `
     <div class="special-trophy-panel ${tieneModuloFinal ? 'trophy-unlocked' : 'trophy-locked'}">
+    <div class="trophy-title"> Programa AgroLINC</div>
       <div class="trophy-badge">
         <i class="fa-solid ${tieneModuloFinal ? 'fa-trophy' : 'fa-award'}"></i>
       </div>
-      <div class="trophy-title">${tieneModuloFinal ? 'AgroLINC COMPLETADO' : 'Programa AgroLINC'}</div>
+      <div class="trophy-title">${tieneModuloFinal ? 'COMPLETADO' : ''}</div>
     </div>
   `;
 

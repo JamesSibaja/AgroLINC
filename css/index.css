@@ -2129,7 +2129,7 @@ button, input, select, textarea {
 .share-body::before {
   content: "";
   position: absolute;
-  top: 0;
+  top: -5px;
   left: 0;
   width: 100%;
   height: 5px; 
