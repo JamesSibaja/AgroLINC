@@ -2081,14 +2081,13 @@ button, input, select, textarea {
       box-sizing: border-box;
       font-family: system-ui, -apple-system, sans-serif;
     
-      /* COLOR BASE + TEXTURA DIAGONAL SATINADA */
-      background: repeating-linear-gradient(
-        45deg,
-        #050c1a,
-        #050c1a 10px,
-        #060e1f 10px,
-        #060e1f 20px /* Crea un sutil contraste alternado con un azul 1% más claro */
-      );
+      /* COLOR BASE + TEXTURA DE REJILLA TECNOLÓGICA */
+      background-color: #081d38; /* El azul noche exacto de tu interfaz */
+      background-image: 
+        linear-gradient(315deg,#030f20 1px, transparent 1px),
+        linear-gradient(135deg, #030f20 1px, transparent 1px);
+      background-size: 24px 24px; /* Tamaño del cuadrante */
+      background-position: center;
     }
   
   /* Cabecera de Marcas */
@@ -2190,49 +2189,52 @@ button, input, select, textarea {
     font-weight: bold; 
   }
   
-  /* ==========================================================================
-     3. RECUADRO PREMIUM DE MÓDULOS (ESQUINA SUPERIOR DERECHA)
-     ========================================================================== */
-  .badge-logro-premium {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background: rgba(255, 255, 255, 0.03); 
-    border: 1px solid rgba(255, 255, 255, 0.08); 
-    padding: 14px 22px;
-    border-radius: 16px;
-    box-sizing: border-box;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
-  }
-  
 /* =========================================================
-   CONTENEDOR: Cambiado a bloque con ancho fijo y seguro
+   CONTENEDOR PADRE GENERAL
+========================================================= */
+.badge-logro-premium {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.03); 
+  border: 1px solid rgba(255, 255, 255, 0.08); 
+  padding: 14px 22px;
+  border-radius: 16px;
+  box-sizing: border-box;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
+}
+
+/* =========================================================
+   CUADRO MORADO: Eje de referencia absoluto
 ========================================================= */
 .badge-premium-icon {
-  display: block;             /* Cambiado de flex a block para evitar desborde en captura */
-  text-align: center;         /* Centrado horizontal garantizado para texto e iconos */
-  width: 50px;                /* Ancho fijo preventivo para albergar el número y la medalla juntos */
+  width: 50px;
   height: 50px;
   background: rgba(139, 92, 246, 0.12); 
   border-radius: 12px;
   flex-shrink: 0;
   box-sizing: border-box;
-  
-  /* IMPORTANTE: Quitamos el padding lateral para evitar que empuje el contenido hacia afuera */
   padding: 0; 
+  
+  /* CLAVE: Obligatorio para que el icono se clave en su centro exacto */
+  position: relative; 
 }
 
 /* =========================================================
-   ELEMENTOS INTERNOS: Alineación basada en bloque de texto corrido
+   ICONO DE LA MEDALLA: Centrado absoluto indestructible
 ========================================================= */
 .badge-premium-icon i {
-  position: relative;
-  top: 30%; /* Tu ajuste perfecto contra el desfase de la librería */
-  left: 0%;
-  /* Color Morado/Violeta de alta intensidad */
+  position: absolute;
+  /* El ajuste dorado (top: 40%) contrarresta el desfase de html2canvas */
+  top: 40%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: #a78bfa; 
-  font-size: 1.7rem;
+  font-size: 1.6rem; /* Tamaño óptimo para que respire dentro de los 50px */
   line-height: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block;
 }
   
   .badge-premium-content {
