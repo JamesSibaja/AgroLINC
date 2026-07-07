@@ -622,7 +622,7 @@ function obtenerNombreCortoCurso(courseName) {
     return name.includes("intermedio") ? "Impresión 3D II" : "Impresión 3D I";
   }
   if (name.includes("drone") || name.includes("vant") || name.includes("vuelo")) {
-    return name.includes("intermedio") ? "Drones II" : "Drones";
+    return "Vuelo de Drones";
   }
   if (name.includes("programación") || name.includes("programacion") || name.includes("programar")) {
     return "Programación";
