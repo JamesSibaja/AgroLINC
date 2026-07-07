@@ -2207,6 +2207,16 @@ button, input, select, textarea {
   font-size: 1.7rem;
   line-height: 1 !important;
 }
+.badge-premium-icon span {
+  /* position: absolute;
+  top: 40%; 
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  /* Color Morado/Violeta de alta intensidad */
+  color: #a78bfa; 
+  font-size: 1.7rem;
+  line-height: 1 !important;
+}
 
 /* Contenedor de Textos */
 .badge-premium-content {

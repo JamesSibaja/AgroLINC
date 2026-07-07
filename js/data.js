@@ -760,11 +760,12 @@ function generarImagenRedesSociales() {
         <div class="share-user-stats">
           <div class="badge-logro-premium">
             <div class="badge-premium-icon">
+              <span class="badge-hours-highlight">${totalCursosLogrados}</span> 
               <i class="fa-solid fa-medal"></i>
             </div>
             <div class="badge-premium-content">
               <div class="badge-premium-title">
-                <span class="badge-hours-highlight">${totalCursosLogrados}</span> ${totalCursosLogrados === 1 ? 'Módulo de Formación' : 'Módulos de Formación'}
+                ${totalCursosLogrados === 1 ? 'Módulo de Formación' : 'Módulos de Formación'}
               </div>
               <div class="badge-premium-subtitle">
                  En innovación tecnológica
