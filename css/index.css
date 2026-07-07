@@ -2076,7 +2076,7 @@ button, input, select, textarea {
     height: 720px;
     position: absolute;
     left: -9999px;
-    background: #140933;
+    background: #090422;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -2323,7 +2323,7 @@ button, input, select, textarea {
     right: -12px;
     bottom: -12px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 217, 255, 0) 0%, rgba(0, 217, 255, 0.4) 45%, rgba(0, 217, 255, 0) 65%);
+    background: radial-gradient(circle,  rgba(0, 217, 255, 0.281) 35%, rgba(0, 217, 255, 0) 75%);
     z-index: -1;
     pointer-events: none;
   }
