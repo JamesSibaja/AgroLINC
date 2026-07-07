@@ -785,7 +785,7 @@ function generarImagenRedesSociales() {
     <div class="share-footer">
       <div class="share-footer-text">
         <span><i class="fa-solid fa-shield-halved"></i> Habilidades Tecnológicas Verificadas • AgroLINC</span>
-        <p>Escanea el código QR para auditar los prototipos de innovación y el estado de la ruta académica del estudiante.</p>
+        <p>¡Escanea el código QR para comprobar mis cursos aprobados, ver mis habilidades obtenidas y seguir mi avance en la plataforma!</p>
       </div>
       <div class="share-footer-qr">
         <img src="${qrApiUrl}" alt="Código QR de Verificación" class="share-qr-image">
