@@ -2430,17 +2430,7 @@ button, input, select, textarea {
     position: relative; /* Ancla de centrado seguro */
     box-sizing: border-box;
   }
-  
-  .trophy-badge i {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 2.8rem;
-    line-height: 1 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
+ 
   
   /* Trofeo: Estado Bloqueado */
   .trophy-locked .trophy-badge {
@@ -2463,7 +2453,7 @@ button, input, select, textarea {
 }
 
 /* =========================================================
-   TROFEO COMPLETADO: Contenedor Base Limpio
+   TROFEO COMPLETADO: Contenedor Padre Rígido
 ========================================================= */
 .trophy-unlocked .trophy-badge {
   width: 100px;
@@ -2472,18 +2462,14 @@ button, input, select, textarea {
   background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(251, 191, 36, 0.2));
   border: 3px solid #eab308;
   
-  /* Posicionamiento seguro */
+  /* Sistema de coordenadas absoluto blindado */
   position: relative;
   z-index: 1;
   box-sizing: border-box;
-  
-  /* Forzamos a que todo lo interno se centre como un bloque rígido */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: visible; /* Permite que el aura exterior respire sin cortarse */
 }
 
-/* HALO SUAVE DE ORO (Aura exterior expansiva - Se mantiene impecable) */
+/* HALO SUAVE DE ORO (Aura exterior expansiva) */
 .trophy-unlocked .trophy-badge::before {
   content: "";
   position: absolute;
@@ -2499,44 +2485,50 @@ button, input, select, textarea {
   pointer-events: none;
 }
 
-/* =========================================================
-   EL NUEVO ARO DE CRISTAL INTERNO (Montado en el Icono)
-========================================================= */
-.trophy-unlocked .trophy-badge i {
-  /* Creamos el aro físico de cristal usando las dimensiones del icono */
-  width: 88px;   /* 100px - 6px de bordes del padre - 6px de aire libre */
-  height: 88px;
-  border-radius: 13px; /* Sigue la curvatura interna exacta */
-  border: 1px solid rgba(255, 255, 255, 0.12); /* El aro original nítido */
+/* ARO INTERIOR DE CRISTAL ORIGINAL (Recuperado y Blindado) */
+.trophy-unlocked .trophy-badge::after {
+  content: "";
+  position: absolute;
   
-  /* Centrado perfecto del dibujo del trofeo dentro de su propio aro */
-  display: block;
-  font-size: 2.2rem;
-  color: #eab308;
-  line-height: 86px; /* Centrado vertical exacto dentro de los 88px */
-  text-align: center;
+  /* Centrado absoluto simétrico por coordenadas fijas */
+  top: 4px;
+  left: 4px;
+  width: 86px;  /* 100px - 6px de bordes - 8px de aire */
+  height: 86px; 
   
+  border-radius: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.12); /* Tu línea fina original */
+  pointer-events: none;
   box-sizing: border-box;
-  margin: 0 !important;
-  padding: 0 !important;
+  z-index: 2;
 }
 
-/* ASEGURAMOS QUE EL ::after NO INTERFIERA */
-.trophy-unlocked .trophy-badge::after {
-  display: none !important;
-}
-  .trophy-title {
-    font-size: 0.85rem;
-    font-weight: 700;
-    margin-top: 12px;
-    text-align: center;
-    color: #94a3b8;
-    letter-spacing: 0.03em;
-  }
+/* =========================================================
+   ICONO DEL TROFEO: ¡Más Grande y Centrado al Píxel!
+========================================================= */
+.trophy-unlocked .trophy-badge i {
+  position: absolute;
   
-  .trophy-unlocked .trophy-title { 
-    color: #fef08a; 
-  }
+  /* El truco de oro: Anclaje al 50% con transform anti-desfases */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  color: #eab308; 
+  font-size: 2.8rem; /* ¡Incrementado considerablemente para máxima presencia! */
+  
+  /* Reseteo absoluto de fuentes para evitar que html2canvas empuje hacia arriba */
+  line-height: 1 !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 3;
+  
+  /* Sombra proyectada del icono para realzar el metalizado */
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+}
+
+
   
   /* ==========================================================================
      6. PIE DE PÁGINA (FOOTER CON QR INTEGRADO Y BADGES TEMPORALES)
