@@ -2615,10 +2615,10 @@ button, input, select, textarea {
   margin-bottom: 5px;
   
   /* CLAVE 1: Interlineado más compacto para que html2canvas controle las hileras */
-  line-height: 1.25 !important; 
+  line-height: 1.5 !important; 
   
   /* CLAVE 2: Colchón de seguridad para salvar los rasgos descendentes (g, p, y) */
-  padding-bottom: 4px !important; 
+  padding-bottom: 5px !important; 
   
   /* TRUNCADO SEGURO EN 2 LÍNEAS */
   display: -webkit-box;
