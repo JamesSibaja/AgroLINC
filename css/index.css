@@ -2200,30 +2200,42 @@ button, input, select, textarea {
 /* =========================================================
    CONTENEDOR DEL ICONO/BADGE PREMIUM (Eje de centrado)
 ========================================================= */
+/* =========================================================
+   CONTENEDOR DEL BADGE PREMIUM (Ahora es un contenedor Flex)
+========================================================= */
 .badge-premium-icon {
-  width: 50px;
+  display: flex;
+  align-items: center;      /* Alineación vertical perfecta */
+  justify-content: center;   /* Centrado horizontal del bloque */
+  gap: 8px;                  /* Espaciado exacto de separación entre el icono y el texto */
+  padding: 0 12px;           /* Colchón interno a los lados para que respiren */
   height: 50px;
   background: rgba(139, 92, 246, 0.12); 
   border-radius: 12px;
-  position: relative; /* Obligatorio para que el centrado absoluto funcione */
-  box-sizing: border-box;
   flex-shrink: 0;
+  
+  /* IMPORTANTE: Quitamos el ancho fijo (width: 50px) para que la caja 
+     se estire suavemente a lo ancho según el contenido */
+  min-width: 50px; 
 }
 
 /* =========================================================
-   ELEMENTOS INTERNOS: CENTRADO ABSOLUTO ESTRUCTURAL
-   Aplica tanto para el tag <i> (icono) como para el <span> (número)
+   ESTILOS COMPARTIDOS PARA EL ICONO Y EL SPAN
+   (Ya no se superponen porque no usan position: absolute)
 ========================================================= */
 .badge-premium-icon i,
 .badge-premium-icon span {
-  position: absolute;
-  top: 40%; /* El ajuste dorado contra el desfase de html2canvas */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #a78bfa; /* Morado/Violeta de alta intensidad */
-  font-size: 1.5rem; /* Ajustado levemente a 1.5rem para que si pones un número de 2 dígitos no se desborde del contenedor de 50px */
+  color: #a78bfa;            /* Morado/Violeta de alta intensidad */
+  font-size: 1.4rem;         /* Tamaño equilibrado para ir en pareja */
   line-height: 1 !important;
-  font-weight: 800; /* Le da consistencia visual si usas un número en el span */
+  font-weight: 800;
+  display: inline-block;
+  
+  /* PARCHE PARA HTML2CANVAS: 
+     En lugar de usar 'top: 40%' absoluto que causaba la superposición, 
+     usamos una elevación relativa para contrarrestar el desfase de la librería */
+  position: relative;
+  top: -2px; 
 }
 
 /* Contenedor de Textos */
