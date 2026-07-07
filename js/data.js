@@ -759,9 +759,7 @@ function generarImagenRedesSociales() {
         
         <div class="share-user-stats">
           <div class="badge-logro-premium">
-          <div class="badge-premium-icon">
-              <span>${totalCursosLogrados}</span>
-            </div>
+          
             <div class="badge-premium-icon">
               <i class="fa-solid fa-medal"></i>
             </div>
