@@ -2369,7 +2369,7 @@ button, input, select, textarea {
     border: 2px dashed rgba(255, 255, 255, 0.12);
     width: 75px;
     height: 75px;
-    margin-top: 40px;
+    margin-top: 24px;
   }
   
   .medal-locked .compact-medal-circle i {
@@ -2665,7 +2665,7 @@ button, input, select, textarea {
   .one-row-case .medal-locked .compact-medal-circle {
     width: 70px !important;
     height: 70px !important;
-    margin-top: 24px !important; 
+    margin-top: 40px !important; 
   }
   
   /* Crecimiento del Bloque de Cierre/Trofeo (Una sola Hilera) */
@@ -2740,7 +2740,7 @@ button, input, select, textarea {
 .share-logo-footer-inst {
   height: 45px; /* Altura discreta y elegante para que conviva en armonía */
   width: auto; /* Sutil transparencia para que se fusione con el pie de página */
-  bottom: 35px;
+  bottom: 27px;
   right: 250px;
   position: absolute;
 }
