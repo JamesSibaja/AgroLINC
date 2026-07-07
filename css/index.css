@@ -2437,6 +2437,7 @@ button, input, select, textarea {
     background: rgba(255, 255, 255, 0.02);
     border: 3px dashed rgba(255, 255, 255, 0.15);
     color: rgba(255, 255, 255, 0.15);
+    font-size: 2.88rem;
   }
   
 

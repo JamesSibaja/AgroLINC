@@ -806,7 +806,7 @@ shareContainer.innerHTML = `
       <p>¡Escanea el código QR para comprobar mis cursos aprobados y seguir mi avance en la plataforma!</p>
     </div>
     <div class="share-footer-branding">
-      <img src="assets/images/fabab.png" alt="FABAB" class="share-logo-footer-inst" onerror="this.style.display='none'">
+      <img src="assets/images/fablab.png" alt="FABAB" class="share-logo-footer-inst" onerror="this.style.display='none'">
     </div>
   </div>
   
