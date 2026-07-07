@@ -2384,7 +2384,7 @@ button, input, select, textarea {
     font-size: 0.72rem;
     color: #7a7a7a81; 
     font-weight: 700;
-    margin-top: 2px;
+    margin-bottom: 2px;
     letter-spacing: 0.02em;
     opacity: 0.9;
     display: block;
@@ -2466,47 +2466,51 @@ button, input, select, textarea {
    TROFEO COMPLETADO: Eje de la insignia de oro
 ========================================================= */
 .trophy-unlocked .trophy-badge {
+  width: 100px;  /* Aseguramos que herede o fije el tamaño plano */
+  height: 100px;
   background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(251, 191, 36, 0.2));
   border: 3px solid #eab308;
   color: #eab308;
+  border-radius: 18px;
   
-  /* Sombra nativa para el navegador web */
   filter: drop-shadow(0 2px 8px rgba(234, 179, 8, 0.25));
   
-  /* OBLIGATORIO: Anclas de posición y capas para los halos */
   position: relative;
   z-index: 1;
   box-sizing: border-box;
 }
 
-/* HALO SUAVE DE ORO (El truco definitivo para html2canvas) */
+/* HALO SUAVE DE ORO (Fondo/Aura exterior) */
 .trophy-unlocked .trophy-badge::before {
   content: "";
   position: absolute;
-  /* Expandimos el halo 8px hacia afuera de la caja del trofeo */
   inset: -8px; 
-  border-radius: 22px; /* Un poco mayor a 18px para mantener la armonía de la expansión */
-  
-  /* Degradado radial dorado que se desvanece de forma limpia */
+  border-radius: 22px; 
   background: radial-gradient(
     circle,
     rgba(234, 179, 8, 0.22) 0%,
     rgba(234, 179, 8, 0.08) 45%,
     rgba(234, 179, 8, 0) 75%
   );
-  
   z-index: -1;
   pointer-events: none;
 }
 
-/* ARO INTERIOR DE CRISTAL (Da profundidad premium y relieve al trofeo) */
+/* ARO INTERIOR DE CRISTAL: Parche definitivo anti-desborde */
 .trophy-unlocked .trophy-badge::after {
   content: "";
   position: absolute;
-  inset: 3px !important; /* Colchón interno sutil */
-  border-radius: 14px; /* Un poco menor a 18px para calzar simétricamente por dentro */
-  border: 1px solid rgba(255, 255, 255, 0.12); /* Micro-línea brillante de cristalización */
+  
+  /* Arreglo matemático estricto en lugar de inset */
+  top: 3px;
+  left: 3px;
+  width: calc(100% - 6px);  /* Resta exactamente 3px de cada lado (total 6px) */
+  height: calc(100% - 6px); /* Evita que html2canvas lo estire de más por debajo */
+  
+  border-radius: 13px; /* Ajuste fino para seguir la curvatura interna */
+  border: 1px solid rgba(255, 255, 255, 0.12); 
   pointer-events: none;
+  box-sizing: border-box; /* Fuerza a que el borde se cuente por dentro */
 }
   .trophy-title {
     font-size: 0.85rem;
@@ -2612,7 +2616,7 @@ button, input, select, textarea {
   font-weight: 600;
   width: 100%;
   margin-top: 5px;
-  margin-bottom: 5px;
+  
   
   /* CLAVE 1: Interlineado más compacto para que html2canvas controle las hileras */
   line-height: 1.5 !important; 
