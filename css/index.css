@@ -2094,7 +2094,16 @@ button, input, select, textarea {
   border-top: 5px solid;
   border-bottom: 5px solid;
   /* Aplicamos el degradado (el '1' al final es el slice, obligatorio para que funcione) */
-  border-image: linear-gradient(90deg, #54108b, #13aac5) 1;
+ 
+}
+.share-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px; /* El grosor que tenías en tu borde */
+  background: linear-gradient(90deg, #54108b, #13aac5); /* Tus colores exactos */
 }
 
 .share-logo-main { height: 70px; width: auto; }
