@@ -676,20 +676,18 @@ function generarImagenRedesSociales() {
   );
 
   const totalCursosLogrados = aprobadosReales.length;
-  const horasAcumuladas = totalCursosLogrados * 4; // Cada curso sumará 4 horas de valor
+  const horasAcumuladas = totalCursosLogrados * 4; 
 
-  // Verificar si ya completó el módulo de innovación final (suponiendo que su nombre contenga 'innovacion')
   const tieneModuloFinal = aprobadosReales.some(c => c.nombre.toLowerCase().includes("innovación"));
   
-  /* 
-     2. LÓGICA COGNITIVA DEL MEDALLERO: 
-     Si el alumno lleva 6 cursos o menos, le mostramos un estuche optimizado de solo 6 espacios.
-     Si lleva más, el estuche se redimensiona a la cantidad real que tiene o a 12 si queremos holgura.
-  */
-  const slotsOrdinariosVisibles = totalCursosLogrados <= 6 ? 6 : Math.max(totalCursosLogrados, 12);
-  
-  // Decidir estructura de columnas de la rejilla de forma balanceada
-  const columnasGrid = totalCursosLogrados <= 6 ? 6 : Math.ceil(slotsOrdinariosVisibles / 2);
+  // CONDICIÓN CLAVE: ¿Es una sola hilera?
+  const esUnaHilera = totalCursosLogrados <= 6;
+  const slotsOrdinariosVisibles = esUnaHilera ? 6 : Math.max(totalCursosLogrados, 12);
+  const columnasGrid = esUnaHilera ? 6 : Math.ceil(slotsOrdinariosVisibles / 2);
+
+  // Generar la fecha actual con el formato local de Costa Rica
+  const opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
+  const fechaHoy = new Date().toLocaleDateString('es-CR', opcionesFecha);
 
   let medallasHTML = "";
   for (let i = 0; i < slotsOrdinariosVisibles; i++) {
@@ -706,22 +704,19 @@ function generarImagenRedesSociales() {
         </div>
       `;
     } else {
-      // Casillas vacías del estuche adaptativo
       medallasHTML += `
         <div class="compact-medal-slot medal-locked">
           <div class="compact-medal-circle">
-            <i class="fa-solid fa-lock" style="font-size: 2rem; opacity: 0.3;"></i>
+            <i class="fa-solid fa-lock"></i>
           </div>
-          
         </div>
       `;
     }
   }
 
-  // 3. Estructura Premium independiente para el Gran Módulo Final (Trofeo)
   const trofeoHTML = `
     <div class="special-trophy-panel ${tieneModuloFinal ? 'trophy-unlocked' : 'trophy-locked'}">
-    <div class="trophy-title"> Programa AgroLINC</div>
+      <div class="trophy-title">Programa AgroLINC</div>
       <div class="trophy-badge">
         <i class="fa-solid ${tieneModuloFinal ? 'fa-trophy' : 'fa-award'}"></i>
       </div>
@@ -732,7 +727,7 @@ function generarImagenRedesSociales() {
   const urlPlataforma = `https://fablabiica.github.io/AgroLINC/rutas.html`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(urlPlataforma)}&color=041124`;
 
-  // 4. Inyección del Layout Estructural Nuevo
+  // 4. Inyección del Layout Estructural Nuevo (Clase dinámica añadida al estuche: ${esUnaHilera ? 'one-row-case' : ''})
   shareContainer.innerHTML = `
     <div class="share-branding-strip">
       <div class="share-strip-left">
@@ -751,34 +746,34 @@ function generarImagenRedesSociales() {
           <p class="share-user-sub">
             <span><i class="fa-solid fa-id-card"></i> <b>${estudianteGlobal.cedula}</b></span>
             <span class="share-separator">•</span>
-            <span><i class="fa-solid fa-route"></i> Ruta Tecnológica: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
+            <span><i class="fa-solid fa-route"></i> Ruta: <b>${estudianteGlobal.ruta.toUpperCase()}</b></span>
+            <span class="share-separator">•</span>
+            <span class="share-date-badge"><i class="fa-solid fa-calendar-day"></i> Emitido: ${fechaHoy}</span>
           </p>
         </div>
+        
         <div class="share-user-stats">
-        <div class="badge-logro-premium">
-          <div class="badge-premium-icon">
-            <i class="fa-solid fa-medal"></i>
-          </div>
-          <div class="badge-premium-content">
-            <div class="badge-premium-title">
-              <span class="badge-hours-highlight">${horasAcumuladas} Horas</span> Prácticas
+          <div class="badge-logro-premium">
+            <div class="badge-premium-icon">
+              <i class="fa-solid fa-medal"></i>
             </div>
-            <div class="badge-premium-subtitle">
-              ${totalCursosLogrados} Competencias Desarrolladas
+            <div class="badge-premium-content">
+              <div class="badge-premium-title">
+                <span class="badge-hours-highlight">${horasAcumuladas} Horas</span> Prácticas
+              </div>
+              <div class="badge-premium-subtitle">
+                ${totalCursosLogrados} Competencias Desarrolladas
+              </div>
             </div>
           </div>
         </div>
       </div>
-      </div>
       
-      <!-- CONTENEDOR DEL ESTUCHE MIXTO -->
-      <div class="showcase-container">
-        <!-- Rejilla Dinámica Inyectada con estilo de columnas en línea -->
+      <!-- CONTENEDOR DEL ESTUCHE CON CLASE DINÁMICA SI ES SOLO UNA HILERA -->
+      <div class="showcase-container ${esUnaHilera ? 'one-row-case' : ''}">
         <div class="compact-medal-case-dynamic" style="grid-template-columns: repeat(${columnasGrid}, 1fr);">
           ${medallasHTML}
         </div>
-        
-        <!-- Bloque Destacado del Trofeo de Innovación -->
         ${trofeoHTML}
       </div>
     </div>
@@ -794,71 +789,55 @@ function generarImagenRedesSociales() {
     </div>
   `;
 
-  // 5. Captura en Alta Definición Limpia
-  // Modifica únicamente el paso de la captura al final de tu JS existente:
-  
-// 5. Captura fotográfica con compensación de altura tipográfica para html2canvas
-setTimeout(() => {
-  html2canvas(shareContainer, {
-    useCORS: true,
-    allowTaint: true,
-    backgroundColor: "#081d38",
-    scale: 2,           
-    width: 1200,        
-    height: 720,
-    logging: false,     
-    scrollX: 0,
-    scrollY: 0,
-    x: 0, 
-    y: 0,
-    windowWidth: 1200,  
-    windowHeight: 720,
+  // 5. Captura Fotográfica Ajustada para Mantener Alturas Estrictas
+  setTimeout(() => {
+    html2canvas(shareContainer, {
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: "#081d38",
+      scale: 2,           
+      width: 1200,        
+      height: 720,
+      logging: false,     
+      scrollX: 0,
+      scrollY: 0,
+      x: 0, 
+      y: 0,
+      windowWidth: 1200,  
+      windowHeight: 720,
 
-    onclone: (clonedDoc) => {
-      // 1. Corregir los iconos con tu ajuste de 40% que funcionó perfecto
-      const iconos = clonedDoc.querySelectorAll('.compact-medal-circle i, .trophy-badge i');
-      iconos.forEach(icono => {
-        icono.style.position = 'absolute';
-        icono.style.top = '40%'; // Tu ajuste dorado para los iconos
-        icono.style.left = '50%';
-        icono.style.transform = 'translate(-50%, -50%)'; 
-        icono.style.lineHeight = '1';
-      });
+      onclone: (clonedDoc) => {
+        // Corrección de posición de iconos para la captura
+        const iconos = clonedDoc.querySelectorAll('.compact-medal-circle i, .trophy-badge i, .badge-premium-icon i');
+        iconos.forEach(icono => {
+          icono.style.position = 'absolute';
+          icono.style.top = '40%'; 
+          icono.style.left = '50%';
+          icono.style.transform = 'translate(-50%, -50%)'; 
+          icono.style.lineHeight = '1';
+        });
 
-      /* =========================================================
-         SOLUCIÓN PARA TODOS LOS TEXTOS / LETRAS DESPLAZADOS
-         Seleccionamos títulos, subtítulos, badges y textos del footer
-      ========================================================= */
-      const todosLosTextos = clonedDoc.querySelectorAll(
-        '.compact-white-name, .share-user-sub, .badge-logro-premium, .medal-course-title, .medal-locked-title, .trophy-title, .share-footer-text span, .share-footer-text p'
-      );
+        // Compensación tipográfica vertical para evitar el desfase de html2canvas
+        const todosLosTextos = clonedDoc.querySelectorAll(
+          '.compact-white-name, .share-user-sub, .badge-logro-premium, .medal-course-title, .trophy-title, .share-footer-text span, .share-footer-text p'
+        );
 
-      todosLosTextos.forEach(texto => {
-        // Aplicamos una compensación hacia arriba para contrarrestar el desfase del renderizador.
-        // -4px o -5px suele ser el estándar de error de html2canvas con fuentes del sistema.
-        texto.style.position = 'relative';
-        texto.style.top = '-10px'; 
-        
-        // Opcional: Si notas que algún texto largo se corta, aseguramos que su contenedor tenga holgura
-        texto.style.lineHeight = '2';
-      });
-
-      // 2. Ajuste específico para el Badge Premium de horas si fuera necesario elevarlo más
-      const badgePremium = clonedDoc.querySelector('.badge-logro-premium');
-      if (badgePremium) {
-        badgePremium.style.top = '-8px';
+        todosLosTextos.forEach(texto => {
+          texto.style.position = 'relative';
+          texto.style.top = '-8px'; 
+          texto.style.lineHeight = '1.8';
+        });
       }
-    }
-  }).then(canvas => {
-    const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
-    const link = document.createElement('a');
-    link.download = `AgroLINC_Logros_${nombreArchivoSafe}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  }).catch(err => {
-    console.error("Error en la captura de la tarjeta: ", err);
-  });
-}, 600); 
+    }).then(canvas => {
+      const nombreArchivoSafe = estudianteGlobal.nombre.trim().replace(/\s+/g, '_');
+      const link = document.createElement('a');
+      link.download = `AgroLINC_Logros_${nombreArchivoSafe}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }).catch(err => {
+      console.error("Error en la captura de la tarjeta: ", err);
+    });
+  }, 600); 
 }
 
 /* =========================================

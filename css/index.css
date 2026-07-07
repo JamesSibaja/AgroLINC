@@ -2443,3 +2443,79 @@ button, input, select, textarea {
   box-sizing: border-box;
   display: block;
 }
+
+/* =========================================================
+   ACOMPAÑAMIENTO DE LA FECHA (CHIP DE EMISIÓN)
+========================================================= */
+.share-date-badge {
+  color: #38bdf8 !important; /* Color celeste brillante tecnológico */
+  background: rgba(56, 189, 248, 0.08);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid rgba(56, 189, 248, 0.15);
+}
+
+/* Corrección general del icono de candado en las bloqueadas */
+.medal-locked .compact-medal-circle i {
+  font-size: 1.8rem !important;
+  opacity: 0.3;
+}
+
+/* =========================================================
+   ESTILOS ADAPTATIVOS INTELIGENTES: CUANDO ES SÓLO UNA HILERA 
+========================================================= */
+
+/* Generamos un espacio de separación (margin) más elegante con la cabecera */
+.one-row-case {
+  margin: 40px 0 !important;
+  padding: 45px 35px !important; /* Más aire interno para llenar el vacío */
+  background: rgba(255, 255, 255, 0.035) !important;
+}
+
+/* Las medallas ganadas crecen un 20% para dominar la pantalla */
+.one-row-case .medal-unlocked .compact-medal-circle {
+  width: 132px !important;
+  height: 132px !important;
+  border-width: 4px !important;
+  filter: drop-shadow(0px 0px 14px rgba(0, 217, 255, 0.5));
+}
+
+/* Escalamos los iconos internos proporcionalmente al tamaño del círculo */
+.one-row-case .medal-unlocked .compact-medal-circle i {
+  font-size: 3.6rem !important;
+}
+
+/* Aumentamos el tamaño de la fuente de los textos de los cursos ganados */
+.one-row-case .medal-unlocked .medal-course-title {
+  font-size: 0.95rem !important;
+  margin-top: 12px !important;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* LAS MEDALLAS BLOQUEADAS SE QUEDAN DISCRETAS Y PEQUEÑAS 
+   Esto genera un contraste hermoso que resalta el mérito de lo que sí se ha ganado */
+.one-row-case .medal-locked .compact-medal-circle {
+  width: 75px !important;
+  height: 75px !important;
+  margin-top: 25px !important; /* Centrado visual respecto a las grandes */
+  opacity: 0.5;
+}
+
+/* El panel del Trofeo Final crece en proporción para equilibrar el estuche alto */
+.one-row-case .special-trophy-panel {
+  height: 210px !important;
+  width: 210px !important;
+  padding-left: 35px !important;
+}
+
+.one-row-case .special-trophy-panel .trophy-badge {
+  width: 120px !important;
+  height: 120px !important;
+}
+
+.one-row-case .special-trophy-panel .trophy-badge i {
+  font-size: 3.5rem !important;
+}
