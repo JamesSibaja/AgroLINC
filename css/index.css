@@ -2197,25 +2197,33 @@ button, input, select, textarea {
 }
 
 /* Icono Medalla: El núcleo visual morado */
-.badge-premium-icon i {
+/* =========================================================
+   CONTENEDOR DEL ICONO/BADGE PREMIUM (Eje de centrado)
+========================================================= */
+.badge-premium-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(139, 92, 246, 0.12); 
+  border-radius: 12px;
+  position: relative; /* Obligatorio para que el centrado absoluto funcione */
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   ELEMENTOS INTERNOS: CENTRADO ABSOLUTO ESTRUCTURAL
+   Aplica tanto para el tag <i> (icono) como para el <span> (número)
+========================================================= */
+.badge-premium-icon i,
+.badge-premium-icon span {
   position: absolute;
-  top: 40%; /* Tu ajuste perfecto contra el desfase de la librería */
+  top: 40%; /* El ajuste dorado contra el desfase de html2canvas */
   left: 50%;
   transform: translate(-50%, -50%);
-  /* Color Morado/Violeta de alta intensidad */
-  color: #a78bfa; 
-  font-size: 1.7rem;
+  color: #a78bfa; /* Morado/Violeta de alta intensidad */
+  font-size: 1.5rem; /* Ajustado levemente a 1.5rem para que si pones un número de 2 dígitos no se desborde del contenedor de 50px */
   line-height: 1 !important;
-}
-.badge-premium-icon span {
-  /* position: absolute;
-  top: 40%; 
-  left: 50%;
-  transform: translate(-50%, -50%); */
-  /* Color Morado/Violeta de alta intensidad */
-  color: #a78bfa; 
-  font-size: 1.7rem;
-  line-height: 1 !important;
+  font-weight: 800; /* Le da consistencia visual si usas un número en el span */
 }
 
 /* Contenedor de Textos */
