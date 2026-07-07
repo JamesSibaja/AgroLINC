@@ -679,7 +679,7 @@ function generarImagenRedesSociales() {
   const horasAcumuladas = totalCursosLogrados * 4; // Cada curso sumará 4 horas de valor
 
   // Verificar si ya completó el módulo de innovación final (suponiendo que su nombre contenga 'innovacion')
-  const tieneModuloFinal = aprobadosReales.some(c => c.nombre.toLowerCase().includes("innovacion"));
+  const tieneModuloFinal = aprobadosReales.some(c => c.nombre.toLowerCase().includes("innovación"));
   
   /* 
      2. LÓGICA COGNITIVA DEL MEDALLERO: 
@@ -804,7 +804,7 @@ setTimeout(() => {
     backgroundColor: "#081d38",
     scale: 2,           
     width: 1200,        
-    height: 670,
+    height: 720,
     logging: false,     
     scrollX: 0,
     scrollY: 0,
@@ -818,7 +818,7 @@ setTimeout(() => {
       const iconos = clonedDoc.querySelectorAll('.compact-medal-circle i, .trophy-badge i');
       iconos.forEach(icono => {
         icono.style.position = 'absolute';
-        icono.style.top = '35%'; // Tu ajuste dorado para los iconos
+        icono.style.top = '40%'; // Tu ajuste dorado para los iconos
         icono.style.left = '50%';
         icono.style.transform = 'translate(-50%, -50%)'; 
         icono.style.lineHeight = '1';
