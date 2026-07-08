@@ -2135,8 +2135,6 @@ button, input, select, textarea {
     padding: 15px 40px;
     height: 75px;
     box-sizing: border-box;
-    border-top: 6px solid;
-    border-bottom: 6px solid;
   }
   
   .share-branding-strip::before {
@@ -2201,6 +2199,11 @@ button, input, select, textarea {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+  }
+
+  .share-user-stats {
+
+    margin-top: 15px;
   }
   
   .compact-white-name {
@@ -2278,7 +2281,6 @@ button, input, select, textarea {
     flex-direction: column;
     justify-content: center;
     text-align: left;
-    margin-top: 10px;
   }
   
   .badge-premium-title {
