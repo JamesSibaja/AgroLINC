@@ -705,8 +705,7 @@ function generarImagenRedesSociales() {
           <div class="compact-medal-circle">
             <i class="fa-solid ${getCourseIcon(curso.nombre)}"></i>
           </div>
-          <span class="medal-course-title">${nombreAbreviado}</span>
-          <span class="medal-course-date">${fechaCursoFormateada}</span>
+          <span class="medal-course-date">${nombreAbreviado}</span>
         </div>
       `;
     } else {
