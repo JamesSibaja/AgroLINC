@@ -2415,9 +2415,10 @@ button, input, select, textarea {
   
   .medal-course-date {
     font-size: 0.72rem;
-    color: #424242; 
+    color: #4e2878; 
     font-weight: 700;
     margin-bottom: 2px;
+    margin-top:5px;
     letter-spacing: 0.02em;
     opacity: 0.9;
     display: block;
@@ -2476,8 +2477,8 @@ button, input, select, textarea {
 
   .medal-unlocked .compact-medal-circle {
     background: rgba(34, 211, 238, 0.10);
-    color: #22D3EE;
-    border: 2px solid #22D3EE;
+    color: #1fc9c9;
+    border: 3px solid #1fc9c9;
 
     /* Sombra muy sutil */
     filter: drop-shadow(0 2px 6px rgba(34, 211, 238, 0.18));
