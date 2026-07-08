@@ -2117,13 +2117,7 @@ button, input, select, textarea {
       box-sizing: border-box;
       font-family: system-ui, -apple-system, sans-serif;
     
-      /* COLOR BASE + TEXTURA DE REJILLA TECNOLÓGICA */
-      background-color: #081d38; /* El azul noche exacto de tu interfaz */
-      background-image: 
-        linear-gradient(315deg,#ffffff24 1px, transparent 3px),
-        linear-gradient(135deg, #00000085 2px, transparent 2px);
-      background-size: 24px 24px; /* Tamaño del cuadrante */
-      background-position: center;
+      background: #ffffff;
     }
   
   /* Cabecera de Marcas */
