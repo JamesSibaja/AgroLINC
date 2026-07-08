@@ -533,7 +533,7 @@ async function abrirModalDetallado(curso, estado) {
                 <i class="fa-solid ${getCourseIcon(reqCurso.nombre)}"></i>
                 <span>${reqCurso.nombre}</span>
               </div>
-              <span class="req-status-badge ${reqEstadoClase}">
+              <span class="req-status-badge req-badge ${reqEstadoClase}">
                 <i class="fa-solid ${reqIcono}" style="font-size:0.7rem; margin-right:2px;"></i> ${reqEstadoTexto}
               </span>
             </div>
